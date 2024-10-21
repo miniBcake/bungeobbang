@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+form {
+	display: contents;
+	margin: 0px;
+	padding: 0px;
+}
+
+.categoryBox {
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	
+	width: 100%;
+	height: 100%;
+	white-space: normal;
+}
+
+#searchBox {
+	height: 60%;
+}
+
+.boardWriteBtn {
+	display: inline-block;
+	padding: 5px;
+	
+	background-color: lightgray;
+	color: black;
+	border-radius: 0.5vw;
+	border: 1px solid gray;
+	
+	
+	font-size: 1vw;
+	white-space: nowrap;
+}
+
+/* 테이블 넓이 */
+.tableData {
+    width: 10%;
+}
+.tableNum {
+    width: 8%;
+}
+.tableTitle {
+    width: 52%;
+}
+.tableWriter {
+    width: 10%;
+}
+.tableReplyNum {
+    width: 10%;
+}
+.tableLike {
+    width: 10%;
+}
