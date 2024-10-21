@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>관리자 페이지</title>
+  <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+  <link rel="icon" href="../resources\assets\images\favicon.png" type="image/x-icon" />
+
+  <!-- Fonts and icons -->
+  <script src="../resources/assets/js/plugin/webfont/webfont.min.js"></script>
+  <script>
+    WebFont.load({
+      google: { families: ["Public Sans:300,400,500,600,700"] },
+      custom: {
+        families: [
+          "Font Awesome 5 Solid",
+          "Font Awesome 5 Regular",
+          "Font Awesome 5 Brands",
+          "simple-line-icons",
+        ],
+        urls: ["../resources/assets/css/fonts.min.css"],
+      },
+      active: function () {
+        sessionStorage.fonts = true;
+      },
+    });
+  </script>
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="../resources/assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../resources/assets/css/plugins.min.css" />
+  <link rel="stylesheet" href="../resources/assets/css/kaiadmin.min.css" />
+</head>
+
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar" data-background-color="dark">
+      <!-- 사이드바의 로고 -->
+      <div class="sidebar-logo">
+        <!-- Logo Header -->
+        <div class="logo-header" data-background-color="dark">
+          <!--로고 이미지와 페이지 이동-->
+          <a href="main.do" class="logo">
+            <!-- 로고 이미지 -->
+            <img src="../resources\assets\images\logo_name.png" alt="navbar brand" class="navbar-brand"
+              height="40" />
+          </a>
+          <!-- 로고 옆에 사이드바 줄이는 버튼 -->
+          <div class="nav-toggle">
+            <button class="btn btn-toggle toggle-sidebar">
+              <i class="gg-menu-right"></i>
+            </button>
+            <button class="btn btn-toggle sidenav-toggler">
+              <i class="gg-menu-left"></i>
+            </button>
+          </div>
+          <button class="topbar-toggler more">
+            <i class="gg-more-vertical-alt"></i>
+          </button>
+        </div>
+        <!-- End Logo Header -->
+      </div>
+      <!-- 사이드바 내용 -->
+      <!-- 사이드바 디자인, 사이드바 내에서 스크롤 가능, 스크롤바의 디자인 -->
+      <div class="sidebar-wrapper scrollbar scrollbar-inner">
+        <!-- 사이드바 내용 부분 -->
+        <div class="sidebar-content">
+          <!-- 목록에 스타일 지정 -->
+          <ul class="nav nav-secondary">
+            <!-- 네비게이션 메뉴의 한 항목 -->
+            <!-- nav-item은 목록 요소, nav-section은 고정된 정적 목록(클릭x) -->
+
+            <!-- 가게 제보 -->
+            <li class="nav-item">
+              <!-- 대시보드 메뉴를 클릭하면 datshbaord라는 ID를 가진 섹션이 펼쳐짐 -->
+              <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                <!-- font-awesome을 이요해 집모양의 아이콘을 표시 -->
+                <i class="fas fa-store"></i>
+                <!-- 첫 번째 토글 이름 -->
+                <p>가게 제보</p>
+                <span class="caret"></span>
+              </a>
+              <div class="collapse" id="dashboard">
+                <!-- 가게 제보 하위 목록 -->
+                <ul class="nav nav-collapse">
+                  <li>
+                    <!-- 가게 제보 하위 목록 클릭 시 이동되는 링크 -->
+                    <a href="등록 제보 링크">
+                      <!-- 하위 목록 이름 -->
+                      <span class="sub-item">가게 등록 제보</span>
+                    </a>
+                  </li>
+                  <li>
+                    <!-- 가게 제보 하위 목록 클릭 시 이동되는 링크 -->
+                    <a href="폐점 제보 링크">
+                      <!-- 하위 목록 이름 -->
+                      <span class="sub-item">가게 폐점 제보</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            <!-- 가게 정보 등록 -->
+            <li class="nav-item">
+              <a href="../widgets.html">
+                <i class="fas fa-plus-square"></i>
+                <p>가게 등록</p>
+              </a>
+            </li>
+
+            <!-- 주문받은 상품 -->
+            <li class="nav-item">
+              <a href="../../../documentation/index.html">
+                <i class="fas fa-receipt"></i>
+                <p>주문받은 상품</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- End Sidebar -->
+
+    <!-- 페이지의 메인 부분 -->
+    <div class="main-panel">
+      
+      <div class="container">
+        <div class="page-inner">
+          <div class="page-header">
+            <!-- 페이지 이름 부분 -->
+            <h3 class="fw-bold mb-3">가게 등록 제보</h3>
+            <!-- 관리자 페이지 내의 페이지 경로 -->
+            <ul class="breadcrumbs mb-3">
+              <!-- 첫 번째 경로 -->
+              <li class="nav-home">
+                <a href="#">
+                  <i class="icon-home"></i>
+                </a>
+              </li>
+              <li class="separator">
+                <i class="icon-arrow-right"></i>
+              </li>
+              <!-- 두 번째 경로 -->
+              <li class="nav-item">
+                <a href="#">가게 제보</a>
+              </li>
+              <li class="separator">
+                <i class="icon-arrow-right"></i>
+              </li>
+              <!-- 세 번재 경로 -->
+              <li class="nav-item">
+                <a href="#">가게 등록 제보</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 메인 작성 부분-->
+          <div class="row">
+            <div class="col-md-12">
+              <!-- 하얀 card 부분-->
+              <div class="card">
+                <!-- 카드 내용 부분 -->
+                <div class="card-body">
+                  여기에 내용 작성
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid d-flex justify-content-between">
+          <nav class="pull-left">
+            <ul class="nav">
+              <li class="nav-item">
+                <a class="nav-link" href="http://www.themekita.com">
+                  ThemeKita
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#"> Help </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#"> Licenses </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="copyright">
+            2024, made with <i class="fa fa-heart heart text-danger"></i> by
+            <a href="http://www.themekita.com">ThemeKita</a>
+          </div>
+          <div>
+            Distributed by
+            <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!--   Core JS Files   -->
+  <script src="../resources/assets/js/core/jquery-3.7.1.min.js"></script>
+  <script src="../resources/assets/js/core/popper.min.js"></script>
+  <script src="../resources/assets/js/core/bootstrap.min.js"></script>
+
+  <!-- jQuery Scrollbar -->
+  <script src="../resources/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+  <!-- Datatables -->
+  <script src="../resources/assets/js/plugin/datatables/datatables.min.js"></script>
+  <!-- Kaiadmin JS -->
+  
+  <script>
+    $(document).ready(function () {
+      $("#basic-datatables").DataTable({});
+
+      $("#multi-filter-select").DataTable({
+        pageLength: 5,
+        initComplete: function () {
+          this.api()
+            .columns()
+            .every(function () {
+              var column = this;
+              var select = $(
+                '<select class="form-select"><option value=""></option></select>'
+              )
+                .appendTo($(column.footer()).empty())
+                .on("change", function () {
+                  var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                  column
+                    .search(val ? "^" + val + "$" : "", true, false)
+                    .draw();
+                });
+
+              column
+                .data()
+                .unique()
+                .sort()
+                .each(function (d, j) {
+                  select.append(
+                    '<option value="' + d + '">' + d + "</option>"
+                  );
+                });
+            });
+        },
+      });
+
+      // Add Row
+      $("#add-row").DataTable({
+        pageLength: 5,
+      });
+
+      var action =
+        '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+      $("#addRowButton").click(function () {
+        $("#add-row")
+          .dataTable()
+          .fnAddData([
+            $("#addName").val(),
+            $("#addPosition").val(),
+            $("#addOffice").val(),
+            action,
+          ]);
+        $("#addRowModal").modal("hide");
+      });
+    });
+  </script>
+</body>
+
+</html>

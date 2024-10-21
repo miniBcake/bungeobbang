@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+/* 가게 리스트 테이블 */
+.tableTitle {
+    width: 15%;
+}
+.tableWriter {
+    width: 20%;
+}
+.tableTitleValue {
+    width: 50%;
+}
+.tableLike {
+    width: 15%;
+}
