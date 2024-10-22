@@ -1,15 +1,15 @@
 package com.bungeobbang.app.view.controller;
 
-import com.bungeabbang.app.biz.board.BoardDTO;
-import com.bungeabbang.app.biz.board.BoardService;
-import com.bungeabbang.app.biz.boardCate.BoardCateDTO;
-import com.bungeabbang.app.biz.boardCate.BoardCateService;
-import com.bungeabbang.app.biz.like.LikeDTO;
-import com.bungeabbang.app.biz.like.LikeService;
-import com.bungeabbang.app.biz.reply.ReplyDTO;
-import com.bungeabbang.app.biz.reply.ReplyService;
-import com.bungeabbang.app.view.util.FileUtil;
-import com.bungeabbang.app.view.util.PaginationUtils;
+import com.bungeobbang.app.biz.board.BoardDTO;
+import com.bungeobbang.app.biz.board.BoardService;
+import com.bungeobbang.app.biz.boardCate.BoardCateDTO;
+import com.bungeobbang.app.biz.boardCate.BoardCateService;
+import com.bungeobbang.app.biz.like.LikeDTO;
+import com.bungeobbang.app.biz.like.LikeService;
+import com.bungeobbang.app.biz.reply.ReplyDTO;
+import com.bungeobbang.app.biz.reply.ReplyService;
+import com.bungeobbang.app.view.util.FileUtil;
+import com.bungeobbang.app.view.util.PaginationUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;

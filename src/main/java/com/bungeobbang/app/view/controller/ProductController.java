@@ -1,10 +1,10 @@
 package com.bungeobbang.app.view.controller;
 
-import com.bungeabbang.app.biz.product.ProductDTO;
-import com.bungeabbang.app.biz.product.ProductService;
-import com.bungeabbang.app.biz.productCate.ProductCateDTO;
-import com.bungeabbang.app.biz.productCate.ProductCateService;
-import com.bungeabbang.app.view.util.CookieUtil;
+import com.bungeobbang.app.biz.product.ProductDTO;
+import com.bungeobbang.app.biz.product.ProductService;
+import com.bungeobbang.app.biz.productCate.ProductCateDTO;
+import com.bungeobbang.app.biz.productCate.ProductCateService;
+import com.bungeobbang.app.view.util.CookieUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

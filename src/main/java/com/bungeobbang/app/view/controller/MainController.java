@@ -1,7 +1,7 @@
 package com.bungeobbang.app.view.controller;
 
-import com.bungeabbang.app.biz.board.BoardDTO;
-import com.bungeabbang.app.biz.board.BoardService;
+import com.bungeobbang.app.biz.board.BoardDTO;
+import com.bungeobbang.app.biz.board.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
