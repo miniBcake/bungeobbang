@@ -1,9 +1,9 @@
 package com.bungeobbang.app.view.util;
 
-import com.bungeabbang.app.biz.board.BoardDTO;
-import com.bungeabbang.app.biz.product.ProductDTO;
-import com.bungeabbang.app.biz.reply.ReplyDTO;
-import com.bungeabbang.app.biz.store.StoreDTO;
+import com.bungeobbang.app.biz.board.BoardDTO;
+import com.bungeobbang.app.biz.product.ProductDTO;
+import com.bungeobbang.app.biz.reply.ReplyDTO;
+import com.bungeobbang.app.biz.store.StoreDTO;
 
 /**@author 안제호*/
 public class PaginationUtils {

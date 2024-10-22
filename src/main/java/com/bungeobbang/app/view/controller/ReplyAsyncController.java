@@ -1,7 +1,7 @@
 package com.bungeobbang.app.view.controller;
 
-import com.bungeabbang.app.biz.reply.ReplyDTO;
-import com.bungeabbang.app.biz.reply.ReplyService;
+import com.bungeobbang.app.biz.reply.ReplyDTO;
+import com.bungeobbang.app.biz.reply.ReplyService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

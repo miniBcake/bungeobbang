@@ -1,15 +1,15 @@
 package com.bungeobbang.app.view.controller;
 
-import com.bungeabbang.app.biz.board.BoardDTO;
-import com.bungeabbang.app.biz.board.BoardService;
-import com.bungeabbang.app.biz.store.StoreDTO;
-import com.bungeabbang.app.biz.store.StoreService;
-import com.bungeabbang.app.biz.storeMenu.StoreMenuDTO;
-import com.bungeabbang.app.biz.storeMenu.StoreMenuService;
-import com.bungeabbang.app.biz.storePayment.StorePaymentDTO;
-import com.bungeabbang.app.biz.storePayment.StorePaymentService;
-import com.bungeabbang.app.biz.storeWork.StoreWorkDTO;
-import com.bungeabbang.app.biz.storeWork.StoreWorkService;
+import com.bungeobbang.app.biz.board.BoardDTO;
+import com.bungeobbang.app.biz.board.BoardService;
+import com.bungeobbang.app.biz.store.StoreDTO;
+import com.bungeobbang.app.biz.store.StoreService;
+import com.bungeobbang.app.biz.storeMenu.StoreMenuDTO;
+import com.bungeobbang.app.biz.storeMenu.StoreMenuService;
+import com.bungeobbang.app.biz.storePayment.StorePaymentDTO;
+import com.bungeobbang.app.biz.storePayment.StorePaymentService;
+import com.bungeobbang.app.biz.storeWork.StoreWorkDTO;
+import com.bungeobbang.app.biz.storeWork.StoreWorkService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
