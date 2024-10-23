@@ -18,13 +18,16 @@ public class UserCheckAdvice {
     @Autowired
     private HttpSession session;
 
+    //session
+    private final String MEMBER_PK = "userPK"; //세션에 저장된 memberPK
+
     //로그인 확인
     @Before("PointcutCommon.cudAllPointcut()")
     @Order(1) //첫번째로 실행
     public void loginCheck(JoinPoint joinPoint) {
         log.info("AOP: loginCheck start");
         //로그인 여부 확인
-        if(session.getAttribute("userPK") == null) {
+        if(session.getAttribute(MEMBER_PK) == null) {
             //로그인 되지 않은 상태라면 예외처리
             log.error("AOP try : {} / error not login", joinPoint.getSignature());
             throw new RuntimeException("try : " + joinPoint.getSignature() + " / error not login");
@@ -59,7 +62,7 @@ public class UserCheckAdvice {
             }
         }
         log.info("AOP: MemberNum [{}]", MemberNum);
-        if(session.getAttribute("userPK") != MemberNum) { //작성자와 로그인한 사용자가 일치하지 않을 경우
+        if(session.getAttribute(MEMBER_PK) != MemberNum) { //작성자와 로그인한 사용자가 일치하지 않을 경우
             //예외처리
             log.error("AOP try : {} / error not writer", joinPoint.getSignature());
             throw new RuntimeException("try : " + joinPoint.getSignature() + " / error not writer");

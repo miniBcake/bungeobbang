@@ -37,7 +37,7 @@ public class StoreController {
 
         String path = null;
 
-        return path;
+        return path; 
     }
 
     @RequestMapping(value = "/addStore.do", method = RequestMethod.GET)

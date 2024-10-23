@@ -5,17 +5,17 @@ import com.bungeobbang.app.view.util.FileUtil;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 
-@Controller
+@RestController
 @Slf4j
-public class ImageController {
+public class ImageAsyncController {
 
     private String FOLDER_PATH = "uploads\\board\\"; //webapp기준
 
