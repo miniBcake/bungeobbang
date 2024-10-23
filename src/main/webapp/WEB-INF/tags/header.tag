@@ -11,6 +11,7 @@
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="${path}/resources/assets/css/header.css" />
+
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=block" rel="stylesheet">
 
 <!-- Header -->
@@ -45,6 +46,9 @@
             </li>
             <li class="nav-item">
                <a class="nav-link" href="listBoards.do?boardCateName=normal">게시판</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="insertStore.do">가게 제보</a>
             </li>
 
             <!-- 로그인/회원가입 or 프로필 이미지 표시 -->
@@ -99,6 +103,9 @@
       <li class="nav-item">
          <a class="nav-link" href="listBoards.do?boardCateName=normal">게시판</a>
       </li>
+      <li class="nav-item">
+               <a class="nav-link" href="insertStore.do">가게 제보</a>
+      </li>
       <c:choose>
          <c:when test="${empty memberPK}">
             <li class="nav-item">
@@ -118,7 +125,7 @@
 </div>
 
 <!-- Optional JavaScript for Bootstrap -->
-<script src="${path}/resources/assets/js/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- 사이드바 스크립트 -->

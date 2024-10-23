@@ -32,6 +32,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- 외부 script 파일 사용 -->
 <script src="${path}/resources/assets/js/storeList.js"></script>
+<script src="${path}/resources/assets/js/copy.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
 </head>
 <body>
 	<div id="page-wrapper">
@@ -67,8 +72,9 @@
 									<div class="searchInput">
 										<img src="resources/assets/images/search_icon.png"
 											alt="검색창 아이콘 이미지" width="40px" height="40px"> <input
-											type="text" name="storeName" placeholder="가게 이름을 입력해주세요.">
-										<input type="submit" value="검색">
+											type="text" name="storeName" placeholder="가게 이름을 입력해주세요."
+											value="${searchKeyword}"> <input type="submit"
+											value="검색">
 									</div>
 								</div>
 							</div>
@@ -78,12 +84,8 @@
 								<div class="col-sm-2 col-md-2">
 									<!-- 필터 조건들을 2번째 열에 출력하기 위한 빈 공간 -->
 								</div>
-								<div class="col-10 col-md-10" >
-									<div id=tagBox>
-									<span class="filterOption">팥/슈크림
-										<button class="filterButton">X</button>
-									</span>
-									</div>
+								<div class="col-10 col-md-10">
+									<div id=tagBox></div>
 									<hr>
 								</div>
 							</div>
@@ -95,14 +97,30 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storeMenu" value="팥/슈크림" id="">팥/슈크림 ${cnt}</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="야채/김치/만두" id="">야채/김치/만두 ${cnt}</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="미니" id="">미니 붕어빵 ${cnt}</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="고구마" id="">고구마 ${cnt}</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="아이스크림/초코" id="">아이스크림/초코 ${cnt}</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="치즈" id="">치즈 ${cnt}</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="패스츄리" id="">패스츄리 ${cnt}</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="기타" id="">기타 ${cnt}</custom:categoryKeyword>
+										<custom:categoryKeyword name="storeMenu" value="팥/슈크림" id="">팥/슈크림<span>
+												(${cnt})</span>
+										</custom:categoryKeyword>
+										<custom:categoryKeyword name="storeMenu" value="야채/김치/만두"
+											id="">야채/김치/만두<span> (${cnt})</span>
+										</custom:categoryKeyword>
+										<custom:categoryKeyword name="storeMenu" value="미니붕어빵" id="">미니 붕어빵<span>
+												(${cnt})</span>
+										</custom:categoryKeyword>
+										<custom:categoryKeyword name="storeMenu" value="고구마" id="">고구마<span>
+												(${cnt})</span>
+										</custom:categoryKeyword>
+										<custom:categoryKeyword name="storeMenu" value="아이스크림/초코"
+											id="">아이스크림/초코<span> (${cnt})</span>
+										</custom:categoryKeyword>
+										<custom:categoryKeyword name="storeMenu" value="치즈" id="">치즈<span>
+												(${cnt})</span>
+										</custom:categoryKeyword>
+										<custom:categoryKeyword name="storeMenu" value="패스츄리" id="">패스츄리<span>
+												(${cnt})</span>
+										</custom:categoryKeyword>
+										<custom:categoryKeyword name="storeMenu" value="기타" id="">기타<span>
+												(${cnt})</span>
+										</custom:categoryKeyword>
 									</div>
 								</div>
 							</div>
@@ -114,9 +132,15 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storePayment" value="현금결제" id="">현금결제 ${cnt}</custom:categoryKeyword>
-										<custom:categoryKeyword name="storePayment" value="카드결제" id="">카드결제 ${cnt}</custom:categoryKeyword>
-										<custom:categoryKeyword name="storePayment" value="계좌이체" id="">계좌이체 ${cnt}</custom:categoryKeyword>
+										<custom:categoryKeyword name="storePayment" value="현금결제" id="">현금결제<span>
+												(${cnt})</span>
+										</custom:categoryKeyword>
+										<custom:categoryKeyword name="storePayment" value="카드결제" id="">카드결제<span>
+												(${cnt})</span>
+										</custom:categoryKeyword>
+										<custom:categoryKeyword name="storePayment" value="계좌이체" id="">계좌이체<span>
+												(${cnt})</span>
+										</custom:categoryKeyword>
 									</div>
 								</div>
 							</div>
@@ -153,7 +177,7 @@
 						<div class="storeList">
 							<!-- 후에 var="data" items="${datas} -->
 							<c:forEach var="i" begin="1" end="4">
-								<custom:simpleStoreData/>
+								<custom:simpleStoreData />
 							</c:forEach>
 						</div>
 					</div>
@@ -191,7 +215,7 @@
 									<c:otherwise>
 										<a
 											href="?page=${i}&storeName=${param.storeName != null ? param.storeName : ''}"
-											id="pagenationValue">${i}</a>
+											class="pagenationValue">${i}</a>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
@@ -213,101 +237,8 @@
 	<!-- footer 커스텀 태그 -->
 	<custom:footer />
 
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
-
 	<script>
-		// 복사하기 버튼 눌렀을 때 수행 되는 함수
-		function copyStorePhoneNumber(storePhoneNum) {
-			navigator.clipboard.writeText(storePhoneNum).then(function() {
-				alert('전화 번호를 복사 했습니다!');
-			}, function(err) {
-				alert('복사에 실패 했습니다..: ', err);
-			});
-		}
 
-		// 전체 선택 클릭 했을 때 수행 되는 함수
-		$(document).ready(function() {
-			$('#selectAll').change(function() {
-				// 전체 선택 체크박스의 상태를 가져옵니다.
-				var isChecked = $(this).is(':checked');
-
-				// ID에 'num1'이 포함된 모든 체크박스를 선택하거나 해제합니다.
-				$('input[id*="num1"]').prop('checked', isChecked);
-			});
-		});
-
-		function viewStore(storeNum) {
-			window.location.href = 'viewStorePage.do?storeNum='
-					+ encodeURIComponent(storeNum);
-		}
-
-		var menu_arr = [];
-		var payment_arr = [];
-		var storeClosed = null;
-		let checkBoxUrl = '';
-
-		$("input[name=storeMenu]:checked").each(function() {
-			var menu = $(this).val().trim();
-			menu_arr.push(menu);
-			console.log("menu : " + menu);
-			console.log("menu_arr : " + menu_arr);
-		})
-		$("input[name=storePayment]:checked").each(function() {
-			var payment = $(this).val().trim();
-			payment_arr.push(payment);
-			console.log("payment : " + payment);
-			console.log("payment_arr : " + payment_arr);
-		})
-		$("input[name=storeClosed]:checked").each(function() {
-			storeClosed = $(this).val().trim();
-			console.log("storeClosed : " + storeClosed);
-		})
-
-		menu_arr.forEach(function(menu) {
-			checkBoxUrl += '&storeMenu=' + encodeURIComponent(menu);
-		})
-		payment_arr.forEach(function(payment) {
-			checkBoxUrl += '&storePayment=' + encodeURIComponent(payment);
-		})
-		if (storeClosed != null) {
-			checkBoxUrl += '&storeClosed=' + encodeURIComponent(storeClosed);
-		}
-
-		console.log("checkBoxUrl : " + checkBoxUrl);
-
-		let preLink = document.getElementById('pagenationPreValue');
-		let nextLink = document.getElementById('pagenationNextValue');
-		let pageLinks = document
-				.querySelectorAll('#pagination a[id^="pagenationValue"]');
-
-		if (pageLinks.length > 0) {
-			pageLinks.forEach(function(link) {
-				link.addEventListener('click', function(event) {
-					event.preventDefault();
-					link.href += checkBoxUrl; // 검색 조건 추가
-					window.location.href = link.href;
-				});
-			});
-		}
-		if (preLink) {
-			preLink.addEventListener('click', function(event) {
-				event.preventDefault();
-				preLink.href += checkBoxUrl; // 검색 조건 추가
-				window.location.href = preLink.href;
-			});
-		}
-		if (nextLink) {
-			nextLink.addEventListener('click', function(event) {
-				event.preventDefault();
-				nextLink.href += checkBoxUrl; // 검색 조건 추가
-				window.location.href = nextLink.href;
-			});
-		}
 	</script>
 </body>
 </html>
