@@ -8,12 +8,12 @@
     --icon-size: 8%;
 }
 
-.view-container {
+.viewContainer {
     display: flex;
     flex-direction: row;
 }
 
-.tag-container {
+.tagContainer {
     display: flex;
     flex-wrap: wrap;
 
@@ -32,9 +32,9 @@
     height: 100%;
 }
 
-.store-name {
+.storeName {
     width: 100%;
-    font-size: 130%;
+    font-size: 200%;
 }
 
 .tag {
@@ -70,13 +70,13 @@
     margin: 1px;
 }
 
-.week-list {
+.weekList {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.list-value {
+.listValue {
     margin: 20px 0;
 }
 
@@ -104,7 +104,7 @@
     justify-content: center;
 }
 
-.map-value {
+.mapValue {
     width: 100%;
     height: 100%;
 }
@@ -113,7 +113,7 @@
     height: 150px;
 }
 
-.store-data {
+.storeData {
     width: 100%;
     height: 100%;
     padding: 5px;
@@ -122,17 +122,17 @@
     margin: 5px;
 }
 
-.store-data-content {
+.storeDataContent {
     font-size: var(--store-data-content-font-size);
     display: flex;
     align-items: center;
     margin: 5px;
   }
   
-  .store-data-content span {
+  .storeDataContent span {
     width: 60%;
   }
-  .store-data-content button {
+  .storeDataContent button {
     font-size: 100%;
     width: 17%;
     white-space: nowrap;
@@ -151,6 +151,20 @@
 	width: 100%;
 	padding: 4px; /* 패딩 줄이기 */
 	font-size: 16px; /* 폰트 크기 줄이기 */
+}
+
+.warningBox {
+	margin: 10px;
+}
+
+#deleteBtn {
+	margin-left: 5px;
+	
+	background-color: red;
+	border: 0px;
+	color: white;
+	
+	border-radius: 3px;
 }
 
 
