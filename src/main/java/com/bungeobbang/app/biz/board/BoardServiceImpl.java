@@ -1,6 +1,6 @@
 package com.bungeobbang.app.biz.board;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service;
 @Service("boardService")
 public class BoardServiceImpl implements BoardService{
 	@Autowired
-	private BoardDAO2 boardDAO;
+	private BoardDAO boardDAO;
 
 	@Override
-	public ArrayList<BoardDTO> selectAll(BoardDTO boardDTO) {
-		
+	public List<BoardDTO> selectAll(BoardDTO boardDTO) {
 		return this.boardDAO.selectAll(boardDTO);
 	}
 

@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bungeobbang.app.biz.common.JDBCUtil;
 import org.springframework.stereotype.Repository;
+
+import com.bungeobbang.app.biz.common.JDBCUtil;
 
 @Repository
 public class PointDAO {

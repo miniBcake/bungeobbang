@@ -3,7 +3,7 @@ package com.bungeobbang.app.biz.declare;
 public class DeclareDTO {
 	private int declareNum; //신고 번호
 	private int storeNum; // 가게 번호
-	private String declareReason; //신고 사유
+	private String declareReason;
 
 	
 	

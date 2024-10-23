@@ -2,6 +2,8 @@ package com.bungeobbang.app.biz.member;
 
 import java.util.HashMap;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MemberDTO { 
 	
 	private int memberNum;				//멤버번호
@@ -17,6 +19,7 @@ public class MemberDTO {
 	//개발용
 	private String condition;			//컨디션
 	private HashMap<String, String> filterList; //필터검색용 <검색구분용, 검색값>
+	private MultipartFile file; 
 	private int startNum;				//페이지네이션 시작번호
 	private int endNum;					//페이지네이션 끝번호
 	private int cnt;					//페이지네이션 개수 반환용
@@ -115,6 +118,12 @@ public class MemberDTO {
 				+ memberRole + ", memberHireDay=" + memberHireDay + ", condition="
 				+ condition + ", filterList=" + filterList + ", startNum=" + startNum + ", endNum=" + endNum + ", cnt="
 				+ cnt + "]";
+	}
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
 	}
 	
 }
