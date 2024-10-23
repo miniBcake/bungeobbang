@@ -21,46 +21,46 @@ public class BoardDAO {
 
 	// INSERT 쿼리들
 	// 게시글 작성
-	private final String INSERT = 
+	private final String INSERT =
 			"INSERT INTO BB_BOARD(BOARD_TITLE, BOARD_CONTENT, BOARD_FOLDER, BOARD_OPEN, CATEGORY_NUM, MEMBER_NUM) " +
 					"VALUES(?,?,?,?,?,?)";
 
 	// 상품 게시글 작성
-	private final String INSERT_PRODUCT = 
+	private final String INSERT_PRODUCT =
 			"INSERT INTO BB_BOARD(BOARD_TITLE, BOARD_CONTENT, BOARD_FOLDER, CATEGORY_NUM) " +
 					"VALUES(?,?,?,?)";
 
 	// 상점 게시글 작성
-	private final String INSERT_STORE = 
+	private final String INSERT_STORE =
 			"INSERT INTO BB_BOARD(BOARD_TITLE, BOARD_CONTENT, STORE_NUM, BOARD_FOLDER) " +
 					"VALUES(?,?,?,?)";
 
 	// UPDATE 쿼리들
-	private final String UPDATE = 
+	private final String UPDATE =
 			"UPDATE BB_BOARD SET BOARD_TITLE = ?, BOARD_CONTENT = ?, BOARD_OPEN = ? " +
 					"WHERE BOARD_NUM = ?";
 
-	private final String UPDATE_DEL = 
+	private final String UPDATE_DEL =
 			"UPDATE BB_BOARD SET BOARD_DELETE = 'Y' WHERE BOARD_NUM = ?";
 
 	// DELETE 쿼리
-	private final String DELETE = 
+	private final String DELETE =
 			"DELETE FROM BB_BOARD WHERE BOARD_NUM = ?";
 
 	// SELECTALL 쿼리
-	private final String SELECTALL = 
+	private final String SELECTALL =
 			"SELECT @rownum := @rownum + 1 AS RN, BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, " +
 					"BOARD_OPEN, BOARD_DELETE, CATEGORY_NUM, CATEGORY_NAME, MEMBER_NUM, " +
 					"MEMBER_NICKNAME, LIKE_CNT, BOARD_WRITE_DAY " +
 					"FROM BB_VIEW_BOARD_JOIN, (SELECT @rownum := 0) AS r " +
 					"WHERE CATEGORY_NAME = ?";
 
-	private final String SELECTALL_ENDPART = 
+	private final String SELECTALL_ENDPART =
 			"ORDER BY BOARD_WRITE_DAY DESC " +
 					"LIMIT ?, ?";
 
 	// SELECTALL_HOT 쿼리
-	private final String SELECTALL_HOT = 
+	private final String SELECTALL_HOT =
 			"SELECT BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_OPEN, BOARD_DELETE, " +
 					"CATEGORY_NUM, CATEGORY_NAME, MEMBER_NUM, MEMBER_NICKNAME, LIKE_CNT, BOARD_WRITE_DAY " +
 					"FROM BB_VIEW_BOARD_JOIN " +
@@ -68,7 +68,7 @@ public class BoardDAO {
 					"ORDER BY LIKE_CNT DESC LIMIT ?";
 
 	// SELECTALL_MYPAGE 쿼리
-	private final String SELECTALL_MYPAGE = 
+	private final String SELECTALL_MYPAGE =
 			"SELECT @rownum := @rownum + 1 AS RN, BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, " +
 					"BOARD_OPEN, BOARD_DELETE, CATEGORY_NUM, CATEGORY_NAME, MEMBER_NUM, " +
 					"MEMBER_NICKNAME, LIKE_CNT, BOARD_WRITE_DAY " +
@@ -77,7 +77,7 @@ public class BoardDAO {
 					"ORDER BY BOARD_WRITE_DAY DESC LIMIT ?, ?";
 
 	// SELECTALL_LIKE 쿼리
-	private final String SELECTALL_LIKE = 
+	private final String SELECTALL_LIKE =
 			"SELECT @rownum := @rownum + 1 AS RN, BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, " +
 					"BOARD_OPEN, BOARD_DELETE, CATEGORY_NUM, CATEGORY_NAME, MEMBER_NUM, " +
 					"MEMBER_NICKNAME, LIKE_CNT, BOARD_WRITE_DAY " +
@@ -86,23 +86,23 @@ public class BoardDAO {
 					"ORDER BY BOARD_WRITE_DAY DESC LIMIT ?, ?";
 
 	// SELECTONE 쿼리
-	private final String SELECTONE = 
+	private final String SELECTONE =
 			"SELECT BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_OPEN, BOARD_DELETE, " +
 					"CATEGORY_NUM, CATEGORY_NAME, MEMBER_NUM, MEMBER_NICKNAME, LIKE_CNT, " +
 					"BOARD_WRITE_DAY, BOARD_FOLDER " +
 					"FROM BB_VIEW_BOARD_JOIN WHERE BOARD_NUM = ?";
 
 	// SELECTONE_SEARCH 쿼리
-	private final String SELECTONE_SEARCH = 
+	private final String SELECTONE_SEARCH =
 			"SELECT COUNT(*) AS CNT FROM BB_BOARD bb " +
 					"JOIN BB_MEMBER bm ON bb.MEMBER_NUM = bm.MEMBER_NUM " +
 					"WHERE CATEGORY_NUM = (SELECT CATEGORY_NUM FROM BB_BOARD_CATEGORY WHERE CATEGORY_NAME = ?)";
 
 	// SELECTONE_MAXPK 쿼리
-	private final String SELECTONE_MAXPK = 
+	private final String SELECTONE_MAXPK =
 			"SELECT IFNULL(MAX(BOARD_NUM), 0) AS MAXPK FROM BB_BOARD";
 
-	private final String SELECTONE_FOLDER = 
+	private final String SELECTONE_FOLDER =
 			"SELECT BOARD_NUM, BOARD_FOLDER FROM BB_BOARD WHERE BOARD_NUM = ?";
 
 
@@ -179,7 +179,7 @@ public class BoardDAO {
 		int rs=0;
 		if(boardDTO.getCondition().equals("BOARD_UPDATE")) {
 			//게시글 수정
-			System.out.println("log: Board update : BOARD_UPDATE");		
+			System.out.println("log: Board update : BOARD_UPDATE");
 			query = UPDATE;
 			args = new Object[] {
 					boardDTO.getBoardTitle(),
@@ -257,7 +257,7 @@ public class BoardDAO {
 			List<Object> argsList = new ArrayList<>();
 			argsList.add(boardDTO.getBoardCateName());
 			// 검색어 세팅
-			argsList = filterUtil.setFilterKeywords(query, argsList, filters);
+			//argsList = filterUtil.setFilterKeywords(query, argsList, filters);
 
 			//페이지네이션
 			argsList.add(boardDTO.getStartNum());
@@ -310,7 +310,7 @@ public class BoardDAO {
 		Object[] args = null;
 		String query="";
 
-		if(boardDTO.getCondition().equals("ONE_BOARD")) {			
+		if(boardDTO.getCondition().equals("ONE_BOARD")) {
 			//게시물 상세보기
 			query = SELECTONE;
 			args = new Object[]{
@@ -332,7 +332,7 @@ public class BoardDAO {
 
 			//넘어온 값 확인 로그
 			System.out.println("log: parameter getBoardCateName : "+boardDTO.getBoardCateName());
-			filterUtil.setFilterKeywords(query, argsList, filters);		//필터 검색 검색어 
+			//filterUtil.setFilterKeywords(query, argsList, filters);		//필터 검색 검색어
 			// args 배열화
 			args = argsList.toArray();
 			// 쿼리 실행
@@ -348,7 +348,7 @@ public class BoardDAO {
 			//가장 최근 PK
 			System.out.println("log: Board selectOne : MAXPK_BOARD");
 			query = SELECTONE_MAXPK;
-			return jdbcTemplate.queryForObject(query, new MaxRowMapper());			
+			return jdbcTemplate.queryForObject(query, new MaxRowMapper());
 		}
 		else if(boardDTO.getCondition().equals("FOLDER_BOARD")) {
 			//게시판 번호로 폴더 검색
@@ -397,7 +397,7 @@ public class BoardDAO {
 			BoardDTO data = new BoardDTO();
 			data.setMaxPk(rs.getInt("MAXPK"));
 			return data;
-		}		
+		}
 	}
 	// 게시글 번호와 폴더명 반환
 	class FolderRowMaaper implements RowMapper<BoardDTO>{
@@ -417,7 +417,7 @@ public class BoardDAO {
 		@Override
 		public BoardDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			BoardDTO data = new BoardDTO();
-			data.setCnt(rs.getInt("CNT")); 
+			data.setCnt(rs.getInt("CNT"));
 			return data;
 		}
 

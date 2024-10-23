@@ -1,7 +1,7 @@
 package com.bungeobbang.app.biz.advice;
 
-import com.bungeabbang.app.biz.board.BoardDTO;
-import com.bungeabbang.app.biz.reply.ReplyDTO;
+import com.bungeobbang.app.biz.board.BoardDTO;
+import com.bungeobbang.app.biz.reply.ReplyDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

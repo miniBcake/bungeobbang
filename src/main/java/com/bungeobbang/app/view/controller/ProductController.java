@@ -62,10 +62,10 @@ public class ProductController {
     //상품 출력
     @RequestMapping("/loadListProduct.do")
     public String loadListProduct(HttpServletResponse response, Model model, ProductDTO productDTO,
-                              //검색용 현재 페이지 정보
-                              int page, int minPrice, int maxPrice, String keyword, String searchCondition,
-                              //쿠키 작업에서 사용
-                              HttpServletRequest request ) {
+                                  //검색용 현재 페이지 정보
+                                  int page, int minPrice, int maxPrice, String keyword, String searchCondition,
+                                  //쿠키 작업에서 사용
+                                  HttpServletRequest request ) {
 
         log.info("log: /loadListProduct.do loadListProduct - start");
 
