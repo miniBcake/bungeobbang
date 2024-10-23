@@ -1,4 +1,4 @@
-package com.fproject.app.biz.declare;
+package com.bungeobbang.app.biz.declare;
 
 public class DeclareDTO {
 	private int declareNum; //신고 번호

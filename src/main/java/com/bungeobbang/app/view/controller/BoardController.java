@@ -6,8 +6,6 @@ import com.bungeobbang.app.biz.boardCate.BoardCateDTO;
 import com.bungeobbang.app.biz.boardCate.BoardCateService;
 import com.bungeobbang.app.biz.like.LikeDTO;
 import com.bungeobbang.app.biz.like.LikeService;
-import com.bungeobbang.app.biz.reply.ReplyDTO;
-import com.bungeobbang.app.biz.reply.ReplyService;
 import com.bungeobbang.app.view.util.FileUtil;
 import com.bungeobbang.app.view.util.PaginationUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 @Controller("board")
 @Slf4j
@@ -35,6 +34,7 @@ public class BoardController {
 
     //경로
     private final String FOLDER_NAME = "uploads\\board\\";
+    private final String ROOT = "${pageContext.request.contextPath}/uploads/board/";
     private final String FAIL_URL = "failInfo2"; //실패 처리할 페이지
     private final String FAIL_DO = "redirect:failInfo.do"; //기본 실패 처리
 
@@ -191,7 +191,7 @@ public class BoardController {
     @RequestMapping(value = "/addBoard.do", method = RequestMethod.GET)
     public String addBoard(Model model, BoardDTO boardDTO) {
         log.info("log: /addBoard.do addBoard - start");
-        boardDTO.setBoardFolder(FileUtil.createFileName());
+        boardDTO.setBoardFolder(FileUtil.createFileName()); //폴더명 전달
         model.addAttribute("data", boardDTO);
         //확인
         log.info("log: addBoard - send data : [{}]", boardDTO);
@@ -214,7 +214,18 @@ public class BoardController {
 
     //게시글 작성
     @RequestMapping(value = "/addBoard.do", method = RequestMethod.POST)
-    public String addBoard(BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model){
+    public String addBoard(HttpSession session, BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model){
+        //ckeditor를 통해 넘어온 context의 이미지 src 서버에 맞춰 수정/////////////
+        HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute("boardFile");
+        String content = boardDTO.getBoardContent(); //작성한 내용
+        //이미지 태그의 src 변경
+        if(boardFile != null && !boardFile.isEmpty()){ //이미지가 있는 경우라면
+            for (Map.Entry<String, String> entry : boardFile.entrySet()) {
+                content = content.replace(entry.getValue(), ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey()); //value값을 찾아 서버 이미지 경로로 변경
+            }
+        }
+        boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장
+        /////////////////////////////////////////////////////////////////////
         boardDTO.setBoardCateNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());
         boardDTO.setCondition("BOARD_INSERT");
         if(boardService.insert(boardDTO)){
@@ -225,7 +236,7 @@ public class BoardController {
         return "redirect:boardList.do?categoryName="+boardCateDTO.getBoardCateName();
     }
 
-    //마이페이지 - 자신이 작성한 게시글 목록 페이지 => 마이페이지에서 처리
+    //마이페이지 - 자신이 작성한 게시글 목록 페이지 => 마이페이지에서 처리로 변경
     //@RequestMapping("/loadListBoardMyList.do")
     public String myBoardList(Model model, HttpSession session, BoardDTO boardTotalCNT, int page, BoardCateDTO boardCateDTO, BoardDTO boardDTO) {
         log.info("[INFO] MyBoardListPageAction 실행 시작");

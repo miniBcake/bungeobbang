@@ -1,4 +1,4 @@
-package com.fproject.app.biz.crawler;
+package com.bungeobbang.app.biz.crawler;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -12,13 +12,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fproject.app.biz.product.ProductDTO;
+import com.bungeobbang.app.biz.product.ProductDTO;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 
 public class Crawling {
-	
 	@Autowired
     private WebDriver driver;  // 웹 드라이버 객체
 	

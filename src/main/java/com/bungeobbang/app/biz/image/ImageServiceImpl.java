@@ -1,4 +1,4 @@
-package com.fproject.app.biz.image;
+package com.bungeobbang.app.biz.image;
 
 import java.util.ArrayList;
 

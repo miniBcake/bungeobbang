@@ -1,4 +1,4 @@
-package com.fproject.app.biz.storePayment;
+package com.bungeobbang.app.biz.storePayment;
 
 import java.util.ArrayList;
 

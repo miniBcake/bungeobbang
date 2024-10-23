@@ -1,4 +1,4 @@
-package com.fproject.app.biz.store;
+package com.bungeobbang.app.biz.store;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,9 +10,9 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.fproject.app.biz.common.JDBCUtil;
-import com.fproject.app.biz.filter.FilterSearchUtil;
-import com.fproject.app.biz.filter.StoreFilter;
+import com.bungeobbang.app.biz.common.JDBCUtil;
+import com.bungeobbang.app.biz.filterSearch.FilterSearchUtil;
+import com.bungeobbang.app.biz.filterSearch.StoreFilter;
 
 @Repository
 public class StoreDAO {
@@ -399,7 +399,7 @@ public class StoreDAO {
 				//[7] 가게 고유번호 최댓값 불러오기
 				if (rs.next()) {
 					data = new StoreDTO(); // 데이터 요소 담기 위한 객체 생성
-					data.setStoreNum(rs.getInt("MAX_S_NUM"));
+					data.setMaxPk(rs.getInt("MAX_S_NUM"));
 					System.out.println("log_StoreDAO_selectOne_data finish : " + data);
 				}
 			}

@@ -1,4 +1,4 @@
-package com.fproject.app.biz.payment;
+package com.bungeobbang.app.biz.payment;
 
 import java.util.HashMap;
 

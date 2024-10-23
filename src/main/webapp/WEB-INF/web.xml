@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" version="5.0">
-  <display-name>MBProject</display-name>
+  <display-name>bungeobbangProject</display-name>
   <!--start page setting-->
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
@@ -26,7 +26,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ds</servlet-name>
-    <url-pattern>*do</url-pattern>
+    <url-pattern>*.do</url-pattern>
   </servlet-mapping>
   
 </web-app>

@@ -1,4 +1,4 @@
-package com.fproject.app.biz.storePayment;
+package com.bungeobbang.app.biz.storePayment;
 
 public class StorePaymentDTO {
    private int storPaymentCount;               //결제방식별 사용가능한 매장갯수

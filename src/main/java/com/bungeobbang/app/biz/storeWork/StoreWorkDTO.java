@@ -1,4 +1,4 @@
-package com.fproject.app.biz.storeWork;
+package com.bungeobbang.app.biz.storeWork;
 
 public class StoreWorkDTO {
 

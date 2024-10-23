@@ -1,4 +1,4 @@
-package com.fproject.app.biz.product;
+package com.bungeobbang.app.biz.product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,9 +10,9 @@ import java.util.Map.Entry;
 
 import org.springframework.stereotype.Repository;
 
-import com.fproject.app.biz.common.JDBCUtil;
-import com.fproject.app.biz.filter.FilterSearchUtil;
-import com.fproject.app.biz.filter.ProductFilter;
+import com.bungeobbang.app.biz.common.JDBCUtil;
+import com.bungeobbang.app.biz.filterSearch.FilterSearchUtil;
+import com.bungeobbang.app.biz.filterSearch.ProductFilter;
 
 
 @Repository

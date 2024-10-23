@@ -1,4 +1,4 @@
-package com.fproject.app.biz.productCate;
+package com.bungeobbang.app.biz.productCate;
 
 import java.util.ArrayList;
 

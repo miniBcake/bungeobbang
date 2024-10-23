@@ -1,4 +1,4 @@
-package com.fproject.app.biz.image;
+package com.bungeobbang.app.biz.image;
 
 public class ImageDTO {
 	private int imageNum;	//이미지 번호

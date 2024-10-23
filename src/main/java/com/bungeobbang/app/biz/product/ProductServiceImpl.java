@@ -1,4 +1,4 @@
-package com.fproject.app.biz.product;
+package com.bungeobbang.app.biz.product;
 
 import java.util.ArrayList;
 

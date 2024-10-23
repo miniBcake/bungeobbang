@@ -1,4 +1,4 @@
-package com.fproject.app.biz.order;
+package com.bungeobbang.app.biz.order;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.fproject.app.biz.board;
+package com.bungeobbang.app.biz.board;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +10,8 @@ import java.util.Map.Entry;
 
 import org.springframework.stereotype.Repository;
 
-import com.fproject.app.biz.common.JDBCUtil;
-import com.fproject.app.biz.filter.BoardFilter;
+import com.bungeobbang.app.biz.common.JDBCUtil;
+import com.bungeobbang.app.biz.filterSearch.BoardFilter;
 
 @Repository
 public class BoardDAO2 {

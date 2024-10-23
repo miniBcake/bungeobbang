@@ -1,4 +1,4 @@
-package com.fproject.app.biz.declare;
+package com.bungeobbang.app.biz.declare;
 
 import java.util.List;
 

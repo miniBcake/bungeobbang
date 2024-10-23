@@ -1,20 +1,20 @@
-package com.fproject.app.biz.crawler;
+package com.bungeobbang.app.biz.crawler;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fproject.app.biz.product.ProductDAO;
-import com.fproject.app.biz.product.ProductDTO;
-import com.fproject.app.biz.productCate.ProductCateDAO;
-import com.fproject.app.biz.productCate.ProductCateDTO;
+import com.bungeobbang.app.biz.product.ProductDAO;
+import com.bungeobbang.app.biz.product.ProductDTO;
+import com.bungeobbang.app.biz.productCate.ProductCateDAO;
+import com.bungeobbang.app.biz.productCate.ProductCateDTO;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 
-@WebListener
+//@WebListener
 public class CrawlingListener implements ServletContextListener {
 	@Autowired
 	private ProductDAO productDAO;
