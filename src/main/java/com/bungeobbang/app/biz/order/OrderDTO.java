@@ -1,4 +1,4 @@
-package com.fproject.app.biz.order;
+package com.bungeobbang.app.biz.order;
 
 public class OrderDTO {
 	private int orderNum; //주문 번호

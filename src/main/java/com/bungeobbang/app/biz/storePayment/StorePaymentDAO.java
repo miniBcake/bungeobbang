@@ -1,4 +1,4 @@
-package com.fproject.app.biz.storePayment;
+package com.bungeobbang.app.biz.storePayment;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Repository;
 
-import com.fproject.app.biz.common.JDBCUtil;
+import com.bungeobbang.app.biz.common.JDBCUtil;
 
 @Repository
 public class StorePaymentDAO {

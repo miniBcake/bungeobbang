@@ -1,4 +1,4 @@
-package com.fproject.app.biz.boardCate;
+package com.bungeobbang.app.biz.boardCate;
 
 public class BoardCateDTO {
 	private int boardCateNum;		//카테고리 번호

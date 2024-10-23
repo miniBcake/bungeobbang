@@ -1,4 +1,4 @@
-package com.fproject.app.biz.member;
+package com.bungeobbang.app.biz.member;
 
 import java.util.List;
 

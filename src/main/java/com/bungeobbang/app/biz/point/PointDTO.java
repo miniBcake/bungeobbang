@@ -1,4 +1,4 @@
-package com.fproject.app.biz.point;
+package com.bungeobbang.app.biz.point;
 
 public class PointDTO {
 	private int pointNum; //PK

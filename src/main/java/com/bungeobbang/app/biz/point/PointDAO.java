@@ -1,4 +1,4 @@
-package com.fproject.app.biz.point;
+package com.bungeobbang.app.biz.point;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fproject.app.biz.common.JDBCUtil;
+import com.bungeobbang.app.biz.common.JDBCUtil;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class PointDAO {
 	
 	//insert 쿼리문

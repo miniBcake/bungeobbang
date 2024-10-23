@@ -1,4 +1,4 @@
-package com.fproject.app.biz.reply;
+package com.bungeobbang.app.biz.reply;
 
 public class ReplyDTO {
 	private int replyNum;				//댓글번호

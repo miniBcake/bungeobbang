@@ -1,4 +1,4 @@
-package com.fproject.app.biz.boardCate;
+package com.bungeobbang.app.biz.boardCate;
 
 import java.util.ArrayList;
 

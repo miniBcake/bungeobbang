@@ -1,4 +1,4 @@
-package com.fproject.app.biz.payment;
+package com.bungeobbang.app.biz.payment;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,8 +11,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.fproject.app.biz.common.JDBCUtil;
-import com.fproject.app.biz.filter.PaymentFilter;
+import com.bungeobbang.app.biz.common.JDBCUtil;
+import com.bungeobbang.app.biz.filterSearch.PaymentFilter;
 
 @Repository
 public class PaymentDAO {

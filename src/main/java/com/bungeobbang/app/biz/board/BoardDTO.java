@@ -1,4 +1,4 @@
-package com.fproject.app.biz.board;
+package com.bungeobbang.app.biz.board;
 
 import java.util.HashMap;
 

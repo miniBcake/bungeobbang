@@ -1,4 +1,4 @@
-package com.fproject.app.biz.filter;
+package com.bungeobbang.app.biz.filterSearch;
 
 import java.sql.PreparedStatement;
 

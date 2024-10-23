@@ -1,4 +1,4 @@
-package com.fproject.app.biz.point;
+package com.bungeobbang.app.biz.point;
 
 import java.util.List;
 

@@ -41,8 +41,8 @@ public class PaginationUtils {
             productDTO.setEndNum(endNum);
         } else if(dto instanceof StoreDTO) {
 			StoreDTO storeDTO = (StoreDTO) dto;
-			storeDTO.setStoreStartPage(startNum);
-			storeDTO.setStoreEndPage(endNum);
+			storeDTO.setStartNum(startNum);
+			storeDTO.setEndNum(endNum);
         } else {
             throw new IllegalArgumentException("지원되지 않는 DTO 타입입니다.");
         }

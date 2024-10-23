@@ -1,4 +1,4 @@
-package com.fproject.app.biz.like;
+package com.bungeobbang.app.biz.like;
 
 import java.util.ArrayList;
 

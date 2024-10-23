@@ -1,4 +1,4 @@
-package com.fproject.app.biz.storeMenu;
+package com.bungeobbang.app.biz.storeMenu;
 
 public class StoreMenuDTO {
    

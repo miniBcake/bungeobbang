@@ -1,4 +1,4 @@
-package com.fproject.app.biz.productCate;
+package com.bungeobbang.app.biz.productCate;
 
 public class ProductCateDTO {
 	private int productCateNum;		//상품 카테고리 번호

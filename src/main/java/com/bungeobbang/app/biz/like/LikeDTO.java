@@ -1,4 +1,4 @@
-package com.fproject.app.biz.like;
+package com.bungeobbang.app.biz.like;
 
 public class LikeDTO {
 	private int likeNum;	//좋아요 고유번호(PK)

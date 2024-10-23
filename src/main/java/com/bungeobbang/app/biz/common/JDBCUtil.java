@@ -1,4 +1,4 @@
-package com.fproject.app.biz.common;
+package com.bungeobbang.app.biz.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

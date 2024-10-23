@@ -1,4 +1,4 @@
-package com.fproject.app.biz.boardCate;
+package com.bungeobbang.app.biz.boardCate;
 
 
 import java.sql.Connection;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Repository;
 
-import com.fproject.app.biz.common.JDBCUtil;
+import com.bungeobbang.app.biz.common.JDBCUtil;
 
 
 @Repository

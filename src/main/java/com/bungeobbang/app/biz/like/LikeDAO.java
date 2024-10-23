@@ -1,13 +1,14 @@
-package com.fproject.app.biz.like;
+package com.bungeobbang.app.biz.like;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-import com.fproject.app.biz.common.JDBCUtil;
+import com.bungeobbang.app.biz.common.JDBCUtil;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public class LikeDAO {
 
 	//좋아요 추가
