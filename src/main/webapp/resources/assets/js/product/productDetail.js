@@ -1,0 +1,36 @@
+$(document).ready(function() {
+    // 구매하기 버튼 클릭 시 비동기 요청 처리
+    $('#addToCartBtn').on('click', function(event) {
+        event.preventDefault(); // 기본 동작 방지
+        
+        // 수량과 상품 번호 가져오기
+        var quantity = $('#quantity').val();
+        var productNum = $('#productNum').val(); // 제품 번호가 있는 hidden input이 있다고 가정
+        console.log(productNum);
+        
+        // AJAX 요청
+        $.ajax({
+            url: 'addToCart.do', // 서버 측 경로와 일치하는지 확인 필요
+            type: 'POST',
+            contentType: 'application/json', // JSON 형식으로 전송
+            data: JSON.stringify({
+                productNum: productNum,
+                quantity: quantity
+            }),
+            success: function(response) {
+                // 서버가 성공적으로 응답했을 때의 처리
+                if (response.status === 'success') {
+                    $('#goToCartForm').show(); // 장바구니로 가기 버튼 표시
+                    alert(response.message); // 성공 메시지 출력
+                } else {
+                    alert('오류 발생: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                // 서버 응답에 오류가 있을 때의 처리
+                console.error("Error: " + error);
+                alert('장바구니에 담는 중 오류가 발생했습니다. 다시 시도해주세요.');
+            }
+        });
+    });
+});
