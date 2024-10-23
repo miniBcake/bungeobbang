@@ -1,0 +1,175 @@
+@charset "UTF-8";
+
+:root{
+    /* font-size */
+    --store-data-content-font-size: 100%;
+    
+    /* size */
+    --icon-size: 8%;
+}
+
+.viewContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.tagContainer {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.col-12 {
+    overflow: hidden;
+}
+
+.col-9 {
+    display: flex;
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+.storeName {
+    width: 100%;
+    font-size: 200%;
+}
+
+.tag {
+    display: inline;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 3px;
+    margin: 5px;
+
+    background-color: white;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tag#openStore {
+    font-size: 30%;
+    background-color: lightgreen;
+    color: white;
+    border: hidden;
+    margin: 1px;
+}
+.tag#closedStore {
+    font-size: 30%;
+    background-color: red;
+    color: white;
+    border: hidden;
+    margin: 1px;
+}
+
+.weekList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.listValue {
+    margin: 20px 0;
+}
+
+.tag .week {
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.map-height {
+    height: 50%;
+}
+
+.map-width {
+    width: 50%;
+}
+
+.map {
+    border: 1px solid lightgray;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mapValue {
+    width: 100%;
+    height: 100%;
+}
+
+.data-height {
+    height: 150px;
+}
+
+.storeData {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    display: flex;
+    flex-flow: column;
+    margin: 5px;
+}
+
+.storeDataContent {
+    font-size: var(--store-data-content-font-size);
+    display: flex;
+    align-items: center;
+    margin: 5px;
+  }
+  
+  .storeDataContent span {
+    width: 60%;
+  }
+  .storeDataContent button {
+    font-size: 100%;
+    width: 17%;
+    white-space: nowrap;
+  }
+
+.icon {
+    width: var(--icon-size);
+  }
+  
+  .dropdown {
+	width: 250px;
+	margin: 20px;
+}
+
+.dropdown select {
+	width: 100%;
+	padding: 4px; /* 패딩 줄이기 */
+	font-size: 16px; /* 폰트 크기 줄이기 */
+}
+
+.warningBox {
+	margin: 10px;
+}
+
+#deleteBtn {
+	margin-left: 5px;
+	
+	background-color: red;
+	border: 0px;
+	color: white;
+	
+	border-radius: 3px;
+}
+
+
+  @media(max-width:1200px){
+    .container {
+        min-width: 600px;
+    }
+  }
