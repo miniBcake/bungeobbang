@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -40,6 +41,14 @@ public class StoreController {
     private final String FAIL_DO = "redirect:failInfo.do";
     private final String FOLDER_PATH = "uploads\\board\\"; //webapp기준
     private final String ROOT = "${pageContext.request.contextPath}/uploads/board/";
+
+    //condition
+    private final String ADD_STORE = "ADD";
+    private final String REPORT_STORE = "USERADD";
+
+    private final String NO = "N";
+    private final String YES = "Y";
+
 
     @RequestMapping(value = "/addStore.do", method = RequestMethod.POST)
     public String addStore(HttpSession session, StoreDTO storeDTO, StoreMenuDTO storeMenuDTO, StorePaymentDTO storePaymentDTO, BoardDTO boardDTO,
@@ -120,33 +129,56 @@ public class StoreController {
                 return FAIL_DO;
             }
         }
-
         //등록 성공 시
         return "redirect:loadListStore.do";
     }
 
     @RequestMapping(value = "/addStore.do", method = RequestMethod.GET)
-    public String addStore(HttpSession session){
-        return FAIL_PATH;
+    public String addStore(String condition, Model model){
+        String path;
+        if(condition.equals(REPORT_STORE)){//제보라면
+            //KS 페이지연결 - 제보
+            path = "";
+        }
+        else if(condition.equals(ADD_STORE)){//가게 추가라면
+            //KS 페이지 연결 - 가게 추가
+            path = "";
+        }
+        else {
+           path = FAIL_DO;
+        }
+        model.addAttribute("condition", condition);
+        return path;
     }
 
     @RequestMapping("/updateStoreClose.do")
-    public String updateStoreClose(){
+    public String updateStoreClose(StoreDTO storeDTO){
+        storeDTO.setCondition("UPDATE_CLOSED");
+        storeDTO.setStoreClosed(this.YES);
+        storeService.update(storeDTO);
         return FOLDER_PATH;
     }
 
     @RequestMapping("/updateStoreVisible.do")
-    public String updateStoreVisible(){
+    public String updateStoreVisible(StoreDTO storeDTO){
+        //KS condition 확인바람
+        storeDTO.setCondition("");
+        storeDTO.setStoreDeclared(this.NO);
+        storeService.update(storeDTO);
         return FOLDER_PATH;
     }
 
     @RequestMapping("/infoStore.do")
-    public String infoStore(){
-        return FOLDER_PATH;
+    public String infoStore(StoreDTO storeDTO, Model model){
+        storeDTO.setCondition("INFO_STORE_SELECTONE");
+        StoreDTO storeInfo = storeService.selectOne(storeDTO);
+        model.addAttribute("storeInfo", storeInfo);
+        return "store";
     }
 
     @RequestMapping("/loadListStore.do")
     public String loadListStore(){
-        return FOLDER_PATH;
+        
+        return "storeList";
     }
 }
