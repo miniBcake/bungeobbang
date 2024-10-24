@@ -8,6 +8,7 @@ import com.bungeobbang.app.biz.like.LikeDTO;
 import com.bungeobbang.app.biz.like.LikeService;
 import com.bungeobbang.app.view.util.FileUtil;
 import com.bungeobbang.app.view.util.PaginationUtils;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class BoardController {
     private BoardCateService boardCateService;
 
     //경로
-    private final String FOLDER_NAME = "uploads\\board\\";
+    private final String FOLDER_NAME = "uploads/board/";
     private final String ROOT = "${pageContext.request.contextPath}/uploads/board/";
     private final String FAIL_URL = "failInfo2"; //실패 처리할 페이지
     private final String FAIL_DO = "redirect:failInfo.do"; //기본 실패 처리
@@ -85,13 +86,13 @@ public class BoardController {
 
     //게시글 삭제
     @RequestMapping("/deleteBoard.do")
-    public String deleteBoard(HttpServletRequest request, Model model, BoardDTO boardDTO) {
+    public String deleteBoard(ServletContext servletContext, Model model, BoardDTO boardDTO) {
         log.info("log: /deleteBoard.do deleteBoard - start");
         String imagePath; //경로
         boardDTO.setCondition("ONE_BOARD");
         boardDTO = boardService.selectOne(boardDTO);
         // 해당 게시글 이미지 폴더 삭제
-        imagePath = request.getContextPath() + FOLDER_NAME + boardDTO.getBoardFolder();  // 이미지 경로 설정
+        imagePath = servletContext.getRealPath(FOLDER_NAME) + boardDTO.getBoardFolder();  // 이미지 경로 설정
         if(FileUtil.deleteFileAndDirectory(new File(imagePath))){
             log.error("log: deleteBoard - delete file fail check");
         }

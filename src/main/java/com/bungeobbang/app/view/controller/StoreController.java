@@ -39,8 +39,8 @@ public class StoreController {
 
     private final String FAIL_PATH = "failInfo2";
     private final String FAIL_DO = "redirect:failInfo.do";
-    private final String FOLDER_PATH = "uploads\\board\\"; //webapp기준
-    private final String ROOT = "${pageContext.request.contextPath}/uploads/board/";
+    private final String FOLDER_PATH = "uploads/board/"; //webapp기준
+    private final String ROOT = "${pageContext.request.contextPath}/"+FOLDER_PATH;
 
     //condition
     private final String ADD_STORE = "ADD";
@@ -153,8 +153,9 @@ public class StoreController {
 
     @RequestMapping("/updateStoreClose.do")
     public String updateStoreClose(StoreDTO storeDTO){
-        storeDTO.setCondition("UPDATE_CLOSED");
-        storeDTO.setStoreClosed(this.YES);
+        HashMap<String, String> filterList = new HashMap<>();
+        filterList.put("UPDATE_CLOSED", this.YES);
+        storeDTO.setFilterList(filterList);
         storeService.update(storeDTO);
         return FOLDER_PATH;
     }
@@ -162,8 +163,9 @@ public class StoreController {
     @RequestMapping("/updateStoreVisible.do")
     public String updateStoreVisible(StoreDTO storeDTO){
         //KS condition 확인바람
-        storeDTO.setCondition("");
-        storeDTO.setStoreDeclared(this.NO);
+        HashMap<String, String> filterList = new HashMap<>();
+        filterList.put("", this.NO);
+        storeDTO.setFilterList(filterList);
         storeService.update(storeDTO);
         return FOLDER_PATH;
     }

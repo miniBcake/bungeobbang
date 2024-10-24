@@ -17,7 +17,7 @@ import java.util.HashMap;
 @Slf4j
 public class ImageAsyncController {
 
-    private String FOLDER_PATH = "uploads\\board\\"; //webapp기준
+    private String FOLDER_PATH = "uploads/board/"; //webapp기준
 
     @RequestMapping("/addImage.do")
     public @ResponseBody String addImage(HttpSession session, ServletContext servletContext, @RequestBody ImageFileDTO imageFileDTO) {
