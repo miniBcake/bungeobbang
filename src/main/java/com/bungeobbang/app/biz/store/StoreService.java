@@ -1,9 +1,9 @@
 package com.bungeobbang.app.biz.store;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface StoreService {
-	ArrayList<StoreDTO> selectAll(StoreDTO storeDTO);
+	List<StoreDTO> selectAll(StoreDTO storeDTO);
 	StoreDTO selectOne(StoreDTO storeDTO);
 	boolean insert(StoreDTO storeDTO);
 	boolean update(StoreDTO storeDTO);

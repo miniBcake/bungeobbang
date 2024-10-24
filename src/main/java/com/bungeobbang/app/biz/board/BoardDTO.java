@@ -28,10 +28,7 @@ public class BoardDTO {
 	private int startNum;				//페이지네이션 시작번호
 	private int endNum;					//페이지네이션 끝번호
 	private int cnt;					//페이지네이션 개수 반환용
-	private int maxPk;					//가장 최근에 사용된 PK번호
-	
-	// 폴더명 저장?? -> 이미지테이블 관리안하고 폴더명으로 관리?
-	
+	private int maxPk;					//가장 최근에 사용된 PK번호	
 	
 	//getter setter
 	public int getBoardNum() {
