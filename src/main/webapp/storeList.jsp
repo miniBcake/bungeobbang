@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
-	import="java.util.ArrayList, java.util.HashMap, java.util.Map, java.util.List"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -28,15 +27,20 @@
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 
+<!-- 맵을 그리기 위한 script -->
+	<!-- appkey에 발급받은 APP KEY를 넣음 -->
+	<!-- 추가 기능 사용 시 &libraries=services 코드 추가(주소를 좌표로) -->
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c29b2d7f614a4d9b5ef9ee4c2ec83a48&libraries=services"></script>
+		
 <!-- js를 쓰므로 jquery 사용 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- 외부 script 파일 사용 -->
 <script src="${path}/resources/assets/js/storeList.js"></script>
-<script src="${path}/resources/assets/js/copy.js"></script>
-<script src="assets/js/browser.min.js"></script>
-<script src="assets/js/breakpoints.min.js"></script>
-<script src="assets/js/util.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="${path}/resources/assets/js/store/copy.js"></script>
+<script src="${path}/resources/assets/js/map/imageMap.js"></script>
+
+
 </head>
 <body>
 	<div id="page-wrapper">
@@ -165,12 +169,9 @@
 			<!-- container01 : 2행 1열-->
 			<div class="row align-items-center">
 				<div class="searchValue">
-					<div class="col-6 text-center">
+					<div class="col-6 text-center nonePadding fullWidthHeight">
 						<!-- 검색 결과 출력 부분-->
-						<div class="map">
-							<!-- 임시로 넣어놓음 -->
-							<img class="mapValue"
-								src="resources\assets\images\map_sample.png" alt="맵 이미지">
+						<div class="map" id="map">
 						</div>
 					</div>
 					<div class="col-6 text-center">
