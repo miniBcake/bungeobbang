@@ -1,9 +1,9 @@
 package com.bungeobbang.app.biz.board;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 // BoardService의 구현체
 @Service("boardService")
@@ -12,8 +12,8 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO boardDAO;
 
 	@Override
-	public List<BoardDTO> selectAll(BoardDTO boardDTO) {
-		return this.boardDAO.selectAll(boardDTO);
+	public ArrayList<BoardDTO> selectAll(BoardDTO boardDTO) {
+		return (ArrayList<BoardDTO>) this.boardDAO.selectAll(boardDTO);
 	}
 
 	@Override

@@ -46,7 +46,9 @@ public class BoardController {
     //session
     private final String SESSION_PK = "userPK"; //세션에 저장된 memberPK
     private final String SESSION_NICKNAME = "userNickname"; //세션에 저장된 memberPK
+    private final String SESSION_IMAGE_SRC = "boardFile";
 
+    //KS View 설계에 따라 수정
     private final int PAGE_SIZE = 6; // 페이지당 게시글 수
 
     //msg
@@ -217,13 +219,14 @@ public class BoardController {
     @RequestMapping(value = "/addBoard.do", method = RequestMethod.POST)
     public String addBoard(HttpSession session, BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model){
         //ckeditor를 통해 넘어온 context의 이미지 src 서버에 맞춰 수정/////////////
-        HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute("boardFile");
+        HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute(SESSION_IMAGE_SRC);
         String content = boardDTO.getBoardContent(); //작성한 내용
         //이미지 태그의 src 변경
         if(boardFile != null && !boardFile.isEmpty()){ //이미지가 있는 경우라면
             for (Map.Entry<String, String> entry : boardFile.entrySet()) {
                 content = content.replace(entry.getValue(), ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey()); //value값을 찾아 서버 이미지 경로로 변경
             }
+            session.removeAttribute(SESSION_IMAGE_SRC); //다 바꾼 뒤에는 세션에서 삭제
         }
         boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장
         /////////////////////////////////////////////////////////////////////

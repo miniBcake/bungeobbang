@@ -1,9 +1,9 @@
 package com.bungeobbang.app.biz.declare;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service("declareService")
 public class DeclareServiceImpl implements DeclareService{
@@ -26,8 +26,8 @@ public class DeclareServiceImpl implements DeclareService{
 	}
 	
 	@Override
-	public List<DeclareDTO> selectAll(DeclareDTO declareDTO) {
-		return declareDAO.selectAll(declareDTO);
+	public ArrayList<DeclareDTO> selectAll(DeclareDTO declareDTO) {
+		return (ArrayList<DeclareDTO>) declareDAO.selectAll(declareDTO);
 	}
 	
 	@Override

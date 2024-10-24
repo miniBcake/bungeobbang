@@ -1,9 +1,9 @@
 package com.bungeobbang.app.biz.boardCate;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 // boardCate의 구현체
 @Service("boardCateService")
@@ -12,8 +12,8 @@ public class BoardCateServiceImpl implements BoardCateService {
 	private BoardCateDAO boardCateDAO;
 	
 	@Override
-	public List<BoardCateDTO> selectAll(BoardCateDTO boardCateDTO) {
-		return this.boardCateDAO.selectAll(boardCateDTO);
+	public ArrayList<BoardCateDTO> selectAll(BoardCateDTO boardCateDTO) {
+		return (ArrayList<BoardCateDTO>) this.boardCateDAO.selectAll(boardCateDTO);
 	}
 
 	@Override

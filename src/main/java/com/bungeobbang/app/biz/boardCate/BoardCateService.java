@@ -1,9 +1,9 @@
 package com.bungeobbang.app.biz.boardCate;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface BoardCateService {
-	List<BoardCateDTO> selectAll(BoardCateDTO boardCateDTO);
+	ArrayList<BoardCateDTO> selectAll(BoardCateDTO boardCateDTO);
 	BoardCateDTO selectOne(BoardCateDTO boardCateDTO);
 	boolean insert(BoardCateDTO boardCateDTO);
 	boolean update(BoardCateDTO boardCateDTO);

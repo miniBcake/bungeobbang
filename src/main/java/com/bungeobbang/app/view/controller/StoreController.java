@@ -74,7 +74,8 @@ public class StoreController {
 
         //추가한 가게의 PK번호
         storeDTO.setCondition("STORE_NEW_SELECTONE");
-        int storePK = storeService.selectOne(storeDTO).getMaxPk();
+        //FIXME maxPk로 수정 필요
+        int storePK = storeService.selectOne(storeDTO).getStoreNum();
         log.info("log: store insert successful storePK: {}", storePK);
 
         //PK번호 전달 및 메뉴 추가
@@ -137,8 +138,7 @@ public class StoreController {
     public String addStore(String condition, Model model){
         String path;
         if(condition.equals(REPORT_STORE)){//제보라면
-            //KS 페이지연결 - 제보
-            path = "";
+            path = "storeDeclareList";
         }
         else if(condition.equals(ADD_STORE)){//가게 추가라면
             //KS 페이지 연결 - 가게 추가

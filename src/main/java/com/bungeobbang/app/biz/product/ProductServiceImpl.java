@@ -1,9 +1,9 @@
 package com.bungeobbang.app.biz.product;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 //productService 구현체
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
@@ -11,8 +11,8 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDAO productDAO;
 
 	@Override
-	public List<ProductDTO> selectAll(ProductDTO productDTO) {
-		return this.productDAO.selectAll(productDTO);
+	public ArrayList<ProductDTO> selectAll(ProductDTO productDTO) {
+		return (ArrayList<ProductDTO>) this.productDAO.selectAll(productDTO);
 	}
 
 	@Override

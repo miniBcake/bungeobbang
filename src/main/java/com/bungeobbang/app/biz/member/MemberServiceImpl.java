@@ -1,9 +1,9 @@
 package com.bungeobbang.app.biz.member;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 //MemberService 구현체
 @Service("memberService")
@@ -12,8 +12,8 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO memberDAO;
 
 	@Override
-	public List<MemberDTO> selectAll(MemberDTO memberDTO) {
-		return this.memberDAO.selectAll(memberDTO);
+	public ArrayList<MemberDTO> selectAll(MemberDTO memberDTO) {
+		return (ArrayList<MemberDTO>) this.memberDAO.selectAll(memberDTO);
 	}
 
 	@Override
