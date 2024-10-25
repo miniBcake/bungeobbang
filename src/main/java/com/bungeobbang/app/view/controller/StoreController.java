@@ -176,6 +176,7 @@ public class StoreController {
         return path;
     }
 
+    //가게 폐점설정
     @RequestMapping("/updateStoreClose.do")
     public String updateStoreClose(StoreDTO storeDTO, Model model){
         log.info("log: /updateStoreClose.do updateStoreClose - start");
@@ -196,6 +197,7 @@ public class StoreController {
         return "redirect:loadListStoreReport.do";
     }
 
+    //가게 비공개 설정
     @RequestMapping("/updateStoreVisible.do")
     public String updateStoreVisible(StoreDTO storeDTO, Model model){
         log.info("log: /updateStoreVisible.do updateStoreVisible - start");
@@ -215,6 +217,7 @@ public class StoreController {
         return "redirect:loadListStoreTipOff.do";
     }
 
+    //가게 상세 조회
     @RequestMapping("/infoStore.do")
     public String infoStore(StoreDTO storeDTO, Model model){
         log.info("log: /infoStore.do infoStore - start");
@@ -229,9 +232,10 @@ public class StoreController {
         return "store";
     }
 
+    //가게 검색 (동기, 전체)
     @RequestMapping("/loadListStore.do")
     public String loadListStore(){
-        
+        //TODO 나중에 view와 함께 데이터 타입 정리 후 진행
         return "storeList";
     }
 }
