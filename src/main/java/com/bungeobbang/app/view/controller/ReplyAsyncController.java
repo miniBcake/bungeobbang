@@ -18,21 +18,15 @@ public class ReplyAsyncController {
 
     //댓글 추가
     @RequestMapping("/addReply.do")
-    public @ResponseBody String addReply(@RequestBody ReplyDTO replyDTO) {
-        if (!replyService.insert(replyDTO)) {
-            return "false";
-        }
-        return "true";
+    public @ResponseBody boolean addReply(@RequestBody ReplyDTO replyDTO) {
+        return replyService.insert(replyDTO);
     }
 
     //댓글 삭제
     @RequestMapping("/deleteReply.do")
-    public @ResponseBody String deleteReply(ReplyDTO replyDTO) {
+    public @ResponseBody boolean deleteReply(ReplyDTO replyDTO) {
         //작성자 확인 AOP 대상
-        if (!replyService.delete(replyDTO)) {
-            return "false";
-        }
-        return "true";
+        return replyService.delete(replyDTO);
     }
 
     //댓글 리스트

@@ -1,0 +1,35 @@
+package com.bungeobbang.app.view.controller;
+
+import com.bungeobbang.app.biz.like.LikeDTO;
+import com.bungeobbang.app.biz.like.LikeService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@Slf4j
+public class LikeAsyncController {
+    @Autowired
+    private LikeService likeService;
+
+    //좋아요 추가
+    @RequestMapping("/addLike.do")
+    public @ResponseBody boolean addLike(@RequestBody LikeDTO likeDTO) {
+        return likeService.insert(likeDTO);
+    }
+
+    //좋아요 삭제 (조회해서 받아온 num 전달)
+    @RequestMapping("/deleteLike.do")
+    public @ResponseBody boolean deleteLike(LikeDTO likeDTO) {
+        return likeService.delete(likeDTO);
+    }
+
+    //좋아요 조회
+    @RequestMapping("/infoLike.do")
+    public @ResponseBody int infoLike(@RequestBody LikeDTO likeDTO) {
+        return likeService.selectOne(likeDTO).getLikeNum();
+    }
+}

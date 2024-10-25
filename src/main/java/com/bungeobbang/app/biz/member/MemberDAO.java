@@ -1,22 +1,16 @@
 package com.bungeobbang.app.biz.member;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
+import com.bungeobbang.app.biz.filterSearch.MemberFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.bungeobbang.app.biz.common.JDBCUtil;
-import com.bungeobbang.app.biz.filterSearch.MemberFilter;
-import com.mysql.cj.result.Row;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 //FIXME 컨디션 필터값 아직 반영안됨
 @Repository

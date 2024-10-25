@@ -60,6 +60,8 @@ public class BoardController {
     @RequestMapping("/infoBoard.do")
     public String infoBoard(HttpSession session, Model model, LikeDTO likeDTO, BoardDTO boardDTO) {
         log.info("log: /infoBoard.do infoBoard - start");
+        log.info("log: infoBoard - input likeDTO : [{}]", likeDTO);
+        log.info("log: infoBoard - input boardDTO : [{}]", boardDTO);
         boolean userLiked = false; //좋아요 여부 (기본 좋아요 안한 상태)
         Integer sessionMemberPK = (Integer) session.getAttribute(SESSION_PK); //세션 값
 
@@ -88,16 +90,25 @@ public class BoardController {
 
     //게시글 삭제
     @RequestMapping("/deleteBoard.do")
-    public String deleteBoard(ServletContext servletContext, Model model, BoardDTO boardDTO) {
+    public String deleteBoard(Model model, BoardDTO boardDTO,
+                              //상대경로 변환용 realPath 사용을 위한 객체
+                              ServletContext servletContext) {
         log.info("log: /deleteBoard.do deleteBoard - start");
+        log.info("log: deleteBoard - input boardDTO : [{}]", boardDTO);
         String imagePath; //경로
+
+        //이미지 폴더 삭제 안할 시 필요없는 로직 범위//////////////////////////////////////////////
+        //이미지 폴더를 삭제하기 위한 DB 폴더명 조회
         boardDTO.setCondition("ONE_BOARD");
         boardDTO = boardService.selectOne(boardDTO);
-        // 해당 게시글 이미지 폴더 삭제
+
+        //해당 게시글 이미지 폴더 삭제
         imagePath = servletContext.getRealPath(FOLDER_NAME) + boardDTO.getBoardFolder();  // 이미지 경로 설정
         if(FileUtil.deleteFileAndDirectory(new File(imagePath))){
             log.error("log: deleteBoard - delete file fail check");
         }
+        ///////////////////////////////////////////////////////////////////////////////////
+
         //게시글 삭제
         if (!boardService.delete(boardDTO)) {
             log.error("log: deleteBoard - delete board fail");
@@ -106,12 +117,14 @@ public class BoardController {
             model.addAttribute("path", "listBoards.do?categoryName="+boardDTO.getBoardCateName());
             return FAIL_URL;
         }
-        log.info("log: /deleteBoard.do deleteBoard - end : listBoards.do");
+
         //해당 카테고리 게시판으로 이동
+        log.info("log: /deleteBoard.do deleteBoard - end : listBoards.do");
         return "listBoards.do?categoryName="+boardDTO.getBoardCateName();
     }
 
     //게시글 전체 리스트
+    //KS 작업해야함 loadListBoard's' check!
     @RequestMapping("/loadListBoards.do")
     public String loadListBoards(Model model, int page, String categoryName, BoardDTO totalCNT, BoardDTO boardDTO,
                                  String keyword, String contentFilter, String writeDayFilter, BoardDTO boardTotalCNT) {
@@ -124,7 +137,7 @@ public class BoardController {
 
         // 총 게시글 수 조회 및 페이지네이션 설정
         totalCNT.setCondition("CNT_BOARD");
-        totalRecords = boardService.selectOne(totalCNT).getCnt();
+        totalRecords = boardService.selectOne(totalCNT).getCnt(); //게시글 수
 
         // 페이지네이션 정보 설정 (startNum, endNum - 기존 Pagination util 재활용)
         PaginationUtils.setPagination(currentPage, PAGE_SIZE, totalRecords, boardDTO);
@@ -178,7 +191,8 @@ public class BoardController {
     //게시글 수정 페이지로 이동
     @RequestMapping(value = "/updateBoard.do", method = RequestMethod.GET)
     public String updateBoard(Model model, BoardDTO boardDTO) {
-        log.info("log: /updateBoard.do updateBoard - start");
+        log.info("log: /updateBoard.do updateBoard GET - start");
+        log.info("log: updateBoard - input boardDTO : [{}]", boardDTO);
         boardDTO.setCondition("ONE_BOARD");
         boardDTO = boardService.selectOne(boardDTO);
         //데이터
@@ -186,7 +200,7 @@ public class BoardController {
         //확인
         log.info("log: updateBoard - send board : [{}]", boardDTO);
 
-        log.info("log: /updateBoard.do updateBoard - end");
+        log.info("log: /updateBoard.do updateBoard GET - end");
         return "fixBoard";
     }
 
@@ -194,6 +208,7 @@ public class BoardController {
     @RequestMapping(value = "/addBoard.do", method = RequestMethod.GET)
     public String addBoard(Model model, BoardDTO boardDTO) {
         log.info("log: /addBoard.do addBoard - start");
+        log.info("log: /addBoard - input boardDTO : [{}]", boardDTO);
         boardDTO.setBoardFolder(FileUtil.createFileName()); //폴더명 전달
         model.addAttribute("data", boardDTO);
         //확인
@@ -205,39 +220,54 @@ public class BoardController {
     //게시글 수정
     @RequestMapping(value = "/updateBoard.do", method = RequestMethod.POST)
     public String updateBoard(BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model) {
-        boardDTO.setBoardCateNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());
-        boardDTO.setCondition("BOARD_UPDATE");
+        log.info("log: /updateBoard.do updateBoard - start");
+        log.info("log: updateBoard - input boardDTO : [{}]", boardDTO);
+        boardDTO.setBoardCateNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());//카테고리이름을 번호로 변경
+        boardDTO.setCondition("BOARD_UPDATE");//컨디션 설정
         if(boardService.update(boardDTO)){
+            log.error("log: updateBoard - update fail");
             model.addAttribute("msg", FAIL_BOARD_UPDATE_MSG);
+            //업데이트 실패 시 해당 글 상세보기로 이동
             model.addAttribute("path", "infoBoard.do?BoardNum="+boardDTO.getBoardNum());
             return FAIL_URL;
         }
-        return "redirect:boardList.do?categoryName="+boardCateDTO.getBoardCateName();
+        //업데이트 성공 시 해당 글 상세보기로 이동
+        log.info("log: /updateBoard.do updateBoard - end");
+        return "redirect:infoBoard.do?BoardNum="+boardDTO.getBoardNum();
     }
 
     //게시글 작성
     @RequestMapping(value = "/addBoard.do", method = RequestMethod.POST)
     public String addBoard(HttpSession session, BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model){
-        //ckeditor를 통해 넘어온 context의 이미지 src 서버에 맞춰 수정/////////////
+
+        //ckeditor를 통해 넘어온 context의 이미지 src 서버에 맞춰 수정하는 로직///////////////////////////
+        //세션에 저장해둔 파일 명 변경 정보 호출
         HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute(SESSION_IMAGE_SRC);
         String content = boardDTO.getBoardContent(); //작성한 내용
         //이미지 태그의 src 변경
         if(boardFile != null && !boardFile.isEmpty()){ //이미지가 있는 경우라면
             for (Map.Entry<String, String> entry : boardFile.entrySet()) {
-                content = content.replace(entry.getValue(), ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey()); //value값을 찾아 서버 이미지 경로로 변경
+                //value값을 찾아 서버 이미지 경로로 변경
+                content = content.replace(entry.getValue(),
+                        ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey());
             }
             session.removeAttribute(SESSION_IMAGE_SRC); //다 바꾼 뒤에는 세션에서 삭제
         }
-        boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장
-        /////////////////////////////////////////////////////////////////////
+        boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장 이미지가 없다면 그대로 저장
+        /////////////////////////////////////////////////////////////////////////////////////////
+
+        //카테고리 번호 조회해 저장
         boardDTO.setBoardCateNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());
-        boardDTO.setCondition("BOARD_INSERT");
+        boardDTO.setCondition("BOARD_INSERT");//컨디션 설정
+        //게시글 추가
         if(boardService.insert(boardDTO)){
+            //실패 시
             model.addAttribute("msg", FAIL_BOARD_INSERT_MSG);
             model.addAttribute("path", "boardList.do?categoryName="+boardCateDTO.getBoardCateName());
             return FAIL_URL;
         }
-        return "redirect:boardList.do?categoryName="+boardCateDTO.getBoardCateName();
+        //작성한 글이 있는 카테고리 페이지로 이동
+        return "redirect:loadListBoards.do?categoryName="+boardCateDTO.getBoardCateName();
     }
 
     //마이페이지 - 자신이 작성한 게시글 목록 페이지 => 마이페이지에서 처리로 변경

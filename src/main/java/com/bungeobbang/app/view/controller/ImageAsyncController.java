@@ -21,12 +21,12 @@ public class ImageAsyncController {
     private final String SESSION_IMAGE_SRC = "boardFile";
 
     @RequestMapping("/addImage.do")
-    public @ResponseBody String addImage(HttpSession session, ServletContext servletContext, @RequestBody ImageFileDTO imageFileDTO) {
+    public @ResponseBody boolean addImage(HttpSession session, ServletContext servletContext, @RequestBody ImageFileDTO imageFileDTO) {
         //폴더명은 게시글 작성 페이지가 열릴 때 view에 전달
         MultipartFile file = imageFileDTO.getFile();
         String fileName = FileUtil.insertFile(servletContext, FOLDER_PATH+imageFileDTO.getFolder(), file, FileUtil.createFileName());
         if(fileName == null){
-            return "false";
+            return false;
         }
         HashMap<String, String> sessionFolder = (HashMap<String, String>) session.getAttribute(SESSION_IMAGE_SRC);
         if(sessionFolder != null) {
@@ -38,6 +38,6 @@ public class ImageAsyncController {
             sessionFolder.put(fileName, file.getOriginalFilename()); //새로 만든 이름에 기존 이름
             session.setAttribute(SESSION_IMAGE_SRC, sessionFolder); //세션 생성
         }
-        return "true";
+        return true;
     }
 }
