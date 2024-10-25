@@ -17,31 +17,42 @@
     <!-- 헤더 -->
     <custom:header />
     <div class="container mt-5">
+	<%
+	    // 서버의 애플리케이션 객체에서 userPoint 값을 가져옴 (포인트 정보)
+		Object myPoint = application.getAttribute("userPoint");
+	    // userPoint 값이 null일 경우, 기본값으로 0을 설정
+		if (myPoint == null) {
+		         myPoint = 0; // 기본값 설정
+		}
+	%>
+		<!-- 포인트 보기 버튼 (클릭 시 팝업 표시) -->
 		<div class="d-flex justify-content-end">
 		    <button id="pointButton" class="btn btn-outline-primary">내 포인트 보기</button>
 		</div>
+		<!-- 포인트 정보를 표시하는 팝업 -->
 		<div class="d-flex justify-content-end">
-		    <div id="pointPopup" class="popup">
-		        <div class="popup-content">
-		            <button class="close-popup">&times;</button>
-		            <p id="pointValue"><strong>0</strong> Point</p>
-		        </div>
-		    </div>
+			<div id="pointPopup" class="popup">
+			    <div class="popup-content">
+			        <button class="close-popup">&times;</button>
+			        <!-- 사용자 포인트 정보 표시 -->
+			        <p id="pointValue"><strong><%= myPoint %></strong>Point</p>
+			    </div>
+			</div>
 		</div>
 
         
         <!-- 상품 카테고리 버튼 -->
-        <div class="category-buttons">
-            <a href="searchProductMD.do?productCateName=stationery" class="category-link">문구류</a> 
-            <a href="searchProductMD.do?productCateName=accessory" class="category-link">악세사리</a> 
-            <a href="searchProductMD.do?productCateName=daily" class="category-link">생활용품</a> 
-            <a href="searchProductMD.do?productCateName=clothes" class="category-link">의류</a> 
-            <a href="searchProductMD.do?productCateName=electronics" class="category-link">전자기기</a>
-        </div>
+		<div class="category-buttons">
+		    <c:forEach var="category" items="${productCategory}">
+		        <a href="loadListProduct.do?categoryNum=${category.productCateNum}" 
+		           class="category-link">${category.productCateName}</a>
+		    </c:forEach>
+		</div>
 
 		<!-- 검색 섹션 -->
-		<form action="searchProductMD.do" method="GET">
+		<form action="loadListProduct.do" method="GET">
 		    <div class="search-container">
+		    	<input type="hidden" name="searchCondition" id="conditionInput" value="SELECT_PART_TITLE">
 		        <div class="search-box">
 		            <input type="text" class="form-control" id="searchInput" placeholder="검색 옵션을 열려면 클릭하세요" readonly>
 		            <button class="btn btn-dark" id="searchButton">검색</button>
@@ -51,7 +62,7 @@
 		        <div class="search-options" id="searchOptions" style="display: none;">
 		            <div class="filter-section mt-3">
 		                <h5>검색 키워드 입력</h5>
-		                <input type="text" class="form-control" id="searchKeywordInput" name="searchKeyword" placeholder="검색할 키워드를 입력하세요">
+		                <input type="text" class="form-control" id="searchKeywordInput" name="keyword" placeholder="검색할 키워드를 입력하세요">
 		                
 		                <h5 class="mt-4">검색 설정</h5>
 		                <div class="form-check">
@@ -82,17 +93,18 @@
 		                </div>
 		            </div>
 		
-		            <div class="category-section mt-4">
-		                <h5>카테고리 설정</h5>
-		                <select class="form-control" id="categorySelect" name="productCateName">
-		                    <option value="">전체 카테고리</option>
-		                    <option value="stationery">문구류</option>
-		                    <option value="accessory">악세사리</option>
-		                    <option value="daily">생활용품</option>
-		                    <option value="clothes">의류</option>
-		                    <option value="electronics">전자기기</option>
-		                </select>
-		            </div>
+					<div class="category-section mt-4">
+					    <h5>카테고리 설정</h5>
+					    <select class="form-control" id="categorySelect" name="categoryNum">
+					        <option value="">전체 카테고리</option>
+					        <!-- 카테고리 목록을 동적으로 생성 -->
+					        <c:forEach var="category" items="${productCategory}">
+					            <option value="${category.productCateNum}">
+					                ${category.productCateName}
+					            </option>
+					        </c:forEach>
+					    </select>
+					</div>
 		        </div>   
 		    </div>
 		</form>
@@ -102,11 +114,11 @@
 	    <div class="container">
 	        <div class="recommend-products">
 	            <c:choose>
-	                <c:when test="${not empty recommendedProducts}">
+	                <c:when test="${not empty recommProducts}">
 	                    <h2>추천 상품</h2>
 	                    <div class="swiper-container swiper-recommend">
 	                        <div class="swiper-wrapper">
-	                            <c:forEach var="product" items="${recommendedProducts}">
+	                            <c:forEach var="product" items="${recommProducts}">
 	                                <div class="swiper-slide">
 	                                    <div class="product-card">
 	                                        <div class="product-row">
@@ -120,7 +132,7 @@
 	                                        <div class="product-row">
 	                                            <span>${product.productPrice}원</span>
 	                                            <button class="btn btn-primary">
-	                                                <a href="viewProduct.do?productNum=${product.productNum}" class="text-white text-decoration-none">상품 보러 가기</a>
+	                                                <a href="infoProduct.do?productNum=${product.productNum}" class="text-white text-decoration-none">상품 보러 가기</a>
 	                                            </button>
 	                                        </div>
 	                                    </div>
@@ -136,7 +148,7 @@
 	                </c:when>
 	                <c:otherwise>
 	                    <h2>상품을 구경하시면 상품을 추천해드립니다.</h2>
-	                    <a href="searchProductMD.do" class="btn btn-outline-primary">전체 상품 보러가기</a>
+	                    <a href="loadListProduct.do" class="btn btn-outline-primary">전체 상품 보러가기</a>
 	                </c:otherwise>
 	            </c:choose>
 	        </div>
@@ -166,7 +178,7 @@
 	                                        <div class="product-row">
 	                                            <span>${product.productPrice}원</span>
 	                                            <button class="btn btn-primary">
-	                                                <a href="viewProduct.do?productNum=${product.productNum}" class="text-white text-decoration-none">상품 보러 가기</a>
+	                                                <a href="infoProduct.do?productNum=${product.productNum}" class="text-white text-decoration-none">상품 보러 가기</a>
 	                                            </button>
 	                                        </div>
 	                                    </div>
