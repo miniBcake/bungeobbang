@@ -1,49 +1,51 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
-<title>갈빵질빵 - 메뉴 목록 보기</title>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, user-scalable=no" />
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-	rel="stylesheet">
-<link rel="stylesheet" href="${path}/resources/assets/css/productList.css" />
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+	<title>갈빵질빵 - 메뉴 목록 보기</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="${path}/resources/assets/css/productList.css" />
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 </head>
 <body>
     <!-- 헤더 -->
     <custom:header />
     <div class="container mt-5">
+   	<%
+		Object myPoint = application.getAttribute("userPoint");
+		if (myPoint == null) {
+		         myPoint = 0; // 기본값 설정
+		}
+	 %>
 		<div class="d-flex justify-content-end">
 		    <button id="pointButton" class="btn btn-outline-primary">내 포인트 보기</button>
 		</div>
 		<div class="d-flex justify-content-end">
-		    <div id="pointPopup" class="popup">
-		        <div class="popup-content">
-		            <button class="close-popup">&times;</button>
-		            <p id="pointValue"><strong>0</strong> Point</p>
-		        </div>
-		    </div>
+			<div id="pointPopup" class="popup">
+			    <div class="popup-content">
+			        <button class="close-popup">&times;</button>
+			        <p id="pointValue"><strong><%= myPoint %></strong>Point</p>
+			    </div>
+			</div>
 		</div>
         
         <!-- 상품 카테고리 버튼 -->
-        <div class="category-buttons">
-            <a href="searchProductMD.do?productCateName=stationery" class="category-link">문구류</a> 
-            <a href="searchProductMD.do?productCateName=accessory" class="category-link">악세사리</a> 
-            <a href="searchProductMD.do?productCateName=daily" class="category-link">생활용품</a> 
-            <a href="searchProductMD.do?productCateName=clothes" class="category-link">의류</a> 
-            <a href="searchProductMD.do?productCateName=electronics" class="category-link">전자기기</a>
-        </div>
+		<div class="category-buttons">
+		    <c:forEach var="category" items="${productCategory}">
+		        <a href="loadListProduct.do?categoryNum=${category.productCateNum}" 
+		           class="category-link">${category.productCateName}</a>
+		    </c:forEach>
+		</div>
 
 		<!-- 검색 섹션 -->
-		<form action="searchProductMD.do" method="GET">
+		<form action="loadListProduct.do" method="GET">
 		    <div class="search-container">
+		    	<input type="hidden" name="searchCondition" id="conditionInput" value="SELECT_PART_TITLE">
 		        <div class="search-box">
 		            <input type="text" class="form-control" id="searchInput" placeholder="검색 옵션을 열려면 클릭하세요" readonly>
 		            <button class="btn btn-dark" id="searchButton">검색</button>
@@ -53,7 +55,7 @@
 		        <div class="search-options" id="searchOptions" style="display: none;">
 		            <div class="filter-section mt-3">
 		                <h5>검색 키워드 입력</h5>
-		                <input type="text" class="form-control" id="searchKeywordInput" name="searchKeyword" placeholder="검색할 키워드를 입력하세요">
+		                <input type="text" class="form-control" id="searchKeywordInput" name="keyword" placeholder="검색할 키워드를 입력하세요">
 		                
 		                <h5 class="mt-4">검색 설정</h5>
 		                <div class="form-check">
@@ -84,17 +86,18 @@
 		                </div>
 		            </div>
 		
-		            <div class="category-section mt-4">
-		                <h5>카테고리 설정</h5>
-		                <select class="form-control" id="categorySelect" name="productCateName">
-		                    <option value="">전체 카테고리</option>
-		                    <option value="stationery">문구류</option>
-		                    <option value="accessory">악세사리</option>
-		                    <option value="daily">생활용품</option>
-		                    <option value="clothes">의류</option>
-		                    <option value="electronics">전자기기</option>
-		                </select>
-		            </div>
+					<div class="category-section mt-4">
+					    <h5>카테고리 설정</h5>
+					    <select class="form-control" id="categorySelect" name="categoryNum">
+					        <option value="">전체 카테고리</option>
+					        <!-- 카테고리 목록을 동적으로 생성 -->
+					        <c:forEach var="category" items="${productCategory}">
+					            <option value="${category.productCateNum}">
+					                ${category.productCateName}
+					            </option>
+					        </c:forEach>
+					    </select>
+					</div>
 		        </div>   
 		    </div>
 		</form>
@@ -109,11 +112,11 @@
 						<section>
 							<h2>필터링된 상품 목록</h2>
 							<!-- 예시 사진 -->
-							<c:forEach var="product" items="${filteredProducts}">
+							<c:forEach var="product" items="${productList}">
 								<div class="product-item">
 									<c:choose>
 										<c:when test="${not empty product.productProfileWay}">
-											<a href="viewProduct.do?productNum=${product.productNum}"
+											<a href="infoProduct.do?productNum=${product.productNum}"
 												class="bordered-feature-image"> <img
 												src="${product.productProfileWay}"
 												alt="${product.productName}"
@@ -123,7 +126,7 @@
 										</c:when>
 
 										<c:otherwise>
-											<a href="viewProduct.do?productNum=${product.productNum}"
+											<a href="infoProduct.do?productNum=${product.productNum}"
 												class="bordered-feature-image"> <img
 												src="assets/images/default.png" alt="${product.productName}"
 												class="thumbnail-image" />
@@ -139,25 +142,46 @@
 							</c:forEach>
 
 							<!-- 이전 페이지 버튼 -->
-							<c:if test="${currentPage > 1}">
-							    <a href="?currentPage=${currentPage - 1}&productCateName=${productCateName}&minPrice=${minPrice}&maxPrice=${maxPrice}&searchCategory=${searchCategory}&searchKeyword=${searchKeyword}">&laquo; 이전</a>
+							<c:if test="${page > 1}">
+							    <a href="?page=${page - 1}
+							            &categoryNum=${param.categoryNum}
+							            &minPrice=${minPrice}
+							            &maxPrice=${maxPrice}
+							            &searchCondition=${searchCondition}
+							            &keyword=${keyword}">
+							        &laquo; 이전
+							    </a>
 							</c:if>
 							
 							<!-- 페이지 번호 -->
-							<c:forEach var="i" begin="1" end="${totalPages}">
+							<c:forEach var="i" begin="1" end="${pageCount}">
 							    <c:choose>
-							        <c:when test="${i == currentPage}">
+							        <c:when test="${i == page}">
 							            <strong>${i}</strong>
 							        </c:when>
 							        <c:otherwise>
-							            <a href="?currentPage=${i}&productCateName=${productCateName}&minPrice=${minPrice}&maxPrice=${maxPrice}&searchCategory=${searchCategory}&searchKeyword=${searchKeyword}">${i}</a>
+							            <a href="?page=${i}
+							                    &categoryNum=${param.categoryNum}
+							                    &minPrice=${minPrice}
+							                    &maxPrice=${maxPrice}
+							                    &searchCondition=${searchCondition}
+							                    &keyword=${keyword}">
+							                ${i}
+							            </a>
 							        </c:otherwise>
 							    </c:choose>
 							</c:forEach>
 							
 							<!-- 다음 페이지 버튼 -->
-							<c:if test="${currentPage < totalPages}">
-							    <a href="?currentPage=${currentPage + 1}&productCateName=${productCateName}&minPrice=${minPrice}&maxPrice=${maxPrice}&searchCategory=${searchCategory}&searchKeyword=${searchKeyword}">다음 &raquo;</a>
+							<c:if test="${page < pageCount}">
+							    <a href="?page=${page + 1}
+							            &categoryNum=${param.categoryNum}
+							            &minPrice=${minPrice}
+							            &maxPrice=${maxPrice}
+							            &searchCondition=${searchCondition}
+							            &keyword=${keyword}">
+							        다음 &raquo;
+							    </a>
 							</c:if>
 						</section>
 					</div>

@@ -1,12 +1,15 @@
 $(document).ready(function() {
+    // 페이지 로드 시 버튼 초기화
+    $('#addToCartBtn').text('구매하기');
+    $('#goToCartForm').hide(); // 장바구니 버튼 숨기기
+
     // 구매하기 버튼 클릭 시 비동기 요청 처리
     $('#addToCartBtn').on('click', function(event) {
         event.preventDefault(); // 기본 동작 방지
         
         // 수량과 상품 번호 가져오기
         var quantity = $('#quantity').val();
-        var productNum = $('#productNum').val(); // 제품 번호가 있는 hidden input이 있다고 가정
-        console.log(productNum);
+        var productNum = $('#productNum').val();
         
         // AJAX 요청
         $.ajax({
@@ -20,6 +23,7 @@ $(document).ready(function() {
             success: function(response) {
                 // 서버가 성공적으로 응답했을 때의 처리
                 if (response.status === 'success') {
+                    $('#addToCartBtn').text('더 추가하기'); // 버튼 텍스트 변경
                     $('#goToCartForm').show(); // 장바구니로 가기 버튼 표시
                     alert(response.message); // 성공 메시지 출력
                 } else {
