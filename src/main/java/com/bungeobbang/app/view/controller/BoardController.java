@@ -8,6 +8,7 @@ import com.bungeobbang.app.biz.like.LikeDTO;
 import com.bungeobbang.app.biz.like.LikeService;
 import com.bungeobbang.app.view.util.FileUtil;
 import com.bungeobbang.app.view.util.PaginationUtils;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class BoardController {
     private BoardCateService boardCateService;
 
     //경로
-    private final String FOLDER_NAME = "uploads\\board\\";
+    private final String FOLDER_NAME = "uploads/board/";
     private final String ROOT = "${pageContext.request.contextPath}/uploads/board/";
     private final String FAIL_URL = "failInfo2"; //실패 처리할 페이지
     private final String FAIL_DO = "redirect:failInfo.do"; //기본 실패 처리
@@ -45,7 +46,9 @@ public class BoardController {
     //session
     private final String SESSION_PK = "userPK"; //세션에 저장된 memberPK
     private final String SESSION_NICKNAME = "userNickname"; //세션에 저장된 memberPK
+    private final String SESSION_IMAGE_SRC = "boardFile";
 
+    //KS View 설계에 따라 수정
     private final int PAGE_SIZE = 6; // 페이지당 게시글 수
 
     //msg
@@ -85,13 +88,13 @@ public class BoardController {
 
     //게시글 삭제
     @RequestMapping("/deleteBoard.do")
-    public String deleteBoard(HttpServletRequest request, Model model, BoardDTO boardDTO) {
+    public String deleteBoard(ServletContext servletContext, Model model, BoardDTO boardDTO) {
         log.info("log: /deleteBoard.do deleteBoard - start");
         String imagePath; //경로
         boardDTO.setCondition("ONE_BOARD");
         boardDTO = boardService.selectOne(boardDTO);
         // 해당 게시글 이미지 폴더 삭제
-        imagePath = request.getContextPath() + FOLDER_NAME + boardDTO.getBoardFolder();  // 이미지 경로 설정
+        imagePath = servletContext.getRealPath(FOLDER_NAME) + boardDTO.getBoardFolder();  // 이미지 경로 설정
         if(FileUtil.deleteFileAndDirectory(new File(imagePath))){
             log.error("log: deleteBoard - delete file fail check");
         }
@@ -216,13 +219,14 @@ public class BoardController {
     @RequestMapping(value = "/addBoard.do", method = RequestMethod.POST)
     public String addBoard(HttpSession session, BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model){
         //ckeditor를 통해 넘어온 context의 이미지 src 서버에 맞춰 수정/////////////
-        HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute("boardFile");
+        HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute(SESSION_IMAGE_SRC);
         String content = boardDTO.getBoardContent(); //작성한 내용
         //이미지 태그의 src 변경
         if(boardFile != null && !boardFile.isEmpty()){ //이미지가 있는 경우라면
             for (Map.Entry<String, String> entry : boardFile.entrySet()) {
                 content = content.replace(entry.getValue(), ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey()); //value값을 찾아 서버 이미지 경로로 변경
             }
+            session.removeAttribute(SESSION_IMAGE_SRC); //다 바꾼 뒤에는 세션에서 삭제
         }
         boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장
         /////////////////////////////////////////////////////////////////////

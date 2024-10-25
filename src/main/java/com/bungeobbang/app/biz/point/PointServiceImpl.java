@@ -1,9 +1,9 @@
 package com.bungeobbang.app.biz.point;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service("pointService")
 public class PointServiceImpl implements PointService{
@@ -18,19 +18,17 @@ public class PointServiceImpl implements PointService{
 
 	@Override
 	public boolean update(PointDTO pointDTO) {
-		//return this.pointDAO.update(pointDTO);
 		return false;
 	}
 
 	@Override
 	public boolean delete(PointDTO pointDTO) {
-		//return this.pointDAO.delete(pointDTO);
 		return false;
 	}
 
 	@Override
-	public List<PointDTO> selectAll(PointDTO pointDTO) {
-		return this.pointDAO.selectAll(pointDTO);
+	public ArrayList<PointDTO> selectAll(PointDTO pointDTO) {
+		return (ArrayList<PointDTO>) this.pointDAO.selectAll(pointDTO);
 	}
 
 	@Override

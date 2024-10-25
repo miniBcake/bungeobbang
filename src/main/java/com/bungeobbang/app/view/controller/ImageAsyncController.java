@@ -17,7 +17,8 @@ import java.util.HashMap;
 @Slf4j
 public class ImageAsyncController {
 
-    private String FOLDER_PATH = "uploads\\board\\"; //webapp기준
+    private String FOLDER_PATH = "uploads/board/"; //webapp기준
+    private final String SESSION_IMAGE_SRC = "boardFile";
 
     @RequestMapping("/addImage.do")
     public @ResponseBody String addImage(HttpSession session, ServletContext servletContext, @RequestBody ImageFileDTO imageFileDTO) {
@@ -27,7 +28,7 @@ public class ImageAsyncController {
         if(fileName == null){
             return "false";
         }
-        HashMap<String, String> sessionFolder = (HashMap<String, String>) session.getAttribute("boardFile");
+        HashMap<String, String> sessionFolder = (HashMap<String, String>) session.getAttribute(SESSION_IMAGE_SRC);
         if(sessionFolder != null) {
             //이미 세션에 저장된 값이 있을 경우 불러와 추가
             sessionFolder.put(fileName, file.getOriginalFilename());
@@ -35,7 +36,7 @@ public class ImageAsyncController {
         else{ //만약 세션이 없다면 생성 후 저장
             sessionFolder = new HashMap<>();
             sessionFolder.put(fileName, file.getOriginalFilename()); //새로 만든 이름에 기존 이름
-            session.setAttribute("boardFile", sessionFolder); //세션 생성
+            session.setAttribute(SESSION_IMAGE_SRC, sessionFolder); //세션 생성
         }
         return "true";
     }
