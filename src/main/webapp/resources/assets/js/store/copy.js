@@ -18,9 +18,20 @@ function copyStorePhoneNumber() {
 
 		// 복사 기능
 		navigator.clipboard.writeText(storePhoneNum).then(function() {
-			alert('복사 했습니다!');
+			Swal.fire({
+				icon: 'success',
+				title: '복사 성공',
+				text: '복사에 성공했습니다.',
+				confirmButtonText: '확인'
+			});
+			swal('복사 했습니다!');
 		}, function(err) {
-			alert('복사에 실패 했습니다..: ', err);
+			Swal.fire({
+				icon: 'error',
+				title: '복사 실패',
+				text: '복사에 실패했습니다. 페이지를 다시 로드해주세요.',
+				confirmButtonText: '확인'
+			});
 		});
 	});
 }
