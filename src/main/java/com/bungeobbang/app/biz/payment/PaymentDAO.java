@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.bungeobbang.app.biz.common.JDBCUtil;
 import com.bungeobbang.app.biz.filterSearch.PaymentFilter;
 
 @Repository
@@ -19,13 +20,13 @@ public class PaymentDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	//insert 쿼리
-	private final String INSERT_PAYMENT = "INSERT INTO BB_PAYMENT(Payment_NUM, PAYMENT_STATUS, PAYMENT_AMOUNT, PAYMENT_DAY, PAYMENT_USED, POINT_NUM)"
-			+ "VALUES(?,?,?,?,?,?)";
+	private final String INSERT_PAYMENT = "INSERT INTO BB_PAYMENT(PAYMENT_NUM, PAYMENT_STATUS, PAYMENT_AMOUNT, PAYMENT_DAY, PAYMENT_USED) "
+			+ "VALUES(?,?,?,?,?)";
 	//update 쿼리
 	private final String UPDATE_ADMINCHECK = "UPDATE BB_PAYMENT SET ADMIN_CHECKED = 'Y' WHERE BB_PAYMENT = ?";
 
 	//selectAll 쿼리
-	private final String SELECTALL = "SELECT PAYMENT_NUM, Payment_NUM, PAYMENT_STATUS, PAYMENT_AMOUNT, PAYMENT_DAY, PAYMENT_USED, POINT_NUM, ADMIN_CHECK "
+	private final String SELECTALL = "SELECT PAYMENT_NUM, MEMBER_NUM, PAYMENT_STATUS, PAYMENT_AMOUNT, PAYMENT_DAY, PAYMENT_USED, ADMIN_CHECK "
 			+ "FROM BB_PAYMENT";
 
 	private final String NUMFILTER = "WHERE 1=1";
@@ -53,7 +54,6 @@ public class PaymentDAO {
 					paymentDTO.getPaymentAmount(),//결제 금액
 					paymentDTO.getPaymentDay(),//결제일
 					paymentDTO.getPaymentUsed(),//결제 방식
-					paymentDTO.getPointNum()//포인트 번호
 			};
 
 			System.out.println("log: parameter paymentDTO ["+paymentDTO+"]");
@@ -87,7 +87,7 @@ public class PaymentDAO {
 		String query = "";
 		int rs = 0;
 		try{
-			if(paymentDTO.getCondition().equals("UPDATE_POINT")) {
+			if(paymentDTO.getCondition().equals("ADMIN_CHECK")) {
 				// 관리자 확인 수정
 				System.out.println("log : Payment update : ADMIN_CHECK");
 				query = UPDATE_ADMINCHECK;
@@ -200,11 +200,11 @@ public class PaymentDAO {
 		public PaymentDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			PaymentDTO data = new PaymentDTO();
 			data.setPaymentNum(rs.getInt("PAYMENT_NUM")); //지불내역 번호
+			data.setMemberNum(rs.getInt("MEMBER_NUM")); //회원번호
 			data.setPaymentStatus(rs.getString("PAYMENT_STATUS")); //결제 상태
 			data.setPaymentAmount(rs.getInt("PAYMENT_AMOUNT")); // 결제 금액
 			data.setPaymentDay(rs.getString("PAYMENT_DAY")); //결제일
 			data.setPaymentUsed(rs.getString("PAYMENT_USED")); //결제 방식
-			data.setPointNum(rs.getInt("POINT_NUM")); //포인트 번호
 			data.setAdminChecked(rs.getString("ADMIN_CHECK")); // 관리자 확인 여부
 			System.out.println("log : result ["+data.getPaymentNum()+"]");
 			return data;

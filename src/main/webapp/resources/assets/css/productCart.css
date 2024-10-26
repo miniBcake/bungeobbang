@@ -7,9 +7,28 @@
     margin-bottom: 20px;
 }
 
+.cart-header .select-all-container {
+    display: flex;
+    align-items: center;
+}
+
+.select-all-container {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    margin-right: 5px;
+}
+
 .cart-products {
     border-top: 1px solid #ccc;
     padding-top: 20px;
+}
+
+
+#deleteAllBtn {
+    margin-left: 10px;
 }
 
 .product-item {
@@ -36,6 +55,10 @@
 
 .product-quantity select {
     width: 80px;
+}
+
+.product-checkbox {
+    display: inline-block; /* 체크박스가 제대로 표시되도록 */
 }
 
 .cart-footer {
