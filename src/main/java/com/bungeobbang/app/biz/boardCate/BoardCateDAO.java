@@ -14,11 +14,11 @@ public class BoardCateDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private final String INSERT = "INSERT INTO BB_BOARD_CATEGORY (CATEGORY_NAME) VALUES (?)";
-    private final String UPDATE = "UPDATE BB_BOARD_CATEGORY SET CATEGORY_NAME = ? WHERE CATEGORY_NUM = ?";
-    private final String DELETE = "DELETE FROM BB_BOARD_CATEGORY WHERE CATEGORY_NUM = ?";
-    private final String SELECTALL = "SELECT CATEGORY_NUM, CATEGORY_NAME FROM BB_BOARD_CATEGORY ORDER BY CATEGORY_NUM";
-    private final String SELECTONE = "SELECT CATEGORY_NUM, CATEGORY_NAME FORM BB_BOARD_CATEGORY_NAME = ?";
+    private final String INSERT = "INSERT INTO BB_BOARD_CATEGORY (BOARD_CATEGORY_NAME) VALUES (?)";
+    private final String UPDATE = "UPDATE BB_BOARD_CATEGORY SET BOARD_CATEGORY_NAME = ? WHERE BOARD_CATEGORY_NUM = ?";
+    private final String DELETE = "DELETE FROM BB_BOARD_CATEGORY WHERE BOARD_CATEGORY_NUM = ?";
+    private final String SELECTALL = "SELECT BOARD_CATEGORY_NUM, BOARD_CATEGORY_NAME FROM BB_BOARD_CATEGORY ORDER BY BOARD_CATEGORY_NUM";
+    private final String SELECTONE = "SELECT BOARD_CATEGORY_NUM FROM BB_BOARD_CATEGORY where BOARD_CATEGORY_NAME = ?";
 
     public boolean insert(BoardCateDTO boardCateDTO) {
         System.out.println("Insert BoardCateDTO getBoardCateName: ["+ boardCateDTO.getBoardCateName()+"]");
@@ -53,7 +53,7 @@ class BoardCateMapper implements RowMapper<BoardCateDTO> {
     @Override
     public BoardCateDTO mapRow(ResultSet resultSet, int i) throws SQLException {
         BoardCateDTO data = new BoardCateDTO();
-        data.setBoardCateNum(resultSet.getInt("CATEGORY_NUM"));
+        data.setBoardCateNum(resultSet.getInt("BOARD_CATEGORY_NUM"));
         return data;
     }
 }

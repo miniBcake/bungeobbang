@@ -117,7 +117,7 @@ public class StoreDAO {
 					STORE_NUM
 				) D 
 				ON S.STORE_NUM = D.STORE_NUM
-			WHERE DECLARED_COUNT >=?
+			WHERE DECLARED_COUNT >=3
 			""";
 
 
@@ -279,14 +279,7 @@ public class StoreDAO {
 				// 신고 개수 조회
 				System.out.println("log : Store selectAll : SELECTALL_DECLARED_CNT");
 				query = SELECTALL_DECLARED_CNT;
-
-				Object[] args = {
-						CNT,
-						storeDTO.getStartNum(),
-						storeDTO.getEndNum()
-						};
-
-				datas = jdbcTemplate.query(query, args, new StoreRowMapper());
+				datas = jdbcTemplate.query(query, new StoreRowMapper());
 			}
 			else {
 				//컨디션 오류

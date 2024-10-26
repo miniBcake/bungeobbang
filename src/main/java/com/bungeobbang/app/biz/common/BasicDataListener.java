@@ -1,8 +1,9 @@
-package com.bungeobbang.app.biz.crawler;
+package com.bungeobbang.app.biz.common;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.bungeobbang.app.biz.crawler.Crawling;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -14,22 +15,31 @@ import com.bungeobbang.app.biz.productCate.ProductCateDTO;
 import com.bungeobbang.app.biz.productCate.ProductCateService;
 
 
-@Component //Spring 컨테이너가 이 클래스를 관리
-public class CrawlingListener implements ApplicationListener<ContextRefreshedEvent> {
+//@Component //Spring 컨테이너가 이 클래스를 관리
+public class BasicDataListener implements ApplicationListener<ContextRefreshedEvent> {
 	//Spring의 DI
-	@Autowired
+	//@Autowired
 	private ProductService productService;
-	@Autowired
+	//@Autowired
 	private ProductCateService productCateService;
-	
+
 	private ProductDTO productDTO;
 	private ProductCateDTO productCateDTO;
-	
-	public CrawlingListener(){ //생성자 초기화
+
+	//프로그램에 필요한 데이터
+	private String[] productCategory = {"문구/사무", "리빙", "패션/잡화", "디지털/IT", "홈데코"}; //View에 노출되는 데이터
+	private String[] boardCategory = {"NOTICE", "COMMUNITY"}; //프로그램 상의 카테고리 구분값
+
+	//샘플데이터
+
+
+
+	//생성자
+	public BasicDataListener(){ //생성자 초기화
 		this.productDTO = new ProductDTO();
 		this.productCateDTO = new ProductCateDTO();
-		 productDTO.setStartNum(0);
-       productDTO.setEndNum(10);//페이지네이션 용 값
+		productDTO.setStartNum(0);
+        productDTO.setEndNum(10);//페이지네이션 용 값
 	}
 
 	@Override //ApplicationContext가 초기화될 때 호출
@@ -38,6 +48,7 @@ public class CrawlingListener implements ApplicationListener<ContextRefreshedEve
 	}
 	
 	private void initData() {
+		System.out.println("리스너시작");
 		if(productCateService.selectAll(productCateDTO).isEmpty()) {
       	 ArrayList<String> categoryNames = new ArrayList<>();
            categoryNames.add("문구류");

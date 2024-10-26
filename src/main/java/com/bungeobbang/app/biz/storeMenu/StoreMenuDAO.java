@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.bungeobbang.app.biz.common.JDBCUtil;
-import com.mysql.cj.log.Log;
 
 @Repository
 public class StoreMenuDAO {

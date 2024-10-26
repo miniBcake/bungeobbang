@@ -110,7 +110,7 @@ public class ProductController {
                 resentProduct.add(product);
                 log.info("log: loadListProduct - resentProducts.add");
                 // 카테고리 번호별로 상품 수 계산
-                int categoryNum = product.getProductCateNum();
+                int categoryNum = product.getProductCategoryNum();
                 log.info("log: loadListProduct - categoryNum : [{}]", categoryNum);
                 categoryCount.put(categoryNum, categoryCount.getOrDefault(categoryNum, 0) + 1);
             }

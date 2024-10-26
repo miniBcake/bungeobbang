@@ -114,13 +114,13 @@ public class BoardController {
             log.error("log: deleteBoard - delete board fail");
             //게시글 삭제 실패
             model.addAttribute("msg", FAIL_BOARD_DELETE_MSG);
-            model.addAttribute("path", "listBoards.do?categoryName="+boardDTO.getBoardCateName());
+            model.addAttribute("path", "listBoards.do?categoryName="+boardDTO.getBoardCategoryName());
             return FAIL_URL;
         }
 
         //해당 카테고리 게시판으로 이동
         log.info("log: /deleteBoard.do deleteBoard - end : listBoards.do");
-        return "listBoards.do?categoryName="+boardDTO.getBoardCateName();
+        return "listBoards.do?categoryName="+boardDTO.getBoardCategoryName();
     }
 
     //게시글 전체 리스트
@@ -162,12 +162,12 @@ public class BoardController {
         //게시글을 검색조건에 맞게 검색하기 위한 DTO
         boardDTO.setCondition("FILTER_BOARD");
         boardDTO.setFilterList(filterList);
-        boardDTO.setBoardCateName(categoryName);
+        boardDTO.setBoardCategoryName(categoryName);
 
         //CNT를 구하기위한 DTO
         boardTotalCNT.setCondition("CNT_BOARD");
         boardTotalCNT.setFilterList(filterList);
-        boardTotalCNT.setBoardCateName(categoryName);
+        boardTotalCNT.setBoardCategoryName(categoryName);
 
         // view 에게 보낼 총 페이지 수
         totalPages = PaginationUtils.calTotalPages(totalRecords, PAGE_SIZE);
@@ -223,7 +223,7 @@ public class BoardController {
     public String updateBoard(BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model) {
         log.info("log: /updateBoard.do updateBoard - start");
         log.info("log: updateBoard - input boardDTO : [{}]", boardDTO);
-        boardDTO.setBoardCateNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());//카테고리이름을 번호로 변경
+        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());//카테고리이름을 번호로 변경
         boardDTO.setCondition("BOARD_UPDATE");//컨디션 설정
         if(boardService.update(boardDTO)){
             log.error("log: updateBoard - update fail");
@@ -258,7 +258,7 @@ public class BoardController {
         /////////////////////////////////////////////////////////////////////////////////////////
 
         //카테고리 번호 조회해 저장
-        boardDTO.setBoardCateNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());
+        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());
         boardDTO.setCondition("BOARD_INSERT");//컨디션 설정
         //게시글 추가
         if(boardService.insert(boardDTO)){
@@ -271,75 +271,5 @@ public class BoardController {
         //작성한 글이 있는 카테고리 페이지로 이동
         log.info("log: /addBoard.do addBoard - end");
         return "redirect:loadListBoards.do?categoryName="+boardCateDTO.getBoardCateName();
-    }
-
-    //마이페이지 - 자신이 작성한 게시글 목록 페이지 => 마이페이지에서 처리로 변경
-    //@RequestMapping("/loadListBoardMyList.do")
-    public String myBoardList(Model model, HttpSession session, BoardDTO boardTotalCNT, int page, BoardCateDTO boardCateDTO, BoardDTO boardDTO) {
-        log.info("[INFO] MyBoardListPageAction 실행 시작");
-
-        Integer memberPK; //세션 memberPK
-        String nickName; //세션 닉네임
-        HashMap<String, String> filterList = new HashMap<>(); //필터 검색용
-
-        // 세션에서 값을
-        memberPK = (Integer) session.getAttribute(SESSION_PK);
-        nickName = (String) session.getAttribute(SESSION_NICKNAME);
-
-        // 페이지 기본 설정
-        int currentPage = 1; // 기본 현재 페이지
-        if (page > 0) {
-            currentPage = page;
-        }
-
-        // 내가 쓴 게시글 조회하기 위한 BoardDTO 초기설정
-        boardDTO.setCondition("MY_BOARD");
-        boardDTO.setMemberNum(memberPK);
-
-        // 총 개수를 조회하기 위한 필터 설정
-        filterList.put("NICKNAMEV", nickName);
-
-        // 카테고리 조회에서 모든 카테고리 게시판에 쓴글 갯수 조회
-        int totalRecords = 0;
-
-        // BoardCateDTO 목록 조회
-        ArrayList<BoardCateDTO> boardCateList = boardCateService.selectAll(boardCateDTO);
-
-        // 각 카테고리별로 게시글 수를 조회
-        for (BoardCateDTO cateDTO : boardCateList) {
-            String categoryName = cateDTO.getBoardCateName();
-
-            // 게시글 수 조회를 위한 DTO 설정
-            boardTotalCNT.setCondition("CNT_BOARD");
-            boardTotalCNT.setFilterList(filterList);
-            boardTotalCNT.setBoardCateName(categoryName);
-
-            // 각 카테고리별 게시글 수 조회
-            int categoryRecords = boardService.selectOne(boardTotalCNT).getCnt();
-
-            // 전체 게시글 수에 추가
-            totalRecords += categoryRecords;
-        }
-
-        // 페이지네이션 함수 실행
-        PaginationUtils.setPagination(currentPage, PAGE_SIZE, totalRecords, boardDTO);
-
-        // 게시글 목록 조회
-        ArrayList<BoardDTO> datas;
-        datas = boardService.selectAll(boardDTO);
-
-        // 총 페이지 수 계산
-        int totalPages = PaginationUtils.calTotalPages(totalRecords, PAGE_SIZE);
-
-        // View에 전달할 데이터 설정
-        String profilePic = null;
-        //String profilePic = ProfilePicUpload.loginProfilePic(request, response);
-        model.addAttribute("memberProfileWay", profilePic);
-        model.addAttribute("myBoardList", datas);
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalPages", totalPages);
-
-        // 페이지 이동 설정
-        return "myBoardList";
     }
 }

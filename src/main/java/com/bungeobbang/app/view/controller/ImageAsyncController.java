@@ -22,9 +22,11 @@ public class ImageAsyncController {
 
     @RequestMapping("/addImage.do")
     public @ResponseBody boolean addImage(HttpSession session, ServletContext servletContext, @RequestBody ImageFileDTO imageFileDTO) {
+        log.info("log: /addImage.do addImage - start");
+        log.info("log: /addImage.do addImage - input imageFileDTO: " + imageFileDTO);
         //폴더명은 게시글 작성 페이지가 열릴 때 view에 전달
         MultipartFile file = imageFileDTO.getFile();
-        String fileName = null;
+        String fileName;
 
         try {//프로그램 비정상 종료를 막을 try catch
             fileName = FileUtil.insertFile(servletContext, FOLDER_PATH+imageFileDTO.getFolder(), file, FileUtil.createFileName());
@@ -32,20 +34,21 @@ public class ImageAsyncController {
             log.error("log: addImage - error insertFile() NPE or Illeagl : "+e.getMessage());
             return false;
         }
-
-        if(fileName == null){
-            return false;
-        }
+        
+        //세션확인
         HashMap<String, String> sessionFolder = (HashMap<String, String>) session.getAttribute(SESSION_IMAGE_SRC);
         if(sessionFolder != null) {
             //이미 세션에 저장된 값이 있을 경우 불러와 추가
+            log.info("log: addImage - session boardFile already exists");
             sessionFolder.put(fileName, file.getOriginalFilename());
         }
         else{ //만약 세션이 없다면 생성 후 저장
+            log.info("log: addImage - session boardFile create now");
             sessionFolder = new HashMap<>();
             sessionFolder.put(fileName, file.getOriginalFilename()); //새로 만든 이름에 기존 이름
             session.setAttribute(SESSION_IMAGE_SRC, sessionFolder); //세션 생성
         }
+        log.info("log: /addImage.do addImage - end");
         return true;
     }
 }

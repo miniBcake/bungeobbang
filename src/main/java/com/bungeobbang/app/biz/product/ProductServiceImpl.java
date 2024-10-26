@@ -28,12 +28,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public boolean update(ProductDTO productDTO) {
-		return this.productDAO.update(productDTO);
+		return false;
 	}
 
 	@Override
 	public boolean delete(ProductDTO productDTO) {
-		return this.productDAO.delete(productDTO);
+		return false;
 	}
 	
 }

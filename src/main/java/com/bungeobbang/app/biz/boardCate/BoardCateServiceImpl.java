@@ -18,24 +18,21 @@ public class BoardCateServiceImpl implements BoardCateService {
 
 	@Override
 	public BoardCateDTO selectOne(BoardCateDTO boardCateDTO) {
-		return null;
+		return this.boardCateDAO.selectOne(boardCateDTO);
 	}
 
 	@Override
 	public boolean insert(BoardCateDTO boardCateDTO) {
-		
 		return this.boardCateDAO.insert(boardCateDTO);
 	}
 
 	@Override
 	public boolean update(BoardCateDTO boardCateDTO) {
-		
 		return this.boardCateDAO.update(boardCateDTO);
 	}
 
 	@Override
 	public boolean delete(BoardCateDTO boardCateDTO) {
-		
 		return this.boardCateDAO.delete(boardCateDTO);
 	}
 
