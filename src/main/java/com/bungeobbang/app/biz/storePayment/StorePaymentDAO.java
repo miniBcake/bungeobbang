@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.bungeobbang.app.biz.common.JDBCUtil;
@@ -15,8 +17,8 @@ public class StorePaymentDAO {
 	//신규 가게 결제방식 추가
 	//받는 데이터 : 가게 고유번호(FK), 현금, 카드 계좌이체 사용여부
 	//추가 데이터 : 결제방식 고유번호, 가게 고유번호(FK), 현금, 카드 계좌이체 사용 여부
-	final String INSERT = "INSERT INTO BB_STORE_PAYMENT (STORE_PAYMENT_NUM, STORE_NUM, STORE_PAYMENT_CASHMONEY, STORE_PAYMENT_CARD, STORE_PAYMENT_ACCOUNT) " +
-	    "VALUES ((SELECT COALESCE(MAX(STORE_PAYMENT_NUM), 0) + 1 FROM BB_STORE_PAYMENT), ?, ?, ?, ?)";
+	final String INSERT = "INSERT INTO BB_STORE_PAYMENT (STORE_NUM, STORE_PAYMENT_CASHMONEY, STORE_PAYMENT_CARD, STORE_PAYMENT_ACCOUNT) " +
+	    "VALUES ( ?, ?, ?, ?)";
 
 	//결제방식별 해당하는 매장 총 개수 모두 조회
 	//조회 데이터 : 현금, 카드, 계좌이체 각 결제방식을 진행하는 매장의 수
@@ -65,7 +67,7 @@ public class StorePaymentDAO {
             pstmt.setInt(1, storePaymentDTO.getStoreNum());                     //가게 고유번호 입력
             pstmt.setString(2, storePaymentDTO.getStorePaymentCashmoney());         //가게 영업요일 입력
             pstmt.setString(3, storePaymentDTO.getStorePaymentCard());            //가게 영업시작시간 입력
-            pstmt.setString(4, storePaymentDTO.getStorePaymentAccountTransfer());   //가게 영업종료시간 입력
+            pstmt.setString(4, storePaymentDTO.getStorePaymentAccount());   //가게 영업종료시간 입력
             System.out.println("log_StorePaymentDAO_insert_pstmt input complete");
 
             //[5] rs 변수 선언 : INSERT 쿼리문 실행
@@ -115,7 +117,7 @@ public class StorePaymentDAO {
          //[4] 인자값으로 받은 데이터 쿼리문에 삽입
          pstmt.setString(1, storePaymentDTO.getStorePaymentCashmoney());         //결제방식 현금 가능 여부
          pstmt.setString(2, storePaymentDTO.getStorePaymentCard());            //결제방식 카드 가능 여부
-         pstmt.setString(3, storePaymentDTO.getStorePaymentAccountTransfer());   //결제방식 계좌이체 가능 여부
+         pstmt.setString(3, storePaymentDTO.getStorePaymentAccount());   //결제방식 계좌이체 가능 여부
          pstmt.setInt(4, storePaymentDTO.getStoreNum());                     //결제방식 가게고유번호 입력
          System.out.println("log_StorePaymentDAO_update_pstmt input complete");
 
@@ -146,7 +148,7 @@ public class StorePaymentDAO {
    }
 //StorePaymentDAO   selectAll   가게 결제방식별 총 개수 조회---------------------------------------------------------------------------------------------------------------
    
-   public ArrayList<StorePaymentDTO> selectAll(StorePaymentDTO storePaymentDTO) {
+   private ArrayList<StorePaymentDTO> selectAll(StorePaymentDTO storePaymentDTO) {
       System.out.println("log_StorePaymentDAO_selectAll : start");
       System.out.println("log_StorePaymentDAO_selectAll controller input StorePaymentDTO : " + storePaymentDTO.toString());
       
@@ -179,9 +181,9 @@ public class StorePaymentDAO {
          while(rs.next()) {
             //결제방식 카테고리 내 한 결제방식으로 판매하는 총 가게 수 
             StorePaymentDTO data = new StorePaymentDTO();
-            data.setStorPaymentCount(rs.getInt("STOREPAYMNET_COUNT"));
+//            data.setStorPaymentCount(rs.getInt("STOREPAYMNET_COUNT"));
             datas.add(data);
-            System.out.println("log_StorePaymentDAO_selectAll_datagetStorPaymentCount() : " + data.getStorPaymentCount());
+//            System.out.println("log_StorePaymentDAO_selectAll_datagetStorPaymentCount() : " + data.getStorPaymentCount());
          }
       } catch (Exception e) {
          e.printStackTrace();
@@ -203,7 +205,7 @@ public class StorePaymentDAO {
    
 //StorePaymentDAO   selectOne   특정가게 정보 조회---------------------------------------------------------------------------------------------------------------
    
-   public StorePaymentDTO selectOne(StorePaymentDTO storePaymentDTO) {
+   private StorePaymentDTO selectOne(StorePaymentDTO storePaymentDTO) {
       System.out.println("log_StorePaymentDAO_selectOne : start");
       System.out.println("log_StorePaymentDAO_selectOne controller input StoreMenuDTO : " + storePaymentDTO.toString());
 
@@ -242,7 +244,7 @@ public class StorePaymentDAO {
             data = new StorePaymentDTO();
             data.setStorePaymentCashmoney(rs.getString("STORE_PAYMENT_CASHMONEY"));         //현금 결제 가능(Y/N)
             data.setStorePaymentCard(rs.getString("STORE_PAYMENT_CARD"));               //카드 결제 가능(Y/N)
-            data.setStorePaymentAccountTransfer(rs.getString("STORE_PAYMENT_ACCOUNT"));      //계좌이체 결제 가능(Y/N)
+//            data.setStorePaymentAccountTransfer(rs.getString("STORE_PAYMENT_ACCOUNT"));      //계좌이체 결제 가능(Y/N)
             data.setStoreNum(rs.getInt("STORE_NUM"));                              //가게 고유번호(FK)
                System.out.println("log_StorePaymentDAO_selectOne_data : " + data);
          }

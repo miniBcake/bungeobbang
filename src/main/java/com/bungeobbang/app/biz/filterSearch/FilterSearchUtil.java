@@ -1,7 +1,5 @@
 package com.bungeobbang.app.biz.filterSearch;
 
-import java.sql.PreparedStatement;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

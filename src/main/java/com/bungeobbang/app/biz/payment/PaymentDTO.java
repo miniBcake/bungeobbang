@@ -5,7 +5,6 @@ import java.util.HashMap;
 public class PaymentDTO {
 	private int paymentNum; //PK
 	private int memberNum; // 회원 번호(외래키)
-	private int pointNum; //포이트 번호(외래키)
 	private int paymentAmount; // 결제 금액
 	private String paymentStatus; // 결제 상태(wait, complete)
 	private String paymentDay; // 결제 일시
@@ -31,23 +30,17 @@ public class PaymentDTO {
 	public void setMemberNum(int memberNum) {
 		this.memberNum = memberNum;
 	}
-	public int getPointNum() {
-		return pointNum;
+	public int getPaymentAmount() {
+		return paymentAmount;
 	}
-	public void setPointNum(int pointNum) {
-		this.pointNum = pointNum;
+	public void setPaymentAmount(int paymentAmount) {
+		this.paymentAmount = paymentAmount;
 	}
 	public String getPaymentStatus() {
 		return paymentStatus;
 	}
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
-	}
-	public int getPaymentAmount() {
-		return paymentAmount;
-	}
-	public void setPaymentAmount(int paymentAmount) {
-		this.paymentAmount = paymentAmount;
 	}
 	public String getPaymentDay() {
 		return paymentDay;
@@ -93,10 +86,12 @@ public class PaymentDTO {
 	}
 	@Override
 	public String toString() {
-		return "PaymentDTO [paymentNum=" + paymentNum + ", memberNum=" + memberNum + ", pointNum=" + pointNum
-				+ ", paymentAmount=" + paymentAmount + ", paymentStatus=" + paymentStatus + ", paymentDay=" + paymentDay
-				+ ", paymentUsed=" + paymentUsed + ", adminChecked=" + adminChecked + ", condition=" + condition
-				+ ", filterList=" + filterList + "]";
+		return "PaymentDTO [paymentNum=" + paymentNum + ", memberNum=" + memberNum + ", paymentAmount=" + paymentAmount
+				+ ", paymentStatus=" + paymentStatus + ", paymentDay=" + paymentDay + ", paymentUsed=" + paymentUsed
+				+ ", adminChecked=" + adminChecked + ", condition=" + condition + ", filterList=" + filterList
+				+ ", startNum=" + startNum + ", endNum=" + endNum + "]";
 	}
+	
+	
 		
 }

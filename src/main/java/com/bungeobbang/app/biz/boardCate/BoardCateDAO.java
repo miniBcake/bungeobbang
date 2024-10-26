@@ -18,6 +18,7 @@ public class BoardCateDAO {
     private final String UPDATE = "UPDATE BB_BOARD_CATEGORY SET CATEGORY_NAME = ? WHERE CATEGORY_NUM = ?";
     private final String DELETE = "DELETE FROM BB_BOARD_CATEGORY WHERE CATEGORY_NUM = ?";
     private final String SELECTALL = "SELECT CATEGORY_NUM, CATEGORY_NAME FROM BB_BOARD_CATEGORY ORDER BY CATEGORY_NUM";
+    private final String SELECTONE = "SELECT CATEGORY_NUM, CATEGORY_NAME FORM BB_BOARD_CATEGORY_NAME = ?";
 
     public boolean insert(BoardCateDTO boardCateDTO) {
         System.out.println("Insert BoardCateDTO getBoardCateName: ["+ boardCateDTO.getBoardCateName()+"]");
@@ -40,9 +41,10 @@ public class BoardCateDAO {
         return jdbcTemplate.query(SELECTALL, new BoardCateMapper());
     }
 
-    private BoardCateDTO selectOne(BoardCateDTO boardCateDTO) {
-        BoardCateDTO data = null;
-        return data;
+    public BoardCateDTO selectOne(BoardCateDTO boardCateDTO) {
+        System.out.println("selectOne BoardCateDTO ");
+        Object[] args = {boardCateDTO.getBoardCateName()};
+        return jdbcTemplate.queryForObject(SELECTONE, args, new BoardCateMapper());
     }
 }
 
@@ -51,7 +53,6 @@ class BoardCateMapper implements RowMapper<BoardCateDTO> {
     @Override
     public BoardCateDTO mapRow(ResultSet resultSet, int i) throws SQLException {
         BoardCateDTO data = new BoardCateDTO();
-        data.setBoardCateName(resultSet.getString("CATEGORY_NAME"));
         data.setBoardCateNum(resultSet.getInt("CATEGORY_NUM"));
         return data;
     }

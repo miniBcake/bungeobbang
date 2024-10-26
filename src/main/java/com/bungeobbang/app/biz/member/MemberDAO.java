@@ -1,41 +1,39 @@
 package com.bungeobbang.app.biz.member;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.bungeobbang.app.biz.common.JDBCUtil;
 import com.bungeobbang.app.biz.filterSearch.MemberFilter;
-import com.mysql.cj.result.Row;
 
-//FIXME 컨디션 필터값 아직 반영안됨
 @Repository
 public class MemberDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	// INSERT 쿼리
-	private final String INSERT = "INSERT INTO BB_MEMBER(MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_PHONE, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE) "
+	private final String INSERT = "INSERT INTO BB_MEMBER( "
+			+ "MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_PHONE, "
+			+ "MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE, MEMBER_HIREDAY) "
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
 	// UPDATE 쿼리들
-	private final String UPDATE = "UPDATE BB_MEMBER SET MEMBER_EMAIL = ?, MEMBER_NAME = ?, MEMBER_PHONE = ?, MEMBER_NICKNAME = ?, MEMBER_PROFILE_WAY = ? WHERE MEMBER_NUM = ?";
+	private final String UPDATE = "UPDATE BB_MEMBER SET MEMBER_EMAIL = ?, MEMBER_NAME = ?, "
+			+ "MEMBER_PHONE = ?, MEMBER_NICKNAME = ?, MEMBER_PROFILE_WAY = ? , MEMBER_ROLE "
+			+ "WHERE MEMBER_NUM = ?";
 	private final String UPDATE_PASSWORD = "UPDATE BB_MEMBER SET MEMBER_PASSWORD = ? WHERE MEMBER_NUM = ?";
-	private final String UPDATE_POINT = "UPDATE BB_MEMBER SET MEMBER_POINT =? WHERE MEMBER_NUM=?";
+
 	// DELETE 쿼리
 	private final String DELETE = "DELETE FROM BB_MEMBER WHERE MEMBER_NUM = ?";
 
-	// SELECTALL 쿼리
+	// SELECTALL 쿼리(selectAll 현재 구현 X)
 	// @rownum : 세션별로 사용되는 MySQL 변수(번호 부여)
 	private final String SELECTALL = "SELECT @rownum := @rownum + 1 AS RN, MEMBER_NUM, MEMBER_EMAIL, MEMBER_NAME, MEMBER_PHONE, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE, MEMBER_HIREDAY "
 			+ "FROM (SELECT MEMBER_NUM, MEMBER_EMAIL, MEMBER_NAME, MEMBER_PHONE, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE, MEMBER_HIREDAY, MEMBER_POINT "
@@ -64,7 +62,7 @@ public class MemberDAO {
 	private final String SELECTONE_EMAIL = "SELECT MEMBER_EMAIL FROM BB_MEMBER WHERE MEMBER_EMAIL = ?";
 	private final String SELECTONE_NICKNAME = "SELECT MEMBER_NICKNAME FROM BB_MEMBER WHERE MEMBER_NICKNAME = ?";
 	private final String SELECTONE_PASSWORD_RESET = "SELECT MEMBER_NUM FROM BB_MEMBER WHERE MEMBER_EMAIL = ? AND MEMBER_NAME = ?";
-	private final String SELECTONE_LOGIN = "SELECT MEMBER_NUM, MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_ROLE FROM BB_MEMBER WHERE MEMBER_EMAIL = ? AND MEMBER_PASSWORD = ?";
+	private final String SELECTONE_LOGIN = "SELECT MEMBER_NUM, MEMBER_NICKNAME, MEMBER_ROLE FROM BB_MEMBER WHERE MEMBER_EMAIL = ? AND MEMBER_PASSWORD = ?";
 	private final String SELECTONE_INFO = "SELECT MEMBER_NUM, MEMBER_EMAIL, MEMBER_NAME, MEMBER_PHONE, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE, MEMBER_HIREDAY "
 			+ "FROM BB_MEMBER WHERE MEMBER_NUM = ?";
 	private final String SELECTONE_PASSWORD_CHECK = "SELECT MEMBER_NUM FROM BB_MEMBER WHERE MEMBER_NUM = ? AND MEMBER_PASSWORD = ?";
@@ -74,21 +72,6 @@ public class MemberDAO {
 
 	//고정설정
 	private final int RECENT_PIVOT = 7; //최근가입한 회원 기준 (day)
-
-	//컨디션
-	//selectOne
-	//selectAll
-	private final String ALL_LIST_CONDITON = "SELECTALL";
-	private final String RECENT_LIST_CONDITON = "RECENT_SELECTALL";
-	//update
-	private final String UPDATE_CONDITION = "UPDATE";
-	private final String UPDATE_PASSWORD_CONDTION = "PASSWORD_UPDATE";
-	//필터리스트(필터검색용)
-	private final String FILTER_NICKNAME_CONDITION ="SEARCH_NICKNAME";
-	private final String FILTER_NAME_CONDITION = "SEARCH_NAME";
-	private final String FILTER_EMAIL_CONDITION = "SEARCH_EMAIL";
-	private final String FILTER_ROLE_CONDITION = "SEARCH_USERROLE";
-	private final String FILTER_PHONE_CONDITION = "SEARCH_PHONENUM";
 
 	public boolean insert(MemberDTO memberDTO) {
 		//회원가입
@@ -102,18 +85,15 @@ public class MemberDAO {
 					memberDTO.getMemberPhone(),	//전화번호
 					memberDTO.getMemberNickname(),	//닉네임
 					memberDTO.getMemberProfileWay(), //프로필사진경로
-					memberDTO.getMemberRole()
+					memberDTO.getMemberRole(),
+					memberDTO.getMemberHireDay()
 					); 		//권한
 			//넘어온 값 확인 로그
-			System.out.println("log: parameter getMemberEmail : "+memberDTO.getMemberEmail());
-			System.out.println("log: parameter getMemberPassword : "+memberDTO.getMemberPassword());
-			System.out.println("log: parameter getMemberName : "+memberDTO.getMemberName());
-			System.out.println("log: parameter getMemberPhone : "+memberDTO.getMemberPhone());
-			System.out.println("log: parameter getMemberNickname : "+memberDTO.getMemberNickname());
-			System.out.println("log: parameter getMemberProfileWay : "+memberDTO.getMemberProfileWay());
-			System.out.println("log: parameter getMemberRole : "+memberDTO.getMemberRole());
+			System.out.println("log: parameter MemberDTO : "+memberDTO);
+
 		}catch (Exception e) {
 			System.err.println("log: Member insert Exception fail");
+			e.printStackTrace();
 			return false;
 		}
 		if(rs<=0) {
@@ -129,7 +109,7 @@ public class MemberDAO {
 		System.out.println("log: Member update start");
 		int rs = 0;
 		try {
-			if(memberDTO.getCondition().equals(UPDATE_CONDITION)) {
+			if(memberDTO.getCondition().equals("UPDATE_CONDITION")) {
 				//개인정보수정(비밀번호 제외)
 				rs = jdbcTemplate.update(UPDATE,
 						memberDTO.getMemberEmail(),		//이메일
@@ -137,17 +117,13 @@ public class MemberDAO {
 						memberDTO.getMemberPhone(), 	//전화번호
 						memberDTO.getMemberNickname(), 	//닉네임
 						memberDTO.getMemberProfileWay(), //프로필사진경로
+						memberDTO.getMemberRole(),
 						memberDTO.getMemberNum()
 						);//멤버 번호
 				//넘어온 값 확인 로그
-				System.out.println("log: parameter getMemberEmail : "+memberDTO.getMemberEmail());
-				System.out.println("log: parameter getMemberName : "+memberDTO.getMemberName());
-				System.out.println("log: parameter getMemberPhone : "+memberDTO.getMemberPhone());
-				System.out.println("log: parameter getMemberNickname : "+memberDTO.getMemberNickname());
-				System.out.println("log: parameter getMemberProfileWay : "+memberDTO.getMemberProfileWay());
-				System.out.println("log: parameter getMemberNum : "+memberDTO.getMemberNum());
+				System.out.println("log: parameter MemberDTO : "+memberDTO);
 			}
-			else if(memberDTO.getCondition().equals(UPDATE_PASSWORD_CONDTION)) {
+			else if(memberDTO.getCondition().equals("UPDATE_PASSWORD_CONDTION")) {
 				//개인정보수정 비밀번호
 				System.out.println("log: Member update : UPDATE_PASSWORD");
 				rs = jdbcTemplate.update(UPDATE_PASSWORD,
@@ -197,7 +173,7 @@ public class MemberDAO {
 		return true;
 	}
 
-	public List<MemberDTO> selectAll(MemberDTO memberDTO) {
+	private List<MemberDTO> selectAll(MemberDTO memberDTO) {
 		System.out.println("log: Member selectAll start");
 		List<MemberDTO> datas = new ArrayList<MemberDTO>();
 		String query = "";
@@ -344,44 +320,44 @@ public class MemberDAO {
 				data = jdbcTemplate.queryForObject(query, args, new NumRowMapper());
 				
 			}
-			else if(memberDTO.getCondition().equals("PROFILE_WAY_CONDITION")) {
-				//프로필이미지경로
-				System.out.println("log: Member selectOne : SELECTONE_PROFILE");
-				query = SELECTONE_PROFILE;
-				args = new Object[] {
-						memberDTO.getMemberNum()
-				};
-				//넘어온 값 확인 로그
-				System.out.println("log: parameter getMemberNum : "+memberDTO.getMemberNum());
-				data = jdbcTemplate.queryForObject(query,args, new ProfileRowMapper());
-				
-			}
-			else if(memberDTO.getCondition().equals("CNT_CONDITION")) {
-				//전체회원 수 (+필터검색)
-				System.out.println("log: Member selectOne : SELECTONE_CNT");
-				//필터검색 추가
-				HashMap<String, String> filters = memberDTO.getFilterList();//넘어온 MAP filter키워드
-				MemberFilter filterUtil= new MemberFilter();
-				// 키워드를 담을 리스트
-				List<Object> argsList = new ArrayList<>();
-				query = filterUtil.buildFilterQuery(SELECTONE_CNT,filters).toString();
-				
-				argsList = filterUtil.setFilterKeywords(argsList,filters); 		//필터 검색 검색어 
-				// args 배열화
-				args = argsList.toArray();
-				
-				data = jdbcTemplate.queryForObject(query, args, new CntRowMapper());
-				
-			}
-			else if(memberDTO.getCondition().equals("RECENT_CONDITION")) {
-				//최신 회원의 수
-				System.out.println("log: Member selectOne : SELECTONE_RECENT");
-				query = SELECTONE_RECENT;
-				args = new Object[] {
-						RECENT_PIVOT
-				};
-				data = jdbcTemplate.queryForObject(query, args, new CntRowMapper());
-			}
+//			else if(memberDTO.getCondition().equals("PROFILE_WAY_CONDITION")) {
+//				//프로필이미지경로
+//				System.out.println("log: Member selectOne : SELECTONE_PROFILE");
+//				query = SELECTONE_PROFILE;
+//				args = new Object[] {
+//						memberDTO.getMemberNum()
+//				};
+//				//넘어온 값 확인 로그
+//				System.out.println("log: parameter getMemberNum : "+memberDTO.getMemberNum());
+//				data = jdbcTemplate.queryForObject(query,args, new ProfileRowMapper());
+//				
+//			}
+//			else if(memberDTO.getCondition().equals("CNT_CONDITION")) {
+//				//전체회원 수 (+필터검색)
+//				System.out.println("log: Member selectOne : SELECTONE_CNT");
+//				//필터검색 추가
+//				HashMap<String, String> filters = memberDTO.getFilterList();//넘어온 MAP filter키워드
+//				MemberFilter filterUtil= new MemberFilter();
+//				// 키워드를 담을 리스트
+//				List<Object> argsList = new ArrayList<>();
+//				query = filterUtil.buildFilterQuery(SELECTONE_CNT,filters).toString();
+//				
+//				argsList = filterUtil.setFilterKeywords(argsList,filters); 		//필터 검색 검색어 
+//				// args 배열화
+//				args = argsList.toArray();
+//				
+//				data = jdbcTemplate.queryForObject(query, args, new CntRowMapper());
+//				
+//			}
+//			else if(memberDTO.getCondition().equals("RECENT_CONDITION")) {
+//				//최신 회원의 수
+//				System.out.println("log: Member selectOne : SELECTONE_RECENT");
+//				query = SELECTONE_RECENT;
+//				args = new Object[] {
+//						RECENT_PIVOT
+//				};
+//				data = jdbcTemplate.queryForObject(query, args, new CntRowMapper());
+//			}
 			else {
 				//컨디션값 오류
 				System.err.println("log: Member selectOne condition fail");
@@ -399,13 +375,11 @@ public class MemberDAO {
 		@Override
 		public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			MemberDTO data = new MemberDTO();
-			data.setMemberNum(rs.getInt("MEMBER_NUM")); 					//멤버 번호
 			data.setMemberName(rs.getString("MEMBER_NAME")); 				//이름
 			data.setMemberEmail(rs.getString("MEMBER_EMAIL")); 				//이메일
 			data.setMemberNickname(rs.getString("MEMBER_NICKNAME")); 		//닉네임
 			data.setMemberPhone(rs.getString("MEMBER_PHONE")); 				//전화번호
 			data.setMemberProfileWay(rs.getString("MEMBER_PROFILE_WAY")); 	//프로필 사진 경로
-			data.setMemberRole(rs.getString("MEMBER_ROLE")); 				//권한
 			data.setMemberHireDay(rs.getString("MEMBER_HIREDAY")); 			//가입일자
 			//반환된 객체 리스트에 추가
 			System.out.print(" | result "+data);
@@ -450,7 +424,6 @@ public class MemberDAO {
 		public MemberDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			MemberDTO data = new MemberDTO();
 			data.setMemberNum(rs.getInt("MEMBER_NUM")); 			//멤버번호
-			data.setMemberEmail(rs.getString("MEMBER_EMAIL"));		//이메일
 			data.setMemberNickname(rs.getString("MEMBER_NICKNAME")); //닉네임
 			data.setMemberRole(rs.getString("MEMBER_ROLE")); 		//권한
 			System.out.println("result exists");
