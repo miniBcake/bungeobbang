@@ -183,6 +183,7 @@ public class BoardController {
             path = "noticeBoard"; // 문의게시판으로 포워딩
         }
         else if (categoryName.equals(BOARD_LIST)) { //공개 게시판이라면
+
             path = "boardList"; // 공개게시판으로 포워딩
         }
         return path;
@@ -207,13 +208,13 @@ public class BoardController {
     //게시글 작성 페이지 이동
     @RequestMapping(value = "/addBoard.do", method = RequestMethod.GET)
     public String addBoard(Model model, BoardDTO boardDTO) {
-        log.info("log: /addBoard.do addBoard - start");
-        log.info("log: /addBoard - input boardDTO : [{}]", boardDTO);
+        log.info("log: /addBoard.do addBoard GET - start");
+        log.info("log: /addBoard GET - input boardDTO : [{}]", boardDTO);
         boardDTO.setBoardFolder(FileUtil.createFileName()); //폴더명 전달
         model.addAttribute("data", boardDTO);
         //확인
-        log.info("log: addBoard - send data : [{}]", boardDTO);
-        log.info("log: /addBoard.do addBoard - end : forward");
+        log.info("log: addBoard GET - send data : [{}]", boardDTO);
+        log.info("log: /addBoard.do addBoard GET - end : forward");
         return "boardWrite";
     }
 
@@ -239,8 +240,8 @@ public class BoardController {
     //게시글 작성
     @RequestMapping(value = "/addBoard.do", method = RequestMethod.POST)
     public String addBoard(HttpSession session, BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model){
-
-        //ckeditor를 통해 넘어온 context의 이미지 src 서버에 맞춰 수정하는 로직///////////////////////////
+        log.info("log: /addBoard.do addBoard - start");
+        //ckeditor를 통해 넘어온 content의 이미지 src 서버에 맞춰 수정하는 로직///////////////////////////
         //세션에 저장해둔 파일 명 변경 정보 호출
         HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute(SESSION_IMAGE_SRC);
         String content = boardDTO.getBoardContent(); //작성한 내용
@@ -262,11 +263,13 @@ public class BoardController {
         //게시글 추가
         if(boardService.insert(boardDTO)){
             //실패 시
+            log.error("log: addBoard - insert fail");
             model.addAttribute("msg", FAIL_BOARD_INSERT_MSG);
             model.addAttribute("path", "boardList.do?categoryName="+boardCateDTO.getBoardCateName());
             return FAIL_URL;
         }
         //작성한 글이 있는 카테고리 페이지로 이동
+        log.info("log: /addBoard.do addBoard - end");
         return "redirect:loadListBoards.do?categoryName="+boardCateDTO.getBoardCateName();
     }
 

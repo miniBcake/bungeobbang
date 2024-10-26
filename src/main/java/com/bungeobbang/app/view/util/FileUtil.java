@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public class FileUtil {
     }
 
     //해당 폴더 하위의 폴더와 파일 삭제
-    public static boolean deleteFileAndDirectory (File folder){
+    public static boolean deleteFileAndDirectory (File folder) {
         log.info("log: deleteFile - start");
         //서버에 해당 경로의 폴더가 있다면
         if(folder.exists()) {
@@ -58,8 +59,8 @@ public class FileUtil {
         return true;
     }
 
-    //입력받은 경로에 입력받은 파일을 저장 후 성공하면 파일명, 실패하면 null값 반환
-    public static String insertFile (ServletContext servletContext, String path, MultipartFile file, String fileName) {
+    //입력받은 경로에 입력받은 파일을 저장 후 성공하면 파일명, 실패하면 null값 반환, 비체크 예외이므로 사용 시 try catch 잊지말기
+    public static String insertFile (ServletContext servletContext, String path, MultipartFile file, String fileName) throws NullPointerException, IllegalArgumentException {
         log.info("log: insertFile - start");
 
         //각기 다른 작업환경에서도 원활하게 구동될 수 있도록 경로를 받아와 설정

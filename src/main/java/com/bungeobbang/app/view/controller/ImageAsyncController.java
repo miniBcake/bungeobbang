@@ -24,7 +24,15 @@ public class ImageAsyncController {
     public @ResponseBody boolean addImage(HttpSession session, ServletContext servletContext, @RequestBody ImageFileDTO imageFileDTO) {
         //폴더명은 게시글 작성 페이지가 열릴 때 view에 전달
         MultipartFile file = imageFileDTO.getFile();
-        String fileName = FileUtil.insertFile(servletContext, FOLDER_PATH+imageFileDTO.getFolder(), file, FileUtil.createFileName());
+        String fileName = null;
+
+        try {//프로그램 비정상 종료를 막을 try catch
+            fileName = FileUtil.insertFile(servletContext, FOLDER_PATH+imageFileDTO.getFolder(), file, FileUtil.createFileName());
+        } catch (NullPointerException | IllegalArgumentException e) {
+            log.error("log: addImage - error insertFile() NPE or Illeagl : "+e.getMessage());
+            return false;
+        }
+
         if(fileName == null){
             return false;
         }
