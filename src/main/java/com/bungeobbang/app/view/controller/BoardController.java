@@ -56,6 +56,13 @@ public class BoardController {
     private final String FAIL_BOARD_UPDATE_MSG = "게시글을 수정할 수 없습니다. 관리자에게 문의 바랍니다.";
     private final String FAIL_BOARD_INSERT_MSG = "게시글을 작성할 수 없습니다. 관리자에게 문의 바랍니다.";
 
+    //page
+    private final String PAGE_BOARD_INFO = "board"; //views 하위 게시글 상세
+    private final String PAGE_BOARD_NOTICE = "noticeBoard"; //views 하위 문의게시팜
+    private final String PAGE_BOARD_COMMU = "boardList"; //views 하위 일반커뮤니티게시판
+    private final String PAGE_BOARD_UPDATE = "fixBoard"; //views 하위 게시글 수정
+    private final String PAGE_BOARD_ADD = "boardWrite"; //views 하위 게시글 작성
+
     //게시글 상세보기
     @RequestMapping("/infoBoard.do")
     public String infoBoard(HttpSession session, Model model, LikeDTO likeDTO, BoardDTO boardDTO) {
@@ -85,7 +92,7 @@ public class BoardController {
         model.addAttribute("userLiked", userLiked); //초기 좋아요 상태 전달
 
         log.info("log: /infoBoard.do viewBoard - end");
-        return "board";
+        return PAGE_BOARD_INFO;
     }
 
     //게시글 삭제
@@ -180,11 +187,10 @@ public class BoardController {
 
         String path = null;
         if (categoryName.equals(NOTICE)) { //문의 게시판이라면
-            path = "noticeBoard"; // 문의게시판으로 포워딩
+            path = PAGE_BOARD_NOTICE; // 문의게시판으로 포워딩
         }
         else if (categoryName.equals(BOARD_LIST)) { //공개 게시판이라면
-
-            path = "boardList"; // 공개게시판으로 포워딩
+            path = PAGE_BOARD_COMMU; // 공개게시판으로 포워딩
         }
         return path;
     }
@@ -202,7 +208,7 @@ public class BoardController {
         log.info("log: updateBoard - send board : [{}]", boardDTO);
 
         log.info("log: /updateBoard.do updateBoard GET - end");
-        return "fixBoard";
+        return PAGE_BOARD_UPDATE;
     }
 
     //게시글 작성 페이지 이동
@@ -215,7 +221,7 @@ public class BoardController {
         //확인
         log.info("log: addBoard GET - send data : [{}]", boardDTO);
         log.info("log: /addBoard.do addBoard GET - end : forward");
-        return "boardWrite";
+        return PAGE_BOARD_ADD;
     }
 
     //게시글 수정

@@ -38,7 +38,7 @@ public class BoardCateDAO {
     public List<BoardCateDTO> selectAll(BoardCateDTO boardCateDTO) {
         //Object[] args = {};넣을 값이 없으므로 생략
         //반환타입이 List
-        return jdbcTemplate.query(SELECTALL, new BoardCateMapper());
+        return jdbcTemplate.query(SELECTALL, new BoardCateMapper()); //사용 안함
     }
 
     public BoardCateDTO selectOne(BoardCateDTO boardCateDTO) {

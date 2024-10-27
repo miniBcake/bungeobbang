@@ -20,7 +20,7 @@ public class StoreMenuDAO {
 	//추가 데이터 : 메뉴 고유번호(PK), 가게 고유번호(FK), 팥/슈프림, 야채/김치/만두, 미니, 고구마, 아이스크림/초코, 치즈, 페스츄리, 기타 판매 여부(Y/N)
 	final String INSERT = "INSERT INTO BB_STORE_MENU ("
 			+ "STORE_MENU_NORMAL, STORE_MENU_VEG, STORE_MENU_MINI, STORE_MENU_POTATO, "
-			+ "STORE_MENU_ICE, STORE_MENU_CHEESE, STORE_MENU_PASTRY, STORE_MENU_OTHER"
+			+ "STORE_MENU_ICE, STORE_MENU_CHEESE, STORE_MENU_PASTRY, STORE_MENU_OTHER) "
 			+ "VALUES(?,?,?,?,?,?,?,?)";
 
 	//메뉴별 판매하는 매장 총 갯수 : 팥/슈프림, 야채/김치/만두, 미니, 고구마, 아이스크림/초코, 치즈, 페스츄리, 기타

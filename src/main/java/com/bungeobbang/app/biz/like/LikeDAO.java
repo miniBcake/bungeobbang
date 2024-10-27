@@ -1,17 +1,14 @@
 package com.bungeobbang.app.biz.like;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.bungeobbang.app.biz.common.JDBCUtil;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class LikeDAO {
@@ -35,24 +32,12 @@ public class LikeDAO {
 	public boolean insert(LikeDTO likeDTO) {
 		System.out.println("log_StoreLikeDAO_insert : start");
 		System.out.println("log_StoreLikeDAO_insert_controller input StoreLikeDTO : " + likeDTO);
-		String query = ""; //쿼리문 초기화
-		int rs = 0; // 결과를 담을 rs
 		Object[] args = {likeDTO.getBoardNum(), likeDTO.getMemberNum()}; // args 초기화
-		query = INSERT;
-
-		try {
-			rs = jdbcTemplate.update(query, args);
-		}catch(Exception e) {
-			System.err.println("log : LikeDAO insert fail");
-			e.printStackTrace();
-			return false;
-		}
-
+		int rs = jdbcTemplate.update(INSERT, args);
 		if (rs <= 0) { //rs >= 1(success) / rs = 0 (fail)
 			System.err.println("log_LikeDAO_insert executeUpdate() fail : if(rs <= 0)");
 			return false;
 		}
-
 		System.out.println("log_StoreLikeDAO insert true");
 		return true;
 	}
@@ -61,24 +46,12 @@ public class LikeDAO {
 		return false;
 	}
 
-
 	//좋아요 취소(삭제)
 	public boolean delete(LikeDTO likeDTO) {
 		System.out.println("log_StoreLikeDAO_delete : start");
 		System.out.println("log_StoreLikeDAO_delete controller input likeDTO : " + likeDTO);
-		String query = ""; //쿼리문 초기화
-		int rs = 0; // 결과 초기화
-		query = DELETE;
 		Object[] args = {likeDTO.getLikeNum()};
-		//쿼리 실행
-		try {
-			rs = jdbcTemplate.update(query, args);
-		} catch (Exception e) {
-			System.err.println("log_LikeDTO_delete Exception fail");
-			return false;
-		}
-
-
+		int rs = jdbcTemplate.update(DELETE, args);
 		if (rs <= 0) {//rs >= 1(success) / rs = 0 (fail)
 			System.err.println("log_LikeDTO_delete execute() fail");
 			return false;
@@ -93,29 +66,21 @@ public class LikeDAO {
 	public LikeDTO selectOne(LikeDTO likeDTO) {
 		System.out.println("log_StoreLikeDAO_selectOne : start");
 		System.out.println("log_StoreLikeDAO_selectOne controller input likeDTO : " + likeDTO);
-
-		String query = "";
-		
-		LikeDTO data = null;
-		System.out.println("log_StoreLikeDAO__selectOne data null setting complete");
-		query = SELECTONE;
+		LikeDTO data;
 		Object[] args = {
 				likeDTO.getMemberNum(),
 				likeDTO.getBoardNum()
 		};
 		try {
 			//쿼리 실행
-			data = jdbcTemplate.queryForObject(query, args, new LikeRowMapper());
+			data = jdbcTemplate.queryForObject(SELECTONE, args, new LikeRowMapper());
 			System.out.println("log_StoreLikeDAO_selectOne_executeQuery() complete");
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("log_LikeDTO_selectOne Exception fail");
-			return null;
+		} catch (EmptyResultDataAccessException e) {
+			data = null;
 		} 
 		return data;
 	}
 	class LikeRowMapper implements RowMapper<LikeDTO>{
-
 		@Override
 		public LikeDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			LikeDTO data = new LikeDTO();

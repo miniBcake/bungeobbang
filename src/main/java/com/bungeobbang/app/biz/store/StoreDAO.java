@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+//FIXME 설계에 맞게 수정바람
 @Repository
 public class StoreDAO {
 	@Autowired

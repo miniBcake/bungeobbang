@@ -6,7 +6,6 @@ import com.bungeobbang.app.biz.boardCate.BoardCateDTO;
 import com.bungeobbang.app.biz.boardCate.BoardCateService;
 import com.bungeobbang.app.biz.product.ProductDTO;
 import com.bungeobbang.app.biz.product.ProductService;
-import com.bungeobbang.app.biz.productCate.ProductCateDTO;
 import com.bungeobbang.app.biz.productCate.ProductCateService;
 import com.bungeobbang.app.view.util.CookieUtil;
 import jakarta.servlet.http.Cookie;
@@ -42,6 +41,10 @@ public class MainController {
     private final String BOARD_LIST = "COMMUNITY"; //커뮤니티 카테고리명
 
     private final int RECOMM_CNT = 3; //추천 상품 데이터 개수
+
+    //page
+    private final String PAGE_MAIN = "main"; //views 하위 메인페이지
+    private final String FAIL_URL = "failInfo2"; //실패페이지
 
     //메인페이지 이동
     @RequestMapping("/main.do")
@@ -162,7 +165,7 @@ public class MainController {
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         log.info("log: /main.do main - end");
-        return "main";
+        return PAGE_MAIN;
     }
 
     //실패 알랏 페이지
@@ -173,6 +176,6 @@ public class MainController {
         model.addAttribute("path", this.path); //이후 이동 경로
         log.info("log: /failInfo.do failInfo fail msg");
         //스위트 알랏
-        return "failInfo2";
+        return FAIL_URL;
     }
 }

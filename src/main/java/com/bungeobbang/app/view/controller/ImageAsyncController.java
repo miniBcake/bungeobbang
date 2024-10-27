@@ -20,6 +20,7 @@ public class ImageAsyncController {
     private String FOLDER_PATH = "uploads/board/"; //webapp기준
     private final String SESSION_IMAGE_SRC = "boardFile";
 
+    //이미지 저장
     @RequestMapping("/addImage.do")
     public @ResponseBody boolean addImage(HttpSession session, ServletContext servletContext, @RequestBody ImageFileDTO imageFileDTO) {
         log.info("log: /addImage.do addImage - start");
