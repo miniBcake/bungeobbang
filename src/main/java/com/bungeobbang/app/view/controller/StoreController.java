@@ -53,6 +53,43 @@ public class StoreController {
     private final String CLOSE_FAIL_MSG = "폐점 전환에 실패했습니다.";
     private final String SECRET_FAIL_MSG = "가게 승인(공개) 전환에 실패했습니다.";
 
+    //page
+    //가게 등록
+    private final String PAGE_ADD_STORE = "adminStoreRegister"; //views 하위
+    //가게 제보
+    private final String PAGE_REPORT_STORE = "userStoreReport"; //views 하위
+    //가게 상세페이지
+    private final String PAGE_INFO_STORE = "store"; //views 하위
+    //가게 검색
+    private final String PAGE_LOAD_LIST_STORE = "storeList"; //views 하위
+
+
+    //가게 등록 페이지 이동
+    @RequestMapping(value = "/addStore.do", method = RequestMethod.GET)
+    public String addStore(String condition, Model model){
+        log.info("log: /addStore.do addStore GET - start");
+        log.info("log: addStore - input condition : [{}]", condition);
+        String path; //경로 저장 변수
+        if(condition.equals(REPORT_STORE)){//제보라면
+            log.info("log: addStore report");
+            path = PAGE_REPORT_STORE;
+        }
+        else if(condition.equals(ADD_STORE)){//가게 추가라면
+            log.info("log: addStore admin");
+            path = PAGE_ADD_STORE;
+        }
+        else {
+            log.error("log: addStore - error condition");
+            path = FAIL_DO; //일치하는 컨디션 값이 아닐 때 실패처리
+        }
+        model.addAttribute("condition", condition);
+        //확인
+        log.info("log: addStore - send condition : [{}]", condition);
+        log.info("log: /addStore.do addStore GET - end");
+        return path;
+    }
+
+
     //가게 등록 기능 수행
     @RequestMapping(value = "/addStore.do", method = RequestMethod.POST)
     public String addStore(HttpSession session, StoreDTO storeDTO, StoreMenuDTO storeMenuDTO, StorePaymentDTO storePaymentDTO, BoardDTO boardDTO,
@@ -150,30 +187,30 @@ public class StoreController {
         return "redirect:loadListStore.do";
     }
 
-    //가게 등록 페이지 이동
-    @RequestMapping(value = "/addStore.do", method = RequestMethod.GET)
-    public String addStore(String condition, Model model){
-        log.info("log: /addStore.do addStore GET - start");
-        log.info("log: addStore - input condition : [{}]", condition);
-        String path; //경로 저장 변수
-        if(condition.equals(REPORT_STORE)){//제보라면
-            log.info("log: addStore report");
-            path = "userStoreReport";
-        }
-        else if(condition.equals(ADD_STORE)){//가게 추가라면
-            log.info("log: addStore admin");
-            path = "adminStoreRegister";
-        }
-        else {
-            log.error("log: addStore - error condition");
-            path = FAIL_DO; //일치하는 컨디션 값이 아닐 때 실패처리
-        }
-        model.addAttribute("condition", condition);
+    //가게 상세 조회
+    //TODO 영업정보 추가
+    @RequestMapping("/infoStore.do")
+    public String infoStore(StoreDTO storeDTO, Model model){
+        log.info("log: /infoStore.do infoStore - start");
+        log.info("log: infoStore - input storeDTO num : [{}]", storeDTO.getStoreNum());
+        storeDTO.setCondition("INFO_STORE_SELECTONE");
+        storeDTO = storeService.selectOne(storeDTO);
+        //데이터 전달
+        model.addAttribute("storeInfo", storeDTO);
         //확인
-        log.info("log: addStore - send condition : [{}]", condition);
-        log.info("log: /addStore.do addStore GET - end");
-        return path;
+        log.info("log: infoStore - send storeInfo : [{}]", storeDTO);
+        log.info("log: /infoStore.do infoStore - end");
+        return PAGE_INFO_STORE;
     }
+
+    //가게 검색 (동기, 전체)
+    @RequestMapping("/loadListStore.do")
+    public String loadListStore(){
+        //TODO 나중에 view와 함께 데이터 타입 정리 후 진행
+        return PAGE_LOAD_LIST_STORE;
+    }
+
+    //관리자 파트에서 사용하는 기능
 
     //가게 폐점설정
     @RequestMapping("/updateStoreClose.do")
@@ -216,25 +253,4 @@ public class StoreController {
         return "redirect:loadListStoreTipOff.do";
     }
 
-    //가게 상세 조회
-    @RequestMapping("/infoStore.do")
-    public String infoStore(StoreDTO storeDTO, Model model){
-        log.info("log: /infoStore.do infoStore - start");
-        log.info("log: infoStore - input storeDTO num : [{}]", storeDTO.getStoreNum());
-        storeDTO.setCondition("INFO_STORE_SELECTONE");
-        StoreDTO storeInfo = storeService.selectOne(storeDTO);
-        //데이터 전달
-        model.addAttribute("storeInfo", storeInfo);
-        //확인
-        log.info("log: infoStore - send storeInfo : [{}]", storeDTO);
-        log.info("log: /infoStore.do infoStore - end");
-        return "store";
-    }
-
-    //가게 검색 (동기, 전체)
-    @RequestMapping("/loadListStore.do")
-    public String loadListStore(){
-        //TODO 나중에 view와 함께 데이터 타입 정리 후 진행
-        return "storeList";
-    }
 }

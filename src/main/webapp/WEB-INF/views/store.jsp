@@ -68,7 +68,7 @@
 								<div class="col-12">
 									<!-- 가게 이름 -->
 									<h4 class="storeName">
-										${storeData.storeName}{가게이름}
+										${storeInfo.storeName}{가게이름}
 										<!-- 가게 폐점 여부 상태에 따라 변경 -->
 										<c:if test="${data.storeClosed eq N or true}"><span class="tag" id="openStore">영업중</span></c:if>
 										<c:if test="${data.storeClosed eq Y and false}"><span class="tag" id="closedStore">폐업</span></c:if>
