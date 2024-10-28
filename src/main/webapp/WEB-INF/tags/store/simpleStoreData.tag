@@ -2,8 +2,8 @@
 
 <div class="storeData">
 	<div class="storeDataTitle">
-		<a href="/viewStorePage.do?storeNum=${store.Num}"><h4
-				class="text-hover">{store.name}</h4></a>
+		<a href="/viewStorePage.do?storeNum=${store.Num}">
+			<h4 class="text-hover">{store.name}</h4></a>
 	</div>
 	<div class="storeDataContent">
 		<div class="col-1 nonePadding">
