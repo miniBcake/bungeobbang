@@ -16,6 +16,7 @@ public class StoreAsyncController {
     @Autowired
     private StoreService storeService;
 
+    //지도 옆 주소 검색 : 가게
     @RequestMapping("/loadListStoreMap.do")
     public ArrayList<StoreDTO> loadListStoreMap(String keyword){
         log.info("log: /loadListStoreMap.do loadListStoreMap - start");

@@ -289,47 +289,38 @@ left join `fishshapedbread`.`bb_board` `bb` on
 
 -- fishshapedbread.bb_view_store_join source
 
-create or replace
-algorithm = UNDEFINED view `fishshapedbread`.`bb_view_store_join` as
-select
-    `s`.`STORE_NUM` as `STORE_NUM`,
-    `s`.`STORE_NAME` as `STORE_NAME`,
-    `s`.`STORE_ADDRESS` as `STORE_ADDRESS`,
-    `s`.`STORE_ADDRESS_DETAIL` as `STORE_ADDRESS_DETAIL`,
-    `s`.`STORE_CONTACT` as `STORE_CONTACT`,
-    `s`.`STORE_CLOSED` as `STORE_CLOSED`,
-    `s`.`STORE_SECRET` as `STORE_SECRET`,
-    `sm`.`STORE_MENU_NORMAL` as `STORE_MENU_NORMAL`,
-    `sm`.`STORE_MENU_VEG` as `STORE_MENU_VEG`,
-    `sm`.`STORE_MENU_MINI` as `STORE_MENU_MINI`,
-    `sm`.`STORE_MENU_POTATO` as `STORE_MENU_POTATO`,
-    `sm`.`STORE_MENU_ICE` as `STORE_MENU_ICE`,
-    `sm`.`STORE_MENU_CHEESE` as `STORE_MENU_CHEESE`,
-    `sm`.`STORE_MENU_PASTRY` as `STORE_MENU_PASTRY`,
-    `sm`.`STORE_MENU_OTHER` as `STORE_MENU_OTHER`,
-    `sp`.`STORE_PAYMENT_CASHMONEY` as `STORE_PAYMENT_CASHMONEY`,
-    `sp`.`STORE_PAYMENT_CARD` as `STORE_PAYMENT_CARD`,
-    `sp`.`STORE_PAYMENT_ACCOUNT` as `STORE_PAYMENT_ACCOUNT`,
-    `sw`.`STORE_WORK_WEEK` as `STORE_WORK_WEEK`,
-    `sw`.`STORE_WORK_OPEN` as `STORE_WORK_OPEN`,
-    `sw`.`STORE_WORK_CLOSE` as `STORE_WORK_CLOSE`,
-    (case
-        when ((
-        select
-            count(0)
-        from
-            `fishshapedbread`.`bb_declare`
-        where
-            (`fishshapedbread`.`bb_declare`.`STORE_NUM` = `s`.`STORE_NUM`)) > 0) then 'Y'
-        else 'N'
-    end) as `STORE_DECLARED`
-from
-    ((((`fishshapedbread`.`bb_store` `s`
-join `fishshapedbread`.`bb_store_menu` `sm` on
-    ((`s`.`STORE_NUM` = `sm`.`STORE_NUM`)))
-join `fishshapedbread`.`bb_store_payment` `sp` on
-    ((`s`.`STORE_NUM` = `sp`.`STORE_NUM`)))
-join `fishshapedbread`.`bb_store_work` `sw` on
-    ((`s`.`STORE_NUM` = `sw`.`STORE_NUM`)))
-join `fishshapedbread`.`bb_declare` `d` on
-    ((`s`.`STORE_NUM` = `d`.`STORE_NUM`)));
+CREATE OR REPLACE VIEW bb_view_store_join AS
+SELECT
+    s.STORE_NUM,
+    s.STORE_NAME,
+    s.STORE_ADDRESS,
+    s.STORE_ADDRESS_DETAIL,
+    s.STORE_CONTACT,
+    s.STORE_CLOSED,
+    s.STORE_SECRET,
+    sm.STORE_MENU_NORMAL,
+    sm.STORE_MENU_VEG,
+    sm.STORE_MENU_MINI,
+    sm.STORE_MENU_POTATO,
+    sm.STORE_MENU_ICE,
+    sm.STORE_MENU_CHEESE,
+    sm.STORE_MENU_PASTRY,
+    sm.STORE_MENU_OTHER,
+    sp.STORE_PAYMENT_CASHMONEY,
+    sp.STORE_PAYMENT_CARD,
+    sp.STORE_PAYMENT_ACCOUNT,
+    sw.STORE_WORK_WEEK,
+    sw.STORE_WORK_OPEN,
+    sw.STORE_WORK_CLOSE,
+    CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM bb_declare
+            WHERE bb_declare.STORE_NUM = s.STORE_NUM
+        ) THEN 'Y'
+        ELSE 'N'
+        END AS STORE_DECLARED
+FROM bb_store s
+         LEFT JOIN bb_store_menu sm ON s.STORE_NUM = sm.STORE_NUM
+         LEFT JOIN bb_store_payment sp ON s.STORE_NUM = sp.STORE_NUM
+         LEFT JOIN bb_store_work sw ON s.STORE_NUM = sw.STORE_NUM;

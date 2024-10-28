@@ -49,9 +49,38 @@ public class StoreController {
     private final String NO = "N";
     private final String YES = "Y";
 
-    //msg
-    private final String CLOSE_FAIL_MSG = "폐점 전환에 실패했습니다.";
-    private final String SECRET_FAIL_MSG = "가게 승인(공개) 전환에 실패했습니다.";
+    //page
+    private final String PAGE_ADD_STORE = "adminStoreRegister"; //views 하위, 가게 등록
+    private final String PAGE_REPORT_STORE = "userStoreReport"; //views 하위, 가게 제보
+    private final String PAGE_INFO_STORE = "store"; //views 하위, 가게 상세
+    private final String PAGE_LOAD_LIST_STORE = "storeList"; //views 하위, 가게 검색+리스트
+
+
+    //가게 등록 페이지 이동
+    @RequestMapping(value = "/addStore.do", method = RequestMethod.GET)
+    public String addStore(String condition, Model model){
+        log.info("log: /addStore.do addStore GET - start");
+        log.info("log: addStore - input condition : [{}]", condition);
+        String path; //경로 저장 변수
+        if(condition.equals(REPORT_STORE)){//제보라면
+            log.info("log: addStore report");
+            path = PAGE_REPORT_STORE;
+        }
+        else if(condition.equals(ADD_STORE)){//가게 추가라면
+            log.info("log: addStore admin");
+            path = PAGE_ADD_STORE;
+        }
+        else {
+            log.error("log: addStore - error condition");
+            path = FAIL_DO; //일치하는 컨디션 값이 아닐 때 실패처리
+        }
+        model.addAttribute("condition", condition);
+        //확인
+        log.info("log: addStore - send condition : [{}]", condition);
+        log.info("log: /addStore.do addStore GET - end");
+        return path;
+    }
+
 
     //가게 등록 기능 수행
     @RequestMapping(value = "/addStore.do", method = RequestMethod.POST)
@@ -87,8 +116,7 @@ public class StoreController {
 
         //추가한 가게의 PK번호
         storeDTO.setCondition("STORE_NEW_SELECTONE");
-        //FIXME maxPk로 수정 필요
-        int storePK = storeService.selectOne(storeDTO).getStoreNum();
+        int storePK = storeService.selectOne(storeDTO).getMaxPK();
         log.info("log: store insert successful storePK: {}", storePK);
 
         //PK번호 전달 및 메뉴 추가
@@ -151,91 +179,27 @@ public class StoreController {
         return "redirect:loadListStore.do";
     }
 
-    //가게 등록 페이지 이동
-    @RequestMapping(value = "/addStore.do", method = RequestMethod.GET)
-    public String addStore(String condition, Model model){
-        log.info("log: /addStore.do addStore GET - start");
-        log.info("log: addStore - input condition : [{}]", condition);
-        String path; //경로 저장 변수
-        if(condition.equals(REPORT_STORE)){//제보라면
-            log.info("log: addStore report");
-            path = "userStoreReport";
-        }
-        else if(condition.equals(ADD_STORE)){//가게 추가라면
-            log.info("log: addStore admin");
-            path = "adminStoreRegister";
-        }
-        else {
-            log.error("log: addStore - error condition");
-            path = FAIL_DO; //일치하는 컨디션 값이 아닐 때 실패처리
-        }
-        model.addAttribute("condition", condition);
-        //확인
-        log.info("log: addStore - send condition : [{}]", condition);
-        log.info("log: /addStore.do addStore GET - end");
-        return path;
-    }
-
-    //가게 폐점설정
-    @RequestMapping("/updateStoreClose.do")
-    public String updateStoreClose(StoreDTO storeDTO, Model model){
-        log.info("log: /updateStoreClose.do updateStoreClose - start");
-        log.info("log: updateStoreClose - input storeDTO num : [{}]", storeDTO.getStoreNum());
-        HashMap<String, String> filterList = new HashMap<>();
-        filterList.put("UPDATE_CLOSED", this.YES);
-        storeDTO.setFilterList(filterList);
-        if(!storeService.update(storeDTO)){
-            //폐점처리 실패시
-            log.error("log: updateStoreClose - store update closed failed");
-            model.addAttribute("msg", CLOSE_FAIL_MSG);
-            //관리자 가게 신고 목록으로 이동
-            model.addAttribute("path", "loadListStoreReport.do");
-            return FAIL_PATH;
-        }
-        log.info("log: /updateStoreClose.do updateStoreClose - end");
-        //관리자 가게 신고 목록으로 이동
-        return "redirect:loadListStoreReport.do";
-    }
-
-    //가게 비공개 설정
-    @RequestMapping("/updateStoreVisible.do")
-    public String updateStoreVisible(StoreDTO storeDTO, Model model){
-        log.info("log: /updateStoreVisible.do updateStoreVisible - start");
-        log.info("log: updateStoreVisible - input storeDTO num : [{}]", storeDTO.getStoreNum());
-        HashMap<String, String> filterList = new HashMap<>();
-        filterList.put("UPDATE_SECRET", this.NO);
-        storeDTO.setFilterList(filterList);
-        if(!storeService.update(storeDTO)){
-            log.error("log: updateStoreVisible - store update visible failed");
-            model.addAttribute("msg", SECRET_FAIL_MSG);
-            //관리자 가게 제보 목록으로 이동
-            model.addAttribute("path", "loadListStoreTipOff.do");
-            return FAIL_PATH;
-        }
-        log.info("log: /updateStoreVisible.do updateStoreVisible - end");
-        //관리자 가게 제보 목록으로 이동
-        return "redirect:loadListStoreTipOff.do";
-    }
-
     //가게 상세 조회
     @RequestMapping("/infoStore.do")
-    public String infoStore(StoreDTO storeDTO, Model model){
+    public String infoStore(StoreDTO storeDTO, StoreWorkDTO storeWorkDTO, Model model){
         log.info("log: /infoStore.do infoStore - start");
         log.info("log: infoStore - input storeDTO num : [{}]", storeDTO.getStoreNum());
         storeDTO.setCondition("INFO_STORE_SELECTONE");
-        StoreDTO storeInfo = storeService.selectOne(storeDTO);
+        storeDTO = storeService.selectOne(storeDTO);
+        //영업정보 추가
+        storeDTO.setWorkList(storeWorkService.selectAll(storeWorkDTO));
         //데이터 전달
-        model.addAttribute("storeInfo", storeInfo);
+        model.addAttribute("storeInfo", storeDTO);
         //확인
         log.info("log: infoStore - send storeInfo : [{}]", storeDTO);
         log.info("log: /infoStore.do infoStore - end");
-        return "store";
+        return PAGE_INFO_STORE;
     }
 
     //가게 검색 (동기, 전체)
     @RequestMapping("/loadListStore.do")
     public String loadListStore(){
         //TODO 나중에 view와 함께 데이터 타입 정리 후 진행
-        return "storeList";
+        return PAGE_LOAD_LIST_STORE;
     }
 }

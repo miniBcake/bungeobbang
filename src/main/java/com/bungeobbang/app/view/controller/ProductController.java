@@ -42,12 +42,16 @@ public class ProductController {
 
         //쿠키에 조회 기록 추가
         Cookie[] cookies = request.getCookies(); //쿠키 받아오기
-        if(!CookieUtil.cookieAddNewData(response, COOKIE_NAME, cookies, productDTO.getProductNum())){
-            //쿠키 추가에 실패했더라도 해당 상품 정보를 사용자가 볼 수 있도록 개발자에게 안내만 제공
-            log.error("log: [ERROR] infoProduct - create history add Cookie fail!");
-        }
-        else {
-            log.info("log: infoProduct - create history add Cookie success");
+        try {
+            if(!CookieUtil.cookieAddNewData(response, COOKIE_NAME, cookies, productDTO.getProductNum())){
+                //쿠키 추가에 실패했더라도 해당 상품 정보를 사용자가 볼 수 있도록 개발자에게 안내만 제공
+                log.error("log: [ERROR] infoProduct - create history add Cookie fail!");
+            }
+            else {
+                log.info("log: infoProduct - create history add Cookie success");
+            }
+        } catch (NullPointerException e) {
+            throw new RuntimeException(e);
         }
 
         //데이터 전달
@@ -80,8 +84,11 @@ public class ProductController {
         //쿠키 가져와서 디코딩 : 사용자가 최근에 조회한 상품 목록
         Cookie[] cookies = request.getCookies();
         Cookie cookie = CookieUtil.cookieData(cookies, COOKIE_NAME);
-        String viewedProducts = URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8);
-        log.info("log: loadListProduct - viewedProducts : [{}]", viewedProducts);
+        String viewedProducts = null;
+        if(cookie != null) {
+            viewedProducts = URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8);
+            log.info("log: loadListProduct - viewedProducts : [{}]", viewedProducts);
+        }
 
         // 쿠키에서 가져온 상품 목록이 있다면 리스트에 저장
         if (viewedProducts != null && !viewedProducts.isEmpty()) {
@@ -110,7 +117,7 @@ public class ProductController {
                 resentProduct.add(product);
                 log.info("log: loadListProduct - resentProducts.add");
                 // 카테고리 번호별로 상품 수 계산
-                int categoryNum = product.getProductCateNum();
+                int categoryNum = product.getProductCategoryNum();
                 log.info("log: loadListProduct - categoryNum : [{}]", categoryNum);
                 categoryCount.put(categoryNum, categoryCount.getOrDefault(categoryNum, 0) + 1);
             }
@@ -118,7 +125,7 @@ public class ProductController {
             if(CookieUtil.cookieDataDelete(response, cookie, deleteList)){
                 //쿠키 제거에 실패했더라도 상품리스트를 사용자가 볼 수 있도록 개발자에게 안내만 제공
                 log.error("log: [ERROR] loadListProduct - delete history Cookie fail!");
-            };
+            }
 
             // 가장 많이 본 카테고리
             // categoryCount Map에 저장된 카테고리별 조회 횟수를 기준으로 가장 많이 조회된 카테고리를 찾는다.

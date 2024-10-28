@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+//FIXME 설계에 맞게 수정바람
 @Repository
 public class StoreDAO {
 	@Autowired
@@ -117,7 +118,7 @@ public class StoreDAO {
 					STORE_NUM
 				) D 
 				ON S.STORE_NUM = D.STORE_NUM
-			WHERE DECLARED_COUNT >=?
+			WHERE DECLARED_COUNT >=3
 			""";
 
 
@@ -279,14 +280,7 @@ public class StoreDAO {
 				// 신고 개수 조회
 				System.out.println("log : Store selectAll : SELECTALL_DECLARED_CNT");
 				query = SELECTALL_DECLARED_CNT;
-
-				Object[] args = {
-						CNT,
-						storeDTO.getStartNum(),
-						storeDTO.getEndNum()
-						};
-
-				datas = jdbcTemplate.query(query, args, new StoreRowMapper());
+				datas = jdbcTemplate.query(query, new StoreRowMapper());
 			}
 			else {
 				//컨디션 오류
@@ -360,15 +354,15 @@ public class StoreDAO {
 			StoreDTO data = new StoreDTO();
 			data.setStoreNum(rs.getInt("STORE_NUM"));							// 가게 고유번호
 			data.setStoreName(rs.getString("STORE_NAME")); 						// 가게 상호명
-			data.setStoreAddress(rs.getString("STORE_ADDRESS")); 		// 가게 기본주소
-			data.setStoreAddressDetail(rs.getString("STORE_ADDRESS_DETAIL")); 	// 가게 상세주소
-			data.setStoreContact(rs.getString("STORE_CONTACT"));				// 가게 전화번호
+//			data.setStoreAddress(rs.getString("STORE_ADDRESS")); 		// 가게 기본주소
+//			data.setStoreAddressDetail(rs.getString("STORE_ADDRESS_DETAIL")); 	// 가게 상세주소
+//			data.setStoreContact(rs.getString("STORE_CONTACT"));				// 가게 전화번호
 			data.setStoreClosed(rs.getString("STORE_CLOSED")); 					// 가게 폐점여부
 			data.setStoreSecret(rs.getString("STORE_SECRET")); 					// 가게 공개 여부
 			data.setStoreDeclared(rs.getString("STORE_DECLARED")); 				// 가게 신고 여부
-			data.setStoreMenuNormal(rs.getString("STORE_MUNE_NORMAL"));			// 가게 메뉴
+			data.setStoreMenuNormal(rs.getString("STORE_MENU_NORMAL"));			// 가게 메뉴
 			data.setStoreMenuVeg(rs.getString("STORE_MENU_VEG"));
-			data.setStoreMenuMini(rs.getString("STORE_MENU_MINI"));
+//			data.setStoreMenuMini(rs.getString("STORE_MENU_MINI"));
 			data.setStoreMenuPotato(rs.getString("STORE_MENU_POTATO"));
 			data.setStoreMenuIce(rs.getString("STORE_MENU_ICE"));
 			data.setStoreMenuCheese(rs.getString("STORE_MENU_CHEESE"));
@@ -379,7 +373,7 @@ public class StoreDAO {
 			data.setStorePaymentAccount(rs.getString("STORE_PAYMENT_ACCOUNT"));
 
 			System.out.println("log_StoreDAO_selectAll_data : " + data);
-			return null;
+			return data;
 		}
 
 	}

@@ -330,7 +330,7 @@ public class MemberDAO {
 //				//넘어온 값 확인 로그
 //				System.out.println("log: parameter getMemberNum : "+memberDTO.getMemberNum());
 //				data = jdbcTemplate.queryForObject(query,args, new ProfileRowMapper());
-//				
+//
 //			}
 //			else if(memberDTO.getCondition().equals("CNT_CONDITION")) {
 //				//전체회원 수 (+필터검색)
@@ -341,13 +341,13 @@ public class MemberDAO {
 //				// 키워드를 담을 리스트
 //				List<Object> argsList = new ArrayList<>();
 //				query = filterUtil.buildFilterQuery(SELECTONE_CNT,filters).toString();
-//				
-//				argsList = filterUtil.setFilterKeywords(argsList,filters); 		//필터 검색 검색어 
+//
+//				argsList = filterUtil.setFilterKeywords(argsList,filters); 		//필터 검색 검색어
 //				// args 배열화
 //				args = argsList.toArray();
-//				
+//
 //				data = jdbcTemplate.queryForObject(query, args, new CntRowMapper());
-//				
+//
 //			}
 //			else if(memberDTO.getCondition().equals("RECENT_CONDITION")) {
 //				//최신 회원의 수

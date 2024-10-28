@@ -13,12 +13,12 @@ public class StoreMenuServiceImpl implements StoreMenuService{
 
 	@Override
 	public ArrayList<StoreMenuDTO> selectAll(StoreMenuDTO storeMenuDTO) {
-		return this.StoreMenuDAO.selectAll(storeMenuDTO);
+		return null;
 	}
 
 	@Override
 	public StoreMenuDTO selectOne(StoreMenuDTO storeMenuDTO) {
-		return this.StoreMenuDAO.selectOne(storeMenuDTO);
+		return null;
 	}
 
 	@Override

@@ -14,12 +14,12 @@ public class StorePaymentServiceImpl  implements StorePaymentService{
 	
 	@Override
 	public ArrayList<StorePaymentDTO> selectAll(StorePaymentDTO storePaymentDTO) {
-		return this.storePaymentDAO.selectAll(storePaymentDTO);
+		return null;
 	}
 
 	@Override
 	public StorePaymentDTO selectOne(StorePaymentDTO storePaymentDTO) {
-		return this.storePaymentDAO.selectOne(storePaymentDTO);
+		return null;
 	}
 
 	@Override
@@ -34,7 +34,6 @@ public class StorePaymentServiceImpl  implements StorePaymentService{
 
 	@Override
 	public boolean delete(StorePaymentDTO storePaymentDTO) {
-		//return this.storePaymentDAO.delete(storePaymentDTO);
 		return false;
 	}
 	
