@@ -5,105 +5,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>갈빵질빵 - 상품 자세히 보기</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" href="${path}/resources/assets/css/main.css" />
-<link rel="stylesheet" href="${path}/resources/assets/css/productDetail.css" />
-
+    <meta charset="UTF-8">
+    <title>갈빵질빵 - 상품 자세히 보기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="${path}/resources/assets/css/productDetail.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
 </head>
 <body>
 
    <!-- Header -->
    <custom:header />
-
-   <section id="content">
-      <div class="container">
-         <div class="row">
-            <div class="col-12">
-               <!-- Main Content -->
-               <section>
-                  <h2>상품 상세 정보</h2>
-
-                  <div class="product-detail">
-                  <!-- 비동기요청을 하기 위해서 -->
-                   <input type="hidden" id="productNum" name="productNum" value="${product.productNum}">
-                     <p>
-                        <strong>게시글 제목:</strong> ${product.boardTitle}
-                     </p>
-
-                     <div class="product-images">
-                        <!-- 상품 이미지가 있는지 확인 -->
-                        <c:choose>
-                           <c:when test="${not empty product.productProfileWay}">         
-                              <a href="viewProduct.do?productNum=${product.productNum}"
-                                 class="bordered-feature-image"> 
-                                 <img src="${product.productProfileWay}"
-                                 alt="${product.productName}" class="thumbnail-image" />
-                              </a>
-                           </c:when>
-
-                           <c:otherwise>
-                              <a href="viewProduct.do?productNum=${product.productNum}"
-                                 class="bordered-feature-image"> 
-                                 <img src="assets/images/default.png" 
-                                 	  alt="${product.productName}"
-                                      class="thumbnail-image"/>
-                              </a>
-                           </c:otherwise>
-                        </c:choose>
-
-                        <!-- 나머지 사진이 있는지 확인하고 나머지 사진 출력 -->
-                        <div class="gallery">
-                           <c:forEach var="image" items="${images}"
-                              varStatus="status">
-                              <!-- 첫 번째 사진을 제외하고 나머지 사진 출력 -->
-                              <img src="${image.imageWay}" alt="${product.productName} 추가 이미지"
-                                 class="gallery-image"/>
-                           </c:forEach>
-                        </div>
-                     </div>
-
-                     <p>
-                        <strong>상품명:</strong> ${product.productName}
-                     </p>
-                     <p>
-                        <strong>가격:</strong> ${product.productPrice}원
-                     </p>
-                     <p>
-                        <strong>상세 설명:</strong>
-                     </p>
-                     <p>${product.boardContent}</p>
-
-                     <!-- 수량 선택 옵션 -->
-                     <div>
-                        <label for="quantity">수량 선택: </label>
-                        <select id="quantity" class="form-control" style="width: 100px; display: inline-block;">
-                           <option value="1">1</option>
-                           <option value="2">2</option>
-                           <option value="3">3</option>
-                           <option value="4">4</option>
-                           <option value="5">5</option>
-                        </select>
-                     </div>
-
-                     <!-- 구매하기 버튼 -->
-                     <button id="addToCartBtn" class="btn btn-primary" style="margin-top: 10px;">구매하기</button>
-
-                     <!-- 장바구니로 가기 버튼 (비동기 요청 후 보여지도록 설정) -->
-                     <form action="goToCart.do" method="POST" id="goToCartForm" style="display: none; margin-top: 10px;">
-                        <button type="submit" class="btn btn-secondary">장바구니로 가기</button>
-                     </form>
-                  </div>
-               </section>
-            </div>
-         </div>
-      </div>
-   </section>
-
+	<div class="product-page">
+	   <section id="content" class="container mt-5">
+	      <div class="row">
+	         <div class="col-md-6">
+	            <div class="product-images">
+	               <c:choose>
+	                  <c:when test="${not empty product.productProfileWay}">         
+	                     <img src="${product.productProfileWay}"
+	                          alt="${product.productName}" class="thumbnail-image" />
+	                  </c:when>
+	                  <c:otherwise>
+	                     <img src="assets/images/default.png" 
+	                          alt="${product.productName}"
+	                          class="thumbnail-image"/>
+	                  </c:otherwise>
+	               </c:choose>
+	            </div>
+	         </div>
+	
+	         <div class="col-md-4">
+	            <!-- 상품 정보 -->
+				<div class="product-info mb-4 card p-4 shadow-sm">
+				    <h4 class="card-title mb-3" style="font-family: 'Gamja Flower', sans-serif;">상품 정보</h4>
+				    <div class="row mb-2">
+				        <div class="col-3 font-weight-bold">소개</div>
+				        <div class="col-9">${product.boardTitle}</div>
+				    </div>
+				    <div class="row mb-2">
+				        <div class="col-3 font-weight-bold">상품명</div>
+				        <div class="col-9">${product.productName}</div>
+				    </div>
+				    <div class="row mb-2">
+				        <div class="col-3 font-weight-bold">가격</div>
+				        <div class="col-9">${product.productPrice}원</div>
+				    </div>
+				    <div class="row">
+				        <div class="col-3 font-weight-bold">상세 설명</div>
+				        <div class="col-9">${product.boardContent}</div>
+				    </div>
+				</div>
+	
+	
+	            <!-- 수량 선택 -->
+	            <div class="quantity-section mb-4">
+	                <h5>수량 선택</h5>
+	                <select id="quantity" class="form-control" style="width: 100px;">
+	                    <option value="1">1</option>
+	                    <option value="2">2</option>
+	                    <option value="3">3</option>
+	                    <option value="4">4</option>
+	                    <option value="5">5</option>
+	                </select>
+	            </div>
+	
+	            <!-- 버튼 -->
+	            <div class="btn-section">
+	            	<input type="hidden" id="productNum" name="productNum" value="${product.productNum}">
+	                <button id="addToCartBtn" class="btn btn-primary mb-2">구매하기</button>
+	                <form action="goToCart.do" method="POST" id="goToCartForm">
+	                    <button type="submit" class="btn btn-secondary">장바구니로 가기</button>
+	                </form>
+	            </div>
+	         </div>
+	      </div>
+	   </section>
+	</div>
    <!-- Footer -->
    <custom:footer />
 
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
    <script src="${path}/resources/assets/js/jquery.min.js"></script>
    <script src="${path}/resources/assets/js/browser.min.js"></script>
    <script src="${path}/resources/assets/js/util.js"></script>

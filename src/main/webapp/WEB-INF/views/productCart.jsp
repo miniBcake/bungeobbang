@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="${path}/resources/assets/css/main.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="${path}/resources/assets/css/productCart.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
@@ -25,7 +26,7 @@
 
     <div class="container mt-5">
         <div class="row">
-            <h2 class="text-center">장바구니</h2>
+            <h2 class="text-center"><i class="fas fa-shopping-cart me-2"></i>장바구니</h2>
         </div>
 
         <!-- 상단: 선택, 포인트, 충전하기 버튼 -->
@@ -38,16 +39,16 @@
                 <button id="deleteAllBtn" class="btn btn-outline-secondary ms-3" style="display: none;">선택된 상품 삭제</button>
             </div>
 
-			<div class="col-md-6 text-end">
-			    <%
-			        Object myPoint = application.getAttribute("userPoint");
-			        if (myPoint == null) {
-			            myPoint = 0; // 기본값 설정
-			        }
-			    %>
-			    <span>현재 포인트:<strong id="myPoint"><%= myPoint %>P</strong></span>
-			    <button id="chargeButton" class="btn btn-outline-secondary ms-3">충전하기</button>
-			</div>
+            <div class="col-md-6 text-end">
+                <%
+                    Object myPoint = application.getAttribute("userPoint");
+                    if (myPoint == null) {
+                        myPoint = 1000000; // 테스트용 나중에 0으로 바꿔야함
+                    }
+                %>
+                <span>현재 포인트:<strong id="myPoint"><%= myPoint %>P</strong></span>
+                <button id="chargeButton" class="btn btn-outline-secondary ms-3">충전하기</button>
+            </div>
         </div>
 
         <!-- 장바구니 아이템들이 렌더링될 영역 -->
@@ -63,11 +64,48 @@
                 <button id="purchaseButton" class="btn btn-outline-secondary ms-3">구매하기</button>
             </div>
         </div>
+
+        <!-- 배송 정보 및 주문 완료 섹션 (숨김 처리) -->
+        <div class="row order-section mt-5" id="orderSection" style="display: none;">
+            <!-- 1행 1열: 구매한 상품 목록 -->
+            <div class="col-md-6">
+                <h5>구매한 상품 목록</h5>
+                <div class="order-products mt-3">
+                    <!-- JavaScript에서 제품 목록을 삽입할 공간 -->
+                </div>
+            </div>
+        
+            <!-- 1행 2열: 주소 입력 및 주문 완료 버튼 -->
+            <div class="col-md-6">
+                <h5>배송 정보</h5>
+                <div class="form-group">
+                    <label for="nameInput"><strong>이름</strong></label>
+                    <input type="text" id="nameInput" name="name" class="form-control" placeholder="이름을 입력하세요" value="${privateName}">
+                </div>
+                
+                <!-- 주소 입력 섹션 -->
+                <div class="form-group">
+                    <label for="addressSearch"><strong>배송지</strong></label>
+                    <div class="input-group">
+                        <input type="button" id="addressSearchButton" onclick="sample2_execDaumPostcode()" value="주소 검색" class="btn btn-outline-primary mb-2"><br>
+                        <input type="text" id="postcode" placeholder="우편번호" readonly class="form-control mb-2"><br>
+                        <input type="text" id="addressMain" name="address" value="${mainAddress}" placeholder="주소 검색을 진행해주세요" readonly class="form-control mb-2"><br>
+                        <input type="text" id="addressDetail" name="addressDetail" value="${detailAddress}" placeholder="상세 주소를 입력해주세요" class="form-control mb-2"><br>
+                        <input type="text" id="phoneInput" class="form-control" placeholder="전화번호">
+                    </div>                 
+                </div>
+
+                <!-- 주문 완료 버튼 -->
+                <div class="text-right mt-3">
+                    <button id="completeOrderButton" class="btn btn-primary" style="display: none;">주문 완료</button>
+                </div>
+            </div>
+        </div>
     </div>
-   
 
     <!-- Footer -->
     <custom:footer />
+    
     <script>
         // JSON 문자열을 JavaScript에서 사용하기 전에 디코딩합니다.
         const encodedCartItemsString = '${fn:escapeXml(cartItemsJson)}';
@@ -91,10 +129,13 @@
             console.log('파싱 시도한 문자열: ', decodedCartItemsString);
         }
     </script>
+     <!-- 다음주소 API -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="${path}/resources/assets/js/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="${path}/resources/assets/js/product/productCart.js"></script>
+    <script src="${path}/resources/assets/js/daumPostCode.js"></script>
 </body>
 
 </html>

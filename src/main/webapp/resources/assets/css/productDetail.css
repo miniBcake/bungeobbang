@@ -1,11 +1,120 @@
-@charset "UTF-8";
-.product-images img {
-    max-width: 50%;  /* 이미지가 부모 요소의 너비를 넘지 않도록 제한 */
-    height: auto;     /* 비율을 유지하며 자동으로 높이 조정 */
+.product-page {
+	/* 컨테이너 스타일 */
+	.container {
+	    max-width: 1200px;
+	    margin: 0 auto;
+	    padding: 20px;
+	    background-color: #fdfdfd;
+	    border-radius: 10px;
+	    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+	    font-family: 'Gamja Flower', cursive; /* 구글 폰트 적용 */
+	}
+	
+	/* 제품 상세 정보 스타일 */
+	.product-detail {
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    justify-content: center;
+	    margin-top: 20px;
+	}
+	
+	/* 이미지 스타일 */
+	.product-images {
+	    margin-bottom: 20px;
+	}
+	
+	.thumbnail-image {
+	    width: 100%;
+	    max-height: 500px;
+	    object-fit: cover;
+	    border-radius: 8px;
+	    transition: transform 0.3s ease;
+	    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+	}
+	
+	.thumbnail-image:hover {
+	    transform: scale(1.05);
+	}
+	
+	/* 제품 정보 스타일 */
+	.product-info {
+	    background-color: #f8f9fa; /* 부드러운 배경색 */
+	    border-radius: 8px;
+	    padding: 20px;
+	    font-family: 'Gamja Flower', sans-serif;
+	}
+	
+	.product-info .row {
+	    border-bottom: 1px solid #ddd; /* 각 행 사이에 구분선 추가 */
+	    padding: 8px 0;
+	}
+	
+	.product-info .row:last-child {
+	    border-bottom: none; /* 마지막 행에는 구분선 제거 */
+	}
+	
+	.product-info th {
+	    width: 30%;
+	    font-weight: bold;
+	    text-align: left;
+	}
+	
+	.product-info td {
+	    text-align: left;
+	}
+	
+	/* 텍스트 정보 스타일 */
+	.product-detail-info p {
+	    font-size: 1.1rem;
+	    margin: 10px 0;
+	    color: #444;
+	}
+	
+	.product-detail-info strong {
+	    font-size: 1.2rem;
+	    color: #111;
+	    margin-bottom: 10px;
+	    display: block;
+	}
+	
+	/* 버튼 스타일 */
+	.btn {
+	    padding: 12px 25px;
+	    font-size: 1rem;
+	    border: none;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    transition: background-color 0.3s ease, transform 0.2s ease;
+	    margin-top: 15px;
+	    width: 100%;
+	}
+	
+	.btn-primary {
+	    background-color: #007bff;
+	    color: white;
+	    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+	}
+	
+	.btn-primary:hover {
+	    background-color: #0056b3;
+	    transform: translateY(-2px);
+	}
+	
+	.btn-secondary {
+	    background-color: #6c757d;
+	    color: white;
+	    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+	}
+	
+	.btn-secondary:hover {
+	    background-color: #5a6268;
+	    transform: translateY(-2px);
+	}
+	
+	/* 버튼 섹션 스타일 */
+	.btn-section {
+	    padding-top: 20px;
+	}
 }
 
-.gallery-image {
-    width: 300px;     /* 갤러리 이미지의 고정 너비 */
-    height: 200px;    /* 갤러리 이미지의 고정 높이 */
-    object-fit: cover; /* 이미지를 잘라서 비율에 맞춤 */
-}
