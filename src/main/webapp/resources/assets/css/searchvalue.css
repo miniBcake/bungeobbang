@@ -5,20 +5,12 @@
 	--store-data-title-font-size: 150%;
 	--store-data-content-font-size: 100%;
 	/* size */
-	--half-size: 46%;
-	--icon-size: 10%;
-	--search-value-clac: 15%;
+	--map-size: 800px;
+	--addressSearch-size: 120px;
+	--scrollContainer-size: calc(var(--map-size) - var(--addressSearch-size) - 10px);
 }
 
-.scroll-container {
-	max-width: 100%; /* 카드의 최대 너비 */
-	overflow-y: auto; /* 스크롤 가능 */
-	max-height: 100%; /* 최대 높이 */
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-}
-
+/* searchContainer 제거 예상 */
 .searchContainer {
 	border: 1px solid black;
 	background-color: white;
@@ -26,15 +18,61 @@
 	height: 500px;
 }
 
+/*------ addressSearchStore에서 사용 ------*/
+/* 지도 출력 부분 */
+.fullMap {
+	width: 100% !important;
+	height: var(--map-size) !important;
+}
+
+/* 가게 검색 결과 */
 .mapSearchContainer {
 	border: 1px solid black;
 	background-color: white;
 	width: 100%;
-	height: 800px;
+	height: var(--map-size) !important;
 	
+	display: flex;
+	flex-direction: column;
 }
 
-/* searchValue 컨테이너 */
+	.addressSearch{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		
+		width: 100%;
+		height: var(--addressSearch-size);
+	}
+
+		.addressSearch section {
+			text-align: center;
+			padding:5px;
+		}
+	
+		.addressSearch section:first-child {
+			margin-top: 10px;
+		}
+		
+		.addressSearch section:last-child {
+			margin-bottom: 10px;
+		}
+		
+		
+			
+		.scrollContainer {	
+			height: var(--scrollContainer-size);
+	
+			/* 스크롤 가능 */
+			overflow-y: auto;
+			overflow-x: hidden;
+			
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+/*---------------------------------------*/
+
+/*----------- storeList에서 사용 -----------*/
 .searchValue {
 	width: 100%;
 	min-height: 500px;
@@ -44,26 +82,16 @@
 	justify-content: center;
 }
 
-.map {
-	width: 95%;
-	height: 60%;
-	margin: 0px;
-}
+	.map {
+		width: 95% !important;
+		height: 300px !important;
+		margin: 0px;
+	}
+	
+/*---------------------------------------*/
 
-.fullMap {
-	width: 100% !important;
-	height: 800px !important;
-}
-
-/* 임시 맵 크기 */
-.searchValue .mapValue {
-	width: 100%;
-	height: 100%;
-	/*부모 요소와 상관없이*/
-	object-fit: fill;
-}
-
-.searchValue .storeList {
+/*------ simpleStoreData 태그에서 사용 ------*/
+ .storeList {
 	width: 100%;
 	height: 100%;
 	margin: 0px;
@@ -73,67 +101,49 @@
 	justify-items: center;
 }
 
-.searchValue .storeData {
-	border: 1px solid black;
-	height: var(--half-size);
-	padding: 5px;
-	display: flex;
-	flex-flow: column;
-	margin: 1px;
-}
+	.storeList .storeData {
+		border: 1px solid black;
+		width: 98%;
+		padding: 5px;
+		display: flex;
+		flex-flow: column;
+		margin: 3px;
+		background-color: white;
+	}
 
-.storeData {
-	border: 1px solid black;
-	width: 400px;
-	height: 25%;
-	padding: 5px;
-	background-color: white;
-}
+		.storeData.active {
+			border: 3px solid black;
+		}
 
-.icon {
-	width: var(--icon-size);
-	height: var(--icon-size);
-}
+		.storeData .storeDataTitle {
+			font-size: var(--store-data-title-font-size);
+			height: 10%;
+			width: 100%
+		}
 
-.searchValue .storeDataTitle {
-	font-size: var(--store-data-title-font-size);
-	height: 10%;
-	width: 100%
-}
+			.storeDataTitle h4 {
+				margin: 5px;
+			}
 
-.storeDataTitle h4 {
-	margin: 5px;
-}
+			.storeDataContent {
+				font-size: 100%;
+				display: flex;
+				margin: 1px;
+				width: 100%;
+			}
 
-.searchValue .storeDataContent {
-	font-size: 100%;
-	display: flex;
-	margin: 1px;
-}
+				.storeDataContent span {
+					width: 100%;
+				}
 
-.storeDataContent span {
-	width: 100%;
-}
+				.storeDataContent button {
+					font-size: 100%;
+					white-space: nowrap;
+					display: inline-block;
+				}
+/*---------------------------------------*/
 
-.storeDataContent button {
-	font-size: 100%;
-	white-space: nowrap;
-	display: inline-block;
-}
-
-.storeData.active {
-	border: 3px solid black;
-}
-
-h4 {
-	font-size: 100%;
-}
-
-a {
-	color: inherit;
-	text-decoration: none;
-}
-
+/*--------- 범용 style 추가  -----------*/
 .nonePadding {
 	padding: 0px !important;
 }
@@ -146,6 +156,16 @@ a {
 	width: 100%;
 	height: 100%;
 }
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+h4 {
+	font-size: 100%;
+}
+/*-----------------------------------*/
 
 @media ( max-width :1200px) {
 	.container {
