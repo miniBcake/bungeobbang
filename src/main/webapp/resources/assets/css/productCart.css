@@ -89,6 +89,99 @@
 .fade-out {
     animation: fadeOut 0.5s ease-out forwards;
 }
+/* 배송 정보 및 주문 완료 섹션 스타일 */
+#orderSection {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#orderSection h5 {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* 주소 검색 버튼 스타일 */
+#addressSearchButton {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#addressSearchButton:hover {
+    background-color: #0056b3;
+}
+
+/* 우편번호 및 주소 입력 필드 스타일 */
+#postcode,
+#addressMain,
+#addressDetail {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* 전화번호 입력 필드 스타일 */
+#phoneInput {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* 전화번호 변경 버튼 스타일 */
+#phoneChangeButton {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#phoneChangeButton:hover {
+    background-color: #0056b3;
+}
+
+/* 주소 검색 레이어 스타일 */
+#addressLayer {
+    display: none; /* 기본적으로 숨김 처리 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    z-index: 1000;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 닫기 버튼 스타일 */
+#btnCloseLayer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+}
 
 @keyframes fadeOut {
     from { opacity: 1; }
