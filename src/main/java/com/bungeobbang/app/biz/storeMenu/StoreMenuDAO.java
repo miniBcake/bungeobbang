@@ -52,6 +52,16 @@ public class StoreMenuDAO {
 			"STORE_MENU_PASTRY = ?, STORE_MENU_OTHER = ? " +
 			"WHERE STORE_NUM = ?";
 
+	//가게 별 검색 개수
+	final String SELECTONE_CNT = "SELECT SUM(STORE_MENU_NORMAL = 'Y') AS STORE_MENU_NORMAL_CNT, " +
+			"    SUM(STORE_MENU_VEG = 'Y') AS STORE_MENU_VEG_CNT, " +
+			"    SUM(STORE_MENU_MINI = 'Y') AS STORE_MENU_MINI_CNT, " +
+			"    SUM(STORE_MENU_POTATO = 'Y') AS STORE_MENU_POTATO_CNT, " +
+			"    SUM(STORE_MENU_ICE = 'Y') AS STORE_MENU_ICE_CNT, " +
+			"    SUM(STORE_MENU_CHEESE = 'Y') AS STORE_MENU_CHEESE_CNT, " +
+			"    SUM(STORE_MENU_PASTRY = 'Y') AS STORE_MENU_PASTRY_CNT, " +
+			"    SUM(STORE_MENU_OTHER = 'Y') AS STORE_MENU_OTHER_CNT FROM BB_STORE_MENU";
+
 
 	//   StoreMenuDAO insert   ---------------------------------------------- ----------------------------------------   
 
@@ -210,33 +220,56 @@ public class StoreMenuDAO {
 		System.out.println("log_StoreMenuDAO__selectOne_data null setting complete");
 
 		try {
-			//[5] pstmt 변수 선언 : () 안 쿼리문으로 실행 준비 완료.
-			//SQL DB와 연결하여 SELECTONE 변수값 미리 컴파일, 실행 준비
-			pstmt = conn.prepareStatement(SELECTONE);
-			System.out.println("log_StoreMenuDAO_selectOne_pstmt conn");
+			if(storeMenuDTO.getCondition() == null || storeMenuDTO.getCondition().isEmpty()){
+				//[5] pstmt 변수 선언 : () 안 쿼리문으로 실행 준비 완료.
+				//SQL DB와 연결하여 SELECTONE 변수값 미리 컴파일, 실행 준비
+				pstmt = conn.prepareStatement(SELECTONE);
+				System.out.println("log_StoreMenuDAO_selectOne_pstmt conn");
 
-			//[6] 인자값으로 받은 데이터 쿼리문에 삽입
-			pstmt.setInt(1, storeMenuDTO.getStoreNum());   //가게 고유번호 입력
-			System.out.println("log_StoreMenuDAO_selectOne_pstmt input complete");
+				//[6] 인자값으로 받은 데이터 쿼리문에 삽입
+				pstmt.setInt(1, storeMenuDTO.getStoreNum());   //가게 고유번호 입력
+				System.out.println("log_StoreMenuDAO_selectOne_pstmt input complete");
 
-			//[7] rs 변수 선언 : SELECTONE 쿼리문 실행
-			rs = pstmt.executeQuery();
-			System.out.println("log_StoreMenuDAO_selectOne_executeQuery() complete");
+				//[7] rs 변수 선언 : SELECTONE 쿼리문 실행
+				rs = pstmt.executeQuery();
+				System.out.println("log_StoreMenuDAO_selectOne_executeQuery() complete");
 
-			//[8] 특정 가게메뉴 카테고리별 붕어빵 판매 여부 불러오기
-			if(rs.next()) {
-				data = new StoreMenuDTO();
-				data.setStoreMenuNormal(rs.getString("STORE_MENU_NOMAL"));    // 팥/슈프림 붕어빵 판매 여부(Y/N)
-				data.setStoreMenuVeg(rs.getString("STORE_MENU_VEG"));   // 야채/김치/만두 판매 여부(Y/N)
-				data.setStoreMenuMini(rs.getString("STORE_MENU_MINI"));      // 미니 붕어빵 판매 여부(Y/N)s
-				data.setStoreMenuPotato(rs.getString("STORE_MENU_POTATO"));   // 고구마 붕어빵 판매 여부(Y/N)
-				data.setStoreMenuIce(rs.getString("STORE_MENU_ICE"));   // 아이스크림/초코 붕어빵 판매 여부(Y/N)
-				data.setStoreMenuCheese(rs.getString("STORE_MENU_CHEESE"));   // 치즈 붕어빵 판매 여부(Y/N)
-				data.setStoreMenuPastry(rs.getString("STORE_MENU_PASTRY")); // 페스츄리 붕어빵 판매 여부(Y/N)
-				data.setStoreMenuOther(rs.getString("STORE_MENU_OTHER"));    // 기타 붕어빵 해당 여부(Y/N)
-				data.setStoreNum(rs.getInt("STORE_NUM"));               // 가게 고유번호(FK)
-				System.out.println("log_StoreMenuDAO_selectOne_data : " + data);
-			}rs.close();
+				//[8] 특정 가게메뉴 카테고리별 붕어빵 판매 여부 불러오기
+				if(rs.next()) {
+					data = new StoreMenuDTO();
+					data.setStoreMenuNormal(rs.getString("STORE_MENU_NORMAL"));    // 팥/슈프림 붕어빵 판매 여부(Y/N)
+					data.setStoreMenuVeg(rs.getString("STORE_MENU_VEG"));   // 야채/김치/만두 판매 여부(Y/N)
+					data.setStoreMenuMini(rs.getString("STORE_MENU_MINI"));      // 미니 붕어빵 판매 여부(Y/N)s
+					data.setStoreMenuPotato(rs.getString("STORE_MENU_POTATO"));   // 고구마 붕어빵 판매 여부(Y/N)
+					data.setStoreMenuIce(rs.getString("STORE_MENU_ICE"));   // 아이스크림/초코 붕어빵 판매 여부(Y/N)
+					data.setStoreMenuCheese(rs.getString("STORE_MENU_CHEESE"));   // 치즈 붕어빵 판매 여부(Y/N)
+					data.setStoreMenuPastry(rs.getString("STORE_MENU_PASTRY")); // 페스츄리 붕어빵 판매 여부(Y/N)
+					data.setStoreMenuOther(rs.getString("STORE_MENU_OTHER"));    // 기타 붕어빵 해당 여부(Y/N)
+					data.setStoreNum(rs.getInt("STORE_NUM"));               // 가게 고유번호(FK)
+					System.out.println("log_StoreMenuDAO_selectOne_data : " + data);
+				}
+				rs.close();
+			}
+			else if (storeMenuDTO.getCondition().equals("SELECT_CNT")){
+				pstmt = conn.prepareStatement(SELECTONE_CNT);
+				//[7] rs 변수 선언 : SELECTONE 쿼리문 실행
+				rs = pstmt.executeQuery();
+				System.out.println("log_StoreMenuDAO_selectOne_executeQuery() complete");
+				//[8] 특정 가게메뉴 카테고리별 붕어빵 판매 여부 불러오기
+				if(rs.next()) {
+					data = new StoreMenuDTO();
+					data.setStoreMenuNormalCnt(rs.getInt("STORE_MENU_NORMAL_CNT"));    // 팥/슈프림 붕어빵 판매 여부(Y) 개수
+					data.setStoreMenuVegCnt(rs.getInt("STORE_MENU_VEG_CNT"));   // 야채/김치/만두 판매 여부(Y) 개수
+					data.setStoreMenuMiniCnt(rs.getInt("STORE_MENU_MINI_CNT"));      // 미니 붕어빵 판매 여부(Y) 개수
+					data.setStoreMenuPotatoCnt(rs.getInt("STORE_MENU_POTATO_CNT"));   // 고구마 붕어빵 판매 여부(Y) 개수
+					data.setStoreMenuIceCnt(rs.getInt("STORE_MENU_ICE_CNT"));   // 아이스크림/초코 붕어빵 판매 여부(Y) 개수
+					data.setStoreMenuCheeseCnt(rs.getInt("STORE_MENU_CHEESE_CNT"));   // 치즈 붕어빵 판매 여부(Y) 개수
+					data.setStoreMenuPastryCnt(rs.getInt("STORE_MENU_PASTRY_CNT")); // 페스츄리 붕어빵 판매 여부(Y) 개수
+					data.setStoreMenuOtherCnt(rs.getInt("STORE_MENU_OTHER_CNT"));    // 기타 붕어빵 해당 여부(Y) 개수
+					System.out.println("log_StoreMenuDAO_selectOne_data : " + data);
+				}
+				rs.close();
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 			System.err.println("log_StoreMenuDAO_selectOne_Exception fail : Exception e ");

@@ -24,7 +24,7 @@ public class ImageAsyncController {
     @RequestMapping("/addImage.do")
     public @ResponseBody boolean addImage(HttpSession session, ServletContext servletContext, @RequestBody ImageFileDTO imageFileDTO) {
         log.info("log: /addImage.do addImage - start");
-        log.info("log: /addImage.do addImage - input imageFileDTO: " + imageFileDTO);
+        log.info("log: /addImage.do addImage - param imageFileDTO: " + imageFileDTO);
         //폴더명은 게시글 작성 페이지가 열릴 때 view에 전달
         MultipartFile file = imageFileDTO.getFile();
         String fileName;

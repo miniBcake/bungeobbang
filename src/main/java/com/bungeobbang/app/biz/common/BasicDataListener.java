@@ -50,14 +50,7 @@ public class BasicDataListener implements ApplicationListener<ContextRefreshedEv
 	private void initData() {
 		System.out.println("리스너시작");
 		if(productCateService.selectAll(productCateDTO).isEmpty()) {
-      	 ArrayList<String> categoryNames = new ArrayList<>();
-           categoryNames.add("문구류");
-           categoryNames.add("악세사리");
-           categoryNames.add("생활용품");
-           categoryNames.add("의류");
-           categoryNames.add("전자기기 및 관련 제품");
-        // 리스트를 순회하며 카테고리 이름을 DTO에 설정 후 DB에 삽입
-           for (String categoryName : categoryNames) {
+           for (String categoryName : productCategory) {
                productCateDTO.setProductCategoryName(categoryName);  // 카테고리 이름 설정
                boolean flag = productCateService.insert(productCateDTO);  // DB에 삽입
                if (flag) {

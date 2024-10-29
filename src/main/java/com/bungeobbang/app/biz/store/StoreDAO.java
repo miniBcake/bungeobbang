@@ -121,6 +121,15 @@ public class StoreDAO {
 			WHERE DECLARED_COUNT >=3
 			""";
 
+	private final String SELECTALL_VISIBLE_LIST = """
+			SELECT bs.STORE_NUM, bs.STORE_NAME, bs.STORE_ADDRESS, bs.STORE_ADDRESS_DETAIL, bs.STORE_CONTACT, bs.STORE_CLOSED, bs.STORE_SECRET,
+				bsm.STORE_MENU_NORMAL, bsm.STORE_MENU_VEG, bsm.STORE_MENU_MINI, bsm.STORE_MENU_POTATO, bsm.STORE_MENU_ICE, bsm.STORE_MENU_CHEESE, bsm.STORE_MENU_PASTRY, bsm.STORE_MENU_OTHER,
+				bsp.STORE_PAYMENT_CASHMONEY, bsp.STORE_PAYMENT_CARD, bsp.STORE_PAYMENT_ACCOUNT 
+			FROM bb_store bs
+				LEFT JOIN bb_store_menu bsm ON bs.STORE_NUM = bsm.STORE_NUM
+				LEFT JOIN bb_store_payment bsp ON bs.STORE_NUM = bsp.STORE_NUM
+			ORDER BY bs.STORE_SECRET desc, bs.STORE_NUM desc;
+			""";
 
 	//항상 조건절 충족하도록 WHERE 1=1 변수 생성
 	private final String SELECTALLNUMFILTER = " WHERE 1=1 ";
@@ -281,6 +290,11 @@ public class StoreDAO {
 				System.out.println("log : Store selectAll : SELECTALL_DECLARED_CNT");
 				query = SELECTALL_DECLARED_CNT;
 				datas = jdbcTemplate.query(query, new StoreRowMapper());
+			}
+			else if(storeDTO.getCondition().equals("STORE_TIP_OFF_LIST")) {
+				//가게 비공개 조회
+				System.out.println("log : Store selectAll : STORE_TIP_OFF_LIST");
+				datas = jdbcTemplate.query(SELECTALL_VISIBLE_LIST, new StoreRowMapper());
 			}
 			else {
 				//컨디션 오류

@@ -37,10 +37,11 @@ public class AdminController {
     private final String PAGE_REPORT_LIST = "closedStoreDeclareList"; //views 하위 신고목록 페이지
     private final String PAGE_TIPOFF_LIST = "storeDeclareList"; //views 하위 가게 제보목록 페이지
 
+    //가게 주문 완료처리
     @RequestMapping("/updateOrderCheck.do")
     public String updateOrderCheck(OrderDTO orderDTO, Model model) {
         log.info("log: /updateOrderCheck.do updateOrderCheck - start");
-        log.info("log: updateOrderCheck - input orderDTO: {}", orderDTO);
+        log.info("log: updateOrderCheck - param orderDTO: {}", orderDTO);
         if(!orderService.update(orderDTO)){
             log.error("log: updateOrderCheck - update failed");
             model.addAttribute("msg", ORDER_UPDATE_FAIL);
@@ -51,12 +52,14 @@ public class AdminController {
         return "redirect:/loadListOrder.do";
     }
 
+    //가게 주문 리스트
     @RequestMapping("/loadListOrder.do")
     public String loadListOrder(){
         //KS 일단 보류 장바구니쪽이 정리되면 맞춰서 데이터 전달
         return PAGE_ORDER_LIST;
     }
 
+    //가게 신고 리스트
     @RequestMapping("/loadListStoreReport.do")
     public String loadListStoreReport(Model model){
         StoreDTO storeDTO = new StoreDTO();
@@ -65,7 +68,7 @@ public class AdminController {
         return PAGE_REPORT_LIST;
     }
 
-    //KS DB확인 STORE_TIP_OFF_LIST
+    //가게 제보리스트
     @RequestMapping("/loadListStoreTipOff.do")
     public String loadListStoreTipOff(Model model){
         StoreDTO storeDTO = new StoreDTO();
@@ -74,27 +77,26 @@ public class AdminController {
         return PAGE_TIPOFF_LIST;
     }
 
+    //가게 삭제
     @RequestMapping("/deleteStore.do")
     public String deleteStore(StoreDTO storeDTO, Model model){
         log.info("log: /deleteStore.do deleteStore - start");
-        log.info("log: deleteStore - input storeDTO: {}", storeDTO);
+        log.info("log: deleteStore - param storeDTO: {}", storeDTO);
         if(!storeService.delete(storeDTO)){
             log.error("log: deleteStore - delete failed");
             model.addAttribute("msg", STORE_DELETE_FAIL);
-            model.addAttribute("path", "");
+            model.addAttribute("path", "loadListStoreReport.do");
             return FAIL_URL;
         }
         log.info("log: /deleteStore.do deleteStore - end");
         return "redirect:loadListStoreReport.do";
     }
 
-    //관리자 파트에서 사용하는 기능
-
     //가게 폐점설정
     @RequestMapping("/updateStoreClose.do")
     public String updateStoreClose(StoreDTO storeDTO, Model model){
         log.info("log: /updateStoreClose.do updateStoreClose - start");
-        log.info("log: updateStoreClose - input storeDTO num : [{}]", storeDTO.getStoreNum());
+        log.info("log: updateStoreClose - param storeDTO num : [{}]", storeDTO.getStoreNum());
         HashMap<String, String> filterList = new HashMap<>();
         filterList.put("UPDATE_CLOSED", this.YES);
         storeDTO.setFilterList(filterList);
@@ -115,7 +117,7 @@ public class AdminController {
     @RequestMapping("/updateStoreVisible.do")
     public String updateStoreVisible(StoreDTO storeDTO, Model model){
         log.info("log: /updateStoreVisible.do updateStoreVisible - start");
-        log.info("log: updateStoreVisible - input storeDTO num : [{}]", storeDTO.getStoreNum());
+        log.info("log: updateStoreVisible - param storeDTO num : [{}]", storeDTO.getStoreNum());
         HashMap<String, String> filterList = new HashMap<>();
         filterList.put("UPDATE_SECRET", this.NO);
         storeDTO.setFilterList(filterList);
