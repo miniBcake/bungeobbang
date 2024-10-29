@@ -185,9 +185,9 @@ public class StoreController {
     public String infoStore(StoreDTO storeDTO, StoreWorkDTO storeWorkDTO, Model model){
         log.info("log: /infoStore.do infoStore - start");
         log.info("log: infoStore - param storeDTO num : [{}]", storeDTO.getStoreNum());
+        //영업정보 추가
         storeDTO.setCondition("INFO_STORE_SELECTONE");
         storeDTO = storeService.selectOne(storeDTO);
-        //영업정보 추가
         storeDTO.setWorkList(storeWorkService.selectAll(storeWorkDTO));
         //데이터 전달
         model.addAttribute("storeInfo", storeDTO);
