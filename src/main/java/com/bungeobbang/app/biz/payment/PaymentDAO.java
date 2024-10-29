@@ -3,6 +3,7 @@ package com.bungeobbang.app.biz.payment;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,13 +21,13 @@ public class PaymentDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	//insert 쿼리
-	private final String INSERT_PAYMENT = "INSERT INTO BB_PAYMENT(PAYMENT_NUM, PAYMENT_STATUS, PAYMENT_AMOUNT, PAYMENT_DAY, PAYMENT_USED) "
-			+ "VALUES(?,?,?,?,?)";
+	private final String INSERT_PAYMENT = "INSERT INTO BB_PAYMENT(MEMBER_NUM, PAYMENT_AMOUNT) "
+			+ "VALUES(?,?)";
 	//update 쿼리
-	private final String UPDATE_ADMINCHECK = "UPDATE BB_PAYMENT SET ADMIN_CHECKED = 'Y' WHERE BB_PAYMENT = ?";
+	private final String UPDATE_ADMINCHECK = "UPDATE BB_PAYMENT SET ADMIN_CHECKED = 'Y' WHERE PAYMENT_NUM = ?";
 
 	//selectAll 쿼리
-	private final String SELECTALL = "SELECT PAYMENT_NUM, MEMBER_NUM, PAYMENT_STATUS, PAYMENT_AMOUNT, PAYMENT_DAY, PAYMENT_USED, ADMIN_CHECK "
+	private final String SELECTALL = "SELECT PAYMENT_NUM, MEMBER_NUM, ADMIN_CHECKED "
 			+ "FROM BB_PAYMENT";
 
 	private final String NUMFILTER = "WHERE 1=1";
@@ -34,9 +35,9 @@ public class PaymentDAO {
 	private final String SELECTALL_ENDPART = "ORDER BY PAYMENT_NUM LIMIT ?,?";
 
 	//selectOne 쿼리
-	private final String SELECTONE = "SELECT PAYMENT_NUM, Payment_NUM, PAYMENT_STATUS, PAYMENT_AMOUNT, PAYMENT_DAY, PAYMENT_USED, POINT_NUM, ADMIN_CHECK"
+	private final String SELECTONE = "SELECT PAYMENT_NUM, POINT_NUM, ADMIN_CHECKED "
 			+ "FROM BB_PAYMENT "
-			+ "WHERE PAYMENT_NUM = ?";
+			+ "WHERE PAYMENT_NUM = ? ";
 
 
 	public boolean insert(PaymentDTO paymentDTO) {
@@ -49,11 +50,8 @@ public class PaymentDAO {
 			System.out.println("log : Payment insert : INSERT_PAYMENT");
 			query= INSERT_PAYMENT;
 			args=new Object[] {
-					paymentDTO.getPaymentNum(),//회원 번호
-					paymentDTO.getPaymentStatus(),//결제 상태
-					paymentDTO.getPaymentAmount(),//결제 금액
-					paymentDTO.getPaymentDay(),//결제일
-					paymentDTO.getPaymentUsed(),//결제 방식
+					paymentDTO.getMemberNum(),//회원 번호
+					paymentDTO.getPaymentAmount()//결제 금액
 			};
 
 			System.out.println("log: parameter paymentDTO ["+paymentDTO+"]");
@@ -141,16 +139,17 @@ public class PaymentDAO {
 			// 필터 검색 객체 생성
 			PaymentFilter filterUtil = new PaymentFilter();
 			//args 리스트
-			List<Object> argsList = new ArrayList(); 
 			// Map에 따른 query문 생성
 			query = filterUtil.buildFilterQuery(query,filters).append(" "+SELECTALL_ENDPART).toString();
-			filterUtil.setFilterKeywords(argsList, filters);
+			List<Object> argsList = new ArrayList<>(); 
+			argsList = filterUtil.setFilterKeywords(argsList, filters);
 
 			argsList.add(paymentDTO.getStartNum());
 			argsList.add(paymentDTO.getEndNum());
 			// 페이지 네이션 시작, 끝 (Limit ?,?)
 			System.out.println("log: Payment SELECTALL_PAYMENT_FILTER (startNum, endNum) = ( "
 					+paymentDTO.getStartNum()+" , "+paymentDTO.getEndNum()+" )");
+			args = argsList.toArray(); //args 배열화
 		}
 		else {
 			//컨디션값 오류
@@ -159,7 +158,7 @@ public class PaymentDAO {
 		// 쿼리문 실행
 		System.out.println("log : Payment query = "+query);
 		try {
-			jdbcTemplate.query(query, args, new PaymentRowMapper());
+			datas = jdbcTemplate.query(query, args, new PaymentRowMapper());
 		}catch (Exception e) {
 			System.err.println("log: Payment selectAll Exception fail");
 			e.printStackTrace();
@@ -176,7 +175,8 @@ public class PaymentDAO {
 		PaymentDTO data = new PaymentDTO();
 		if(paymentDTO.getCondition().equals("SELECTONE_PAYMENT")) {
 			System.out.println("log : Payment selectOne : SELECTONE_PAYMENT");
-			query = SELECTONE;	
+			query = SELECTONE;
+			args = new Object[] {paymentDTO.getPaymentNum()};
 		}
 		else {
 			//컨디션값 오류
@@ -201,11 +201,8 @@ public class PaymentDAO {
 			PaymentDTO data = new PaymentDTO();
 			data.setPaymentNum(rs.getInt("PAYMENT_NUM")); //지불내역 번호
 			data.setMemberNum(rs.getInt("MEMBER_NUM")); //회원번호
-			data.setPaymentStatus(rs.getString("PAYMENT_STATUS")); //결제 상태
 			data.setPaymentAmount(rs.getInt("PAYMENT_AMOUNT")); // 결제 금액
-			data.setPaymentDay(rs.getString("PAYMENT_DAY")); //결제일
-			data.setPaymentUsed(rs.getString("PAYMENT_USED")); //결제 방식
-			data.setAdminChecked(rs.getString("ADMIN_CHECK")); // 관리자 확인 여부
+			data.setAdminChecked(rs.getString("ADMIN_CHECKED")); // 관리자 확인 여부
 			System.out.println("log : result ["+data.getPaymentNum()+"]");
 			return data;
 		}

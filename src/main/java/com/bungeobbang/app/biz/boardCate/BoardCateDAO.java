@@ -21,18 +21,19 @@ public class BoardCateDAO {
     private final String SELECTONE = "SELECT BOARD_CATEGORY_NUM FROM BB_BOARD_CATEGORY where BOARD_CATEGORY_NAME = ?";
 
     public boolean insert(BoardCateDTO boardCateDTO) {
-        System.out.println("Insert BoardCateDTO getBoardCateName: ["+ boardCateDTO.getBoardCateName()+"]");
-        return jdbcTemplate.update(INSERT, boardCateDTO.getBoardCateName()) > 0;
+        System.out.println("Insert BoardCateDTO getBoardCateName: ["+ boardCateDTO.getBoardCategoryName()+"]");
+        return jdbcTemplate.update(INSERT, boardCateDTO.getBoardCategoryName()) > 0;
     }
 
     public boolean update(BoardCateDTO boardCateDTO) {
-    	System.out.println("Update BoardCateDTO getBoardCateName : [{"+ boardCateDTO.getBoardCateName()+"}] getBoardCateNum : [{"+boardCateDTO.getBoardCateNum()+"}]");
-        return jdbcTemplate.update(UPDATE, boardCateDTO.getBoardCateName(), boardCateDTO.getBoardCateNum()) > 0;
+    	System.out.println("Update BoardCateDTO getBoardCateName : [{"+ boardCateDTO.getBoardCategoryName()+"}] "
+    			+ "getBoardCateNum : [{"+boardCateDTO.getBoardCategoryNum()+"}]");
+        return jdbcTemplate.update(UPDATE, boardCateDTO.getBoardCategoryName(), boardCateDTO.getBoardCategoryNum()) > 0;
     }
 
     public boolean delete(BoardCateDTO boardCateDTO) {
-        System.out.println("Delete BoardCateDTO getBoardCateNum : [{"+boardCateDTO.getBoardCateNum()+"}]");
-        return jdbcTemplate.update(DELETE, boardCateDTO.getBoardCateNum()) > 0;
+        System.out.println("Delete BoardCateDTO getBoardCateNum : [{"+boardCateDTO.getBoardCategoryNum()+"}]");
+        return jdbcTemplate.update(DELETE, boardCateDTO.getBoardCategoryNum()) > 0;
     }
 
     public List<BoardCateDTO> selectAll(BoardCateDTO boardCateDTO) {
@@ -43,7 +44,7 @@ public class BoardCateDAO {
 
     public BoardCateDTO selectOne(BoardCateDTO boardCateDTO) {
         System.out.println("selectOne BoardCateDTO ");
-        Object[] args = {boardCateDTO.getBoardCateName()};
+        Object[] args = {boardCateDTO.getBoardCategoryName()};
         return jdbcTemplate.queryForObject(SELECTONE, args, new BoardCateMapper());
     }
 }
@@ -53,7 +54,7 @@ class BoardCateMapper implements RowMapper<BoardCateDTO> {
     @Override
     public BoardCateDTO mapRow(ResultSet resultSet, int i) throws SQLException {
         BoardCateDTO data = new BoardCateDTO();
-        data.setBoardCateNum(resultSet.getInt("BOARD_CATEGORY_NUM"));
+        data.setBoardCategoryNum(resultSet.getInt("BOARD_CATEGORY_NUM"));
         return data;
     }
 }
