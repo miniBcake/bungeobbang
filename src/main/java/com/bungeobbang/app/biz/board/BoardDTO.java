@@ -25,6 +25,7 @@ public class BoardDTO {
 	private String memberProfileWay; 	//회원 프로필 사진 경로
 	//카테고리
 	private String boardCategoryName;		//게시글 카테고리 명
+	private int productNum;
 	
 	//개발용
 	private String condition;			//컨디션

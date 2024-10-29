@@ -39,10 +39,10 @@ public class OrderDAO {
 		// 주문 처리 업데이트
 		int rs = jdbcTemplate.update(UPDATE, orderDTO.getOrderNum());
 		if(rs<=0) {
-			System.err.println("log : Order insert fail");
+			System.err.println("log : Order update fail");
 			return false;
 		}
-		System.out.println("log : Order insert success");
+		System.out.println("log : Order update success");
 		return true;
 	}
 	private boolean delete(OrderDTO orderDTO) {

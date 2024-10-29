@@ -149,116 +149,13 @@ public class StorePaymentDAO {
 //StorePaymentDAO   selectAll   가게 결제방식별 총 개수 조회---------------------------------------------------------------------------------------------------------------
    
    private ArrayList<StorePaymentDTO> selectAll(StorePaymentDTO storePaymentDTO) {
-      System.out.println("log_StorePaymentDAO_selectAll : start");
-      System.out.println("log_StorePaymentDAO_selectAll controller input StorePaymentDTO : " + storePaymentDTO.toString());
-      
-      //[1] DB 연결 객체를 conn. 변수로 선언: JDBC 연결 관리하는 JDBCUtil 클래스에서 DB연결 설정 메서드 실행.
-      Connection conn = JDBCUtil.connect();
-      System.out.println("log_StorePaymentDAO__selectAll_conn setting complete");
-
-      //[2] SQL 쿼리 미리 컴파일하는 객체 PreparedStatement를 참조하는 pstmt 변수 선언 및 초기화
-      PreparedStatement pstmt = null;
-      System.out.println("log_StorePaymentDAO__selectAll_psmt null setting complete");
-
-      //[3] rs 변수 선언 : selectAll 쿼리문 실행
-      ResultSet rs = null;
-      System.out.println("log_StorePaymentDAO__selectAll_rs null setting complete");
-
-      //[4] datas 변수 선언 : 결제방식 카테고리별 판매하는 총 가게수 담은 리스트
-      ArrayList <StorePaymentDTO> datas = new ArrayList <StorePaymentDTO>();
-      
-      try {
-         //[5] pstmt 변수 선언 : () 안 쿼리문으로 실행 준비 완료.
-         //SQL DB와 연결하여 SELECTALL 변수값 미리 컴파일, 실행 준비
-         pstmt = conn.prepareStatement(SELECTALL);
-         System.out.println("log_StorePaymentDAO_selectALL_pstmt conn");
-
-         //[6] rs 변수 선언 : SELECTALL 쿼리문 실행
-         rs = pstmt.executeQuery();
-         System.out.println("log_StorePaymentDAO_selectAll_executeQuery() complete");
-
-         //[7] 결제방식 카테고리별 붕어빵 판매 매장 수 데이터 불러오기
-         while(rs.next()) {
-            //결제방식 카테고리 내 한 결제방식으로 판매하는 총 가게 수 
-            StorePaymentDTO data = new StorePaymentDTO();
-//            data.setStorPaymentCount(rs.getInt("STOREPAYMNET_COUNT"));
-            datas.add(data);
-//            System.out.println("log_StorePaymentDAO_selectAll_datagetStorPaymentCount() : " + data.getStorPaymentCount());
-         }
-      } catch (Exception e) {
-         e.printStackTrace();
-         System.err.println("log_StorePaymentDAO_selectAll_Exception fail");
-      //[8] JDBC 연결 해제 진행
-      } finally {
-         if (!JDBCUtil.disconnect(conn, pstmt)) { // 만약 JDBC가 연결되어 있다면
-            System.err.println("log_StorePaymentDAO_selectAll_disconnect fail");// 연결해제 실패
-         }// JDBC 연결 해제 되었다면
-         System.out.println("log_StorePaymentDAO_selectAll_complet"); // 연결해제 성공
-      }
-      System.out.println("log_StorePaymentDAO_selectAll_return datas");
-      return datas; // 데이터 반환
+	   return null;
    }
-
-   
-   
-   
    
 //StorePaymentDAO   selectOne   특정가게 정보 조회---------------------------------------------------------------------------------------------------------------
    
    private StorePaymentDTO selectOne(StorePaymentDTO storePaymentDTO) {
-      System.out.println("log_StorePaymentDAO_selectOne : start");
-      System.out.println("log_StorePaymentDAO_selectOne controller input StoreMenuDTO : " + storePaymentDTO.toString());
-
-      //[1] DB 연결 객체를 conn. 변수로 선언: JDBC 연결 관리하는 JDBCUtil 클래스에서 DB연결 설정 메서드 실행.
-      Connection conn = JDBCUtil.connect();
-      System.out.println("log_StorePaymentDAO__selectOne_conn setting complete");
-
-      //[2] SQL 쿼리 미리 컴파일하는 객체 PreparedStatement를 참조하는 pstmt 변수 선언 및 초기화
-      PreparedStatement pstmt = null;
-      System.out.println("log_StorePaymentDAO__selectOne_psmt null setting complete");
-            
-      //[3] rs 변수 선언 : selectOne 쿼리문 실행
-      ResultSet rs = null;
-      System.out.println("log_StorePaymentDAO__selectOne_rs null setting complete");
-
-      //[4] data 변수 선언 : 결과값 담을 data
-      StorePaymentDTO data = null;
-      System.out.println("log_StorePaymentDAO__selectOne_data null setting complete");
-      
-      try {
-         //[5] pstmt 변수 선언 : () 안 쿼리문으로 실행 준비 완료.
-         //SQL DB와 연결하여 SELECTONE 변수값 미리 컴파일, 실행 준비
-         pstmt = conn.prepareStatement(SELECTONE);
-         System.out.println("log_StorePaymentDAO__selectOne_pstmt conn");
-
-         //[6] 인자값으로 받은 데이터 쿼리문에 삽입
-         pstmt.setInt(1, storePaymentDTO.getStoreNum());   //가게 고유번호 입력
-         System.out.println("log_StorePaymentDAO_selectOne_pstmt input complete");
-
-         //[7] rs 변수 선언 : SELECTONE 쿼리문 실행
-         rs = pstmt.executeQuery();
-         System.out.println("log_StorePaymentDAO_selectOne_executeQuery() complete");
-
-         //[8] 특정 가게 결제방식 카테고리별 사용가능 여부 불러오기
-         if(rs.next()) {
-            data = new StorePaymentDTO();
-            data.setStorePaymentCashmoney(rs.getString("STORE_PAYMENT_CASHMONEY"));         //현금 결제 가능(Y/N)
-            data.setStorePaymentCard(rs.getString("STORE_PAYMENT_CARD"));               //카드 결제 가능(Y/N)
-//            data.setStorePaymentAccountTransfer(rs.getString("STORE_PAYMENT_ACCOUNT"));      //계좌이체 결제 가능(Y/N)
-            data.setStoreNum(rs.getInt("STORE_NUM"));                              //가게 고유번호(FK)
-               System.out.println("log_StorePaymentDAO_selectOne_data : " + data);
-         }
-      }catch(Exception e) {
-         e.printStackTrace();
-         System.err.println("log_StorePaymentDAO_selectOne_Exception fail : Exception e ");
-      //[9] JDBC 연결 해제 진행 
-      }finally {
-         if(!JDBCUtil.disconnect(conn, pstmt)) { // 만약 JDBC가 연결되어 있다면
-            System.err.println("log_StorePaymentDAO_selectOne_dissconnect fail");
-         }// JDBC 연결 해제 되었다면
-      }
-      System.out.println("log_StorePaymentDAO_selectOne_return data");// 연결해제 성공
-      return data; // 데이터 반환
+      return null;
    }
    
 }

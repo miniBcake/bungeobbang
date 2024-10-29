@@ -14,11 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import com.bungeobbang.app.biz.filterSearch.StoreFilter;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-//FIXME 설계에 맞게 수정바람
 @Repository
 public class StoreDAO {
 	@Autowired
@@ -45,6 +40,7 @@ public class StoreDAO {
 			STORE_MENU_NORMAL, 
 			STORE_MENU_VEG, 
 			STORE_MENU_POTATO, 
+			STORE_MENU_MINI, 
 			STORE_MENU_ICE, 
 			STORE_MENU_CHEESE, 
 			STORE_MENU_PASTRY, 
@@ -61,9 +57,8 @@ public class StoreDAO {
 	//가게 고유번호(PK) 최댓값 조회(+insert 과정에 활용)
 	private final String STORE_NEW_SELECTONE = "SELECT MAX(STORE_NUM) AS MAX_S_NUM FROM BB_STORE";
 
-
 	//가게 수 조회
-	private final String STORE_CNT_SELECTONE = "SELECT COUNT(DISTINCT STORE_NUM) AS STORE_COUNT FROM BB_VIEW_SEARCHSTOREDATA_JOIN ";
+	private final String STORE_CNT_SELECTONE = "SELECT COUNT(DISTINCT STORE_NUM) AS CNT FROM BB_VIEW_SEARCHSTOREDATA_JOIN ";
 
 	//필터링 후 해당하는 가게 고유번호(PK) 모두 조회
 	private final String SELECTALL_VIEW = """
@@ -76,6 +71,7 @@ public class StoreDAO {
 				STORE_MENU_NORMAL, 
 				STORE_MENU_VEG, 
 				STORE_MENU_POTATO, 
+				STORE_MENU_MINI, 
 				STORE_MENU_ICE, 
 				STORE_MENU_CHEESE, 
 				STORE_MENU_PASTRY, 
@@ -97,6 +93,7 @@ public class StoreDAO {
 				S.STORE_MENU_NORMAL, 
 				S.STORE_MENU_VEG, 
 				S.STORE_MENU_POTATO, 
+				S.STORE_MENU_MINI, 
 				S.STORE_MENU_ICE, 
 				S.STORE_MENU_CHEESE, 
 				S.STORE_MENU_PASTRY, 
@@ -118,7 +115,7 @@ public class StoreDAO {
 					STORE_NUM
 				) D 
 				ON S.STORE_NUM = D.STORE_NUM
-			WHERE DECLARED_COUNT >=3
+			WHERE DECLARED_COUNT >= 3
 			""";
 
 
@@ -129,16 +126,12 @@ public class StoreDAO {
 
 
 	// UPDATE_필터 변수 모음 ------------------------------------------------------------------------------------------------------
-	private final String UPDATE_SET = "UPDATE BB_STORE SET";
+	private final String UPDATE_SET = "UPDATE BB_STORE SET ";
 
 	// 가게 번호 변수
 	private final String WHERE_STORENUM = "WHERE STORE_NUM = ?";
-	// 조회할 개수
-	private final int CNT = 3;
 
 	// StoreDAO insert --------------------------------------------------------------------------------------
-
-	// pstmt 입력값 선언 및 초기화
 
 	public boolean insert(StoreDTO storeDTO) { // 신규등록가게 추가
 		System.out.println("log_StoreDAO_insert : start");
@@ -147,13 +140,13 @@ public class StoreDAO {
 		try { 			
 			//SQL DB와 연결하여 INSERT 변수값 미리 컴파일, 실행 준비
 			// INSERT 쿼리문 실행
-			int rs = jdbcTemplate.update(INSERT, // input값 storeDTO 이하 입력
+			int rs = jdbcTemplate.update(INSERT, 		// input값 storeDTO 이하 입력
 					storeDTO.getStoreName(), 			// 상호명 입력
 					storeDTO.getStoreAddress(), 		// 기본주소 입력
 					storeDTO.getStoreAddressDetail(), 	// 상세주소 입력
 					storeDTO.getStoreContact(),			// 전화번호 입력
 					storeDTO.getStoreClosed(), 			//폐점 여부
-					storeDTO.getStoreSecret()
+					storeDTO.getStoreSecret()			// 공개 여부
 					); 		
 			System.out.println("log_StoreDAO_update_rs complete");
 
@@ -182,7 +175,7 @@ public class StoreDAO {
 		if(storeDTO.getCondition().equals("UPDATE_STORE")) {
 
 			System.out.println("log_StoreDAO_update_queryBuilder UPDATE_SET setting");
-			//[4]SET절 추가 및 쿼리문 형성
+			//SET절 추가 및 쿼리문 형성
 			HashMap<String, String>filters = storeDTO.getFilterList();
 			StoreFilter filterUtil = new StoreFilter();
 			List<Object> argsList = new ArrayList<>();
@@ -222,7 +215,7 @@ public class StoreDAO {
 		}
 	}
 
-	public boolean delete(StoreDTO storeDTO) { // 가게 삭제(미구현)
+	public boolean delete(StoreDTO storeDTO) { 
 		System.out.println("log_StoreDAO_delete : start");
 		System.out.println("log_StoreDAO_detle_controller input StoreDTO : " + storeDTO);
 
@@ -265,6 +258,7 @@ public class StoreDAO {
 				List<Object> argsList = new ArrayList<>();
 				//메서드를 통해 쿼리문을 완성한 후 toString을 통해 다시 String으로 변환
 				query = SELECTALL_VIEW +" "+ SELECTALLNUMFILTER; // 필터 검색 시작 쿼리문
+				
 				query = filterUtil.buildFilterQuery(query,filters)+" "+SELECTALL_ENDPART;
 				argsList = filterUtil.setFilterKeywords(argsList, filters); //필터 검색 검색어
 
@@ -274,7 +268,7 @@ public class StoreDAO {
 				//args 배열화
 				Object[] args = argsList.toArray();
 				System.out.println("log Store selectAll args = "+Arrays.toString(args));
-				jdbcTemplate.query(query, args, new StoreRowMapper());
+				datas = jdbcTemplate.query(query, args, new StoreRowMapper());
 			}
 			else if(storeDTO.getCondition().equals("SELECTALL_DECLARED_CNT")) {
 				// 신고 개수 조회
@@ -285,12 +279,13 @@ public class StoreDAO {
 			else {
 				//컨디션 오류
 				System.err.println("log: Store selectAll condition fail");
+				return null;
 			}
 		}
 		catch(Exception e) {
 			System.err.println("log : Store selectAll Exception fail");
 			e.printStackTrace();
-			datas.clear();
+			return null;
 		}
 
 		System.out.println("log: Store selectAll return datas");
@@ -354,20 +349,22 @@ public class StoreDAO {
 			StoreDTO data = new StoreDTO();
 			data.setStoreNum(rs.getInt("STORE_NUM"));							// 가게 고유번호
 			data.setStoreName(rs.getString("STORE_NAME")); 						// 가게 상호명
-//			data.setStoreAddress(rs.getString("STORE_ADDRESS")); 		// 가게 기본주소
-//			data.setStoreAddressDetail(rs.getString("STORE_ADDRESS_DETAIL")); 	// 가게 상세주소
-//			data.setStoreContact(rs.getString("STORE_CONTACT"));				// 가게 전화번호
+			data.setStoreAddress(rs.getString("STORE_ADDRESS")); 		// 가게 기본주소
+			data.setStoreAddressDetail(rs.getString("STORE_ADDRESS_DETAIL")); 	// 가게 상세주소
+			data.setStoreContact(rs.getString("STORE_CONTACT"));				// 가게 전화번호
 			data.setStoreClosed(rs.getString("STORE_CLOSED")); 					// 가게 폐점여부
 			data.setStoreSecret(rs.getString("STORE_SECRET")); 					// 가게 공개 여부
 			data.setStoreDeclared(rs.getString("STORE_DECLARED")); 				// 가게 신고 여부
-			data.setStoreMenuNormal(rs.getString("STORE_MENU_NORMAL"));			// 가게 메뉴
+			//storeMenu
+			data.setStoreMenuNormal(rs.getString("STORE_MENU_NORMAL"));			
 			data.setStoreMenuVeg(rs.getString("STORE_MENU_VEG"));
-//			data.setStoreMenuMini(rs.getString("STORE_MENU_MINI"));
+			data.setStoreMenuMini(rs.getString("STORE_MENU_MINI"));
 			data.setStoreMenuPotato(rs.getString("STORE_MENU_POTATO"));
 			data.setStoreMenuIce(rs.getString("STORE_MENU_ICE"));
 			data.setStoreMenuCheese(rs.getString("STORE_MENU_CHEESE"));
 			data.setStoreMenuPastry(rs.getString("STORE_MENU_PASTRY"));
 			data.setStoreMenuOther(rs.getString("STORE_MENU_OTHER"));
+			// 결제 방식
 			data.setStorePaymentCard(rs.getString("STORE_PAYMENT_CARD"));
 			data.setStorePaymentCashMoney(rs.getString("STORE_PAYMENT_CASHMONEY"));
 			data.setStorePaymentAccount(rs.getString("STORE_PAYMENT_ACCOUNT"));

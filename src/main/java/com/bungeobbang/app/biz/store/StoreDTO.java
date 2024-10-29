@@ -25,6 +25,7 @@ public class StoreDTO {
 	//필터 검색을 위한 DTO
 	private HashMap<String, String> filterList; //필터검색용 <검색구분용, 검색값>	
 	private String storeDeclared; // 신고 여부
+	
 	private String storeMenuNormal;
 	private String storeMenuVeg;
 	private String storeMenuMini;
@@ -42,8 +43,5 @@ public class StoreDTO {
 	private int startNum; // 시작 페이지
 	private int endNum; // 종료 페이지
 	private int cnt; //페이지 네이션 개수 반환용
-
-	private ArrayList<StoreWorkDTO> workList;//영업정보저장용
-	
 	
 }

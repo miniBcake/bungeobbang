@@ -69,14 +69,14 @@ CREATE TABLE `bb_declare` (
 
 -- fishshapedbread.bb_payment definition
 
-CREATE TABLE `bb_payment` (
-  `PAYMENT_NUM` int NOT NULL AUTO_INCREMENT,
-  `MEMBER_NUM` int DEFAULT NULL,
-  `PAYMENT_AMOUNT` int DEFAULT NULL,
-  PRIMARY KEY (`PAYMENT_NUM`),
-  KEY `MEMBER_NUM` (`MEMBER_NUM`),
-  CONSTRAINT `bb_payment_ibfk_1` FOREIGN KEY (`MEMBER_NUM`) REFERENCES `bb_member` (`MEMBER_NUM`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE BB_PAYMENT(
+PAYMENT_NUM INT AUTO_INCREMENT PRIMARY KEY, -- 결제 번호 (PK, AUTO_INCREMENT)
+    MEMBER_NUM INT, -- 회원 번호 (외래키)
+    PAYMENT_AMOUNT INT, -- 결제 금액
+    ADMIN_CHECKED CHAR(1) DEFAULT 'N',
+    FOREIGN KEY (MEMBER_NUM) REFERENCES BB_MEMBER(MEMBER_NUM) ON DELETE CASCADE -- 회원 번호 외래키
+    CHECK (ADMIN_CHECKED IN ('Y','N'))
+);
 
 
 -- fishshapedbread.bb_point definition
@@ -146,7 +146,6 @@ CREATE TABLE `bb_store_work` (
   `STORE_WORK_OPEN` datetime NOT NULL,
   `STORE_WORK_CLOSE` datetime NOT NULL,
   PRIMARY KEY (`WORK_NUM`),
-  UNIQUE KEY `STORE_NUM` (`STORE_NUM`),
   CONSTRAINT `bb_store_work_ibfk_1` FOREIGN KEY (`STORE_NUM`) REFERENCES `bb_store` (`STORE_NUM`) ON DELETE CASCADE,
   CONSTRAINT `bb_store_work_chk_1` CHECK ((`STORE_WORK_WEEK` in (_utf8mb4'MON',_utf8mb4'TUE',_utf8mb4'WED',_utf8mb4'THU',_utf8mb4'FRI',_utf8mb4'SAT',_utf8mb4'SUN')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -309,9 +308,6 @@ SELECT
     sp.STORE_PAYMENT_CASHMONEY,
     sp.STORE_PAYMENT_CARD,
     sp.STORE_PAYMENT_ACCOUNT,
-    sw.STORE_WORK_WEEK,
-    sw.STORE_WORK_OPEN,
-    sw.STORE_WORK_CLOSE,
     CASE
         WHEN EXISTS (
             SELECT 1
@@ -322,5 +318,4 @@ SELECT
         END AS STORE_DECLARED
 FROM bb_store s
          LEFT JOIN bb_store_menu sm ON s.STORE_NUM = sm.STORE_NUM
-         LEFT JOIN bb_store_payment sp ON s.STORE_NUM = sp.STORE_NUM
-         LEFT JOIN bb_store_work sw ON s.STORE_NUM = sw.STORE_NUM;
+         LEFT JOIN bb_store_payment sp ON s.STORE_NUM = sp.STORE_NUM;

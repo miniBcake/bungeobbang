@@ -20,12 +20,10 @@ import com.bungeobbang.app.biz.filterSearch.ProductFilter;
 public class ProductDAO{
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
-	private final String INSERT = "INSERT INTO BB_PRODUCT(PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_PROFILE_WAY, BOARD_NUM, PRODUCT_CATEGORY_NUM) "
-			+ "VALUES (?, ?, ?, ?, ?)";
+	
 	private final String INSERT_CRAWLING = "INSERT INTO BB_PRODUCT(PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_PROFILE_WAY, PRODUCT_CATEGORY_NUM) "
 			+ "VALUES (?, ?, ?, ?)";
-	private final String UPDATE = "UPDATE BB_PRODUCT SET PRODUCT_NAME = ?, PRODUCT_PRICE = ?, PRODUCT_PROFILE_WAY = ?, BOARD_NUM = ?, PRODUCT_CATEGORY_NUM = ? WHERE PRODUCT_NUM = ?";
+	private final String UPDATE = "UPDATE BB_PRODUCT SET PRODUCT_NAME = ?, PRODUCT_PRICE = ?, PRODUCT_PROFILE_WAY = ?, PRODUCT_CATEGORY_NUM = ? WHERE PRODUCT_NUM = ?";
 	private final String DELETE = "DELETE FROM BB_PRODUCT WHERE PRODUCT_NUM = ?";
 
 	private final String SELECTALL = "SELECT PRODUCT_NUM, PRODUCT_NAME, PRODUCT_PRICE, "
@@ -42,7 +40,7 @@ public class ProductDAO{
 			+ "WHERE PRODUCT_NUM = ?";
 
 	private final String SELECTONE_CNT = "SELECT COUNT(*) AS CNT FROM BB_PRODUCT bp "
-			+ "LEFT JOIN BB_BOARD bb ON bp.BOARD_NUM = bb.BOARD_NUM WHERE 1=1 ";
+			+ "LEFT JOIN BB_BOARD bb ON bp.PRODUCT_NUM = bb.PRODUCT_NUM WHERE 1=1 ";
 
 
 	public boolean insert(ProductDTO productDTO) {
@@ -61,24 +59,22 @@ public class ProductDAO{
 						productDTO.getProductPrice(), 			//상품 가격
 						productDTO.getProductProfileWay(),	//썸네일
 						productDTO.getProductCategoryNum() //상품 카테고리 번호
-						); 		
+						); 	
 			}
-			else {				
-				//새 상품작성
-				System.out.println("log: parameter getProductName : "+productDTO.getProductName());
-				System.out.println("log: parameter getProductPrice : "+productDTO.getProductPrice());
-				System.out.println("log: parameter getProductProfileWay : "+productDTO.getProductProfileWay());
-				System.out.println("log: parameter getBoardNum : "+productDTO.getBoardNum());
-				System.out.println("log: parameter getProductCateNum : "+productDTO.getProductCategoryNum());
-				rs = jdbcTemplate.update(INSERT,
-						productDTO.getProductName(), 		//상품 이름
-						productDTO.getProductPrice(), 			//상품 가격
-						productDTO.getProductProfileWay(), 	//썸네일
-						productDTO.getBoardNum(), 				//상품설명게시글번호
-						productDTO.getProductCategoryNum()
-						); 		//상품 카테고리 번호
-				//넘어온 값 확인 로그
-			}
+//			else {				
+//				//새 상품작성
+//				System.out.println("log: parameter getProductName : "+productDTO.getProductName());
+//				System.out.println("log: parameter getProductPrice : "+productDTO.getProductPrice());
+//				System.out.println("log: parameter getProductProfileWay : "+productDTO.getProductProfileWay());
+//				System.out.println("log: parameter getProductCateNum : "+productDTO.getProductCategoryNum());
+//				rs = jdbcTemplate.update(INSERT,
+//						productDTO.getProductName(), 		//상품 이름
+//						productDTO.getProductPrice(), 			//상품 가격
+//						productDTO.getProductProfileWay(), 	//썸네일
+//						productDTO.getProductCategoryNum()
+//						); 		//상품 카테고리 번호
+//				//넘어온 값 확인 로그
+//			}
 			if(rs <= 0) { 
 				//쿼리는 정상적으로 실행됐으나 실패
 				System.err.println("log: Product insert execute fail");
@@ -101,15 +97,13 @@ public class ProductDAO{
 		System.out.println("log: parameter getProductName : "+productDTO.getProductName());
 		System.out.println("log: parameter getProductPrice : "+productDTO.getProductPrice());
 		System.out.println("log: parameter getProductProfileWay : "+productDTO.getProductProfileWay());
-		System.out.println("log: parameter getBoardNum : "+productDTO.getBoardNum());
-		System.out.println("log: parameter getProductCateNum : "+productDTO.getProductCategoryNum());
+		System.out.println("log: parameter getProductCategoryNum : "+productDTO.getProductCategoryNum());
 		System.out.println("log: parameter getProductNum : "+productDTO.getProductNum());
 		try {
 			rs=jdbcTemplate.update(UPDATE,
 					productDTO.getProductName(), 		//상품 이름
 					productDTO.getProductPrice(), 			//상품 가격
 					productDTO.getProductProfileWay(),	//썸네일
-					productDTO.getBoardNum(), 				//상품설명게시글번호
 					productDTO.getProductCategoryNum(), 		//상품 카테고리 번호
 					productDTO.getProductNum()
 					); 			//상품 번호
@@ -158,7 +152,7 @@ public class ProductDAO{
 		Object[] args = null;
 		//상품리스트 (+필터검색)
 		//필터검색 추가
-		
+
 		HashMap<String, String> filters = productDTO.getFilterList();//넘어온 MAP filter키워드
 		ProductFilter filterUtil = new ProductFilter();
 		query = filterUtil.buildFilterQuery(SELECTALL,filters).append(" "+SELECTALL_ENDPART).toString();
@@ -202,7 +196,7 @@ public class ProductDAO{
 					productDTO.getProductNum() 	//상품번호
 			};
 			try {
-				jdbcTemplate.queryForObject(query, args, new MDRowMapper());
+				data = jdbcTemplate.queryForObject(query, args, new MDRowMapper());
 			}
 			catch(Exception e) {
 				System.err.println("log : Product selectOne MD_ONE fail");
@@ -246,7 +240,6 @@ public class ProductDAO{
 			ProductDTO data = new ProductDTO();
 			data.setProductNum(rs.getInt("PRODUCT_NUM"));		//상품번호
 			data.setProductName(rs.getString("PRODUCT_NAME"));	//상품이름
-			data.setBoardNum(rs.getInt("BOARD_NUM"));					//상품 게시글 번호
 			data.setProductPrice(rs.getInt("PRODUCT_PRICE"));	//상품가격
 			data.setProductProfileWay(rs.getString("PRODUCT_PROFILE_WAY"));	//썸네일
 			data.setProductCategoryNum(rs.getInt("PRODUCT_CATEGORY_NUM"));	//상품카테고리번호
