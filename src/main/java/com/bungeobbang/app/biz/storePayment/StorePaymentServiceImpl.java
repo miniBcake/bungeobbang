@@ -19,7 +19,7 @@ public class StorePaymentServiceImpl  implements StorePaymentService{
 
 	@Override
 	public StorePaymentDTO selectOne(StorePaymentDTO storePaymentDTO) {
-		return null;
+		return storePaymentDAO.selectOne(storePaymentDTO);
 	}
 
 	@Override

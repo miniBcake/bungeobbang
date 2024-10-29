@@ -165,10 +165,10 @@
 									<!-- 주소, 전화번호 -->
 									<div class="storeData">
 										<div class="storeDataContent">
-											<i class="fas fa-map"></i> <span id="address">${storeInfo.storeAddressDetail}
+											<i class="fas fa-map"></i> <span id="address">${storeInfo.storeAddress}
 												<br> ${storeInfo.storeAddressDetail}
 											</span>
-											<button class="copy" value="${storeInfo.storeAddressDetail} ${storeInfo.storeAddressDetail}">복사</button>
+											<button class="copy" value="${storeInfo.storeAddress} ${storeInfo.storeAddressDetail}">복사</button>
 										</div>
 										<div class="storeDataContent">
 											<i class="fas fa-phone"></i> <span>${storeInfo.storeContact}</span>

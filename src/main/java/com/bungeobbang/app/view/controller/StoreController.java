@@ -155,17 +155,17 @@ public class StoreController {
         if(boardDTO != null){ //가게 설명이 있다면
             log.info("log: addStore board is not null - boardDTO : [{}]", boardDTO);
             //ckeditor를 통해 넘어온 context의 이미지 src 서버에 맞춰 수정/////////////
-            HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute("boardFile");
-            log.info("log: addStore - change image src info boardFile : [{}]", boardFile);
-            String content = boardDTO.getBoardContent(); //작성한 내용
-            //이미지 태그의 src 변경
-            if(boardFile != null && !boardFile.isEmpty()){ //이미지가 있는 경우라면
-                for (Map.Entry<String, String> entry : boardFile.entrySet()) {
-                    content = content.replace(entry.getValue(), ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey()); //value값을 찾아 서버 이미지 경로로 변경
-                }
-            }
-            log.info("log: addStore - refresh boardContent [{}]", content);
-            boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장
+//            HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute("boardFile");
+//            log.info("log: addStore - change image src info boardFile : [{}]", boardFile);
+//            String content = boardDTO.getBoardContent(); //작성한 내용
+//            //이미지 태그의 src 변경
+//            if(boardFile != null && !boardFile.isEmpty()){ //이미지가 있는 경우라면
+//                for (Map.Entry<String, String> entry : boardFile.entrySet()) {
+//                    content = content.replace(entry.getValue(), ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey()); //value값을 찾아 서버 이미지 경로로 변경
+//                }
+//            }
+//            log.info("log: addStore - refresh boardContent [{}]", content);
+//            boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장
             /////////////////////////////////////////////////////////////////////
 
             boardDTO.setCondition("MARKET_INSERT"); //가게 설명 추가용 condition
@@ -200,7 +200,7 @@ public class StoreController {
     //가게 검색 (동기, 전체)
     @RequestMapping("/loadListStore.do")
     public String loadListStore(Model model, StoreDTO storeDTO, StoreDTO storeCntDTO,
-                                String[] storeMenu, String[] storePayment, String storeClosed, String keyword, int page){
+                                String[] storeMenu, String[] storePayment, String storeClosed, String keyword, Integer page){
         log.info("log: /loadListStore.do loadListStore - start");
         log.info("log: loadListStore - param storeDTO : [{}]", storeDTO);
         log.info("log: loadListStore - param storeCntDTO : [{}]", storeCntDTO);
@@ -217,31 +217,31 @@ public class StoreController {
         StorePaymentDTO paymentCnt; //결제 방식 검색 개수
 
         //페이지 세팅
-        page = page <= 0? 1 : page; //페이지 정보가 없다면 첫 페이지 로드
+        page = page == null? 1 : page; //페이지 정보가 없다면 첫 페이지 로드
         log.info("log: loadListStore - now page : [{}]", page);
 
         //검색 결과 개수 데이터 조회///////////////////////////////////////////////////////////
         //메뉴 방식 개수
-        menuCnt = new StoreMenuDTO();
-        menuCnt.setCondition("SELECT_CNT");
-        menuCnt = storeMenuService.selectOne(menuCnt);
+        menuCnt = storeMenuService.selectOne(new StoreMenuDTO());
         //결제 방식 개수
-        paymentCnt = new StorePaymentDTO();
-        paymentCnt.setCondition("SELECT_CNT");
-        paymentCnt = storePaymentService.selectOne(paymentCnt);
+        paymentCnt = storePaymentService.selectOne(new StorePaymentDTO());
         ///////////////////////////////////////////////////////////////////////////////
 
         //검색 세팅 //////////////////////////////////////////////////////////////////////
         HashMap<String, String> filterList = new HashMap<>(); //필터 검색용 리스트
         //메뉴 검색 세팅
-        for(String menu : storeMenu){
-            log.info("log: loadListStore - add menu condition : [{}]", menu);
-            filterList.put(menu, this.YES);
+        if(storeMenu != null){//NPE 방지
+            for(String menu : storeMenu){
+                log.info("log: loadListStore - add menu condition : [{}]", menu);
+                filterList.put(menu, this.YES);
+            }
         }
         //결제방식 검색 세팅
-        for(String payment : storePayment){
-            log.info("log: loadListStore - add payment condition : [{}]", payment);
-            filterList.put(payment, this.YES);
+        if(storePayment != null){//NPE 방지
+            for(String payment : storePayment){
+                log.info("log: loadListStore - add payment condition : [{}]", payment);
+                filterList.put(payment, this.YES);
+            }
         }
         //가게명 검색
         if(keyword != null){

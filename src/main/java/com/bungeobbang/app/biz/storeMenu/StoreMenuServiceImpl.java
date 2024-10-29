@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 public class StoreMenuServiceImpl implements StoreMenuService{
 	@Autowired
 	private StoreMenuDAO StoreMenuDAO;
+    @Autowired
+    private StoreMenuDAO storeMenuDAO;
 
 	@Override
 	public ArrayList<StoreMenuDTO> selectAll(StoreMenuDTO storeMenuDTO) {
@@ -18,7 +20,7 @@ public class StoreMenuServiceImpl implements StoreMenuService{
 
 	@Override
 	public StoreMenuDTO selectOne(StoreMenuDTO storeMenuDTO) {
-		return null;
+		return storeMenuDAO.selectOne(storeMenuDTO);
 	}
 
 	@Override

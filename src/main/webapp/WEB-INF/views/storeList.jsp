@@ -72,7 +72,7 @@
 								</div>
 								<!-- container02 : 1행 2열-->
 								<div class="col-10 col-md-10">
-									<custom:searchbar placeholder="가게 이름을 입력해 주세요." />
+									<%--<custom:searchbar placeholder="가게 이름을 입력해 주세요." />--%>
 								</div>
 							</div>
 
@@ -94,29 +94,29 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storeMenu" value="팥/슈크림" id="">팥/슈크림<span>
-												(${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_NORMAL" id="">팥/슈크림<span>
+												(${menuCnt.storeMenuNormalCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="야채/김치/만두"
-											id="">야채/김치/만두<span> (${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_VEG"
+											id="">야채/김치/만두<span> (${menuCnt.storeMenuVegCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="미니붕어빵" id="">미니 붕어빵<span>
-												(${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_MINI" id="">미니 붕어빵<span>
+												(${menuCnt.storeMenuMiniCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="고구마" id="">고구마<span>
-												(${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_POTATO" id="">고구마<span>
+												(${menuCnt.storeMenuPotatoCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="아이스크림/초코"
-											id="">아이스크림/초코<span> (${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_ICE"
+											id="">아이스크림/초코<span> (${menuCnt.storeMenuIceCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="치즈" id="">치즈<span>
-												(${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_CHEESE" id="">치즈<span>
+												(${menuCnt.storeMenuCheeseCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="패스츄리" id="">패스츄리<span>
-												(${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_PASTRY" id="">페스츄리<span>
+												(${menuCnt.storeMenuPastryCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="기타" id="">기타<span>
-												(${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_OTHER" id="">기타<span>
+												(${menuCnt.storeMenuOtherCnt})</span>
 										</custom:categoryKeyword>
 									</div>
 								</div>
@@ -129,14 +129,14 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storePayment" value="현금결제" id="">현금결제<span>
-												(${cnt})</span>
+										<custom:categoryKeyword name="storePayment" value="PAYMENT_CASHMONEY" id="">현금결제<span>
+												(${paymentCnt.storePaymentCashmoneyCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storePayment" value="카드결제" id="">카드결제<span>
-												(${cnt})</span>
+										<custom:categoryKeyword name="storePayment" value="PAYMENT_CARD" id="">카드결제<span>
+												(${paymentCnt.storePaymentCardCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storePayment" value="계좌이체" id="">계좌이체<span>
-												(${cnt})</span>
+										<custom:categoryKeyword name="storePayment" value="PAYMENT_ACCOUNT" id="">계좌이체<span>
+												(${paymentCnt.storePaymentAccountCnt})</span>
 										</custom:categoryKeyword>
 									</div>
 								</div>
@@ -149,7 +149,7 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storeClosed" value="영업중" id="">영업중인 가게 ${cnt}</custom:categoryKeyword>
+										<custom:categoryKeyword name="storeClosed" value="Y" id="">영업중인 가게만 보기</custom:categoryKeyword>
 									</div>
 								</div>
 							</div>
@@ -168,142 +168,9 @@
 					</div>
 					<div class="col-6 text-center">
 						<div class="storeList">
-
-							<!-- 나중에 지움 -->
-							<!-- 1 -->
-							<div class="storeData">
-								<div class="storeDataTitle">
-									<a href="/viewStorePage.do?storeNum=1">
-										<h4 class="text-hover">갈빵 붕어빵</h4>
-									</a>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-map"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span id="address">서울시 동작구 대방동13길 13 <br> 골목 옆
-										</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy"
-											value="서울시 동작구 대방동13길 13 골목 옆">복사</button>
-									</div>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-phone"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>010-0000-0000</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy" value="010-0000-0000">복사</button>
-									</div>
-								</div>
-							</div>
-							<!-- 2 -->
-							<div class="storeData">
-								<div class="storeDataTitle">
-									<a href="/viewStorePage.do?storeNum=2">
-										<h4 class="text-hover">수제 붕어빵</h4>
-									</a>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-map"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span id="address">서울시 강남구 테헤란로26길 14 <br> 사거리 옆 건물 2층
-										</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy"
-											value="서울시 강남구 테헤란로26길 14 사거리 옆 건물 2층">복사</button>
-									</div>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-phone"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>010-1111-1111</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy" value="010-1111-1111">복사</button>
-									</div>
-								</div>
-							</div>
-							<!-- 3 -->
-							<div class="storeData">
-								<div class="storeDataTitle">
-									<a href="/viewStorePage.do?storeNum=${store.Num}">
-										<h4 class="text-hover">{store.name}</h4>
-									</a>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-map"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>{store.address} <br> {store.detail.address}
-										</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy"
-											value="${store.address} ${store.detail.address}">복사</button>
-									</div>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-phone"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>{store.phone}</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy" value="${store.phone}">복사</button>
-									</div>
-								</div>
-							</div>
-							<!-- 4 -->
-							<div class="storeData">
-								<div class="storeDataTitle">
-									<a href="/viewStorePage.do?storeNum=${store.Num}">
-										<h4 class="text-hover">{store.name}</h4>
-									</a>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-map"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>{store.address} <br> {store.detail.address}
-										</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy"
-											value="${store.address} ${store.detail.address}">복사</button>
-									</div>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-phone"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>{store.phone}</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy" value="${store.phone}">복사</button>
-									</div>
-								</div>
-							</div>
-							<!-- 나중에 지움 끝 -->
-
-							<%--
 							<c:forEach var="data" items="${datas}">
 								<customStore:simpleStoreData />
-							</c:forEach> --%>
+							</c:forEach>
 						</div>
 					</div>
 				</div>

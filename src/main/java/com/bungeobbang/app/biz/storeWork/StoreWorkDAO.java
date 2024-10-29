@@ -19,8 +19,8 @@ public class StoreWorkDAO {
 	// 받은 데이터 : 가게 고유번호
 	// 조회 데이터 : 가게 영업 요일, 영업시작,종료시간
 	final String SELECTALL = "SELECT STORE_WORK_WEEK, "
-			+ "STORE_WORK_OPEN, "
-			+ "STORE_WORK_CLOSE "
+			+ "DATE_FORMAT(STORE_WORK_OPEN, '%H:%i') AS STORE_WORK_OPEN, "
+			+ "DATE_FORMAT(STORE_WORK_CLOSE, '%H:%i') AS STORE_WORK_CLOSE "
 			+ "FROM BB_STORE_WORK WHERE STORE_NUM = ?";
 
 	//가게 영업방식 업데이트(고유번호의 1개의 행 변경)

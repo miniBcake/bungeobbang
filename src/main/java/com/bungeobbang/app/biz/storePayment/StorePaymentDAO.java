@@ -26,12 +26,6 @@ public class StorePaymentDAO {
 	final String UPDATE = "UPDATE BB_STORE_PAYMENT SET STORE_PAYMENT_CASHMONEY = ?, " +
 	    "STORE_PAYMENT_CARD = ?, STORE_PAYMENT_ACCOUNT = ? WHERE STORE_NUM = ?";
 
-	//특정 가게 결제방식 상세조회
-	//받는 데이터 : 가게 고유번호
-	//조회 데이터 : 가게 고유번호, 현금, 카드, 계좌이체 사용 여부
-	final String SELECTONE = "SELECT DISTINCT STORE_NUM, STORE_PAYMENT_CASHMONEY, STORE_PAYMENT_CARD, " +
-	    "STORE_PAYMENT_ACCOUNT FROM BB_STORE_PAYMENT WHERE STORE_NUM = ?";
-    
     //검색 개수 조회
     final String SELECTONE_CNT = "SELECT SUM(STORE_PAYMENT_CASHMONEY = 'Y') AS STORE_PAYMENT_CASHMONEY_CNT, " +
             "SUM(STORE_PAYMENT_CARD = 'Y') AS STORE_PAYMENT_CARD_CNT, " +
@@ -151,7 +145,7 @@ public class StorePaymentDAO {
    
 //StorePaymentDAO   selectOne   특정가게 정보 조회---------------------------------------------------------------------------------------------------------------
    
-   private StorePaymentDTO selectOne(StorePaymentDTO storePaymentDTO) {
+   public StorePaymentDTO selectOne(StorePaymentDTO storePaymentDTO) {
       System.out.println("log_StorePaymentDAO_selectOne : start");
       System.out.println("log_StorePaymentDAO_selectOne controller input StoreMenuDTO : " + storePaymentDTO.toString());
 
@@ -170,47 +164,21 @@ public class StorePaymentDAO {
       //[4] data 변수 선언 : 결과값 담을 data
       StorePaymentDTO data = null;
       System.out.println("log_StorePaymentDAO__selectOne_data null setting complete");
-      
+
       try {
-         if(storePaymentDTO.getCondition() == null || storePaymentDTO.getCondition().isEmpty()) {
-            //[5] pstmt 변수 선언 : () 안 쿼리문으로 실행 준비 완료.
-            //SQL DB와 연결하여 SELECTONE 변수값 미리 컴파일, 실행 준비
-            pstmt = conn.prepareStatement(SELECTONE);
-            System.out.println("log_StorePaymentDAO__selectOne_pstmt conn");
+         pstmt = conn.prepareStatement(SELECTONE_CNT);
+         System.out.println("log_StorePaymentDAO__selectOne_pstmt conn");
+         //[7] rs 변수 선언 : SELECTONE 쿼리문 실행
+         rs = pstmt.executeQuery();
+         System.out.println("log_StorePaymentDAO_selectOne_executeQuery() complete");
 
-            //[6] 인자값으로 받은 데이터 쿼리문에 삽입
-            pstmt.setInt(1, storePaymentDTO.getStoreNum());   //가게 고유번호 입력
-            System.out.println("log_StorePaymentDAO_selectOne_pstmt input complete");
-
-            //[7] rs 변수 선언 : SELECTONE 쿼리문 실행
-            rs = pstmt.executeQuery();
-            System.out.println("log_StorePaymentDAO_selectOne_executeQuery() complete");
-
-            //[8] 특정 가게 결제방식 카테고리별 사용가능 여부 불러오기
-            if(rs.next()) {
-               data = new StorePaymentDTO();
-               data.setStorePaymentCashmoney(rs.getString("STORE_PAYMENT_CASHMONEY"));         //현금 결제 가능(Y/N)
-               data.setStorePaymentCard(rs.getString("STORE_PAYMENT_CARD"));               //카드 결제 가능(Y/N)
-               data.setStorePaymentAccount(rs.getString("STORE_PAYMENT_ACCOUNT"));      //계좌이체 결제 가능(Y/N)
-               data.setStoreNum(rs.getInt("STORE_NUM"));                              //가게 고유번호(FK)
-               System.out.println("log_StorePaymentDAO_selectOne_data : " + data);
-            }
-         }
-         else if (storePaymentDTO.getCondition().equals("SELECT_CNT")) {
-            pstmt = conn.prepareStatement(SELECTONE_CNT);
-            System.out.println("log_StorePaymentDAO__selectOne_pstmt conn");
-            //[7] rs 변수 선언 : SELECTONE 쿼리문 실행
-            rs = pstmt.executeQuery();
-            System.out.println("log_StorePaymentDAO_selectOne_executeQuery() complete");
-
-            //[8] 특정 가게 결제방식 카테고리별 사용가능 여부 불러오기
-            if(rs.next()) {
-               data = new StorePaymentDTO();
-               data.setStorePaymentCashmoneyCnt(rs.getInt("STORE_PAYMENT_CASHMONEY_CNT"));         //현금 결제 가능(Y/N)
-               data.setStorePaymentCardCnt(rs.getInt("STORE_PAYMENT_CARD_CNT"));               //카드 결제 가능(Y/N)
-               data.setStorePaymentAccountCnt(rs.getInt("STORE_PAYMENT_ACCOUNT_CNT"));      //계좌이체 결제 가능(Y/N)
-               System.out.println("log_StorePaymentDAO_selectOne_data : " + data);
-            }
+         //[8] 특정 가게 결제방식 카테고리별 사용가능 여부 불러오기
+         if(rs.next()) {
+            data = new StorePaymentDTO();
+            data.setStorePaymentCashmoneyCnt(rs.getInt("STORE_PAYMENT_CASHMONEY_CNT"));         //현금 결제 가능(Y/N)
+            data.setStorePaymentCardCnt(rs.getInt("STORE_PAYMENT_CARD_CNT"));               //카드 결제 가능(Y/N)
+            data.setStorePaymentAccountCnt(rs.getInt("STORE_PAYMENT_ACCOUNT_CNT"));      //계좌이체 결제 가능(Y/N)
+            System.out.println("log_StorePaymentDAO_selectOne_data : " + data);
          }
       }catch(Exception e) {
          e.printStackTrace();

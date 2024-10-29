@@ -31,28 +31,32 @@ public class StoreDAO {
 	//받은 데이터 : 가게 고유번호(PK)
 	//조회 데이터 : 가게 고유번호(PK), 가게 상호명, 기본&상세주소, 가게 전화번호, 가게폐점여부, 비공개 여부
 	private final String INFO_STORE_SELECTONE = """
-			SELECT 
-			ROW_NUMBER() OVER (ORDER BY STORE_NUM) AS ROWNUM,
-			STORE_NUM, 
-			STORE_NAME, 
-			STORE_CLOSED, 
-			STORE_SECRET, 
-			STORE_MENU_NORMAL, 
-			STORE_MENU_VEG, 
-			STORE_MENU_POTATO, 
-			STORE_MENU_MINI, 
-			STORE_MENU_ICE, 
-			STORE_MENU_CHEESE, 
-			STORE_MENU_PASTRY, 
-			STORE_MENU_OTHER, 
-			STORE_PAYMENT_CASHMONEY, 
-			STORE_PAYMENT_CARD, 
-			STORE_PAYMENT_ACCOUNT, 
-			STORE_DECLARED
-		FROM 
-			BB_VIEW_STORE_JOIN 
-		WHERE 
-			STORE_NUM = ? """;
+            SELECT 
+            ROW_NUMBER() OVER (ORDER BY STORE_NUM) AS ROWNUM,
+            STORE_NUM, 
+            STORE_NAME,
+            STORE_ADDRESS,
+            STORE_ADDRESS_DETAIL,
+   			STORE_CONTACT,
+            STORE_CLOSED, 
+            STORE_SECRET, 
+            STORE_MENU_NORMAL, 
+            STORE_MENU_VEG, 
+            STORE_MENU_POTATO, 
+            STORE_MENU_MINI, 
+            STORE_MENU_ICE, 
+            STORE_MENU_CHEESE, 
+            STORE_MENU_PASTRY, 
+            STORE_MENU_OTHER, 
+            STORE_PAYMENT_CASHMONEY, 
+            STORE_PAYMENT_CARD, 
+            STORE_PAYMENT_ACCOUNT, 
+            STORE_DECLARED
+         FROM 
+            BB_VIEW_STORE_JOIN 
+         WHERE 
+            STORE_NUM = ? """;
+
 
 	//가게 고유번호(PK) 최댓값 조회(+insert 과정에 활용)
 	private final String STORE_NEW_SELECTONE = "SELECT MAX(STORE_NUM) AS MAX_S_NUM FROM BB_STORE";
@@ -66,6 +70,9 @@ public class StoreDAO {
 				ROW_NUMBER() OVER (ORDER BY STORE_NUM) AS ROWNUM,
 				STORE_NUM, 
 				STORE_NAME, 
+	            STORE_ADDRESS,
+            	STORE_ADDRESS_DETAIL,
+   				STORE_CONTACT,
 				STORE_CLOSED, 
 				STORE_SECRET, 
 				STORE_MENU_NORMAL, 

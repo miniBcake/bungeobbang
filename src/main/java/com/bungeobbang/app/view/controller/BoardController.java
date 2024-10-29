@@ -41,7 +41,7 @@ public class BoardController {
 
     //session
     private final String SESSION_PK = "userPK"; //세션에 저장된 memberPK
-    private final String SESSION_IMAGE_SRC = "boardFile";
+//    private final String SESSION_IMAGE_SRC = "boardFile";
 
     //한 번에 뜨는 데이터 수 : 페이지네이션 용
     private final int CONTENT_SIZE = 10; // 페이지당 게시글 수
@@ -130,7 +130,7 @@ public class BoardController {
     //게시글 전체 리스트
     //KS 작업해야함 loadListBoard's' check! boardCateDTO필드명
     @RequestMapping("/loadListBoards.do")
-    public String loadListBoards(Model model, int page, String boardCategoryName, BoardDTO totalCNT, BoardDTO boardDTO, BoardCateDTO boardCateDTO,
+    public String loadListBoards(Model model, Integer page, String boardCategoryName, BoardDTO totalCNT, BoardDTO boardDTO, BoardCateDTO boardCateDTO,
                                  String keyword, String contentFilter, String writeDayFilter, BoardDTO boardTotalCNT) {
 
         log.info("log: /loadListBoards.do loadListBoards - start");
@@ -147,7 +147,7 @@ public class BoardController {
         ArrayList<BoardDTO> boardList; //게시글 정보
 
         //페이지 정보
-        page = page <= 0? 1 : page; //페이지 정보가 있다면 해당 페이지, 없다면 기본값 1
+        page = page == null? 1 : page; //페이지 정보가 있다면 해당 페이지, 없다면 기본값 1
 
         //검색 세팅 //////////////////////////////////////////////////////////
         // HashMap을 사용하여 검색 조건을 설정
@@ -178,7 +178,7 @@ public class BoardController {
         PaginationUtils.setPagination(page, totalPage, totalSize, boardDTO);
 
         //데이터 요청
-        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());
+        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCategoryNum());
         boardDTO.setCondition("FILTER_BOARD");
         boardList = boardService.selectAll(boardDTO);
 
@@ -231,7 +231,7 @@ public class BoardController {
     public String updateBoard(BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model) {
         log.info("log: /updateBoard.do updateBoard - start");
         log.info("log: updateBoard - param boardDTO : [{}]", boardDTO);
-        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());//카테고리이름을 번호로 변경
+        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCategoryNum());//카테고리이름을 번호로 변경
         boardDTO.setCondition("BOARD_UPDATE");//컨디션 설정
         if(boardService.update(boardDTO)){
             log.error("log: updateBoard - update fail");
@@ -254,35 +254,35 @@ public class BoardController {
 
         //ckeditor를 통해 넘어온 content의 이미지 src 서버에 맞춰 수정하는 로직///////////////////////////
         //세션에 저장해둔 파일 명 변경 정보 호출
-        HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute(SESSION_IMAGE_SRC);
-        String content = boardDTO.getBoardContent(); //작성한 내용
-        //이미지 태그의 src 변경
-        if(boardFile != null && !boardFile.isEmpty()){ //이미지가 있는 경우라면
-            for (Map.Entry<String, String> entry : boardFile.entrySet()) {
-                //value값을 찾아 서버 이미지 경로로 변경
-                log.info("log: addBoard - change content : {}", entry);
-                content = content.replace(entry.getValue(),
-                        ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey());
-            }
-            session.removeAttribute(SESSION_IMAGE_SRC); //다 바꾼 뒤에는 세션에서 삭제
-            log.info("log: addBoard - delete session : {}", SESSION_IMAGE_SRC);
-        }
-        boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장 이미지가 없다면 그대로 저장
+//        HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute(SESSION_IMAGE_SRC);
+//        String content = boardDTO.getBoardContent(); //작성한 내용
+//        //이미지 태그의 src 변경
+//        if(boardFile != null && !boardFile.isEmpty()){ //이미지가 있는 경우라면
+//            for (Map.Entry<String, String> entry : boardFile.entrySet()) {
+//                //value값을 찾아 서버 이미지 경로로 변경
+//                log.info("log: addBoard - change content : {}", entry);
+//                content = content.replace(entry.getValue(),
+//                        ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey());
+//            }
+//            session.removeAttribute(SESSION_IMAGE_SRC); //다 바꾼 뒤에는 세션에서 삭제
+//            log.info("log: addBoard - delete session : {}", SESSION_IMAGE_SRC);
+//        }
+//        boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장 이미지가 없다면 그대로 저장
         /////////////////////////////////////////////////////////////////////////////////////////
 
         //카테고리 번호 조회해 저장
-        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());
+        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCategoryNum());
         boardDTO.setCondition("BOARD_INSERT");//컨디션 설정
         //게시글 추가
         if(boardService.insert(boardDTO)){
             //실패 시
             log.error("log: addBoard - insert fail");
             model.addAttribute("msg", FAIL_BOARD_INSERT_MSG);
-            model.addAttribute("path", "boardList.do?categoryName="+boardCateDTO.getBoardCateName());
+            model.addAttribute("path", "boardList.do?categoryName="+boardCateDTO.getBoardCategoryName());
             return FAIL_URL;
         }
         //작성한 글이 있는 카테고리 페이지로 이동
         log.info("log: /addBoard.do addBoard - end");
-        return "redirect:loadListBoards.do?categoryName="+boardCateDTO.getBoardCateName();
+        return "redirect:loadListBoards.do?categoryName="+boardCateDTO.getBoardCategoryName();
     }
 }

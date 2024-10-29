@@ -4,6 +4,7 @@ import com.bungeobbang.app.biz.order.OrderDTO;
 import com.bungeobbang.app.biz.order.OrderService;
 import com.bungeobbang.app.biz.store.StoreDTO;
 import com.bungeobbang.app.biz.store.StoreService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ public class AdminController {
     private OrderService orderService;
     @Autowired
     private StoreService storeService;
+    @Autowired
+    private HttpSession session;
 
     private final String FAIL_DO = "redirect:failInfo.do"; //기본 실패 처리
     private final String FAIL_URL = "failInfo2"; //실패 처리할 페이지
@@ -37,11 +40,23 @@ public class AdminController {
     private final String PAGE_REPORT_LIST = "closedStoreDeclareList"; //views 하위 신고목록 페이지
     private final String PAGE_TIPOFF_LIST = "storeDeclareList"; //views 하위 가게 제보목록 페이지
 
+    //session
+    private final String SESSION_ROLE = "userRole";
+
+    //ADMIN 구분값
+    private final String ADMIN = "ADMIN";
+
     //가게 주문 완료처리
     @RequestMapping("/updateOrderCheck.do")
     public String updateOrderCheck(OrderDTO orderDTO, Model model) {
         log.info("log: /updateOrderCheck.do updateOrderCheck - start");
         log.info("log: updateOrderCheck - param orderDTO: {}", orderDTO);
+        //만약 관리자가 아니라면
+        if(!session.getAttribute(SESSION_ROLE).equals(ADMIN)){
+            //기본 실패처리
+            log.error("log: updateOrderCheck - not admin");
+            return FAIL_DO;
+        }
         if(!orderService.update(orderDTO)){
             log.error("log: updateOrderCheck - update failed");
             model.addAttribute("msg", ORDER_UPDATE_FAIL);
@@ -82,6 +97,13 @@ public class AdminController {
     public String deleteStore(StoreDTO storeDTO, Model model){
         log.info("log: /deleteStore.do deleteStore - start");
         log.info("log: deleteStore - param storeDTO: {}", storeDTO);
+        //만약 관리자가 아니라면
+        if(!session.getAttribute(SESSION_ROLE).equals(ADMIN)){
+            //기본 실패처리
+            log.error("log: deleteStore - not admin");
+            return FAIL_DO;
+        }
+        //관리자라면 삭제 진행
         if(!storeService.delete(storeDTO)){
             log.error("log: deleteStore - delete failed");
             model.addAttribute("msg", STORE_DELETE_FAIL);
@@ -97,6 +119,12 @@ public class AdminController {
     public String updateStoreClose(StoreDTO storeDTO, Model model){
         log.info("log: /updateStoreClose.do updateStoreClose - start");
         log.info("log: updateStoreClose - param storeDTO num : [{}]", storeDTO.getStoreNum());
+        //만약 관리자가 아니라면
+        if(!session.getAttribute(SESSION_ROLE).equals(ADMIN)){
+            //기본 실패처리
+            log.error("log: updateStoreClose - not admin");
+            return FAIL_DO;
+        }
         HashMap<String, String> filterList = new HashMap<>();
         filterList.put("UPDATE_CLOSED", this.YES);
         storeDTO.setFilterList(filterList);
@@ -118,6 +146,12 @@ public class AdminController {
     public String updateStoreVisible(StoreDTO storeDTO, Model model){
         log.info("log: /updateStoreVisible.do updateStoreVisible - start");
         log.info("log: updateStoreVisible - param storeDTO num : [{}]", storeDTO.getStoreNum());
+        //만약 관리자가 아니라면
+        if(!session.getAttribute(SESSION_ROLE).equals(ADMIN)){
+            //기본 실패처리
+            log.error("log: updateStoreVisible - not admin");
+            return FAIL_DO;
+        }
         HashMap<String, String> filterList = new HashMap<>();
         filterList.put("UPDATE_SECRET", this.NO);
         storeDTO.setFilterList(filterList);

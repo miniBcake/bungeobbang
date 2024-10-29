@@ -38,7 +38,7 @@ public class MainController {
     private String path = "redirect:/main.do";
 
     private final String COOKIE_NAME = "viewedProducts"; //쿠키 이름 설정
-    private final String BOARD_LIST = "COMMUNITY"; //커뮤니티 카테고리명
+    private final String BOARD_LIST = "boardList"; //커뮤니티 카테고리명
 
     private final int RECOMM_CNT = 3; //추천 상품 데이터 개수
 
@@ -60,8 +60,8 @@ public class MainController {
         boardDTO.setCondition("HOT_BOARD"); //인기글 조회 설정
 
         BoardCateDTO boardCateDTO = new BoardCateDTO(); //카테고리 번호 조회용 객체
-        boardCateDTO.setBoardCateName(BOARD_LIST); //커뮤니티게시판으로 고정
-        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCateNum());
+        boardCateDTO.setBoardCategoryName(BOARD_LIST); //커뮤니티게시판으로 고정
+        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCategoryNum());
         ArrayList<BoardDTO> hotBoardList = boardService.selectAll(boardDTO); // DAO에서 인기 게시물 조회
 
         model.addAttribute("hotBoardList", hotBoardList); // 상위 3개 인기 게시물 리스트를 request에 전달
