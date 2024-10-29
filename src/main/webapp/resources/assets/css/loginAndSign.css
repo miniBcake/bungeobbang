@@ -64,13 +64,7 @@ body {
     height: 400px;
     overflow: auto;
 }
-.signupimg{
-    width: 300px;
-    height: 300px;
-    border-radius:50%; /* 동그란 모양으로 만들기 */
-    object-fit: cover; /* 이미지 비율 유지 */
-    overflow: auto;
-}
+
 .container{
     width: 50%; /* 너비를 50%로 설정 */
     margin: 0 auto; /* 중앙 정렬 */

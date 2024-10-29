@@ -51,7 +51,7 @@ $('#loginPwFind').on('click', function() {//회원정보 확인 버튼 누르면
 				});
 			}
 		},
-		error: function(xhr, status, error) {
+		error: function() {
 			console.error('AJAX 요청 실패:', error);
 			Swal.fire({
 				icon: 'error',
@@ -70,7 +70,7 @@ function openSetPasswordModal(memberNum) {
 	memberNum = memberNum;
 	document.getElementById('loginModal').style.display = 'none';//첫번째 모달 닫기
 	document.getElementById('setPwModal').style.display = 'block';//두번째 모달 열기
-
+	console.log("loginPwFind.js second modal open");    
 	// 비밀번호 일치 여부 확인 초기화
 	   document.getElementById('resultPW').textContent = '';
 }
@@ -80,7 +80,9 @@ $(document).ready(function() {
     $('#passwordCheck').on('input', function() {
         var doublePassword = $(this).val(); // 비밀번호 확인란의 값
         var password = $('#password').val(); // 신규 비밀번호란의 값
+		console.log("loginPwFind.js Password document ready");    
 
+		
         // 비밀번호 확인 입력란이 비어있지 않은 경우
         if (doublePassword) {
             $.ajax({
@@ -90,14 +92,17 @@ $(document).ready(function() {
                 success: function(result) {
                     if (result == 'true') {
                         $('#resultPW').text('비밀번호가 일치합니다.').css('color', 'blue');
+						console.log("loginPwFind.js Password each success");    
                     } else if (data == 'false') {
                         $('#resultPW').text('비밀번호가 다릅니다. 다시 입력해주세요.').css('color', 'red');
-                    }
+						console.log("loginPwFind.js Password difference");    
+						}
                 }
             });
         } else {
             $('#resultPW').text(' '); // 입력란이 비어있으면 공백 처리
-        }
+			console.log("loginPwFind.js doublePassword ' ' check");    
+		}
     });
 });
 
@@ -135,6 +140,7 @@ document.getElementById('completePw').addEventListener('click', function(event) 
                     confirmButtonText: '확인'
                 }).then(() => {
                     closedModal(); // 모달 닫기
+					console.log("loginPwFind.js newPassword complete");
                 });
             } else {
                 Swal.fire({
@@ -143,9 +149,10 @@ document.getElementById('completePw').addEventListener('click', function(event) 
                     text: '비밀번호 변경에 실패했습니다. 비밀번호가 서로 일치하는지 확인해주세요.',
                     confirmButtonText: '확인'
                 });
+				console.log("loginPwFind.js newPassword success end");
             }
         },
-        error: function(xhr, status, error) {
+        error: function() {
             console.error('서버와의 통신 실패:', error);
             Swal.fire({
                 icon: 'error',
@@ -153,6 +160,7 @@ document.getElementById('completePw').addEventListener('click', function(event) 
                 text: '서버와의 통신에 실패했습니다.',
                 confirmButtonText: '확인'
             });
+			console.log("loginPwFind.js newPassword error end");
         }
     });
 });
