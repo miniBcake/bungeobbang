@@ -10,7 +10,7 @@
 			<i class="fas fa-map"></i>
 		</div>
 		<div class="col-9 leftPadding text-start">
-			<span>{store.address} <br> {store.detail.address}
+			<span id="address">{store.address} <br> {store.detail.address}
 			</span>
 		</div>
 		<div class="col-2 nonePadding">

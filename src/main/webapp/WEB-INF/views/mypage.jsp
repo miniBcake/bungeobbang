@@ -60,7 +60,7 @@
 					<br> <a href="pointRecharge.do" class="btn btn-primary"
 						role="button" id="pointCharge" name="pointCharge">포인트 충전 </a> <br>
 						
-					<br> <a href="updateMypage.do" class="btn btn-danger"
+					<br> <a href="updateProfile.do" class="btn btn-danger"
 						role="button" id="updateProfile" name="pointCharge">프로필 수정</a> <br>
 					
 					<br> <br> <a href="signOut.do"

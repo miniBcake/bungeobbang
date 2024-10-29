@@ -11,6 +11,11 @@
 <head>
 <title>가게 목록</title>
 <meta charset="utf-8" />
+<!-- 파비콘 -->
+<link rel="icon" href="${path}/resources/assets/images/logo.png"
+	type="image/x-icon" />
+
+<!-- css -->
 <link rel="stylesheet" href="${path}/resources/assets/css/main.css">
 <link rel="stylesheet" href="${path}/resources/assets/css/searchbar.css">
 <link rel="stylesheet"
@@ -30,7 +35,7 @@
 <!-- appkey에 발급받은 APP KEY를 넣음 -->
 <!-- 추가 기능 사용 시 &libraries=services 코드 추가(주소를 좌표로) -->
 <script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c29b2d7f614a4d9b5ef9ee4c2ec83a48&libraries=services"></script>
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fa67d17b706f82baef352ce04fa9e39e&libraries=services"></script>
 
 <!-- js를 쓰므로 jquery 사용 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -72,7 +77,7 @@
 								</div>
 								<!-- container02 : 1행 2열-->
 								<div class="col-10 col-md-10">
-									<%--<custom:searchbar placeholder="가게 이름을 입력해 주세요." />--%>
+									<custom:searchbar placeholder="가게 이름을 입력해 주세요." value="${keyword}"/>
 								</div>
 							</div>
 
@@ -94,29 +99,37 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storeMenu" value="MENU_NORMAL" id="">팥/슈크림<span>
-												(${menuCnt.storeMenuNormalCnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="" id="" role="팥/슈크림"
+											checked="${storeMenu != null && storeMenu.contains('팥/슈크림') ? 'checked' : ''}">
+											팥/슈크림<span> (${cnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="MENU_VEG"
-											id="">야채/김치/만두<span> (${menuCnt.storeMenuVegCnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="" id="" role="야채/김치/만두"
+											checked="${storeMenu != null && storeMenu.contains('야채/김치/만두') ? 'checked' : ''}">
+											야채/김치/만두<span> (${cnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="MENU_MINI" id="">미니 붕어빵<span>
-												(${menuCnt.storeMenuMiniCnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="" id="" role="미니 붕어빵"
+											checked="${storeMenu != null && storeMenu.contains('미니 붕어빵') ? 'checked' : ''}">
+											미니 붕어빵<span> (${cnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="MENU_POTATO" id="">고구마<span>
-												(${menuCnt.storeMenuPotatoCnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="" id="" role="고구마"
+											checked="${storeMenu != null && storeMenu.contains('고구마') ? 'checked' : ''}">
+											고구마<span> (${cnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="MENU_ICE"
-											id="">아이스크림/초코<span> (${menuCnt.storeMenuIceCnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="" id="" role="아이스크림/초코"
+											checked="${storeMenu != null && storeMenu.contains('아이스크림/초코') ? 'checked' : ''}">
+											아이스크림/초코<span> (${cnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="MENU_CHEESE" id="">치즈<span>
-												(${menuCnt.storeMenuCheeseCnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="" id="" role="치즈"
+											checked="${storeMenu != null && storeMenu.contains('치즈') ? 'checked' : ''}">
+											치즈<span> (${cnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="MENU_PASTRY" id="">페스츄리<span>
-												(${menuCnt.storeMenuPastryCnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="" id="" role="패스츄리"
+											checked="${storeMenu != null && storeMenu.contains('패스츄리') ? 'checked' : ''}">
+											패스츄리<span> (${cnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="MENU_OTHER" id="">기타<span>
-												(${menuCnt.storeMenuOtherCnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="" id="" role="기타"
+											checked="${storeMenu != null && storeMenu.contains('기타') ? 'checked' : ''}">
+											기타<span> (${cnt})</span>
 										</custom:categoryKeyword>
 									</div>
 								</div>
@@ -129,14 +142,17 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storePayment" value="PAYMENT_CASHMONEY" id="">현금결제<span>
-												(${paymentCnt.storePaymentCashmoneyCnt})</span>
+										<custom:categoryKeyword name="storePayment" value="" id="" role="현금결제"
+											checked="${storePayment != null && storePayment.contains('현금결제') ? 'checked' : ''}">
+											현금결제<span>(${cnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storePayment" value="PAYMENT_CARD" id="">카드결제<span>
-												(${paymentCnt.storePaymentCardCnt})</span>
+										<custom:categoryKeyword name="storePayment" value="" id="" role="카드결제"
+											checked="${storePayment != null && storePayment.contains('카드결제') ? 'checked' : ''}">
+											카드결제<span>(${cnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storePayment" value="PAYMENT_ACCOUNT" id="">계좌이체<span>
-												(${paymentCnt.storePaymentAccountCnt})</span>
+										<custom:categoryKeyword name="storePayment" value="" id="" role="계좌이체"
+											checked="${storePayment != null && storePayment.contains('계좌이체') ? 'checked' : ''}">
+											계좌이체<span>(${cnt})</span>
 										</custom:categoryKeyword>
 									</div>
 								</div>
@@ -149,7 +165,9 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storeClosed" value="Y" id="">영업중인 가게만 보기</custom:categoryKeyword>
+										<custom:categoryKeyword name="storeClosed" value="영업중" id=""
+											checked="${storeClosed != null && storeClosed == 'N' ? 'checked' : ''}">
+											영업중인 가게 ${cnt}</custom:categoryKeyword>
 									</div>
 								</div>
 							</div>
@@ -162,10 +180,17 @@
 			<!-- container01 : 2행 1열-->
 			<div class="row align-items-center">
 				<div class="searchValue">
+				<!-- 검색 결과가 없다면 -->
+				<c:if test="${empty storeList}">
+					<span>검색 결과가 없습니다.</span>
+				</c:if>
+				<c:if test="${not empty storeList}">
+					<!-- 지도 출력 부분 -->
 					<div class="col-6 text-center nonePadding fullWidthHeight">
 						<!-- 검색 결과 출력 부분-->
 						<div class="map" id="map"></div>
 					</div>
+					<!-- 가게 리스트 출력 부분 -->
 					<div class="col-6 text-center">
 						<div class="storeList">
 							<c:forEach var="data" items="${datas}">
@@ -229,8 +254,5 @@
 	<!-- footer 커스텀 태그 -->
 	<custom:footer />
 
-	<script>
-		
-	</script>
 </body>
 </html>
