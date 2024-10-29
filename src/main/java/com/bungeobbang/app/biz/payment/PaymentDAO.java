@@ -3,7 +3,6 @@ package com.bungeobbang.app.biz.payment;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.bungeobbang.app.biz.common.JDBCUtil;
 import com.bungeobbang.app.biz.filterSearch.PaymentFilter;
 
 @Repository
@@ -27,15 +25,15 @@ public class PaymentDAO {
 	private final String UPDATE_ADMINCHECK = "UPDATE BB_PAYMENT SET ADMIN_CHECKED = 'Y' WHERE PAYMENT_NUM = ?";
 
 	//selectAll 쿼리
-	private final String SELECTALL = "SELECT PAYMENT_NUM, MEMBER_NUM, ADMIN_CHECKED "
-			+ "FROM BB_PAYMENT";
+	private final String SELECTALL = "SELECT PAYMENT_NUM, MEMBER_NUM, PAYMENT_AMOUNT, ADMIN_CHECKED "
+			+ "FROM BB_PAYMENT ";
 
 	private final String NUMFILTER = "WHERE 1=1";
 
 	private final String SELECTALL_ENDPART = "ORDER BY PAYMENT_NUM LIMIT ?,?";
 
 	//selectOne 쿼리
-	private final String SELECTONE = "SELECT PAYMENT_NUM, POINT_NUM, ADMIN_CHECKED "
+	private final String SELECTONE = "SELECT PAYMENT_NUM, POINT_NUM, PAYMENT_AMOUNT, ADMIN_CHECKED "
 			+ "FROM BB_PAYMENT "
 			+ "WHERE PAYMENT_NUM = ? ";
 

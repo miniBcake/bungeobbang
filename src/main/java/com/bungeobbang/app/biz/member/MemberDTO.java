@@ -2,6 +2,8 @@ package com.bungeobbang.app.biz.member;
 
 import java.util.HashMap;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -17,6 +19,7 @@ public class MemberDTO {
 	private String memberRole;			//권한
 	private String memberHireDay;		//가입일자
 	
+	private MultipartFile file; 
 	//개발용
 	private String condition;			//컨디션
 	private HashMap<String, String> filterList; //필터검색용 <검색구분용, 검색값>
