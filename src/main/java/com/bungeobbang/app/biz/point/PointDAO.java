@@ -14,16 +14,17 @@ import org.springframework.stereotype.Repository;
 public class PointDAO {
 	
 	//insert 쿼리문
-	private final String INSERT_POINT = "INSERT INTO BB_POINT(MEMBER_NUM, POINT_PLUS,POINT_MINUS, POINT_CONTENT) "
+	private final String INSERT_POINT = "INSERT INTO BB_POINT(MEMBER_NUM, POINT_PLUS, POINT_MINUS, POINT_CONTENT) "
 			+ "VALUES(?,?,?,?)";
 	
 	//selectAll 쿼리문
 	private final String SELECTALL_POINT = "SELECT POINT_NUM, MEMBER_NUM, POINT_PLUS, POINT_MINUS, POINT_CONTENT"
-			+ "FROM BB_POINT WHERE MEMBER NUM = ?";
+			+ "FROM BB_POINT WHERE MEMBER_NUM = ?";
 	
 	//selectOne 쿼리문
 	private final String SELECTONE_POINT = "SELECT POINT_NUM, MEMBER_NUM, POINT_PLUS, POINT_MINUS, POINT_CONTENT"
 			+ "FROM BB_POINT WHERE POINT_NUM=?";
+	
 	private final String SELECTONE_MEMBER_POINT = "SELECT MEMBER_NUM," 
 		      + "SUM(IFNULL(POINT_PLUS,0) + IFNULL(POINT_MINUS,0)) AS TOTAL_POINT"
 		      + "FROM BB_POINT"
@@ -207,7 +208,7 @@ public class PointDAO {
 			if(pointDTO.getCondition().equals("SELECTONE_POINT")) {
 				System.out.println("log : Point selectOne : SELECTONE_POINT");
 				pstmt=conn.prepareStatement(SELECTONE_POINT);
-				pstmt.setInt(placeholderNum++, pointDTO.getMemberNum());
+				pstmt.setInt(placeholderNum++, pointDTO.getPointNum());
 				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
 					data.setPointNum(rs.getInt("POINT_NUM"));

@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.bungeobbang.app.biz.common.JDBCUtil;
 
-
-
 @Repository
 public class StoreWorkDAO {
 	// 등록데이터 : 영업고유번호(PK), 가게 고유번호(FK-여러행으로 발생), 영업 요일(7개중 1개씩 입력), 영업시작시간, 영업종료시간
@@ -20,7 +18,7 @@ public class StoreWorkDAO {
 	// 특정 가게 영업방식 상세조회
 	// 받은 데이터 : 가게 고유번호
 	// 조회 데이터 : 가게 영업 요일, 영업시작,종료시간
-	final String selectAll = "SELECT STORE_WORK_WEEK, "
+	final String SELECTALL = "SELECT STORE_WORK_WEEK, "
 			+ "STORE_WORK_OPEN, "
 			+ "STORE_WORK_CLOSE "
 			+ "FROM BB_STORE_WORK WHERE STORE_NUM = ?";
@@ -28,7 +26,7 @@ public class StoreWorkDAO {
 	//가게 영업방식 업데이트(고유번호의 1개의 행 변경)
 	//받은 데이터 : 가게 고유번호, 영업요일
 	//업데이트 : 영업요일, 시작, 종료 시간
-	final String UPDATE = "UPDATE BB_STORE_WORK"
+	final String UPDATE = "UPDATE BB_STORE_WORK SET"
 			+ "STORE_WORK_OPEN = STR_TO_DATE(?, '%H:%i'),"
 			+ "STORE_WORK_CLOSE = STR_TO_DATE(?, '%H:%i')"
 			+ "WHERE STORE_NUM = ? AND STORE_WORK_WEEK = ?";
@@ -135,52 +133,9 @@ public class StoreWorkDAO {
 		}System.out.println("log_StoreWorkDAO_update_true!");
 		return true;
 	}
-	public boolean delete(StoreWorkDTO storeWorkDTO) {
-		System.out.println("log_StoreWorkDTO_delete : start");
-		System.out.println("log_StoreWorkDTO_delete_controller input StoreWorkDTO : " + storeWorkDTO);
-
-		//[1] DB 연결 객체를 conn 변수로 선언: JDBC 연결 관리하는 JDBCUtil 클래스에서 DB연결 설정 메서드 실행.
-		Connection conn = JDBCUtil.connect();
-		System.out.println("log_StoreWorkDTO_delete_conn null setting");
-
-
-		//[2] SQL 쿼리 미리 컴파일하는 객체 PreparedStatement를 참조하는 pstmt 변수 선언 및 초기화
-		PreparedStatement pstmt = null;
-		System.out.println("log_StoreWorkDTO_delete_pstmt null setting complete");
-
-		// 비정상 프로그램 종료 방지 위한 try-catch 진행
-		try { 
-			//[3] pstmt 변수 선언 : () 안 쿼리문으로 실행 준비 완료.
-			//SQL DB와 연결하여 DELETE 변수값 미리 컴파일, 실행 준비
-			pstmt = conn.prepareStatement(DELETE); // input값 storeWorkDTO 이하 입력
-			System.out.println("log_StoreWorkDTO_delete_pstmt conn");
-
-			//[4] 인자값으로 받은 데이터 쿼리문에 삽입
-			pstmt.setInt(1, storeWorkDTO.getStoreNum());			//가게 고유번호(PK)
-			pstmt.setString(2, storeWorkDTO.getStoreWorkWeek());	//가게 영업 요일
-			System.out.println("log_StoreWorkDTO_delete_pstmt input complete");
-
-			//[5] rs 변수 선언 : DELETE 쿼리문 실행
-			int rs = pstmt.executeUpdate(); 
-			System.out.println("log_StoreWorkDTO_delete_excuteUpdate() complete");
-
-			//[6] 예외처리 : 정상실행 되지 않았을 경우, false
-			if(rs<=0) {//rs = 1(success) / rs = 0 (fail)
-				System.err.println("log_StoreWorkDTO_delete_excuteUpdate() fail : if(rs <= 0)");
-				return false; 
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("log_StoreWorkDTO_delete_Exception fail : Exception e");
-			return false;
-			//[7] JDBC 연결 해제 진행
-		}finally {
-			if (!JDBCUtil.disconnect(conn, pstmt)) { // 만약 JDBC가 연결되어 있다면
-				System.err.println("log_StoreWorkDTO_delete_disconnect fail"); // 연결해제 실패
-				return false;
-			} // JDBC 연결 해제 되었다면
-		}System.out.println("log_StoreWorkDTO_delete_true!");
-		return true;
+	
+	private boolean delete(StoreWorkDTO storeWorkDTO) {
+		return false;
 	}
 	// StoreWorkDAO selectAll 영업정보 상세 조회----------------------------------------------------------------------------------
 	public ArrayList<StoreWorkDTO> selectAll(StoreWorkDTO storeWorkDTO) {
@@ -206,7 +161,7 @@ public class StoreWorkDAO {
 		try {
 			//[5] pstmt 변수 선언 : () 안 쿼리문으로 실행 준비 완료.
 			//SQL DB와 연결하여 SELECTALL 변수값 미리 컴파일, 실행 준비
-			pstmt = conn.prepareStatement(selectAll);
+			pstmt = conn.prepareStatement(SELECTALL);
 			System.out.println("log_StoreWorkDAO_selectAll_pstmt conn");
 
 			//[6] 인자값으로 받은 데이터 쿼리문에 삽입

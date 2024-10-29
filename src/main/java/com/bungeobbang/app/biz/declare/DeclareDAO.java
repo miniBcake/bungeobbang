@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import lombok.extern.java.Log;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -38,7 +40,7 @@ public class DeclareDAO{
 	}
 	public boolean delete(DeclareDTO declareDTO) {
 		// 해당 신고 삭제
-		int result = jdbcTemplate.update(DELETE, declareDTO.getStoreNum());
+		int result = jdbcTemplate.update(DELETE, declareDTO.getDeclareNum());
 		if(result <= 0) {
 			System.err.println("log: Declare delete fail");
 			return false;
@@ -57,7 +59,8 @@ public class DeclareDAO{
         DeclareDTO data;
         try {
             data = jdbcTemplate.queryForObject(SELECTONE, args, new DeclareRowMapper());
-        } catch (EmptyResultDataAccessException e) {
+        } catch (Exception e) {
+        	e.printStackTrace();
             data = null;
         }
         return data;

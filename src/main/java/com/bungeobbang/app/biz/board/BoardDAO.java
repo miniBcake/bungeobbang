@@ -27,8 +27,8 @@ public class BoardDAO {
 
 	// 상품 게시글 작성
 	private final String INSERT_PRODUCT = 
-			"INSERT INTO BB_BOARD(BOARD_TITLE, BOARD_CONTENT, BOARD_FOLDER, BOARD_CATEGORY_NUM) " +
-					"VALUES(?,?,?,?)";
+			"INSERT INTO BB_BOARD(PRODUCT_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_FOLDER, BOARD_CATEGORY_NUM) " +
+					"VALUES(?,?,?,?,?)";
 
 	// 상점 게시글 작성
 	private final String INSERT_STORE = 
@@ -59,10 +59,9 @@ public class BoardDAO {
 					+"LIMIT ?, ?";
 
 	// SELECTALL_HOT 쿼리
-	//TODO 수정할 것 MemberProfileWay
 	private final String SELECTALL_HOT = 
 			"SELECT BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_OPEN, BOARD_DELETE, " 
-					+"BOARD_CATEGORY_NUM, BOARD_CATEGORY_NAME, MEMBER_NUM, MEMBER_NICKNAME, "
+					+"BOARD_CATEGORY_NUM, BOARD_CATEGORY_NAME, MEMBER_NUM, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, "
 					+"BOARD_WRITE_DAY, LIKE_CNT " 
 					+"FROM BB_VIEW_BOARD_JOIN " 
 					+"WHERE BOARD_CATEGORY_NUM = ? AND LIKE_CNT >= ? "
@@ -132,6 +131,7 @@ public class BoardDAO {
 				System.out.println("log: Board insert : PRODUCT_INSERT");
 				query=INSERT_PRODUCT;
 				rs=jdbcTemplate.update(query,
+						boardDTO.getProductNum(),
 						boardDTO.getBoardTitle(),
 						boardDTO.getBoardContent(),
 						boardDTO.getBoardFolder(),
@@ -351,7 +351,7 @@ public class BoardDAO {
 			args = new Object[] {
 					boardDTO.getBoardNum()
 			};
-			return jdbcTemplate.queryForObject(query, args, new FolderRowMaaper());
+			return jdbcTemplate.queryForObject(query, args, new FolderRowMapper());
 		}
 		else if(boardDTO.getCondition().equals("MY_BOARD")) {
 			System.out.println("log : Board selectOne : MY_BOARD");
@@ -379,7 +379,7 @@ public class BoardDAO {
 			data.setBoardContent(rs.getString("BOARD_CONTENT")); 	//내용
 			data.setBoardOpen(rs.getString("BOARD_OPEN")); 			//공개여부
 			data.setBoardCategoryNum(rs.getInt("BOARD_CATEGORY_NUM")); 		//카테고리 번호
-			data.setBoardCategoryName(rs.getString("BORAD_CATEGORY_NAME")); 	//카테고리 명
+			data.setBoardCategoryName(rs.getString("BOARD_CATEGORY_NAME")); 	//카테고리 명
 			data.setMemberNum(rs.getInt("MEMBER_NUM")); 			//멤버 PK
 			data.setMemberNickname(rs.getString("MEMBER_NICKNAME")); //멤버 닉네임
 			data.setMemberProfileWay(rs.getString("MEMBER_PROFILE_WAY")); //회원 프로필 사진
@@ -402,7 +402,7 @@ public class BoardDAO {
 		}		
 	}
 	// 게시글 번호와 폴더명 반환
-	class FolderRowMaaper implements RowMapper<BoardDTO>{
+	class FolderRowMapper implements RowMapper<BoardDTO>{
 
 		@Override
 		public BoardDTO mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -32,8 +32,7 @@ public class LikeDAO {
 	public boolean insert(LikeDTO likeDTO) {
 		System.out.println("log_StoreLikeDAO_insert : start");
 		System.out.println("log_StoreLikeDAO_insert_controller input StoreLikeDTO : " + likeDTO);
-		Object[] args = {likeDTO.getBoardNum(), likeDTO.getMemberNum()}; // args 초기화
-		int rs = jdbcTemplate.update(INSERT, args);
+		int rs = jdbcTemplate.update(INSERT, likeDTO.getBoardNum(), likeDTO.getMemberNum());
 		if (rs <= 0) { //rs >= 1(success) / rs = 0 (fail)
 			System.err.println("log_LikeDAO_insert executeUpdate() fail : if(rs <= 0)");
 			return false;
@@ -50,8 +49,7 @@ public class LikeDAO {
 	public boolean delete(LikeDTO likeDTO) {
 		System.out.println("log_StoreLikeDAO_delete : start");
 		System.out.println("log_StoreLikeDAO_delete controller input likeDTO : " + likeDTO);
-		Object[] args = {likeDTO.getLikeNum()};
-		int rs = jdbcTemplate.update(DELETE, args);
+		int rs = jdbcTemplate.update(DELETE, likeDTO.getLikeNum());
 		if (rs <= 0) {//rs >= 1(success) / rs = 0 (fail)
 			System.err.println("log_LikeDTO_delete execute() fail");
 			return false;

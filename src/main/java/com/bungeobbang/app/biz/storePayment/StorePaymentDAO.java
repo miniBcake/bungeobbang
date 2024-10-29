@@ -20,13 +20,6 @@ public class StorePaymentDAO {
 	final String INSERT = "INSERT INTO BB_STORE_PAYMENT (STORE_NUM, STORE_PAYMENT_CASHMONEY, STORE_PAYMENT_CARD, STORE_PAYMENT_ACCOUNT) " +
 	    "VALUES ( ?, ?, ?, ?)";
 
-	//결제방식별 해당하는 매장 총 개수 모두 조회
-	//조회 데이터 : 현금, 카드, 계좌이체 각 결제방식을 진행하는 매장의 수
-	final String SELECTALL = "SELECT STORE_PAYMENT_CASHMONEY, STORE_PAYMENT_CARD, STORE_PAYMENT_ACCOUNT, COUNT(STORE_PAYMENT_NUM) AS STOREPAYMNET_COUNT " +
-	    "FROM BB_STORE_PAYMENT " +
-	    "WHERE STORE_PAYMENT_CASHMONEY = 'Y' OR STORE_PAYMENT_CARD = 'Y' OR STORE_PAYMENT_ACCOUNT = 'Y' " +
-	    "GROUP BY STORE_PAYMENT_CASHMONEY, STORE_PAYMENT_CARD, STORE_PAYMENT_ACCOUNT";
-
 	//특정 가게 결제방식 수정
 	//받는 데이터 : 가게 고유번호
 	//수정 데이터 : 현금, 카드, 계좌이체 사용 여부
@@ -38,14 +31,14 @@ public class StorePaymentDAO {
 	//조회 데이터 : 가게 고유번호, 현금, 카드, 계좌이체 사용 여부
 	final String SELECTONE = "SELECT DISTINCT STORE_NUM, STORE_PAYMENT_CASHMONEY, STORE_PAYMENT_CARD, " +
 	    "STORE_PAYMENT_ACCOUNT FROM BB_STORE_PAYMENT WHERE STORE_NUM = ?";
-
-
+    
     //검색 개수 조회
     final String SELECTONE_CNT = "SELECT SUM(STORE_PAYMENT_CASHMONEY = 'Y') AS STORE_PAYMENT_CASHMONEY_CNT, " +
             "SUM(STORE_PAYMENT_CARD = 'Y') AS STORE_PAYMENT_CARD_CNT, " +
             "SUM(STORE_PAYMENT_ACCOUNT = 'Y') AS STORE_PAYMENT_ACCOUNT_CNT " +
             "FROM BB_STORE_PAYMENT";
 
+   
    
 //StorePaymentDAO   insert   신규가게 결제방식 추가---------------------------------------------------------------------------------------------------------------
    
@@ -153,59 +146,8 @@ public class StorePaymentDAO {
 //StorePaymentDAO   selectAll   가게 결제방식별 총 개수 조회---------------------------------------------------------------------------------------------------------------
    
    private ArrayList<StorePaymentDTO> selectAll(StorePaymentDTO storePaymentDTO) {
-      System.out.println("log_StorePaymentDAO_selectAll : start");
-      System.out.println("log_StorePaymentDAO_selectAll controller input StorePaymentDTO : " + storePaymentDTO.toString());
-      
-      //[1] DB 연결 객체를 conn. 변수로 선언: JDBC 연결 관리하는 JDBCUtil 클래스에서 DB연결 설정 메서드 실행.
-      Connection conn = JDBCUtil.connect();
-      System.out.println("log_StorePaymentDAO__selectAll_conn setting complete");
-
-      //[2] SQL 쿼리 미리 컴파일하는 객체 PreparedStatement를 참조하는 pstmt 변수 선언 및 초기화
-      PreparedStatement pstmt = null;
-      System.out.println("log_StorePaymentDAO__selectAll_psmt null setting complete");
-
-      //[3] rs 변수 선언 : selectAll 쿼리문 실행
-      ResultSet rs = null;
-      System.out.println("log_StorePaymentDAO__selectAll_rs null setting complete");
-
-      //[4] datas 변수 선언 : 결제방식 카테고리별 판매하는 총 가게수 담은 리스트
-      ArrayList <StorePaymentDTO> datas = new ArrayList <StorePaymentDTO>();
-      
-      try {
-         //[5] pstmt 변수 선언 : () 안 쿼리문으로 실행 준비 완료.
-         //SQL DB와 연결하여 SELECTALL 변수값 미리 컴파일, 실행 준비
-         pstmt = conn.prepareStatement(SELECTALL);
-         System.out.println("log_StorePaymentDAO_selectALL_pstmt conn");
-
-         //[6] rs 변수 선언 : SELECTALL 쿼리문 실행
-         rs = pstmt.executeQuery();
-         System.out.println("log_StorePaymentDAO_selectAll_executeQuery() complete");
-
-         //[7] 결제방식 카테고리별 붕어빵 판매 매장 수 데이터 불러오기
-         while(rs.next()) {
-            //결제방식 카테고리 내 한 결제방식으로 판매하는 총 가게 수 
-            StorePaymentDTO data = new StorePaymentDTO();
-//            data.setStorPaymentCount(rs.getInt("STOREPAYMNET_COUNT"));
-            datas.add(data);
-//            System.out.println("log_StorePaymentDAO_selectAll_datagetStorPaymentCount() : " + data.getStorPaymentCount());
-         }
-      } catch (Exception e) {
-         e.printStackTrace();
-         System.err.println("log_StorePaymentDAO_selectAll_Exception fail");
-      //[8] JDBC 연결 해제 진행
-      } finally {
-         if (!JDBCUtil.disconnect(conn, pstmt)) { // 만약 JDBC가 연결되어 있다면
-            System.err.println("log_StorePaymentDAO_selectAll_disconnect fail");// 연결해제 실패
-         }// JDBC 연결 해제 되었다면
-         System.out.println("log_StorePaymentDAO_selectAll_complet"); // 연결해제 성공
-      }
-      System.out.println("log_StorePaymentDAO_selectAll_return datas");
-      return datas; // 데이터 반환
+	   return null;
    }
-
-   
-   
-   
    
 //StorePaymentDAO   selectOne   특정가게 정보 조회---------------------------------------------------------------------------------------------------------------
    
