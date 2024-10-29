@@ -50,8 +50,8 @@ function toggleTagByCheckbox() {
 
 		// 체크박스가 선택된 경우
 		if ($(this).is(':checked')) {
-			// 체크박스 다음의 <span> 텍스트 가져오기
-			const checkBoxValue = $(this).val();
+			// 해당 체크박스의 data-role 값 가져오기
+			const checkBoxValue = $(this).attr('data-role');
 			console.log('checkBoxValue : [' + checkBoxValue + ']')
 
 			// 기존 박스에 태그 추가
@@ -64,9 +64,9 @@ function toggleTagByCheckbox() {
 		}
 		// 체크박스가 해제된 경우
 		else {
-			// checkBox의 value 값을 사용하여 해당 태그 제거
-			// 체크박스 다음의 <span> 텍스트 가져오기
-			const checkedBoxValue = $(this).val();
+			// 해당 체크박스의 data-role 값 가져오기
+			$(this).attr('data-role');
+			const checkedBoxValue = $(this).attr('data-role');
 			console.log('checkedBoxValue : [' + checkedBoxValue + ']')
 
 			console.log('텍스트 요소가 같은 요소를 찾음');
@@ -111,8 +111,8 @@ function tagByXbutton() {
 
 		// 해당 테그와 일치하는 체크박스 해제
 		$('input[type="checkbox"]').filter(function() {
-			// 체크박스의 value 값 가져오기
-			const checkBoxValue = $(this).val();
+			// 해당 체크박스의 data-role 값 가져오기
+			const checkBoxValue = $(this).attr('data-role');
 			console.log('checkBox의 값 : [' + checkBoxValue + '], tag 값 : [' + tag + ']');
 
 			return checkBoxValue === tag;
@@ -137,40 +137,47 @@ function storePagenation() {
 		let checkBoxUrl = '';
 		console.log("checkBoxUrl : " + checkBoxUrl);
 
-
+		// input 태그 중 name 값이 storeMenu이면서 checked 된 값들 menu_arr에 넣음
 		$("input[name=storeMenu]:checked").each(function() {
 			const menu = document.querySelectorAll('input[name="storeMenu"]:checked');
 			menu_arr.push(menu);
 			console.log("menu : " + menu);
 			console.log("menu_arr : " + menu_arr);
 		})
+		// input 태그 중 name 값이 storePayment이면서 checked 된 값들 payment_arr에 넣음
 		$("input[name=storePayment]:checked").each(function() {
 			const payment = document.querySelectorAll('input[name="storePayment"]:checked');
 			payment_arr.push(payment);
 			console.log("payment : " + payment);
 			console.log("payment_arr : " + payment_arr);
 		})
+		// input 태그 중 name 값이 storeClosed이면서 이면서 checked 된 값들 storeClosed에 넣음
 		$("input[name=storeClosed]:checked").each(function() {
 			storeClosed = $(this).val().trim();
 			console.log("storeClosed : " + storeClosed);
 		})
 
+		// url에 넣을 checkBoxUrl 생성 부분
+		// menu_arr에 있는 요소들을 '&storeMenu='와 붙여서 넣음
 		menu_arr.forEach(function(menu) {
 			checkBoxUrl += '&storeMenu=' + encodeURIComponent(menu);
 		})
+		// payment_arr에 있는 요소들을 '&storePayment='와 붙여서 넣음
 		payment_arr.forEach(function(payment) {
 			checkBoxUrl += '&storePayment=' + encodeURIComponent(payment);
 		})
+		// storeClosed가 존재한다면 '&storeClosed='을 붙여서 넣음
 		if (storeClosed != null) {
 			checkBoxUrl += '&storeClosed=' + encodeURIComponent(storeClosed);
 		}
 
+		// 페이지네이션 관련 요소들 가져옴
 		let preLink = document.getElementById('pagenationPreValue');
 		let nextLink = document.getElementById('pagenationNextValue');
 		let pageLinks = document.querySelectorAll('#pagination a[class^="pagenationValue"]');
 
-		console.log('pageLinks : ['+pageLinks+']');
-		
+		console.log('pageLinks : [' + pageLinks + ']');
+
 		if (pageLinks.length > 0) {
 			pageLinks.forEach(function(link) {
 				link.addEventListener('click', function(event) {
@@ -194,8 +201,8 @@ function storePagenation() {
 				window.location.href = nextLink.href;
 			});
 		}
-		
-		
+
+
 		console.log("완료된 checkBoxUrl : " + checkBoxUrl);
 	});
 }

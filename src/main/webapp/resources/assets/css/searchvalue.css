@@ -58,7 +58,11 @@
 			margin-bottom: 10px;
 		}
 		
-		
+			.addresSelect {
+				 font-size: 20px;
+				 width: 40%;
+				 text-align: center;
+			}
 			
 		.scrollContainer {	
 			height: var(--scrollContainer-size);
