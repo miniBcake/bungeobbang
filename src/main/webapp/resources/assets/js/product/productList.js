@@ -1,14 +1,14 @@
 // 전역 변수 선언
-const popup = document.getElementById("pointPopup");
-const pointButton = document.getElementById("pointButton");
-const closeButton = document.querySelector(".close-popup");
-const searchInput = document.getElementById('searchInput');
-const categorySelect = document.getElementById('categorySelect');
-const minPriceInput = document.getElementById('minPrice');
-const maxPriceInput = document.getElementById('maxPrice');
-const conditionInput = document.getElementById('conditionInput');
-const selectedOptionsDiv = document.getElementById('selectedOptions');
-const searchButton = document.getElementById('searchButton');
+var popup = document.getElementById("pointPopup");
+var btnPoint = document.getElementById("pointButton");
+var btnClosePopup = document.querySelector(".close-popup");
+var inputSearch = document.getElementById('searchInput');
+var selectCategory = document.getElementById('categorySelect');
+var inputMinPrice = document.getElementById('minPrice');
+var inputMaxPrice = document.getElementById('maxPrice');
+var inputCondition = document.getElementById('conditionInput');
+var divSelectedOptions = document.getElementById('selectedOptions');
+var btnSearch = document.getElementById('searchButton');
 
 // DOMContentLoaded 이벤트 리스너
 document.addEventListener('DOMContentLoaded', function () {
@@ -32,8 +32,8 @@ function initializeSwiper(containerClass, prevButtonClass, nextButtonClass, pagi
         slidesPerGroup: 4,
         loop: false,
         navigation: {
-            nextEl: nextButtonClass,
-            prevEl: prevButtonClass,
+            nextEl: prevButtonClass,
+            prevEl: nextButtonClass,
         },
         pagination: {
             el: paginationClass,
@@ -44,21 +44,21 @@ function initializeSwiper(containerClass, prevButtonClass, nextButtonClass, pagi
 
 // 팝업 초기화 함수
 function initializePopup() {
-    pointButton.addEventListener('click', function () {
-        const buttonTop = pointButton.offsetTop;
-        const buttonLeft = pointButton.offsetLeft;
+    btnPoint.addEventListener('click', function () {
+        const buttonTop = btnPoint.offsetTop;
+        const buttonLeft = btnPoint.offsetLeft;
 
         popup.style.top = `${buttonTop - popup.offsetHeight - 15}px`;
         popup.style.left = `${buttonLeft - 5}px`;
         popup.style.display = "block";
     });
 
-    closeButton.addEventListener('click', function () {
+    btnClosePopup.addEventListener('click', function () {
         popup.style.display = "none";
     });
 
     window.addEventListener('click', function (event) {
-        if (event.target !== popup && event.target !== pointButton && !popup.contains(event.target)) {
+        if (event.target !== popup && event.target !== btnPoint && !popup.contains(event.target)) {
             popup.style.display = "none";
         }
     });
@@ -66,50 +66,51 @@ function initializePopup() {
 
 // 검색 옵션 설정 함수
 function setupSearchOptions() {
-    searchInput.addEventListener('click', function () {
+    inputSearch.addEventListener('click', function () {
         toggleSearchOptions();
     });
 
-    searchButton.addEventListener('click', function (event) {
-        event.preventDefault();
+    btnSearch.addEventListener('click', function () {
+        // 기본 폼 제출 동작을 막지 않음
 
         const searchCategory = document.querySelector('input[name="searchCategory"]:checked').value;
 
         if (searchCategory === 'TITLE') {
-            conditionInput.value = 'SELECT_PART_TITLE';
+            inputCondition.value = 'SELECT_PART_TITLE';
         } else if (searchCategory === 'CONTENT') {
-            conditionInput.value = 'SELECT_PART_NAME';
+            inputCondition.value = 'SELECT_PART_NAME';
         }
 
-        if (validatePrices()) {
-            const searchForm = document.querySelector('form');
-            searchForm.submit();
-        } else {
+        if (!validatePrices()) {
+            // 유효성 검사 실패 시 알림을 띄우고, 폼 제출을 막기 위해 'return false' 사용
             Swal.fire({
                 icon: 'error',
                 title: '잘못된 입력입니다',
                 text: '최소 가격은 0 이상이어야 하며, 최대 가격은 최소 가격보다 크거나 같아야 합니다.',
                 confirmButtonText: '확인'
             });
+            return false;
         }
+        // 유효성 검사가 통과되면 폼이 동기적으로 제출됨
     });
 
-    categorySelect.addEventListener('change', updateSelectedOptions);
-    minPriceInput.addEventListener('input', function () {
+    selectCategory.addEventListener('change', updateSelectedOptions);
+    inputMinPrice.addEventListener('input', function () {
         this.value = this.value.replace(/^0+/, '');
         updateSelectedOptions();
         validatePrices();
     });
-    maxPriceInput.addEventListener('input', function () {
+    inputMaxPrice.addEventListener('input', function () {
         updateSelectedOptions();
         validatePrices();
     });
 }
 
+
 // 가격 유효성 검사 함수
 function validatePrices() {
-    const minPrice = parseInt(minPriceInput.value, 10);
-    const maxPrice = parseInt(maxPriceInput.value, 10);
+    const minPrice = parseInt(inputMinPrice.value, 10);
+    const maxPrice = parseInt(inputMaxPrice.value, 10);
     const minPriceWarning = document.getElementById('minPriceWarning');
     const maxPriceWarning = document.getElementById('maxPriceWarning');
     let isValid = true;
@@ -147,33 +148,33 @@ function toggleSearchOptions() {
 
 // 선택된 옵션 업데이트 함수
 function updateSelectedOptions() {
-    selectedOptionsDiv.innerHTML = '';
+    divSelectedOptions.innerHTML = '';
 
-    const minPrice = minPriceInput.value;
-    const maxPrice = maxPriceInput.value;
-    const selectedCategory = categorySelect.options[categorySelect.selectedIndex].text;
+    const minPrice = inputMinPrice.value;
+    const maxPrice = inputMaxPrice.value;
+    const selectedCategory = selectCategory.options[selectCategory.selectedIndex].text;
 
     if (minPrice) {
-        selectedOptionsDiv.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('minPrice')">최소 가격: ${minPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
+        divSelectedOptions.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('minPrice')">최소 가격: ${minPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
     }
 
     if (maxPrice) {
-        selectedOptionsDiv.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('maxPrice')">최대 가격: ${maxPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
+        divSelectedOptions.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('maxPrice')">최대 가격: ${maxPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
     }
 
-    if (categorySelect.value) {
-        selectedOptionsDiv.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('category')">카테고리: ${selectedCategory} <span class="remove-x" title="제거하기">×</span></span>`;
+    if (selectCategory.value) {
+        divSelectedOptions.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('category')">카테고리: ${selectedCategory} <span class="remove-x" title="제거하기">×</span></span>`;
     }
 }
 
 // 옵션 제거 함수
 function removeOption(option) {
     if (option === 'category') {
-        categorySelect.selectedIndex = 0;
+        selectCategory.selectedIndex = 0;
     } else if (option === 'minPrice') {
-        minPriceInput.value = '';
+        inputMinPrice.value = '';
     } else if (option === 'maxPrice') {
-        maxPriceInput.value = '';
+        inputMaxPrice.value = '';
     }
     updateSelectedOptions();
 }

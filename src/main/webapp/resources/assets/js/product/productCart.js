@@ -264,9 +264,9 @@ function setupPurchaseButton() {
 		
         const selectedProducts = getSelectedProducts();
         console.log(selectedProducts);
-
+		
         // 선택된 제품이 있는지 확인
-        if (selectedProducts.length === 0) {
+        if (!selectedProducts.products || selectedProducts.products.length === 0) {
             Swal.fire({
                 icon: 'warning',
                 title: '제품 선택',
@@ -350,6 +350,13 @@ function sendPurchaseRequest(selectedProducts) {
             }).then(() => {
                 // 구매 성공 후 deleteAllBtn 클릭하여 선택된 상품 삭제
                 $('#deleteAllBtn').click();
+				// 구매된 제품 정보를 orderSection에 렌더링
+				renderOrderSection();
+				$('#orderSection').css("margin-top", "40px").slideDown();
+				$('#completeOrderButton').show();
+				$('html, body').animate({
+				    scrollTop: $('#orderSection').offset().top
+				}, 500);
             });
         },
         error: function(xhr, status, error) {
@@ -363,3 +370,93 @@ function sendPurchaseRequest(selectedProducts) {
         }
     });
 }
+
+
+// 구매된 제품 정보를 서버로부터 가져와 orderSection에 데이터를 삽입하는 함수
+function renderOrderSection() {
+    $.ajax({
+        url: 'getPurchasedProducts.do', // 서버에서 구매한 제품 목록을 제공하는 엔드포인트
+        type: 'GET',
+        dataType: 'json',
+        success: function(products) {
+            // 기존 HTML에서 구매한 상품 목록을 표시하는 컨테이너 선택
+            const productListContainer = $('#orderSection .order-products');
+            productListContainer.empty(); // 기존 목록을 초기화
+
+            // 타이틀을 추가
+            productListContainer.append('<h5>구매한 상품 목록</h5>');
+
+            // 받아온 각 제품 데이터를 기존 HTML에 삽입
+            products.forEach(product => {
+                const productItem = `
+                    <div class="order-product-item mb-3">
+                        <strong>${product.productName}</strong><br>
+                        ${product.productPrice}P x ${product.quantity}개 = ${product.productPrice * product.quantity}P
+                    </div>
+                `;
+                productListContainer.append(productItem);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching purchased products:', error);
+            Swal.fire({
+                icon: 'error',
+                title: '구매 목록 불러오기 실패',
+                text: '구매 목록을 가져오는 중 오류가 발생했습니다.',
+                confirmButtonText: '확인'
+            });
+        }
+    });
+}
+
+
+// 주문 완료 버튼 클릭 시 구매 요청 전송
+$('#completeOrderButton').on('click', function() {
+    const addressMain = $('#addressMain').val();
+    const addressDetail = $('#addressDetail').val();
+    const phone = $('#phoneInput').val();
+    
+    // 주소와 전화번호 확인
+    if (!addressMain || !addressDetail || !phone) {
+        Swal.fire({
+            icon: 'warning',
+            title: '입력 필요',
+            text: '배송지와 전화번호를 입력해주세요.',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+
+    // 주문 데이터 구성
+    const orderData = {
+        address: `${addressMain} ${addressDetail}`,
+        phone: phone,
+        cartItems: cartItems // 기존 장바구니 상품 리스트 포함
+    };
+
+    // 서버에 주문 데이터 전송
+    $.ajax({
+        url: 'completeOrder.do',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(orderData),
+        success: function(response) {
+            Swal.fire({
+                icon: 'success',
+                title: '주문 완료',
+                text: '주문이 성공적으로 완료되었습니다.',
+                confirmButtonText: '확인'
+            }).then(() => {
+                window.location.href = 'loadListProduct.do'; // 상품 목록 페이지로 이동
+            });
+        },
+        error: function(xhr, status, error) {
+            Swal.fire({
+                icon: 'error',
+                title: '주문 실패',
+                text: '주문 처리 중 문제가 발생했습니다.',
+                confirmButtonText: '확인'
+            });
+        }
+    });
+});

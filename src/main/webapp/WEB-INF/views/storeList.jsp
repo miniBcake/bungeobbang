@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="customStore" tagdir="/WEB-INF/tags/store"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
@@ -10,8 +11,6 @@
 <head>
 <title>가게 목록</title>
 <meta charset="utf-8" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, user-scalable=no" />
 <link rel="stylesheet" href="${path}/resources/assets/css/main.css">
 <link rel="stylesheet" href="${path}/resources/assets/css/searchbar.css">
 <link rel="stylesheet"
@@ -28,15 +27,15 @@
 	crossorigin="anonymous">
 
 <!-- 맵을 그리기 위한 script -->
-	<!-- appkey에 발급받은 APP KEY를 넣음 -->
-	<!-- 추가 기능 사용 시 &libraries=services 코드 추가(주소를 좌표로) -->
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c29b2d7f614a4d9b5ef9ee4c2ec83a48&libraries=services"></script>
-		
+<!-- appkey에 발급받은 APP KEY를 넣음 -->
+<!-- 추가 기능 사용 시 &libraries=services 코드 추가(주소를 좌표로) -->
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c29b2d7f614a4d9b5ef9ee4c2ec83a48&libraries=services"></script>
+
 <!-- js를 쓰므로 jquery 사용 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- 외부 script 파일 사용 -->
-<script src="${path}/resources/assets/js/storeList.js"></script>
+<script src="${path}/resources/assets/js/store/storeList.js"></script>
 <script src="${path}/resources/assets/js/store/copy.js"></script>
 <script src="${path}/resources/assets/js/map/imageMap.js"></script>
 
@@ -73,13 +72,7 @@
 								</div>
 								<!-- container02 : 1행 2열-->
 								<div class="col-10 col-md-10">
-									<div class="searchInput">
-										<img src="resources/assets/images/search_icon.png"
-											alt="검색창 아이콘 이미지" width="40px" height="40px"> <input
-											type="text" name="storeName" placeholder="가게 이름을 입력해주세요."
-											value="${searchKeyword}"> <input type="submit"
-											value="검색">
-									</div>
+									<custom:searchbar placeholder="가게 이름을 입력해 주세요." />
 								</div>
 							</div>
 
@@ -171,15 +164,146 @@
 				<div class="searchValue">
 					<div class="col-6 text-center nonePadding fullWidthHeight">
 						<!-- 검색 결과 출력 부분-->
-						<div class="map" id="map">
-						</div>
+						<div class="map" id="map"></div>
 					</div>
 					<div class="col-6 text-center">
 						<div class="storeList">
-							<!-- 후에 var="data" items="${datas} -->
-							<c:forEach var="i" begin="1" end="4">
-								<custom:simpleStoreData />
-							</c:forEach>
+
+							<!-- 나중에 지움 -->
+							<!-- 1 -->
+							<div class="storeData">
+								<div class="storeDataTitle">
+									<a href="/viewStorePage.do?storeNum=1">
+										<h4 class="text-hover">갈빵 붕어빵</h4>
+									</a>
+								</div>
+								<div class="storeDataContent">
+									<div class="col-1 nonePadding">
+										<i class="fas fa-map"></i>
+									</div>
+									<div class="col-9 leftPadding text-start">
+										<span id="address">서울시 동작구 대방동13길 13 <br> 골목 옆
+										</span>
+									</div>
+									<div class="col-2 nonePadding">
+										<button class="copy"
+											value="서울시 동작구 대방동13길 13 골목 옆">복사</button>
+									</div>
+								</div>
+								<div class="storeDataContent">
+									<div class="col-1 nonePadding">
+										<i class="fas fa-phone"></i>
+									</div>
+									<div class="col-9 leftPadding text-start">
+										<span>010-0000-0000</span>
+									</div>
+									<div class="col-2 nonePadding">
+										<button class="copy" value="010-0000-0000">복사</button>
+									</div>
+								</div>
+							</div>
+							<!-- 2 -->
+							<div class="storeData">
+								<div class="storeDataTitle">
+									<a href="/viewStorePage.do?storeNum=2">
+										<h4 class="text-hover">수제 붕어빵</h4>
+									</a>
+								</div>
+								<div class="storeDataContent">
+									<div class="col-1 nonePadding">
+										<i class="fas fa-map"></i>
+									</div>
+									<div class="col-9 leftPadding text-start">
+										<span id="address">서울시 강남구 테헤란로26길 14 <br> 사거리 옆 건물 2층
+										</span>
+									</div>
+									<div class="col-2 nonePadding">
+										<button class="copy"
+											value="서울시 강남구 테헤란로26길 14 사거리 옆 건물 2층">복사</button>
+									</div>
+								</div>
+								<div class="storeDataContent">
+									<div class="col-1 nonePadding">
+										<i class="fas fa-phone"></i>
+									</div>
+									<div class="col-9 leftPadding text-start">
+										<span>010-1111-1111</span>
+									</div>
+									<div class="col-2 nonePadding">
+										<button class="copy" value="010-1111-1111">복사</button>
+									</div>
+								</div>
+							</div>
+							<!-- 3 -->
+							<div class="storeData">
+								<div class="storeDataTitle">
+									<a href="/viewStorePage.do?storeNum=${store.Num}">
+										<h4 class="text-hover">{store.name}</h4>
+									</a>
+								</div>
+								<div class="storeDataContent">
+									<div class="col-1 nonePadding">
+										<i class="fas fa-map"></i>
+									</div>
+									<div class="col-9 leftPadding text-start">
+										<span>{store.address} <br> {store.detail.address}
+										</span>
+									</div>
+									<div class="col-2 nonePadding">
+										<button class="copy"
+											value="${store.address} ${store.detail.address}">복사</button>
+									</div>
+								</div>
+								<div class="storeDataContent">
+									<div class="col-1 nonePadding">
+										<i class="fas fa-phone"></i>
+									</div>
+									<div class="col-9 leftPadding text-start">
+										<span>{store.phone}</span>
+									</div>
+									<div class="col-2 nonePadding">
+										<button class="copy" value="${store.phone}">복사</button>
+									</div>
+								</div>
+							</div>
+							<!-- 4 -->
+							<div class="storeData">
+								<div class="storeDataTitle">
+									<a href="/viewStorePage.do?storeNum=${store.Num}">
+										<h4 class="text-hover">{store.name}</h4>
+									</a>
+								</div>
+								<div class="storeDataContent">
+									<div class="col-1 nonePadding">
+										<i class="fas fa-map"></i>
+									</div>
+									<div class="col-9 leftPadding text-start">
+										<span>{store.address} <br> {store.detail.address}
+										</span>
+									</div>
+									<div class="col-2 nonePadding">
+										<button class="copy"
+											value="${store.address} ${store.detail.address}">복사</button>
+									</div>
+								</div>
+								<div class="storeDataContent">
+									<div class="col-1 nonePadding">
+										<i class="fas fa-phone"></i>
+									</div>
+									<div class="col-9 leftPadding text-start">
+										<span>{store.phone}</span>
+									</div>
+									<div class="col-2 nonePadding">
+										<button class="copy" value="${store.phone}">복사</button>
+									</div>
+								</div>
+							</div>
+							<!-- 나중에 지움 끝 -->
+
+							<%--
+							<c:forEach var="data" items="${datas}">
+								<customStore:simpleStoreData />
+							</c:forEach> --%>
 						</div>
 					</div>
 				</div>
@@ -239,7 +363,7 @@
 	<custom:footer />
 
 	<script>
-
+		
 	</script>
 </body>
 </html>

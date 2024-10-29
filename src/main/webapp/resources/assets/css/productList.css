@@ -1,7 +1,10 @@
 /* 전체 레이아웃 스타일 */
 body {
-    font-family: 'Pretendard', sans-serif;
     background-color: #f9f9f9;
+}
+
+#page-wrapper {
+    font-family: 'Gamja Flower', sans-serif;
 }
 
 .container {

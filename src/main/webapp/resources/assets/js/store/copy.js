@@ -4,9 +4,6 @@ $(document).ready(function() {
 	// 복사하기 버튼 눌렀을 때 수행 되는 함수
 	copyStorePhoneNumber();
 
-	// storeList 페이지네이션
-	storePagenation();
-
 });
 
 // 복사하기 버튼 눌렀을 때 수행 되는 함수
@@ -14,18 +11,19 @@ function copyStorePhoneNumber() {
 	// class가 copy인 btn이 클릭되었을 때
 	$('.copy').on('click', function() {
 		// 버튼에서 val 값을 가져옴
-		const storePhoneNum = $(this).val();
+		const copyWord = $(this).val();
+		console.log('copyWord : ['+copyWord+']');
 
 		// 복사 기능
-		navigator.clipboard.writeText(storePhoneNum).then(function() {
+		navigator.clipboard.writeText(copyWord).then(function() {
 			Swal.fire({
 				icon: 'success',
 				title: '복사 성공',
 				text: '복사에 성공했습니다.',
 				confirmButtonText: '확인'
 			});
-			swal('복사 했습니다!');
 		}, function(err) {
+			console.error('복사 실패 : ['+err+']');
 			Swal.fire({
 				icon: 'error',
 				title: '복사 실패',
