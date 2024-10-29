@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+.content {
+	padding-bottom: 5px;
+}
+
+.table {
+	text-align: center; /* 테이블 내용 가운데 정렬 */
+	border-collapse: collapse; /* 테이블 선 없애기 */
+	width: 100%;
+}
+
+.table td {
+	padding: 10px; /* 셀 패딩 추가 */
+}
+
+.underline {
+	border-bottom: 1px solid black; /* 첫 번째 열에만 밑줄 */
+}
+
+/* 사이드바의 크기를 줄이기 위한 CSS */
+.sidebar {
+	max-width: 33.33%; /* 사이드바의 최대 너비를 열의 1/3로 설정 */
+	margin: auto; /* 수평 중앙 정렬 */
+}
+/* 수직 중앙 정렬 */
+.align-center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+}
+
+/* 이미지 반응형 스타일 */
+.signupimg {
+	max-width: 100%; /* 반응형 이미지 크기 조정 */
+	height: auto;
+	border-radius: 50%; /* 동그란 모양으로 만들기 */
+	object-fit: cover; /* 이미지 비율 유지 */
+	overflow: auto;
+}
