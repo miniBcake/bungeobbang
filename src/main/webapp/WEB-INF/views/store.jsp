@@ -22,7 +22,7 @@
 <!-- appkey에 발급받은 APP KEY를 넣음 -->
 <!-- 추가 기능 사용 시 &libraries=services 코드 추가(주소를 좌표로) -->
 <script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c29b2d7f614a4d9b5ef9ee4c2ec83a48&libraries=services"></script>
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey='지도api app키 작성 위치'&libraries=services"></script>
 <!-- sweetAlert을 사용하기 위한 script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- bootstrap icon 사용 -->

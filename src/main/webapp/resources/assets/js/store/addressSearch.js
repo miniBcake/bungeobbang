@@ -29,7 +29,7 @@ $(document).ready(function() {
 
 			// 검색 및 출력 작업
 			selectSearch(address);
-			
+
 			// 값 변경해주기
 			preCity = city;
 		}
@@ -56,7 +56,7 @@ $(document).ready(function() {
 
 			// 검색 및 출력 작업
 			selectSearch(address);
-			
+
 			// 값 변경해주기
 			preDistrict = district;
 		}
@@ -68,132 +68,69 @@ function selectSearch(address) {
 	searchStore(address)
 		// 주소 검색이 들어가야 함
 		.then(positions => {
-			console.log('addressSearch.js : positions : [' + positions + ']');
+			console.log('printMap.js : positions : [' + positions + ']');
 
-			createMapAndMarker(positions);
+			// 지도 생성
+			var container = document.getElementById('addressSearchMap');
+			//지도를 생성할 때 필요한 기본 옵션
+			var options = {
+				//지도의 중심좌표. 위도 경도 순으로 작성
+				center: new kakao.maps.LatLng(33.450701, 126.570667),
+				//지도의 레벨(확대, 축소 정도)
+				level: 3
+			};
+
+			var map = new kakao.maps.Map(container, options);
+
+			// 마커가 다 보이도록 지도 범위 재설정
+			searchMapBounds(map, positions);
 		})
 		.catch(error => {
 			console.error(error);
 		});
 }
 
+// 마커를 생성하고 지도 범위 번경하는 함수
+function searchMapBounds(map, positions) {
+	console.log('printMap.js : searchMapBounds');
+	// point 배열에 사용자의 현재 주소를 넣은 채 생성
+	var points = [];
+	// marker 배열을 담을 변수
+	var markers = [];
 
-// 사용자 주소 검색 함수
-function searchStore(address) {
-	// ajax 실행
-	return new Promise((resolve, reject) => { // Promise를 반환하도록 수정
-		$.ajax({
-			// json 형식으로 전달
-			url: 'addressSearch.do',
-			type: 'POST',
-			// 요청 데이터 application/json
-			contentType: 'application/json',
-			data: JSON.stringify({ storeDefaultAddress: address }),
-			dataType: 'json',
-			// 성공 시
-			success: function(data) {
-				// data 존재 확인 로그 (데이터 자체를 보기는 힘듬으로 자체를 보기는 힘듬으로 길이만 잼)
-				console.log('addressSearch.js : data.length : [' + data.length + ']');
-
-				// #storeList 가져오기
-				// 내부 요소들을 변경할 것이므로 요소 자체를 가져옴
-				var storeList = $('#storeList');
-				console.log('addressSearch.js : storeList : ');
-				console.log('                   [' + storeList + ']');
-
-				// 기존 데이터 초기화
-				storeList.empty();
-
-				// 주소를 좌표로 변환 객체를 생성
-				var geocoder = new kakao.maps.services.Geocoder();
-
-				// 데이터가 만약 비어있다면
-				if (data.length < 0) {
-					storeList.append('<span> 검색 결과 없음</span>');
-					resolve([]); // 비어있는 배열 반환
-				} else {
-					// 주소의 좌표를 보관할 배열 생성
-					var positions = [];
-					// 모든 비동기 작업을 보관할 배열
-					var promises = [];
-
-					// 온 data 갯수만큼 하나씩 코드를 작성하여 넣음
-					data.forEach(function(item) {
-						// <customStore:simpleStoreData/> 출력
-						append(storeList, item);
-
-						// 지도에 표시
-						// item에서 주소 가져오기
-						var itemAddress = item.storeDefaultAddress;
-						console.log('addressSearch.js : itemAddress : [' + itemAddress + ']');
-
-						// 주소로 좌표를 검색
-						var promise = new Promise((innerResolve, innerReject) => {
-							geocoder.addressSearch(itemAddress, function(result, status) {
-								// 정상적으로 검색이 완료됐다면
-								if (status === kakao.maps.services.Status.OK) {
-									console.log('addressSearch.js : 주소를 좌표로 변경 완료');
-
-									// positions.에 값 넣어줌
-									positions.push({
-										title: item.storeName,
-										latlng: new kakao.maps.LatLng(result[0].y, result[0].x)
-									});
-									innerResolve(); // innerPromise 해결
-								} else {
-									innerReject(status); // 실패 시 reject
-								}
-							});
-						});
-						promises.push(promise); // 모든 비동기 작업을 promises 배열에 추가
-					});
-
-					// 모든 비동기 작업이 완료된 후 처리
-					Promise.all(promises)
-						.then(() => {
-							resolve(positions); // 최종적으로 positions 반환
-						})
-						.catch((error) => {
-							console.error('주소 변환 중 오류 발생: ', error);
-							reject(error); // 오류 발생 시 reject
-						});
-				}
-			},
-			// ajax 요청 실패 시
-			error: function(err) {
-				console.error('ajax 요청 실패 : ', err);
-				reject(err); // ajax 실패 시 reject
-			}
-		});
-	});
-}
-
-// map을 생성하고 마커 표시
-function createMapAndMarker(positions) {
-	//지도를 담을 영역의 DOM 레퍼런스
-	var container = document.getElementById('addressSearchMap');
-	//지도를 생성할 때 필요한 기본 옵션
-	var options = {
-		//지도의 중심좌표. 위도 경도 순으로 작성
-		center: new kakao.maps.LatLng(33.450701, 126.570667),
-		//지도의 레벨(확대, 축소 정도)
-		level: 3
-	};
-
-	var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-
-	// map에 표시
+	// positions 배열을 반복하여 points에 LatLng 객체를 추가
 	for (var i = 0; i < positions.length; i++) {
-
-		// 마커를 생성
-		var marker = new kakao.maps.Marker({
-			map: map,
-			position: positions[i].latlng,
-			title: positions[i].title
-		});
+		points.push(positions[i].latlng);
+		console.log('printMap.js : positions[' + i + '].latlng : [' + positions[i].latlng + ']');
 	}
 
-	// 지도 이동
-	// 지도 중심좌표를 접속위치로 변경
-	map.setCenter(positions[0].latlng);
+	console.log('printMap.js : points : [' + points + ']');
+
+	// LatLngBounds 객체를 생성 (경계 범위 객체)
+	var bounds = new kakao.maps.LatLngBounds();
+
+
+	for (var i = 0; i < points.length; i++) {
+		// 배열의 좌표들이 잘 보이게 마커를 지도에 추가
+		var markerOptions = { position: points[i] };
+		console.log('printMap.js : ' + i + '번째 마커 작성');
+
+		var marker = new kakao.maps.Marker(markerOptions);
+		marker.setMap(map);
+		markers.push(marker);
+
+		// LatLngBounds 객체에 좌표를 추가
+		bounds.extend(points[i]);
+
+		// 마커에 마우스가 닿을 시 오버레이 표시
+		showMarkerNameToDiv(marker, map, i, positions, true);
+	}
+
+	// map이 출력되는 크기, 위치 조정
+	map.setBounds(bounds);
+
+	// div에 마우스가 닿을 시 오버레이 표시
+	showDivToMarkerName(map, positions, markers, true);
+
+	console.log('printMap.js : 범위 재설정 완료');
 }
