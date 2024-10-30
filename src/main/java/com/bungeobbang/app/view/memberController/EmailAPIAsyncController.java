@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.bungeobbang.app.biz.member.MemberDTO;
 import com.bungeobbang.app.biz.member.MemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
 
+@Slf4j
 @RestController
 public class EmailAPIAsyncController { // 비밀번호 찾기에 사용되는 비동기 controller
 
@@ -28,17 +30,20 @@ public class EmailAPIAsyncController { // 비밀번호 찾기에 사용되는 �
     
     @PostMapping("/checkNickname.do") // 닉네임 확인 비동기 controller
     public @ResponseBody String checkNickName(HttpSession session, MemberDTO memberDTO) {
+        log.info("[CheckNickname] 시작");
         // 결과를 보관할 boolean flag 변수 생성
         // 기본 값은 false
         boolean flag = false;
 
         // (C -> M) 해당 닉네임 존재 체크
         memberDTO.setCondition("NICKNAME_SELECTONE"); // 나중 수정
+        log.info("[CheckNickname View에서 받은 값 확인] : {}", memberDTO);
 
         // MemberDAO.selectOne 요청
         // 결과값(MemberDTO) 받아오기
         // memberDTO에 저장
         memberDTO = memberService.selectOne(memberDTO);
+        log.info("[CheckNickname selectOne 이후 반환 받은 값] : {}", memberDTO);
 
         // 만약 사용 가능한 닉네임이라면
         if (memberDTO == null) {
@@ -66,40 +71,49 @@ public class EmailAPIAsyncController { // 비밀번호 찾기에 사용되는 �
     
     @PostMapping(value="/checkEmailName.do") // 이메일 이름 비동기 확인 controller
     public @ResponseBody Map<String, Object> emailNameCheck(MemberDTO memberDTO) {
+        log.info("[CheckEmailName] 시작");
+
         // 결과를 보관할 boolean flag 변수 생성
     	Map<String, Object> result = new HashMap<>();
         boolean flag = false;
 
         // MemberDTO 세팅
         memberDTO.setCondition("EMAIL_NAME_SELECTONE");
+        log.info("[CheckEmailName View에서 받아온 값] : {}", memberDTO);
 
         // 일치하는 값 확인x
         memberDTO = memberService.selectOne(memberDTO);
+        log.info("[CheckEmailName selectOne 이후 반환 받은 값] : {}", memberDTO);
         if (memberDTO != null) {
             flag = true;
         }
 
         result.put("flag", flag);
         result.put("memberDTO", memberDTO);
+        log.info("[CheckEmailName 반환 해줄 return값 확인] : {}", result);
 
-        
         return result;
     }
     
     @PostMapping("/checkEmailNum.do") // 이메일로 전송된 인증번호 비동기 확인 controller
     public @ResponseBody boolean emailNumCheck(@RequestParam("checkNum") String inputCheckNum, HttpSession session) {
-        
+        log.info("[CheckEmailNum] 시작");
+
         // session에 있는 원본 인증값 가져오기
         String checkNum = (String) session.getAttribute("checkNum");
-        
+        log.info("[CheckEmailNum session에 저장된 인증 번호] : {}", checkNum);
+
         // 만약 원본 인증값과 V의 입력값이 같다면
         boolean flag = inputCheckNum.equals(checkNum);
-        
+        log.info("[CheckEmmailNum 인증 flag 여부] : {}", flag);
+
         return flag; // true 또는 false 반환
     }
     
     @PostMapping("/sendEmail.do") // 이메일 전송(인증번호) 비동기 controller
     public @ResponseBody boolean sendEmail(@RequestParam("email") String receiveEmail, HttpSession session) {
+        log.info("[SendEmail] 시작");
+
         // 랜덤한 인증번호 4자리 생성
         Random rand = new Random();
         String checkNum = "";
@@ -107,7 +121,7 @@ public class EmailAPIAsyncController { // 비밀번호 찾기에 사용되는 �
         for (int i = 1; i <= 4; i++) {
             checkNum += rand.nextInt(10);
         }
-        System.out.println("	log : SendMail.java		인증번호 생성");
+        log.info("[SendEmail 생성한 인증번호] : {}", checkNum);
 
         // 이메일 제목 및 내용 설정
         String title = "갈빵질빵에서 보낸 인증번호 메일입니다.";
