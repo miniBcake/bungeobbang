@@ -1,5 +1,7 @@
-package memberController;
+package com.bungeobbang.app.view.memberController;
 
+import com.bungeobbang.app.biz.member.MemberDTO;
+import com.bungeobbang.app.biz.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
-import model.dto.MemberDTO;
 
 @RestController
 public class AddMemberAsyncController { // 회원가입 할 때 사용되는 비동기 controller / 이메일 인증의 경우에는 CheckEmailAsyncController.java 에 있음
@@ -31,8 +32,9 @@ public class AddMemberAsyncController { // 회원가입 할 때 사용되는 비
         String result = flag ? "true" : "false"; // flag 값을 String으로 변환
         return result; // 결과 반환
     }
-    
-    @PostMapping("/checkNickname.do") // 회원가입할 때 닉네임 중복 체크 비동기 controller
+
+    //FIXME EmailAPIController checkNickname.do 요청과 충돌
+    //@PostMapping("/checkNickname.do") // 회원가입할 때 닉네임 중복 체크 비동기 controller
     public @ResponseBody String checkNickName(HttpSession session, MemberDTO memberDTO) {
         boolean flag = false;
 

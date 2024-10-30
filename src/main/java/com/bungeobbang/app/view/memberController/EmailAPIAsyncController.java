@@ -1,21 +1,20 @@
-package memberController;
+package com.bungeobbang.app.view.memberController;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import com.bungeobbang.app.biz.member.MemberDTO;
+import com.bungeobbang.app.biz.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
-import model.dto.MemberDTO;
-import service.MemberService;
 
 @RestController
 public class EmailAPIAsyncController { // 비밀번호 찾기에 사용되는 비동기 controller
@@ -53,7 +52,7 @@ public class EmailAPIAsyncController { // 비밀번호 찾기에 사용되는 �
             String memberNickName = (String) session.getAttribute("userNickName");
 
             // 만약 memberNickName과 입력 nickName이 같다면
-            if (memberNickName != null && memberNickName.equals(memberDTO.getNickName())) {
+            if (memberNickName != null && memberNickName.equals(memberDTO.getMemberNickname())) {
                 // flag값을 true로 변경
                 flag = true;
             }

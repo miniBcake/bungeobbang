@@ -37,8 +37,6 @@ public class StoreController {
 
     private final String FAIL_PATH = "failInfo2";
     private final String FAIL_DO = "redirect:failInfo.do";
-    private final String FOLDER_PATH = "uploads/board/"; //webapp기준
-    private final String ROOT = "${pageContext.request.contextPath}/"+FOLDER_PATH;
 
     //condition
     private final String ADD_STORE = "ADD";
@@ -154,20 +152,6 @@ public class StoreController {
         //가게 설명
         if(boardDTO != null){ //가게 설명이 있다면
             log.info("log: addStore board is not null - boardDTO : [{}]", boardDTO);
-            //ckeditor를 통해 넘어온 context의 이미지 src 서버에 맞춰 수정/////////////
-//            HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute("boardFile");
-//            log.info("log: addStore - change image src info boardFile : [{}]", boardFile);
-//            String content = boardDTO.getBoardContent(); //작성한 내용
-//            //이미지 태그의 src 변경
-//            if(boardFile != null && !boardFile.isEmpty()){ //이미지가 있는 경우라면
-//                for (Map.Entry<String, String> entry : boardFile.entrySet()) {
-//                    content = content.replace(entry.getValue(), ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey()); //value값을 찾아 서버 이미지 경로로 변경
-//                }
-//            }
-//            log.info("log: addStore - refresh boardContent [{}]", content);
-//            boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장
-            /////////////////////////////////////////////////////////////////////
-
             boardDTO.setCondition("MARKET_INSERT"); //가게 설명 추가용 condition
             boardDTO.setStoreNum(storePK); //FK설정
             if(!boardService.insert(boardDTO)) {//DB에 추가
@@ -243,11 +227,18 @@ public class StoreController {
                 filterList.put(payment, this.YES);
             }
         }
+        //폐점여부 조회
+        if(storeClosed != null){
+            filterList.put("STORE_CLOSED", storeClosed);
+        }
         //가게명 검색
         if(keyword != null){
             //앞뒤 공백 제거
-            log.info("log: loadListStore - name search");
-            filterList.put("NAME_LIKE", keyword.trim());
+            keyword = keyword.trim();
+            if(!keyword.isEmpty()){ //빈 값 검색 방지
+                log.info("log: loadListStore - name search");
+                filterList.put("NAME_LIKE", keyword);
+            }
         }
         if(!filterList.isEmpty()){ //만약 검색 조건이 있다면
             //검색조건 세팅
@@ -264,7 +255,7 @@ public class StoreController {
         log.info("log: loadListStore - total size : [{}]", totalSize);
         log.info("log: loadListStore - total page : [{}]", totalPage);
         //startNum EndNum 세팅
-        PaginationUtils.setPagination(page, totalPage, totalSize, storeDTO);
+        PaginationUtils.setPagination(page, CONTENT_SIZE, totalSize, storeDTO);
         //store data
         storeDTO.setCondition("SELECTALL_VIEW_FILTER");
         storeList = storeService.selectAll(storeDTO); //검색 데이터

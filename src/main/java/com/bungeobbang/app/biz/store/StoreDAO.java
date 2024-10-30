@@ -62,7 +62,7 @@ public class StoreDAO {
 	private final String STORE_NEW_SELECTONE = "SELECT MAX(STORE_NUM) AS MAX_S_NUM FROM BB_STORE";
 
 	//가게 수 조회
-	private final String STORE_CNT_SELECTONE = "SELECT COUNT(DISTINCT STORE_NUM) AS CNT FROM BB_VIEW_SEARCHSTOREDATA_JOIN ";
+	private final String STORE_CNT_SELECTONE = "SELECT COUNT(*) AS CNT FROM BB_VIEW_SEARCHSTOREDATA_JOIN ";
 
 	//필터링 후 해당하는 가게 고유번호(PK) 모두 조회
 	private final String SELECTALL_VIEW = """
@@ -146,6 +146,8 @@ public class StoreDAO {
 
 	// 가게 번호 변수
 	private final String WHERE_STORENUM = "WHERE STORE_NUM = ?";
+
+	private final int CONTENT_SIZE = 4; //페이지 데이터 개수
 
 	// StoreDAO insert --------------------------------------------------------------------------------------
 
@@ -278,8 +280,8 @@ public class StoreDAO {
 				query = filterUtil.buildFilterQuery(query,filters)+" "+SELECTALL_ENDPART;
 				argsList = filterUtil.setFilterKeywords(argsList, filters); //필터 검색 검색어
 
-				argsList.add(storeDTO.getStartNum());
-				argsList.add(storeDTO.getEndNum()); // 페이지 네이션 시작, 끝 번호
+				argsList.add(storeDTO.getStartNum()-1);
+				argsList.add(CONTENT_SIZE); // 페이지 네이션 시작, 끝 번호
 
 				//args 배열화
 				Object[] args = argsList.toArray();

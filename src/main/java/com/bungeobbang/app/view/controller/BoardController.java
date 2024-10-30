@@ -35,13 +35,11 @@ public class BoardController {
 
     //경로
     private final String FOLDER_NAME = "uploads/board/";
-    private final String ROOT = "${pageContext.request.contextPath}/uploads/board/";
     private final String FAIL_URL = "failInfo2"; //실패 처리할 페이지
     private final String FAIL_DO = "redirect:failInfo.do"; //기본 실패 처리
 
     //session
     private final String SESSION_PK = "userPK"; //세션에 저장된 memberPK
-//    private final String SESSION_IMAGE_SRC = "boardFile";
 
     //한 번에 뜨는 데이터 수 : 페이지네이션 용
     private final int CONTENT_SIZE = 10; // 페이지당 게시글 수
@@ -175,7 +173,7 @@ public class BoardController {
         totalPage = PaginationUtils.calTotalPages(totalSize, CONTENT_SIZE);
 
         //페이지네이션 정보 설정 (startNum, endNum - 기존 Pagination util 재활용)
-        PaginationUtils.setPagination(page, totalPage, totalSize, boardDTO);
+        PaginationUtils.setPagination(page, CONTENT_SIZE, totalSize, boardDTO);
 
         //데이터 요청
         boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCategoryNum());
@@ -251,24 +249,6 @@ public class BoardController {
         log.info("log: /addBoard.do addBoard - start");
         log.info("log: addBoard - param boardDTO : [{}]", boardDTO);
         log.info("log: addBoard - param boardCateDTO : [{}]", boardCateDTO);
-
-        //ckeditor를 통해 넘어온 content의 이미지 src 서버에 맞춰 수정하는 로직///////////////////////////
-        //세션에 저장해둔 파일 명 변경 정보 호출
-//        HashMap<String, String> boardFile = (HashMap<String, String>) session.getAttribute(SESSION_IMAGE_SRC);
-//        String content = boardDTO.getBoardContent(); //작성한 내용
-//        //이미지 태그의 src 변경
-//        if(boardFile != null && !boardFile.isEmpty()){ //이미지가 있는 경우라면
-//            for (Map.Entry<String, String> entry : boardFile.entrySet()) {
-//                //value값을 찾아 서버 이미지 경로로 변경
-//                log.info("log: addBoard - change content : {}", entry);
-//                content = content.replace(entry.getValue(),
-//                        ROOT + boardDTO.getBoardFolder() + "/" + entry.getKey());
-//            }
-//            session.removeAttribute(SESSION_IMAGE_SRC); //다 바꾼 뒤에는 세션에서 삭제
-//            log.info("log: addBoard - delete session : {}", SESSION_IMAGE_SRC);
-//        }
-//        boardDTO.setBoardContent(content); //변경한 내용을 다시 DTO에 저장 이미지가 없다면 그대로 저장
-        /////////////////////////////////////////////////////////////////////////////////////////
 
         //카테고리 번호 조회해 저장
         boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCategoryNum());

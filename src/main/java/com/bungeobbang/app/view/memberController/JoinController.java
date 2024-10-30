@@ -1,15 +1,13 @@
-package memberController;
+package com.bungeobbang.app.view.memberController;
 
+import com.bungeobbang.app.biz.member.MemberDTO;
+import com.bungeobbang.app.biz.member.MemberService;
+import com.bungeobbang.app.view.util.FileUtil;
 import jakarta.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
-
-import controller.common.FileUtil; // FileUtil import
-import model.dto.MemberDTO;
-import service.MemberService;
 
 @Controller
 public class JoinController {
