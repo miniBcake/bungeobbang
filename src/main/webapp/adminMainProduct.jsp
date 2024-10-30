@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>가게 폐점 제보 페이지</title>
+<title>주문받은 상품 페이지</title>
 <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
 	name="viewport" />
 <link rel="icon" href="resources/assets/images/logo.png"
@@ -38,114 +38,72 @@
 <link rel="stylesheet" href="resources/assets/css/kaiadmin.min.css" />
 <link rel="stylesheet" href="resources/assets/css/admin.css">
 </head>
-
 <body>
 	<script src="resources/assets/js/closedStoreDeclareList.js"></script>
 
+	<!--1. 페이지 로드 시, 체크박스의 값이 1인지 0인지를 구분.
+2. 1이라면 체크 표시 및 부모요소 <tr>의 배경색(해당 행) 회색처리
+3. 0이라면 미체크 표시 및 부모요소 <tr>의 배경색 없음.(기본)
+4. 사용자가 미체크 상태에서 체크할 시, 체크상태로 전환
+5. 사용자가 체크상태에서 체크할 시, 미체크상태로 전환 
+	2,4 / 3,5세트
+-->
+
+	<script>
+	// 체크박스의 값 1일 때 배경색 설정(완료처리)
+	document.addEventListener('DOMContentLoaded', () => {
+	    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+	    checkboxes.forEach(checkbox => {
+	        const row = checkbox.closest('tr');
+	        if (checkbox.checked) {
+	            row.style.backgroundColor = '#d4edda'; // 초기 체크된 경우의 배경색
+	        }
+	    });
+	});
+	
+	/*	주문 내역 확인 완료(체크박스) 표시 전환
+		숨김 처리된 체크박스의 값
+		1: 체크완료(처리)로 전환	|	0: 체크취소(미처리)로 전환		*/
+	function adminchecking(checkbox) {
+		const hiddenInput = document.querySelector('input[type="hidden"][name="adminChecked"]');
+		hiddenInput.value = checkbox.checked ? "1" : "0";
+		colorChecked(checkbox);
+		// form태그 제출
+		document.getElementById('adminchecking').submit();
+	}
+	function colorChecked(checkbox) {
+		const row = checkbox.closest('tr'); // 체크박스의 부모 요소<tr> 확인
+		if (checkbox.checked) {
+			row.style.backgroundColor = '#d4edda'; // 체크된 경우의 배경색
+		} else {
+			row.style.backgroundColor = ''; // 체크 해제된 경우의 기본 배경색
+		}
+	}			
+	</script>
 	<div class="wrapper">
 		<!-- 전체 페이지를 감싸는 wrapper -->
 		<!-- Sidebar -->
-		<div class="sidebar" data-background-color="dark">
-			<!-- 어두운 배경의 사이드바 -->
-			<!-- 사이드바의 로고 -->
-			<div class="sidebar-logo">
-				<!-- Logo Header -->
-				<div class="logo-header" data-background-color="dark">
-					<!-- 로고 헤더 -->
-					<a href="main.do" class="logo"> <!-- 메인 페이지로 이동하는 링크 --> <img
-						src="resources/assets/images/logo_name.png" alt="navbar brand"
-						class="navbar-brand" height="40" /> <!-- 로고 이미지 -->
-					</a>
-					<!-- 로고 옆에 사이드바 줄이는 버튼 -->
-					<div class="nav-toggle">
-						<button class="btn btn-toggle toggle-sidebar">
-							<!-- 사이드바 토글 버튼 -->
-							<i class="gg-menu-right"></i>
-							<!-- 아이콘 -->
-						</button>
-						<button class="btn btn-toggle sidenav-toggler">
-							<!-- 사이드바 축소 버튼 -->
-							<i class="gg-menu-left"></i>
-							<!-- 아이콘 -->
-						</button>
-					</div>
-					<button class="topbar-toggler more">
-						<!-- 추가 옵션 버튼 -->
-						<i class="gg-more-vertical-alt"></i>
-						<!-- 아이콘 -->
-					</button>
-				</div>
-				<!-- End Logo Header -->
-			</div>
-			<!-- 사이드바 내용 -->
-			<div class="sidebar-wrapper scrollbar scrollbar-inner">
-				<div class="sidebar-content">
-					<ul class="nav nav-secondary">
-						<!-- 사이드바 내비게이션 메뉴 -->
-						<li class="nav-item">
-							<!-- 네비게이션 항목 --> <a data-bs-toggle="collapse" href="#dashboard"
-							class="collapsed" aria-expanded="false"> <i
-								class="fas fa-store"></i> <!--집모양 아이콘--> <!-- 첫 번째 토글 이름 -->
-								<p>제보받은 가게</p> <span class="caret"></span> <!-- ▼ 아이콘 -->
-						</a>
-							<div class="collapse" id="dashboard">
-								<!-- 가게 제보 하위 목록 -->
-								<ul class="nav nav-collapse">
-									<li><a href="loadListStoreTipOff.do"> <span
-											class="sub-item">가게 등록 제보</span>
-									</a></li>
-									<li><a href="loadListStoreReport.do"> <span
-											class="sub-item">가게 폐점 제보</span>
-									</a></li>
-								</ul>
-							</div>
-						</li>
-						<!-- 가게 정보 등록 -->
-						<li class="nav-item"><a href="addStore.do"> <!-- 가게 등록 페이지 링크 -->
-								<i class="fas fa-plus-square"></i> <!-- +- 아이콘 -->
-								<p>가게 등록</p>
-						</a></li>
-						<!-- 주문받은 상품 -->
-						<li class="nav-item"><a href="loadListOrder.do"> <!-- 주문받은 상품 페이지 링크 -->
-								<i class="fas fa-receipt"></i> <!-- 문서 아이콘 -->
-								<p>주문받은 상품</p>
-						</a></li>
-						<!-- 갈빵질빵 페이지 -->
-						<li class="nav-item"><a href="main.do"> <!-- 커뮤니티 사이트 이동 -->
-								<i class="fas fa-store"></i> <!--집모양 아이콘-->
-								<p>갈빵질빵 페이지로</p>
-						</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+		<custom:adminSidebar></custom:adminSidebar>
 		<!-- End Sidebar -->
-
 		<!-- 페이지의 메인 부분 -->
 		<div class="main-panel">
 			<div class="container">
 				<div class="page-inner">
 					<!-- 페이지 내부 -->
 					<div class="page-header">
-						<h3 class="fw-bold mb-3">가게 폐점 제보</h3>
+						<h3 class="fw-bold mb-3">주문받은 상품 목록</h3>
 						<!-- 페이지 제목 -->
 						<ul class="breadcrumbs mb-3">
 							<!-- 관리자 페이지 내의 페이지 경로 -->
 							<!-- 첫 번째 경로 -->
-							<li class="nav-home">
-								<!-- 홈 링크 --> <a href="loadListOrder.do"> <i
-									class="icon-home"></i> <!--홈 아이콘-->
-							</a>
+							<li class="nav-home"><a href="loadListOrder.do"> <!-- 홈 링크 -->
+									<i class="icon-home"></i> <!-- 홈 아이콘 -->
+							</a></li>
+							<li class="separator"><i class="icon-arrow-right"></i> <!-- > 아이콘 -->
 							</li>
-							<li class="separator"><i class="icon-arrow-right"></i> <!-- > 아이콘 --></li>
 							<!-- 두 번째 경로 -->
-							<li class="nav-item">제보받은 가게</li>
-							<li class="separator">
-								<!-- > 아이콘 --> <i class="icon-arrow-right"></i>
-							</li>
-							<!-- 세 번재 경로 -->
-							<li class="nav-item"><a href="loadListStoreReport.do">가게
-									폐점 제보</a></li>
+							<li class="nav-item"><a href="loadListOrder.do">주문받은 상품
+							</a></li>
 						</ul>
 					</div>
 
@@ -154,51 +112,49 @@
 						<div class="col-md-12">
 							<!-- 하얀 배경 부분-->
 							<div class="card">
-								<!-- 카드 내용 부분 -->
 								<div class="card-body">
 									<div class="table-responsive" style="text-align: center;">
 										<!-- 테이블을 감싸는 div 추가 -->
-										<table class="table table-hover">
-											<!--현재 확인하고 있는 행 확인 위한 호버-->
-											<thead>
-												<tr>
-													<!--1열 : 상품주문내역 정보 카테고리-->
-													<th scope="col">고유번호</th>
-													<th scope="col">가게명</th>
-													<th scope="col">가게 전화번호</th>
-													<th scope="col">가게 주소</th>
-													<th scope="col">제보승인 및 제보삭제</th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach var="storeTipOffList" items="${storeReportList}">
+										<form id="adminchecking" method="post"
+											action="updateOrderCheck.do">
+											<table class="table table-hover">
+												<!--현재 확인하고 있는 행 확인 위한 호버-->
 													<tr>
-														<!--고유번호-->
-														<td>${storeReportList.storeNum}</td>
-
-														<!--가게명-->
-														<td>${storeReportList.storeName}</td>
-
-														<!--가게 전화번호-->
-														<td>${storeReportList.storePhoneNum}</td>
-
-														<!--가게주소-->
-														<td>${storeReportList.storeDefaultAddress}&nbsp;
-															${storeReportList.storeDetailAddress}</td>
-														<!--승인 -->
-														<td><!-- 	제보 승인 : 정말 폐점 처리하겠습니까? 확인을 누르면 폐점 상태로 전환됩니다. (확인/취소)
-																	제보 삭제 : 폐점 신고된 글을 삭제하겠습니까? 확인을 누르면 신고된 제보는 삭제됩니다.(확인/취소)	-->
-															<div class="d-grid gap-2 d-md-block">
-																<button class="btn btn-danger" type="button"
-																	id="addReport">제보승인</button>
-																<button class="btn btn-primary" type="button"
-																	id="deleteReport">제보삭제</button>
-															</div>
-														</td>
+														<!--1열 : 상품주문내역 정보 카테고리-->
+														<th scope="col">확인여부</th>
+														<th scope="col">주문번호</th>
+														<th scope="col">구매일시</th>
+														<th scope="col">구매회원</th>
+														<th scope="col">배송주소</th>
+														<th scope="col">금액</th>
+													</tr>
+												<c:forEach var="orderList" items="${orderList}">
+													<!-- 만약 체크박스 표시된 상태라면 해당 블록의 배경색을 변경 -->
+													<tr>
+														<!--주문내역 확인 여부-->
+														<!-- 1: 주문내역 확인 완료-->
+														<!-- 2: 주문내역 미확인 -->
+														<td><div class="form-check">
+																<input class="form-check-input" type="checkbox"
+																	id="flexCheckDefault" id="adminCheck"
+																	name="adminChecked" value="1"
+																	onchange="adminchecking(checkbox)"
+																	<c:if test="${orderList.checkedOrder == 1}"> checked </c:if>>
+																<!-- 체크박스 표시 -->
+															</div> <input type="hidden" id="adminUnCheck"
+															name="adminChecked" value="0"></td>
+														<!--주문번호-->
+														<td>${orderList.orderNum}</td>
+														<!--구매일시-->
+														<td>${orderList.paymentDay}</td>
+														<!--구매회원-->
+														<td>${orderList.memberNum}</td>
+														<!--금액-->
+														<td>${orderList.paymentAmount}</td>
 													</tr>
 												</c:forEach>
-											</tbody>
-										</table>
+											</table>
+										</form>
 									</div>
 								</div>
 							</div>
@@ -206,7 +162,6 @@
 					</div>
 				</div>
 			</div>
-
 			<footer class="footer">
 				<!-- 페이지 하단 푸터 -->
 				<div class="container-fluid d-flex justify-content-between">
@@ -217,6 +172,7 @@
 					<div class="copyright">
 						<!-- 저작권 정보 -->
 						<img src="resources/assets/images/favicon.png"> 갈빵질빵
+						<!-- ThemeKita 링크 -->
 					</div>
 					<div>
 						<!-- 추가 정보 -->
@@ -253,6 +209,7 @@
 				.ready(
 						function() { // 문서가 준비되면 실행되는 함수
 							$("#basic-datatables").DataTable({}); // 기본 DataTable 초기화
+
 							$("#multi-filter-select")
 									.DataTable(
 											{ // 다중 필터 선택 DataTable 초기화
@@ -267,8 +224,8 @@
 																	function() { // 각 열에 대해 반복
 																		var column = this; // 현재 열을 변수에 저장
 																		var select = $(
-																				'<select class="form-select"><option value=""></option></select>')
-																				// 필터 선택 박스 생성
+																				'<select class="form-select"><option value=""></option></select>' // 필터 선택 박스 생성
+																		)
 																				.appendTo(
 																						$(
 																								column
@@ -282,6 +239,7 @@
 																									.escapeRegex($(
 																											this)
 																											.val()); // 선택된 값 정규 표현식으로 변환
+
 																							column
 																									// 현재 열에 대해
 																									.search(
@@ -294,6 +252,7 @@
 																									// 선택된 값으로 검색
 																									.draw(); // 테이블 다시 그리기
 																						});
+
 																		column
 																				// 현재 열의 데이터에 대해
 																				.data()
