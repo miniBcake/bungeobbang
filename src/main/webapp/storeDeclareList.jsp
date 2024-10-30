@@ -15,7 +15,7 @@
 <link rel="icon" href="resources/assets/images/logo.png"
 	type="image/x-icon" />
 
-<!-- Fonts and icons -->
+<!-- 웹 폰트 및 아이콘 -->
 <script src="resources/assets/js/plugin/webfont/webfont.min.js"></script>
 <script>
 	WebFont.load({
@@ -25,7 +25,7 @@
 		custom : {
 			families : [ "Font Awesome 5 Solid", "Font Awesome 5 Regular",
 					"Font Awesome 5 Brands", "simple-line-icons", ],
-			urls : [ "/resources/assets/css/fonts.min.css" ],
+			urls : [ "resources/assets/css/fonts.min.css" ],
 		},
 		active : function() {
 			sessionStorage.fonts = true;
@@ -33,7 +33,7 @@
 	});
 </script>
 
-<!-- CSS Files -->
+<!-- CSS 스타일 -->
 <link rel="stylesheet" href="resources/assets/css/bootstrap.min.css" />
 <link rel="stylesheet" href="resources/assets/css/plugins.min.css" />
 <link rel="stylesheet" href="resources/assets/css/kaiadmin.min.css" />
@@ -41,16 +41,18 @@
 </head>
 
 <body>
-	<script src="resources/assets/js/storeDeclareList.js"></script>
+	<script src="resources/assets/js/closedStoreDeclareList.js"></script>
 
 	<div class="wrapper">
 		<!-- 전체 페이지를 감싸는 wrapper -->
+		<!-- Sidebar -->
 		<div class="sidebar" data-background-color="dark">
 			<!-- 어두운 배경의 사이드바 -->
 			<!-- 사이드바의 로고 -->
 			<div class="sidebar-logo">
-				<!-- 로고 헤더 -->
+				<!-- Logo Header -->
 				<div class="logo-header" data-background-color="dark">
+					<!-- 로고 헤더 -->
 					<a href="main.do" class="logo"> <!-- 메인 페이지로 이동하는 링크 --> <img
 						src="resources/assets/images/logo_name.png" alt="navbar brand"
 						class="navbar-brand" height="40" /> <!-- 로고 이미지 -->
@@ -110,7 +112,7 @@
 								<p>주문받은 상품</p>
 						</a></li>
 						<!-- 갈빵질빵 페이지 -->
-						<li class="nav-item"><a href="main.do"> <!-- 주문받은 상품 페이지 링크 -->
+						<li class="nav-item"><a href="main.do"> <!-- 커뮤니티 사이트 이동 -->
 								<i class="fas fa-store"></i> <!--집모양 아이콘-->
 								<p>갈빵질빵 페이지로</p>
 						</a></li>
@@ -126,7 +128,7 @@
 				<div class="page-inner">
 					<!-- 페이지 내부 -->
 					<div class="page-header">
-						<h3 class="fw-bold mb-3">가게 등록 제보</h3>
+						<h3 class="fw-bold mb-3">가게 폐점 제보</h3>
 						<!-- 페이지 제목 -->
 						<ul class="breadcrumbs mb-3">
 							<!-- 관리자 페이지 내의 페이지 경로 -->
@@ -138,8 +140,12 @@
 							</li>
 							<li class="separator"><i class="icon-arrow-right"></i> <!-- > 아이콘 --></li>
 							<!-- 두 번째 경로 -->
-							<li class="nav-item"><a href="loadListStoreTipOff.do">가게
-									등록 제보</a></li>
+							<li class="nav-item">제보받은 가게</li>
+							<li class="separator">
+								<!-- +-아이콘 --> <i class="icon-arrow-right"></i>
+							</li>
+							<!-- 세 번재 경로 -->
+							<li class="nav-item"><a href="loadListStoreTipOff.do">가게 등록 제보</a></li>
 						</ul>
 					</div>
 
