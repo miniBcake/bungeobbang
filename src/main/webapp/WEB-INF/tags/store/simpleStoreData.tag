@@ -2,7 +2,7 @@
 <%@ attribute name="store" type="com.bungeobbang.app.biz.store.StoreDTO" %>
 <div class="storeData">
 	<div class="storeDataTitle">
-		<a href="/infoStore.do?storeNum=${store.storeNum}">
+		<a href="infoStore.do?storeNum=${store.storeNum}">
 			<h4 class="text-hover">${store.storeName}</h4></a>
 	</div>
 	<div class="storeDataContent">

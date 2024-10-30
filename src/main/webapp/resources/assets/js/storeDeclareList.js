@@ -1,11 +1,10 @@
 //운영중인 붕어빵 가게 제보 승인 및 취소 처리
-
 //미등록되어 있는 붕어빵 가게 제보글 승인(=등록+공개상태 전환)
-$('#storeTipOffList').on('click', function() {
+$('.storeTipOffList').on('click', function() {
 	console.log('storeDeclareList.js storeTipOffList start');
 
 	//[1] 승인버튼 클릭한 가게 고유번호 불러오기
-	const storeNum = document.getElementByid('storeNum').value;
+	const storeNum = $(this).data('storeNum');
 	console.log('storeDeclareList.js storeTipOffList storeNum load');
 
 	//[2] 정말 승인절차 진행할 지 안내창 띄우기
@@ -70,7 +69,7 @@ $('#deleteStoreTipOffList').on('click', function() {
 	console.log('storeDeclareList.js deleteStoreTipOffList start');
 
 	//[1] 취소 버튼 클릭한 가게 고유번호 불러오기
-	const storeNum = document.getElementByid('storeNum').value;
+	const storeNum = null//document.getElementByid('storeNum').value;
 	console.log('storeDeclareList.js deleteStoreTipOffList storeNum load');
 
 	//[2] 정말 취소절차 진행할 지 안내창 띄우기

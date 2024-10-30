@@ -95,6 +95,9 @@ public class StoreDAO {
 				ROW_NUMBER() OVER (ORDER BY S.STORE_NUM) AS ROWNUM,  
 				S.STORE_NUM, 
 				S.STORE_NAME, 
+		     	STORE_ADDRESS,
+            	STORE_ADDRESS_DETAIL,
+   				STORE_CONTACT,
 				S.STORE_CLOSED, 
 				S.STORE_SECRET, 
 				S.STORE_MENU_NORMAL, 
@@ -190,7 +193,7 @@ public class StoreDAO {
 		Object[] args = null;
 		// 비정상 프로그램 종료 방지 위한 try-catch 진행
 
-		if(storeDTO.getCondition().equals("UPDATE_STORE")) {
+		//if(storeDTO.getCondition().equals("UPDATE_STORE")) {
 
 			System.out.println("log_StoreDAO_update_queryBuilder UPDATE_SET setting");
 			//SET절 추가 및 쿼리문 형성
@@ -226,11 +229,11 @@ public class StoreDAO {
 			} 
 			System.out.println("log_StoreDAO_update_true!");
 			return true; //반환값 true
-		}
-		else {
-			System.err.println("log: Store update condition fail");
-			return false;
-		}
+//		}
+//		else {
+//			System.err.println("log: Store update condition fail");
+//			return false;
+//		}
 	}
 
 	public boolean delete(StoreDTO storeDTO) { 
@@ -297,7 +300,30 @@ public class StoreDAO {
 			else if(storeDTO.getCondition().equals("STORE_TIP_OFF_LIST")) {
 				//가게 비공개 조회
 				System.out.println("log : Store selectAll : STORE_TIP_OFF_LIST");
-				datas = jdbcTemplate.query(SELECTALL_VISIBLE_LIST, new StoreRowMapper());
+				datas = jdbcTemplate.query(SELECTALL_VISIBLE_LIST, (rs, i)->{
+					StoreDTO dto = new StoreDTO();
+					dto.setStoreNum(rs.getInt("STORE_NUM"));
+					dto.setStoreName(rs.getString("STORE_NAME"));
+					dto.setStoreAddress(rs.getString("STORE_ADDRESS"));
+					dto.setStoreAddressDetail(rs.getString("STORE_ADDRESS_DETAIL"));
+					dto.setStoreContact(rs.getString("STORE_CONTACT"));
+					dto.setStoreClosed(rs.getString("STORE_CLOSED"));
+					dto.setStoreSecret(rs.getString("STORE_SECRET"));
+					//storeMenu
+					dto.setStoreMenuNormal(rs.getString("STORE_MENU_NORMAL"));
+					dto.setStoreMenuVeg(rs.getString("STORE_MENU_VEG"));
+					dto.setStoreMenuMini(rs.getString("STORE_MENU_MINI"));
+					dto.setStoreMenuPotato(rs.getString("STORE_MENU_POTATO"));
+					dto.setStoreMenuIce(rs.getString("STORE_MENU_ICE"));
+					dto.setStoreMenuCheese(rs.getString("STORE_MENU_CHEESE"));
+					dto.setStoreMenuPastry(rs.getString("STORE_MENU_PASTRY"));
+					dto.setStoreMenuOther(rs.getString("STORE_MENU_OTHER"));
+					// 결제 방식
+					dto.setStorePaymentCard(rs.getString("STORE_PAYMENT_CARD"));
+					dto.setStorePaymentCashMoney(rs.getString("STORE_PAYMENT_CASHMONEY"));
+					dto.setStorePaymentAccount(rs.getString("STORE_PAYMENT_ACCOUNT"));
+					return dto;
+				});
 			}
 			else {
 				//컨디션 오류

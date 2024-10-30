@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-@Aspect
+//@Aspect
 public class UserCheckAdvice {
     @Autowired
     private HttpSession session;
@@ -76,10 +76,4 @@ public class UserCheckAdvice {
             log.info("AOP: userCheck end");
         }
     }
-
-    //권한 검증 View단에서 js 체크로 변경
-//    @Before("PointcutCommon.cudAllPointcut()")
-//    public void roleCheck(JoinPoint joinPoint) {
-//    }
-
 }

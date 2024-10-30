@@ -185,9 +185,8 @@
 					<span>검색 결과가 없습니다.</span>
 				</c:if>
 				<c:if test="${not empty storeList}">
-					확인
 					<!-- 지도 출력 부분 -->
-				<%--	<div class="col-6 text-center nonePadding fullWidthHeight">
+					<div class="col-6 text-center nonePadding fullWidthHeight">
 						<!-- 검색 결과 출력 부분-->
 						<div class="map" id="map"></div>
 					</div>
@@ -198,7 +197,7 @@
 								<customStore:simpleStoreData store="${store}"/>
 							</c:forEach>
 						</div>
-					</div>--%>
+					</div>
 				</c:if>
 				</div>
 			</div>
