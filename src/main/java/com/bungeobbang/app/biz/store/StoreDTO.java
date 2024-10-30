@@ -43,5 +43,8 @@ public class StoreDTO {
 	private int startNum; // 시작 페이지
 	private int endNum; // 종료 페이지
 	private int cnt; //페이지 네이션 개수 반환용
+
+	//영업일 정보
+	private ArrayList<StoreWorkDTO> workList;
 	
 }

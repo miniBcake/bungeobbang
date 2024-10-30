@@ -1,7 +1,8 @@
-package memberController;
+package com.bungeobbang.app.view.memberController;
 
+import com.bungeobbang.app.biz.member.MemberDTO;
+import com.bungeobbang.app.biz.member.MemberService;
 import jakarta.servlet.http.HttpSession;
-import model.dto.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +38,8 @@ public class DeleteMemberController {
 			// 이동 페이지 : mainPage.do
 			return "redirect:mainPage.do";
 		}
-		
+		//TODO 확인해서 정리바람
+		return "";//컴파일에러 임시해결값
 	}
 
 }

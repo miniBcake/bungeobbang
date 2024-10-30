@@ -73,9 +73,8 @@ CREATE TABLE BB_PAYMENT(
 PAYMENT_NUM INT AUTO_INCREMENT PRIMARY KEY, -- 결제 번호 (PK, AUTO_INCREMENT)
     MEMBER_NUM INT, -- 회원 번호 (외래키)
     PAYMENT_AMOUNT INT, -- 결제 금액
-    ADMIN_CHECKED CHAR(1) DEFAULT 'N',
+    ADMIN_CHECKED CHAR(1) DEFAULT 'N' CHECK (ADMIN_CHECKED IN ('Y','N')),
     FOREIGN KEY (MEMBER_NUM) REFERENCES BB_MEMBER(MEMBER_NUM) ON DELETE CASCADE -- 회원 번호 외래키
-    CHECK (ADMIN_CHECKED IN ('Y','N'))
 );
 
 
@@ -234,7 +233,7 @@ CREATE TABLE `bb_reply` (
 -- fishshapedbread.bb_view_board_join source
 
 create or replace
-algorithm = UNDEFINED view `fishshapedbread`.`bb_view_board_join` as
+    algorithm = UNDEFINED view `fishshapedbread`.`bb_view_board_join` as
 select
     `bb`.`BOARD_NUM` as `BOARD_NUM`,
     `bb`.`BOARD_TITLE` as `BOARD_TITLE`,
@@ -244,25 +243,25 @@ select
     `bb`.`BOARD_DELETE` as `BOARD_DELETE`,
     `bm`.`MEMBER_NUM` as `MEMBER_NUM`,
     `bm`.`MEMBER_NICKNAME` as `MEMBER_NICKNAME`,
+    `bm`.`MEMBER_PROFILE_WAY` as `MEMBER_PROFILE_WAY`,
     ifnull(`bl2`.`LIKE_CNT`, 0) as `LIKE_CNT`,
     `bbc`.`BOARD_CATEGORY_NUM` as `BOARD_CATEGORY_NUM`,
     `bbc`.`BOARD_CATEGORY_NAME` as `BOARD_CATEGORY_NAME`
 from
     (((`fishshapedbread`.`bb_board` `bb`
-left join `fishshapedbread`.`bb_member` `bm` on
-    ((`bb`.`MEMBER_NUM` = `bm`.`MEMBER_NUM`)))
-left join (
-    select
-        `fishshapedbread`.`bb_like`.`BOARD_NUM` as `BOARD_NUM`,
-        count(0) as `LIKE_CNT`
-    from
-        `fishshapedbread`.`bb_like`
-    group by
-        `fishshapedbread`.`bb_like`.`BOARD_NUM`) `bl2` on
-    ((`bb`.`BOARD_NUM` = `bl2`.`BOARD_NUM`)))
-left join `fishshapedbread`.`bb_board_category` `bbc` on
-    ((`bb`.`BOARD_CATEGORY_NUM` = `bbc`.`BOARD_CATEGORY_NUM`)));
-
+        left join `fishshapedbread`.`bb_member` `bm` on
+        ((`bb`.`MEMBER_NUM` = `bm`.`MEMBER_NUM`)))
+        left join (
+            select
+                `fishshapedbread`.`bb_like`.`BOARD_NUM` as `BOARD_NUM`,
+                count(0) as `LIKE_CNT`
+            from
+                `fishshapedbread`.`bb_like`
+            group by
+                `fishshapedbread`.`bb_like`.`BOARD_NUM`) `bl2` on
+        ((`bb`.`BOARD_NUM` = `bl2`.`BOARD_NUM`)))
+        left join `fishshapedbread`.`bb_board_category` `bbc` on
+        ((`bb`.`BOARD_CATEGORY_NUM` = `bbc`.`BOARD_CATEGORY_NUM`)));
 
 -- fishshapedbread.bb_view_product_join source
 
@@ -287,7 +286,7 @@ left join `fishshapedbread`.`bb_board` `bb` on
 
 
 -- fishshapedbread.bb_view_store_join source
-
+-- join 조건이 inner join으로 되어있어 신고가 없으면 가게 정보가 뜨지 않는 문제 해결을 위해 수정
 CREATE OR REPLACE VIEW bb_view_store_join AS
 SELECT
     s.STORE_NUM,
@@ -308,6 +307,7 @@ SELECT
     sp.STORE_PAYMENT_CASHMONEY,
     sp.STORE_PAYMENT_CARD,
     sp.STORE_PAYMENT_ACCOUNT,
+    -- STORE_DECLARED 필요없음
     CASE
         WHEN EXISTS (
             SELECT 1
@@ -319,3 +319,17 @@ SELECT
 FROM bb_store s
          LEFT JOIN bb_store_menu sm ON s.STORE_NUM = sm.STORE_NUM
          LEFT JOIN bb_store_payment sp ON s.STORE_NUM = sp.STORE_NUM;
+
+
+CREATE OR REPLACE VIEW BB_VIEW_SEARCHSTOREDATA_JOIN AS
+SELECT S.STORE_NUM, S.STORE_NAME, S.STORE_ADDRESS, S.STORE_ADDRESS_DETAIL,
+       S.STORE_CONTACT, S.STORE_CLOSED,
+       SM.STORE_MENU_NORMAL, SM.STORE_MENU_VEG, SM.STORE_MENU_MINI,
+       SM.STORE_MENU_POTATO, SM.STORE_MENU_ICE, SM.STORE_MENU_CHEESE,
+       SM.STORE_MENU_PASTRY, SM.STORE_MENU_OTHER,
+       SP.STORE_PAYMENT_CASHMONEY, SP.STORE_PAYMENT_CARD, SP.STORE_PAYMENT_ACCOUNT
+#        SW.STORE_WORK_WEEK, SW.STORE_WORK_OPEN, SW.STORE_WORK_CLOSE
+FROM BB_STORE S
+         LEFT JOIN BB_STORE_MENU SM ON S.STORE_NUM = SM.STORE_NUM
+         LEFT JOIN BB_STORE_PAYMENT SP ON S.STORE_NUM = SP.STORE_NUM;
+/*         JOIN BB_STORE_WORK SW ON S.STORE_NUM = SW.STORE_NUM;*/

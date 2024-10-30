@@ -20,7 +20,7 @@ public class StoreAsyncController {
     @RequestMapping("/loadListStoreMap.do")
     public ArrayList<StoreDTO> loadListStoreMap(String keyword){
         log.info("log: /loadListStoreMap.do loadListStoreMap - start");
-        log.info("log: loadListStoreMap - input keyword: " + keyword);
+        log.info("log: loadListStoreMap - param keyword: " + keyword);
         HashMap<String, String> filterList = new HashMap<>(); //필터 검색용 맵
         filterList.put("STORE_ADDRESS", keyword); //필터 검색용 값 설정
         StoreDTO storeDTO = new StoreDTO(); //DB조회를 위한 정보 전달 용

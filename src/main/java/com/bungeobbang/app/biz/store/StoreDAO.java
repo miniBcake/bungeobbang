@@ -31,34 +31,38 @@ public class StoreDAO {
 	//받은 데이터 : 가게 고유번호(PK)
 	//조회 데이터 : 가게 고유번호(PK), 가게 상호명, 기본&상세주소, 가게 전화번호, 가게폐점여부, 비공개 여부
 	private final String INFO_STORE_SELECTONE = """
-			SELECT 
-			ROW_NUMBER() OVER (ORDER BY STORE_NUM) AS ROWNUM,
-			STORE_NUM, 
-			STORE_NAME, 
-			STORE_CLOSED, 
-			STORE_SECRET, 
-			STORE_MENU_NORMAL, 
-			STORE_MENU_VEG, 
-			STORE_MENU_POTATO, 
-			STORE_MENU_MINI, 
-			STORE_MENU_ICE, 
-			STORE_MENU_CHEESE, 
-			STORE_MENU_PASTRY, 
-			STORE_MENU_OTHER, 
-			STORE_PAYMENT_CASHMONEY, 
-			STORE_PAYMENT_CARD, 
-			STORE_PAYMENT_ACCOUNT, 
-			STORE_DECLARED
-		FROM 
-			BB_VIEW_STORE_JOIN 
-		WHERE 
-			STORE_NUM = ? """;
+            SELECT 
+            ROW_NUMBER() OVER (ORDER BY STORE_NUM) AS ROWNUM,
+            STORE_NUM, 
+            STORE_NAME,
+            STORE_ADDRESS,
+            STORE_ADDRESS_DETAIL,
+   			STORE_CONTACT,
+            STORE_CLOSED, 
+            STORE_SECRET, 
+            STORE_MENU_NORMAL, 
+            STORE_MENU_VEG, 
+            STORE_MENU_POTATO, 
+            STORE_MENU_MINI, 
+            STORE_MENU_ICE, 
+            STORE_MENU_CHEESE, 
+            STORE_MENU_PASTRY, 
+            STORE_MENU_OTHER, 
+            STORE_PAYMENT_CASHMONEY, 
+            STORE_PAYMENT_CARD, 
+            STORE_PAYMENT_ACCOUNT, 
+            STORE_DECLARED
+         FROM 
+            BB_VIEW_STORE_JOIN 
+         WHERE 
+            STORE_NUM = ? """;
+
 
 	//가게 고유번호(PK) 최댓값 조회(+insert 과정에 활용)
 	private final String STORE_NEW_SELECTONE = "SELECT MAX(STORE_NUM) AS MAX_S_NUM FROM BB_STORE";
 
 	//가게 수 조회
-	private final String STORE_CNT_SELECTONE = "SELECT COUNT(DISTINCT STORE_NUM) AS CNT FROM BB_VIEW_SEARCHSTOREDATA_JOIN ";
+	private final String STORE_CNT_SELECTONE = "SELECT COUNT(*) AS CNT FROM BB_VIEW_SEARCHSTOREDATA_JOIN ";
 
 	//필터링 후 해당하는 가게 고유번호(PK) 모두 조회
 	private final String SELECTALL_VIEW = """
@@ -66,6 +70,9 @@ public class StoreDAO {
 				ROW_NUMBER() OVER (ORDER BY STORE_NUM) AS ROWNUM,
 				STORE_NUM, 
 				STORE_NAME, 
+	            STORE_ADDRESS,
+            	STORE_ADDRESS_DETAIL,
+   				STORE_CONTACT,
 				STORE_CLOSED, 
 				STORE_SECRET, 
 				STORE_MENU_NORMAL, 
@@ -118,6 +125,15 @@ public class StoreDAO {
 			WHERE DECLARED_COUNT >= 3
 			""";
 
+	private final String SELECTALL_VISIBLE_LIST = """
+			SELECT bs.STORE_NUM, bs.STORE_NAME, bs.STORE_ADDRESS, bs.STORE_ADDRESS_DETAIL, bs.STORE_CONTACT, bs.STORE_CLOSED, bs.STORE_SECRET,
+				bsm.STORE_MENU_NORMAL, bsm.STORE_MENU_VEG, bsm.STORE_MENU_MINI, bsm.STORE_MENU_POTATO, bsm.STORE_MENU_ICE, bsm.STORE_MENU_CHEESE, bsm.STORE_MENU_PASTRY, bsm.STORE_MENU_OTHER,
+				bsp.STORE_PAYMENT_CASHMONEY, bsp.STORE_PAYMENT_CARD, bsp.STORE_PAYMENT_ACCOUNT 
+			FROM bb_store bs
+				LEFT JOIN bb_store_menu bsm ON bs.STORE_NUM = bsm.STORE_NUM
+				LEFT JOIN bb_store_payment bsp ON bs.STORE_NUM = bsp.STORE_NUM
+			ORDER BY bs.STORE_SECRET desc, bs.STORE_NUM desc;
+			""";
 
 	//항상 조건절 충족하도록 WHERE 1=1 변수 생성
 	private final String SELECTALLNUMFILTER = " WHERE 1=1 ";
@@ -130,6 +146,8 @@ public class StoreDAO {
 
 	// 가게 번호 변수
 	private final String WHERE_STORENUM = "WHERE STORE_NUM = ?";
+
+	private final int CONTENT_SIZE = 4; //페이지 데이터 개수
 
 	// StoreDAO insert --------------------------------------------------------------------------------------
 
@@ -262,8 +280,8 @@ public class StoreDAO {
 				query = filterUtil.buildFilterQuery(query,filters)+" "+SELECTALL_ENDPART;
 				argsList = filterUtil.setFilterKeywords(argsList, filters); //필터 검색 검색어
 
-				argsList.add(storeDTO.getStartNum());
-				argsList.add(storeDTO.getEndNum()); // 페이지 네이션 시작, 끝 번호
+				argsList.add(storeDTO.getStartNum()-1);
+				argsList.add(CONTENT_SIZE); // 페이지 네이션 시작, 끝 번호
 
 				//args 배열화
 				Object[] args = argsList.toArray();
@@ -275,6 +293,11 @@ public class StoreDAO {
 				System.out.println("log : Store selectAll : SELECTALL_DECLARED_CNT");
 				query = SELECTALL_DECLARED_CNT;
 				datas = jdbcTemplate.query(query, new StoreRowMapper());
+			}
+			else if(storeDTO.getCondition().equals("STORE_TIP_OFF_LIST")) {
+				//가게 비공개 조회
+				System.out.println("log : Store selectAll : STORE_TIP_OFF_LIST");
+				datas = jdbcTemplate.query(SELECTALL_VISIBLE_LIST, new StoreRowMapper());
 			}
 			else {
 				//컨디션 오류

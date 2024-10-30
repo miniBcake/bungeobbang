@@ -4,8 +4,10 @@ import com.bungeobbang.app.biz.board.BoardDTO;
 import com.bungeobbang.app.biz.product.ProductDTO;
 import com.bungeobbang.app.biz.reply.ReplyDTO;
 import com.bungeobbang.app.biz.store.StoreDTO;
+import lombok.extern.slf4j.Slf4j;
 
 /**@author 안제호*/
+@Slf4j
 public class PaginationUtils {
 
     /**JavaDoc 주석

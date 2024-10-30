@@ -66,7 +66,7 @@
 			<div class="row">
 				<div class="col-12">
 					<!-- 검색창 -->
-					<form action="filterSearchStore.do">
+					<form action="loadListStore.do" method="GET">
 						<div class="container">
 							<!-- container02 : 1행-->
 							<!-- 가게명 검색 -->
@@ -99,37 +99,37 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storeMenu" value="" id="" role="팥/슈크림" 
-											checked="${storeMenu != null && storeMenu.contains('팥/슈크림') ? 'checked' : ''}">
-											팥/슈크림<span> (${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_NORMAL" id="" role="팥/슈크림"
+											checked="${storeMenu == null || !storeMenu.contains('MENU_NORMAL') ? '' : 'checked'}">
+											팥/슈크림<span> (${menuCnt.storeMenuNormalCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="" id="" role="야채/김치/만두" 
-											checked="${storeMenu != null && storeMenu.contains('야채/김치/만두') ? 'checked' : ''}">
-											야채/김치/만두<span> (${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_VEG" id="" role="야채/김치/만두"
+											checked="${storeMenu == null || !storeMenu.contains('MENU_VEG') ? '' : 'checked'}">
+											야채/김치/만두<span> (${menuCnt.storeMenuVegCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="" id="" role="미니 붕어빵"
-											checked="${storeMenu != null && storeMenu.contains('미니 붕어빵') ? 'checked' : ''}">
-											미니 붕어빵<span> (${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_MINI" id="" role="미니 붕어빵"
+											checked="${storeMenu == null || !storeMenu.contains('MENU_MINI') ? '' : 'checked'}">
+											미니 붕어빵<span> (${menuCnt.storeMenuMiniCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="" id="" role="고구마"
-											checked="${storeMenu != null && storeMenu.contains('고구마') ? 'checked' : ''}">
-											고구마<span> (${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_POTATO" id="" role="고구마"
+											checked="${storeMenu == null || !storeMenu.contains('MENU_POTATO') ? '' : 'checked'}">
+											고구마<span> (${menuCnt.storeMenuPotatoCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="" id="" role="아이스크림/초코"
-											checked="${storeMenu != null && storeMenu.contains('아이스크림/초코') ? 'checked' : ''}">
-											아이스크림/초코<span> (${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_ICE" id="" role="아이스크림/초코"
+											checked="${storeMenu == null || !storeMenu.contains('MENU_ICE') ? '' : 'checked'}">
+											아이스크림/초코<span> (${menuCnt.storeMenuIceCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="" id="" role="치즈"
-											checked="${storeMenu != null && storeMenu.contains('치즈') ? 'checked' : ''}">
-											치즈<span> (${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_CHEESE" id="" role="치즈"
+											checked="${storeMenu == null || !storeMenu.contains('MENU_CHEESE') ? '' : 'checked'}">
+											치즈<span> (${menuCnt.storeMenuCheeseCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="" id="" role="패스츄리"
-											checked="${storeMenu != null && storeMenu.contains('패스츄리') ? 'checked' : ''}">
-											패스츄리<span> (${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_PASTRY" id="" role="페스츄리"
+											checked="${storeMenu == null || !storeMenu.contains('MENU_PASTRY') ? '' : ''}">
+											페스츄리<span> (${menuCnt.storeMenuPastryCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storeMenu" value="" id="" role="기타"
-											checked="${storeMenu != null && storeMenu.contains('기타') ? 'checked' : ''}">
-											기타<span> (${cnt})</span>
+										<custom:categoryKeyword name="storeMenu" value="MENU_OTHER" id="" role="기타"
+											checked="${storeMenu == null || !storeMenu.contains('MENU_OTHER') ? '' : ''}">
+											기타<span> (${menuCnt.storeMenuOtherCnt})</span>
 										</custom:categoryKeyword>
 									</div>
 								</div>
@@ -142,17 +142,17 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storePayment" value="" id="" role="현금결제"
-											checked="${storePayment != null && storePayment.contains('현금결제') ? 'checked' : ''}">
-											현금결제<span>(${cnt})</span>
+										<custom:categoryKeyword name="storePayment" value="PAYMENT_CASHMONEY" id="" role="현금결제"
+											checked="${storePayment == null || !storePayment.contains('PAYMENT_CASHMONEY') ? '' : 'checked'}">
+											현금결제<span>(${paymentCnt.storePaymentCashmoneyCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storePayment" value="" id="" role="카드결제"
-											checked="${storePayment != null && storePayment.contains('카드결제') ? 'checked' : ''}">
-											카드결제<span>(${cnt})</span>
+										<custom:categoryKeyword name="storePayment" value="PAYMENT_CARD" id="" role="카드결제"
+											checked="${storePayment == null || !storePayment.contains('PAYMENT_CARD') ? '' : 'checked'}">
+											카드결제<span>(${paymentCnt.storePaymentCardCnt})</span>
 										</custom:categoryKeyword>
-										<custom:categoryKeyword name="storePayment" value="" id="" role="계좌이체"
-											checked="${storePayment != null && storePayment.contains('계좌이체') ? 'checked' : ''}">
-											계좌이체<span>(${cnt})</span>
+										<custom:categoryKeyword name="storePayment" value="PAYMENT_ACCOUNT" id="" role="계좌이체"
+											checked="${storePayment == null || !storePayment.contains('PAYMENT_ACCOUNT') ? '' : 'checked'}">
+											계좌이체<span>(${paymentCnt.storePaymentAccountCnt})</span>
 										</custom:categoryKeyword>
 									</div>
 								</div>
@@ -165,9 +165,9 @@
 								</div>
 								<div class="col-10 col-md-10">
 									<div class="row">
-										<custom:categoryKeyword name="storeClosed" value="영업중" id=""
+										<custom:categoryKeyword name="storeClosed" value="N" id="" role="영업중인 가게만 보기"
 											checked="${storeClosed != null && storeClosed == 'N' ? 'checked' : ''}">
-											영업중인 가게 ${cnt}</custom:categoryKeyword>
+											영업중인 가게만 보기</custom:categoryKeyword>
 									</div>
 								</div>
 							</div>
@@ -185,151 +185,20 @@
 					<span>검색 결과가 없습니다.</span>
 				</c:if>
 				<c:if test="${not empty storeList}">
+					확인
 					<!-- 지도 출력 부분 -->
-					<div class="col-6 text-center nonePadding fullWidthHeight">
+				<%--	<div class="col-6 text-center nonePadding fullWidthHeight">
 						<!-- 검색 결과 출력 부분-->
 						<div class="map" id="map"></div>
 					</div>
 					<!-- 가게 리스트 출력 부분 -->
 					<div class="col-6 text-center">
 						<div class="storeList">
-							<!-- sampleData (나중에 지움) -->
-							<!-- 1 -->
-							<div class="storeData">
-								<div class="storeDataTitle">
-									<a href="/viewStorePage.do?storeNum=1">
-										<h4 class="text-hover">갈빵 붕어빵</h4>
-									</a>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-map"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span id="address">서울시 동작구 대방동13길 13 <br> 골목 옆
-										</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy"
-											value="서울시 동작구 대방동13길 13 골목 옆">복사</button>
-									</div>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-phone"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>010-0000-0000</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy" value="010-0000-0000">복사</button>
-									</div>
-								</div>
-							</div>
-							<!-- 2 -->
-							<div class="storeData">
-								<div class="storeDataTitle">
-									<a href="/viewStorePage.do?storeNum=2">
-										<h4 class="text-hover">수제 붕어빵</h4>
-									</a>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-map"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span id="address">서울시 강남구 테헤란로26길 14 <br> 사거리 옆 건물 2층
-										</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy"
-											value="서울시 강남구 테헤란로26길 14 사거리 옆 건물 2층">복사</button>
-									</div>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-phone"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>010-1111-1111</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy" value="010-1111-1111">복사</button>
-									</div>
-								</div>
-							</div>
-							<!-- 3 -->
-							<div class="storeData">
-								<div class="storeDataTitle">
-									<a href="/viewStorePage.do?storeNum=${store.Num}">
-										<h4 class="text-hover">{store.name}</h4>
-									</a>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-map"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>{store.address} <br> {store.detail.address}
-										</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy"
-											value="${store.address} ${store.detail.address}">복사</button>
-									</div>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-phone"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>{store.phone}</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy" value="${store.phone}">복사</button>
-									</div>
-								</div>
-							</div>
-							<!-- 4 -->
-							<div class="storeData">
-								<div class="storeDataTitle">
-									<a href="/viewStorePage.do?storeNum=${store.Num}">
-										<h4 class="text-hover">{store.name}</h4>
-									</a>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-map"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>{store.address} <br> {store.detail.address}
-										</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy"
-											value="${store.address} ${store.detail.address}">복사</button>
-									</div>
-								</div>
-								<div class="storeDataContent">
-									<div class="col-1 nonePadding">
-										<i class="fas fa-phone"></i>
-									</div>
-									<div class="col-9 leftPadding text-start">
-										<span>{store.phone}</span>
-									</div>
-									<div class="col-2 nonePadding">
-										<button class="copy" value="${store.phone}">복사</button>
-									</div>
-								</div>
-							</div>
-							<!-- 나중에 지움 끝 -->
-
-							<%--
-							<c:forEach var="data" items="${storeList}">
-								<customStore:simpleStoreData />
-							</c:forEach> --%>
+							<c:forEach var="store" items="${storeList}">
+								<customStore:simpleStoreData store="${store}"/>
+							</c:forEach>
 						</div>
-					</div>
+					</div>--%>
 				</c:if>
 				</div>
 			</div>
@@ -341,38 +210,38 @@
 					<section id="pagination">
 						<div class="pagination">
 							<!-- 이전 페이지 버튼 -->
-							<c:if test="${currentPage > 1}">
+							<c:if test="${page > 1}">
 								<a
-									href="?page=${currentPage - 1}&storeName=${param.storeName != null ? param.storeName : ''}"
+									href="?page=${page - 1}${keyword != null ? '&keyword='+keyword : ''}"
 									id="pagenationPreValue">&laquo; 이전</a>
 							</c:if>
 
-							<c:set var="startPage" value="${currentPage - 5}" />
-							<c:set var="endPage" value="${currentPage + 4}" />
+							<c:set var="startPage" value="${page - 5}" />
+							<c:set var="endPage" value="${page + 4}" />
 
 							<c:if test="${startPage < 1}">
 								<c:set var="startPage" value="1" />
 							</c:if>
-							<c:if test="${endPage > totalPages}">
-								<c:set var="endPage" value="${totalPages}" />
+							<c:if test="${endPage > totalPage}">
+								<c:set var="endPage" value="${totalPage}" />
 							</c:if>
 
 							<c:forEach var="i" begin="${startPage}" end="${endPage}">
 								<c:choose>
-									<c:when test="${i == currentPage}">
+									<c:when test="${i == page}">
 										<strong>${i}</strong>
 									</c:when>
 									<c:otherwise>
 										<a
-											href="?page=${i}&storeName=${param.storeName != null ? param.storeName : ''}"
+											href="?page=${i}${keyword != null ? '&keyword='+keyword : ''}"
 											class="pagenationValue">${i}</a>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
 
-							<c:if test="${currentPage < totalPages}">
+							<c:if test="${page < totalPages}">
 								<a
-									href="?page=${currentPage + 1}&storeName=${param.storeName != null ? param.storeName : ''}"
+									href="?page=${page + 1}${keyword != null ? '&keyword='+keyword : ''}"
 									id="pagenationNextValue">다음 &raquo;</a>
 							</c:if>
 						</div>

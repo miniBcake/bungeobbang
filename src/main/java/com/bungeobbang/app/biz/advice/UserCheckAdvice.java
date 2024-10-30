@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-//@Aspect
+@Aspect
 public class UserCheckAdvice {
     @Autowired
     private HttpSession session;
@@ -26,11 +26,13 @@ public class UserCheckAdvice {
     @Order(1) //첫번째로 실행
     public void loginCheck(JoinPoint joinPoint) {
         log.info("AOP: loginCheck start");
-        //로그인 여부 확인
-        if(session.getAttribute(MEMBER_PK) == null) {
-            //로그인 되지 않은 상태라면 예외처리
-            log.error("AOP try : {} / error not login", joinPoint.getSignature());
-            throw new RuntimeException("try : " + joinPoint.getSignature() + " / error not login");
+        //로그인 여부 확인 (member c :회원가입, product c는 검사하지 않음 : 크롤링...)
+        if(!joinPoint.getSignature().toString().contains("MemberService.insert") && !joinPoint.getSignature().toString().contains("ProductService.insert") ) {
+            if(session.getAttribute(MEMBER_PK) == null) {
+                //로그인 되지 않은 상태라면 예외처리
+                log.error("AOP try : {} / error not login", joinPoint.getSignature());
+                throw new RuntimeException("try : " + joinPoint.getSignature() + " / error not login");
+            }
         }
         log.info("AOP: loginCheck end");
     }
@@ -40,6 +42,7 @@ public class UserCheckAdvice {
     public void userCheck(JoinPoint joinPoint) {
         log.info("AOP: userCheck start");
         Object MemberNum = null; //작성자 정보
+        boolean flag = false;
         String signature = joinPoint.getSignature().toString(); //해당 메서드 경로 및 시그니처
         if(signature.contains("board")){
             log.info("AOP: userCheck board");
@@ -47,6 +50,7 @@ public class UserCheckAdvice {
             for(Object o : joinPoint.getArgs()){ //파라미터에서 BoardDTO 찾기
                 if(o instanceof BoardDTO){
                     MemberNum = ((BoardDTO) o).getMemberNum(); //작성자 정보 저장
+                    flag = true;
                     break;
                 }
             }
@@ -57,17 +61,20 @@ public class UserCheckAdvice {
             for(Object o : joinPoint.getArgs()){ //파라미터에서 ReplyDTO 찾기
                 if(o instanceof ReplyDTO){
                     MemberNum = ((ReplyDTO) o).getMemberNum(); //작성자 정보저장
+                    flag = true;
                     break;
                 }
             }
         }
-        log.info("AOP: MemberNum [{}]", MemberNum);
-        if(session.getAttribute(MEMBER_PK) != MemberNum) { //작성자와 로그인한 사용자가 일치하지 않을 경우
-            //예외처리
-            log.error("AOP try : {} / error not writer", joinPoint.getSignature());
-            throw new RuntimeException("try : " + joinPoint.getSignature() + " / error not writer");
+        if(flag){
+            log.info("AOP: MemberNum [{}]", MemberNum);
+            if(session.getAttribute(MEMBER_PK) != MemberNum) { //작성자와 로그인한 사용자가 일치하지 않을 경우
+                //예외처리
+                log.error("AOP try : {} / error not writer", joinPoint.getSignature());
+                throw new RuntimeException("try : " + joinPoint.getSignature() + " / error not writer");
+            }
+            log.info("AOP: userCheck end");
         }
-        log.info("AOP: userCheck end");
     }
 
     //권한 검증 View단에서 js 체크로 변경
