@@ -11,19 +11,18 @@
 	<div class="col-12 col-md-9">
 		<div class="replySection">
 			<!-- 닉네임 -->
-			<span class="nickName">{닉네임}</span>
+			<span class="nickName">${replyList.memberNum}</span>
 			<!-- 댓글 내용 -->
-			<span class="replyContent">{댓글 내용
-				dddddddddddddddddddddddddddddddddddddddㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ}</span>
+			<span class="replyContent">{replyList.replyContent}</span>
 		</div>
 	</div>
 	<div class="col-12 col-md-2 text-center" id="replyData">
 		<!-- 작성 날짜 -->
-		<div class="date">{00.00.00}</div>
+		<div class="date">{replyList.replyWriteDay}</div>
 		<!-- 댓글 삭제 버튼 -->
 		<c:if test="false">
 			<div class="buttonBox">
-				<button class="replyButton">삭제</button>
+				<button class="btn btn-danger" id="deleteReply">삭제</button>
 			</div>
 		</c:if>
 	</div>
