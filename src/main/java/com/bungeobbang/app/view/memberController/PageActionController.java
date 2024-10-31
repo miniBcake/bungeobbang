@@ -30,19 +30,17 @@ public class PageActionController { // redirect 방식의 페이지 이동 contr
 	@PostMapping(value="/findPW.do") // 비밀번호 찾기 페이지 이동 controller
 	public String findPW() {
 		// 이동 페이지 : findPw.jsp
-		return "findPw.jsp";
+		return "redirect:findPw.jsp";
 	}
 	
 	@GetMapping(value="/addMember.do") // 회원 가입 페이지 이동 controller
 	public String joinPage() {
-
-		return "signup";
+		return "redirect:signup.jsp";
 	}
 	
-	@RequestMapping(value="/loginPage.do") // 로그인 페이지 이동 controller
+	@RequestMapping(value="/login.do") // 로그인 페이지 이동 controller
 	public String loginiPage() {
-
-		return "login";
+		return "redirect:login.jsp";
 	}
 	
 	@GetMapping(value="/findPW.do") // 비밀번호 변경 모달에서 사용하는 controller
@@ -54,19 +52,17 @@ public class PageActionController { // redirect 방식의 페이지 이동 contr
 	@RequestMapping(value="/logout.do") // 로그아웃 controller
 	public String logout (HttpSession session) {
 		session.invalidate(); // invalidate == 현재 세션 무효화
-		
 		return "redirect:main.do"; // mainPage.do 요청으로 이동
 	}
 
 
 	@GetMapping(value = "/addPoint.do") // 포인트 충전 페이지 이동 controller
 	public String addPoint() {
-
 		return "redirect:pointRecharge.jsp";
 	}
 
 	@GetMapping(value = "/signupPage.do")
 	public String signup() {
-		return "signUp";
+		return "redirect:signUp.jsp";
 	}
 }

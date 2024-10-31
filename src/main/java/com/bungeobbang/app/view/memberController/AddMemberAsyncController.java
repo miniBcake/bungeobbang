@@ -19,7 +19,7 @@ public class AddMemberAsyncController { // 회원가입 할 때 사용되는 비
     private MemberService memberService;
 
     @PostMapping("/checkEmail.do") // 이메일 확인 비동기 controller
-    public @ResponseBody String checkEmail(HttpSession session, MemberDTO memberDTO, Model model) {
+    public @ResponseBody boolean checkEmail(MemberDTO memberDTO, Model model) {
         log.info("[CheckEmail] 시작");
         boolean flag = true;
 
@@ -35,9 +35,8 @@ public class AddMemberAsyncController { // 회원가입 할 때 사용되는 비
             log.info("[CheckEmail 비밀번호 변경로직 조건문 통과] : "+model);
 
         }
-        String result = flag ? "true" : "false"; // flag 값을 String으로 변환
-        log.info("[CheckEmail 종료후 반환되는 값] : " + result);
-        return result; // 결과 반환
+        log.info("[CheckEmail 종료후 반환되는 값] : " + flag);
+        return flag; // 결과 반환
     }
 
 //    //FIXME EmailAPIController checkNickname.do 요청과 충돌

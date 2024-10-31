@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -241,10 +243,14 @@ public class MemberDAO {
 				};
 				//넘어온 값 확인 로그
 				System.out.println("log: parameter getMemberEmail : "+memberDTO.getMemberEmail());
-				
-				data = jdbcTemplate.queryForObject(query, args, new EmailRowMapper());
-				
-			}
+
+                try {
+                    data = jdbcTemplate.queryForObject(query, args, new EmailRowMapper());
+                } catch (EmptyResultDataAccessException e) {
+                    data = null;
+                }
+
+            }
 			else if(memberDTO.getCondition().equals("NICKNAME_CONDITION")) {
 				//닉네임 중복조회
 				System.out.println("log: Member selectOne : SELECTONE_NICKNAME");
@@ -269,10 +275,14 @@ public class MemberDAO {
 				//넘어온 값 확인 로그
 				System.out.println("log: parameter getMemberEmail : "+memberDTO.getMemberEmail());
 				System.out.println("log: parameter getMemberName : "+memberDTO.getMemberName());
-				
-				data = jdbcTemplate.queryForObject(query,args,  new NumRowMapper());
-				
-			}
+
+                try {
+                    data = jdbcTemplate.queryForObject(query,args,  new NumRowMapper());
+                } catch (EmptyResultDataAccessException e) {
+                    data = null;
+                }
+
+            }
 			else if(memberDTO.getCondition().equals("LOGIN_CONDITON")) {
 				//로그인
 				System.out.println("log: Member selectOne : SELECTONE_LOGIN");

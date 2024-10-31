@@ -5,41 +5,34 @@
 
 <!DOCTYPE html>
 <html>
-
 <head>
-<!--bootstrap CDN코드-->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
-
 <meta charset="UTF-8">
 <title>회원가입</title>
-<!--css 파일-->
-<link rel="stylesheet" href="resources/assets/css/loginAndSign.css">
-</head>
 
-<style>/* 이미지 반응형 스타일 */
-.signupimg {
-	max-width: 100%; 	/* 반응형 이미지 크기 조정	*/
-	height: auto;
-	border-radius: 50%; /* 동그란 모양으로 만들기 	*/
-	object-fit: cover; 	/* 이미지 비율 유지 		*/
-	overflow: auto;
-}
-</style>
-<body>
-	<script src="resources/assets/js/mypageUpdate.js"></script>
-	<script src="resources/assets/js/signUp.js"></script>
-
-	<custom:header />
+	<%--CSS--%>
 	<!--bootstrap CDN코드-->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-		crossorigin="anonymous"></script>
-
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<link rel="stylesheet" href="resources/assets/css/loginAndSign.css">
+	<style>/* 이미지 반응형 스타일 */
+	.signupimg {
+		max-width: 100%; 	/* 반응형 이미지 크기 조정	*/
+		height: auto;
+		border-radius: 50%; /* 동그란 모양으로 만들기 	*/
+		object-fit: cover; 	/* 이미지 비율 유지 		*/
+		overflow: auto;
+	}
+	</style>
+	<%--JS--%>
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<!--bootstrap CDN코드-->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<%--sweetAlert2 CDN--%>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+	<%--	<script src="resources/assets/js/mypageUpdate.js"></script>--%>
+	<script src="resources/assets/js/signUp.js"></script>
+</head>
+<body>
+	<custom:header />
 	<div class="container text-center">
 	<br><br>
 		<form id="login" action="join.do" method="POST">
@@ -65,6 +58,7 @@
 					<div class="row-md-12">
 						<!-- 프로필사진 버튼-->
 						<!--이미지 업로드-->
+						<%--TODO Multifile--%>
 						<label for="file" class="btn btn-warning btn-lg"> 이미지업로드 </label>
 						<input type="file" id="file" name="file" style="display: none;"
 							onchange="previewImage(event)"> &nbsp &nbsp
@@ -101,13 +95,14 @@
 							<path
 									d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
 						</svg>
-							<input type="email" class="inputbox" id="email" name="email"
+							<input type="email" class="inputbox" id="email" name="memberEmail"
 								style="color: black;" required placeholder="이메일을 입력해주세요" >
 
 							<!--이메일 중복확인버튼-->
 							<button class="btn btn-warning btn-lg" type="button"
-								id="checkEmailMsg">중복확인</button>
+								id="checkEmailBtn">인증번호 발송</button>
 						</div>
+						<div id="checkEmailMsg"></div>
 					</div>
 					<br>
 					<!--항목2 인증번호-->
@@ -128,7 +123,7 @@
 							<input type="text" class="inputbox" style="color: black;" required placeholder="인증번호를 입력해주세요">
 							<!--인증번호 전송 버튼-->
 							<button class="btn btn-warning btn-lg" type="button">인증번호
-								보내기</button>
+								확인</button>
 						</div>
 					</div>
 					<br>
