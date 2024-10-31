@@ -245,7 +245,7 @@ function setupPurchaseButton() {
     // "구매하기" 버튼 클릭 이벤트 리스너
     $('#purchaseButton').on('click', function() {
 		// 로그인 여부 확인 
-		const isLoggedIn = Boolean(document.getElementById('memberPK'));
+		const isLoggedIn = Boolean(document.getElementById("memberPK"));
 		console.log(isLoggedIn);
 
 		// 로그인 여부 확인

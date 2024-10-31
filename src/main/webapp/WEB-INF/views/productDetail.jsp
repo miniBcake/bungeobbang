@@ -76,7 +76,7 @@
 	            <div class="btn-section">
 	            	<input type="hidden" id="productNum" name="productNum" value="${product.productNum}">
 	                <button id="addToCartBtn" class="btn btn-primary mb-2">구매하기</button>
-	                <form action="goToCart.do" method="POST" id="goToCartForm">
+	                <form action="goToCart.do" method="GET" id="goToCartForm">
 	                    <button type="submit" class="btn btn-secondary">장바구니로 가기</button>
 	                </form>
 	            </div>

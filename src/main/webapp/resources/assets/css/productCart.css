@@ -1,10 +1,12 @@
 @charset "UTF-8";
+body {
+	padding-top: 100px;
+}
 
 .cart-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
 }
 
 .cart-header .select-all-container {
