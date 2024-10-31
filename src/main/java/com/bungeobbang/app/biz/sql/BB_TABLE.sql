@@ -1,6 +1,5 @@
 
 -- fishshapedbread.bb_product_category definition
-
 CREATE TABLE `bb_product_category` (
   `PRODUCT_CATEGORY_NUM` int NOT NULL AUTO_INCREMENT,
   `PRODUCT_CATEGORY_NAME` varchar(30) NOT NULL,
@@ -234,7 +233,6 @@ CREATE TABLE `bb_reply` (
   CONSTRAINT `bb_reply_ibfk_1` FOREIGN KEY (`MEMBER_NUM`) REFERENCES `bb_member` (`MEMBER_NUM`) ON DELETE SET NULL,
   CONSTRAINT `bb_reply_ibfk_2` FOREIGN KEY (`BOARD_NUM`) REFERENCES `bb_board` (`BOARD_NUM`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 -- fishshapedbread.bb_view_board_join source
 
 create or replace
