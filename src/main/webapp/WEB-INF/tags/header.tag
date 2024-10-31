@@ -30,10 +30,11 @@
       </button>
       
       <!-- 로고 -->
-		<a class="navbar-brand" href="main.do">
-		    <img src="${path}/resources/assets/images/logo.png" alt="Logo" style="width: 40px; height: auto;">
-		    갈빵질빵
-		</a>
+	<a class="navbar-brand" href="main.do">
+	    <img src="${path}/resources/assets/images/logo.png" alt="Logo" class="logo-img">
+	    <span class="navbar-brand-text">갈빵질빵</span>
+	</a>
+
 
       <!-- 네비게이션 메뉴 -->
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -44,34 +45,26 @@
             <li class="nav-item">
                <a class="nav-link" href="loadListStore.do">붕어빵 찾기</a>
             </li>
-			<li class="nav-item">
-			    <form action="loadListProduct.do" method="GET" id="productForm">
-				    <input type="hidden" name="page" value="1">
-				    <input type="hidden" name="minPrice" value="0">
-				    <input type="hidden" name="maxPrice" value="100000">
-				    <input type="hidden" name="keyword" value="">
-				    <input type="hidden" name="searchCondition" value="">
-				
-				    <button type="submit" class="nav-link">MD 상품</button>
-				</form>
-			</li>
             <li class="nav-item">
-               <a class="nav-link" href="loadListBoards.do?boardCateName=normal">게시판</a>
+               <a class="nav-link" href="loadListProduct.do">MD 상품</a>
+            </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 게시판 </a>
+               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a href="loadListBoards.do?boardCategoryName=boardList" class="dropdown-item">일반 게시판</a> 
+                  <a href="loadListBoards.do?boardCategoryName=noticeBoard" class="dropdown-item">문의 게시판</a>
+               </div>
             </li>
             <li class="nav-item">
                <a class="nav-link" href="addStore.do">가게 제보</a>
             </li>
-			<li class="nav-item">
-			    <form action="goToCart.do" method="POST">
-			        <button type="submit" class="nav-link">
-			            장바구니
-			        </button>
-			    </form>
-			</li>
+            <li class="nav-item">
+               <a class="nav-link" href="goToCart.do">장바구니</a>
+            </li>
 
             <!-- 로그인/회원가입 or 프로필 이미지 표시 -->
             <c:choose>
-               <c:when test="${empty memberPK}">
+               <c:when test="${empty userPK}">
                   <li class="nav-item">
                      <img src="${path}/resources/assets/images/default_profile.png" class="rounded-circle" style="width: 40px; height: 40px;" alt="Default Profile">
                   </li>
@@ -101,7 +94,7 @@
    <div class="sidebar-header d-flex align-items-center justify-content-between px-3 py-2">
        <a class="navbar-brand d-flex align-items-center" href="main.do">
          <img src="${path}/resources/assets/images/logo.png" alt="Logo" style="width: 40px; height: auto; margin-right: 10px;">
-         갈빵질빵
+         <span class="navbar-brand-text">갈빵질빵</span>
       </a>
       <!-- 사이드바 닫기 버튼 -->
       <button id="closeSidebar" class="btn btn-light">
@@ -115,31 +108,22 @@
       <li class="nav-item">
          <a class="nav-link" href="loadListStore.do">붕어빵 찾기</a>
       </li>
-	<li class="nav-item">
-	    <form action="loadListProduct.do" method="GET" id="productForm">
-		    <input type="hidden" name="page" value="1">
-		    <input type="hidden" name="minPrice" value="0">
-		    <input type="hidden" name="maxPrice" value="100000000">
-		    <input type="hidden" name="keyword" value="">
-		    <input type="hidden" name="searchCondition" value="">		
-		    <button type="submit" class="nav-link">MD 상품</button>
-		</form>
-	</li>
       <li class="nav-item">
-         <a class="nav-link" href="loadListBoards.do?boardCateName=normal">게시판</a>
+         <a class="nav-link" href="loadListProduct.do">MD 상품</a>
+         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 게시판 </a>
+         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a href="loadListBoards.do?boardCategoryName=boardList" class="dropdown-item">일반 게시판</a> 
+            <a href="loadListBoards.do?boardCategoryName=noticeBoard" class="dropdown-item">문의 게시판</a>
+         </div>
       </li>
       <li class="nav-item">
          <a class="nav-link" href="addStore.do">가게 제보</a>
       </li>
       <li class="nav-item">
-	    <form action="goToCart.do" method="POST">
-	        <button type="submit" class="nav-link" >
-	            장바구니
-	        </button>
-	    </form>
-	  </li>
+         <a class="nav-link" href="goToCart.do">장바구니</a>
+      </li>
       <c:choose>
-         <c:when test="${empty memberPK}">
+         <c:when test="${empty userPK}">
             <li class="nav-item">
                <a class="nav-link" href="signupPage.do">회원가입</a>
             </li>

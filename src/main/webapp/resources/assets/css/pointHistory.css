@@ -3,7 +3,7 @@
 /* 전체 레이아웃 스타일 */
 body {
     margin: 0;
-    padding: 0;
+    padding-top: 100px;
     font-family: Arial, sans-serif;
     max-width: 100%;
     overflow-x: hidden; /* 양옆으로 넘어가지 않게 설정 */
