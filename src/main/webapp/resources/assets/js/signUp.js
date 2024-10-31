@@ -9,7 +9,7 @@ $(document).ready(
 			var nickname = $('input[name="nickName"]').val();
 			// 닉네임 입력값 저장
 			$.ajax({
-				url: "checkNickname",
+				url: "checkNickname.do",
 				method: "POST",
 				data: {
 					nickname: nickname
@@ -45,7 +45,7 @@ $(document).ready(
 
 			$.ajax({
 				method: "POST",
-				url: "checkEmail",
+				url: "checkEmail.do",
 				data: {
 					email: email
 				},
@@ -106,7 +106,7 @@ $(document).ready(
 		$('#checkEmailBtn').on('click', function() {
 			//버튼 클릭시 메세지 초기화
 			$('#checkEmailMsg').text("");
-			if ($('input[name="email"]').val() !== '') {
+			if ($('input[name="MemberEmail"]').val() !== '') {
 				checkEmailFunction();
 			} else {
 				Swal.fire({
@@ -147,7 +147,7 @@ var checkNumResult = false;
 	var email = $('input[name="email"]').val();
 
 	$.ajax({
-		url: "sendEmail",
+		url: "sendEmail.do",
 		method: "POST",
 		data: {
 			email: email
@@ -182,7 +182,7 @@ function checkNum() {
 	var checkNum = $('input[name="checkNum"]').val();
 
 	$.ajax({
-		url: "emailNumCheck",
+		url: "emailNumCheck.do",
 		method: "POST",
 		data: {
 			checkNum: checkNum

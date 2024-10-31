@@ -3,6 +3,8 @@
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="boardSideBar" tagdir="/WEB-INF/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="path" value="${pageContext.request.contextPath}" />
+
 <!DOCTYPE html>
 <html>
 <link
@@ -13,7 +15,8 @@
 
 <meta charset="UTF-8">
 <title>마이 페이지</title>
-<head><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<head>
+	<script src="${path}/resources/assets/js/core/jquery-3.7.1.min.js" />
 
 <style type="text/css">
 /* 두, 세번째 열의 테두리 없애기 */
@@ -25,14 +28,14 @@
 	max-width: 80%; /* 이미지 크기 조정 */
 }
 </style>
-<link rel="stylesheet" href="resources/assets/css/main.css">
-<link rel="stylesheet" href="resources/assets/css/header.css">
-<link rel="stylesheet" href="resources/assets/css/myPage.css">
+<link rel="stylesheet" href="${path}/resources/assets/css/main.css">
+<link rel="stylesheet" href="${path}/resources/assets/css/header.css">
+<link rel="stylesheet" href="${path}/resources/assets/css/myPage.css">
 
 </head>
 
 <body>
-	<script src="resources/assets/js/mypageUpdate.js"></script>
+	<script src="${path}/resources/assets/js/mypageUpdate.js"></script>
 	<custom:header />
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

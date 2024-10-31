@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
-
+<c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 
@@ -16,8 +16,8 @@
 <meta charset="UTF-8">
 <title>회원탈퇴</title>
 <link rel="stylesheet"
-	href="/webapp/resources/assets/css/loginAndsign.css">
-<link rel="stylesheet" href="/webapp/resources/assets/css/modal.css">
+	href="/webapp/${path}/resources/assets/css/loginAndsign.css">
+<link rel="stylesheet" href="/webapp/${path}/resources/assets/css/modal.css">
 </head>
 
 <body>
@@ -29,7 +29,7 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
-	
+	<script src="${path}/resources/assets/js/core/jquery-3.7.1.min.js" />
 	<form id="deleteMember.do" action="deleteMember.do" method="POST">
 		<!--전체 컨테이너 시작-->
 		<div class="container text-center">
@@ -40,7 +40,7 @@
 
 			<!-- 붕어빵 이미지-->
 			<div class="col" style="text-align: center">
-				<img src="/resources/assets/images/breadfishCat.jpg"
+				<img src="${path}/resources/assets/images/breadfishCat.jpg"
 					class="breadfishCat">
 				<!-- 회원탈퇴 시 개인정보 관련 안내-->
 				<div class="input-container">

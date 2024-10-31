@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 
@@ -17,7 +17,7 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <!--css 파일-->
-<link rel="stylesheet" href="resources/assets/css/loginAndSign.css">
+<link rel="stylesheet" href="${path}/resources/assets/css/loginAndSign.css">
 </head>
 
 <style>/* 이미지 반응형 스타일 */
@@ -30,9 +30,9 @@
 }
 </style>
 <body>
-	<script src="resources/assets/js/mypageUpdate.js"></script>
-	<script src="resources/assets/js/signUp.js"></script>
-
+	<script src="${path}/resources/assets/js/mypageUpdate.js"></script>
+	<script src="${path}/resources/assets/js/signUp.js"></script>
+	<script src="${path}/resources/assets/js/core/jquery-3.7.1.min.js"></script>
 	<custom:header />
 	<!--bootstrap CDN코드-->
 	<script
@@ -101,7 +101,7 @@
 							<path
 									d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
 						</svg>
-							<input type="email" class="inputbox" id="email" name="email"
+							<input type="email" class="inputbox" id="email" name="memberEmail"
 								style="color: black;" required placeholder="이메일을 입력해주세요" >
 
 							<!--이메일 중복확인버튼-->
