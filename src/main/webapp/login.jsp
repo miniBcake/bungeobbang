@@ -1,18 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
+<c:set var="path" value="${pageContext.request.contextPath}" />
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<script src="assets/js/jquery.min.js" defer></script>
-<script src="assets/js/main.js" defer></script>
+	<script src="${path}/resources/assets/js/core/jquery-3.7.1.min.js"></script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>로그인 페이지</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="resources/assets/css/loginAndsign.css">
+<link rel="stylesheet" href="${path}/resources/assets/js/LoginAndSign.css">
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script
@@ -21,12 +22,14 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- 스위트 알랏 코드 -->
+
+	<!-- 스위트 알랏 코드 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="${path}/resources/assets/js/main.js" defer></script>
 </head>
 <body>
-	<script src="resources/assets/js/loginPwFind.js"></script>
-	<script src="resources/assets/js/loginGoogleAPI.js"></script>
+	<script src="${path}/resources/assets/js/loginPwFind.js"></script>
+	<script src="${path}/resources/assets/js/loginGoogleAPI.js"></script>
 
 	<custom:header />
 
@@ -38,7 +41,7 @@
 			<br> <br>
 			<div class="row align-items-start">
 				<div class="col" style="text-align: center;">
-					<img src="resources\assets\images\breadfishmiddle.jpg" class="img">
+					<img src="${path}\resources\assets\images\breadfishmiddle.jpg" class="img">
 				</div>
 
 				<!-- 로그인 폼태그 -->
@@ -58,7 +61,7 @@
                         		</svg>
 
 								<!-- 이메일 입력란 -->
-								<input type="email" class="inputbox" id="email" name="email"
+								<input type="email" class="inputbox" id="memberEmail" name="memberEmail"
 									placeholder="이메일을 입력해주세요" required>
 							</div>
 
@@ -74,7 +77,7 @@
                         		</svg>
 
 								<!-- 비밀번호 입력란 -->
-								<input type="password" class="inputbox" id="password"
+								<input type="password" class="inputbox" id="memberPassword" name="memberPassword"
 									placeholder="비밀번호를 입력해주세요" required>
 							</div>
 							<div>
@@ -102,7 +105,7 @@
 						</div>
 						<br>
 						<div>
-							아직 회원이 아니신가요? <a href="signUpPage.do">회원가입</a>
+							아직 회원이 아니신가요? <a href="signupPage.do">회원가입</a>
 						</div>
 					</div>
 				</form>
@@ -137,15 +140,15 @@
 
 					<!-- 1. 이름 입력 -->
 					<div class="form-group">
-						<label for="username">이름</label> <input type="text"
-							class="form-control" id="name" name="name" required
+						<%--@declare id="username"--%><label for="username">이름</label> <input type="text"
+							class="form-control" id="memberNickname" name="memberNickname" required
 							placeholder="이름을 입력해주세요">
 					</div>
 
 					<!-- 2. 이메일 입력 -->
 					<div class="form-group">
-						<label for="email">이메일</label> <input type="email"
-							class="form-control" id="email" name="email" required
+						<%--@declare id="email"--%><label for="email">이메일</label> <input type="email"
+							class="form-control" id="memberEmail" name="memberEmail" required
 							placeholder="이메일을 입력해주세요">
 
 					</div>
@@ -193,9 +196,9 @@
 					<div class="modal-body">
 						<!-- 1. 신규 비밀번호 입력 -->
 						<div class="form-group">
-							<br> <label for="newPassword" class="text-start">신규
-								비밀번호</label> <input type="password" class="form-control" id="password"
-								name="password" required placeholder="변경할 비밀번호를 입력해주세요">
+							<%--@declare id="newpassword"--%><br> <label for="newPassword" class="text-start">신규
+								비밀번호</label> <input type="password" class="form-control" id="changPassword"
+								name="memberPassword" required placeholder="변경할 비밀번호를 입력해주세요">
 							<br>
 						</div>
 
