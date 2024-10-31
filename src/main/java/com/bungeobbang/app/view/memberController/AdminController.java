@@ -1,4 +1,4 @@
-package com.bungeobbang.app.view.controller;
+package com.bungeobbang.app.view.memberController;
 
 import com.bungeobbang.app.biz.order.OrderDTO;
 import com.bungeobbang.app.biz.order.OrderService;

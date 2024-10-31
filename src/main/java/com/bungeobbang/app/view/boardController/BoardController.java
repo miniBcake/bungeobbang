@@ -1,4 +1,4 @@
-package com.bungeobbang.app.view.controller;
+package com.bungeobbang.app.view.boardController;
 
 import com.bungeobbang.app.biz.board.BoardDTO;
 import com.bungeobbang.app.biz.board.BoardService;
@@ -9,7 +9,6 @@ import com.bungeobbang.app.biz.like.LikeService;
 import com.bungeobbang.app.view.util.FileUtil;
 import com.bungeobbang.app.view.util.PaginationUtils;
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 @Controller("board")
 @Slf4j

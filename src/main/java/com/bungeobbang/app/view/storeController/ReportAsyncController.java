@@ -1,4 +1,4 @@
-package com.bungeobbang.app.view.controller;
+package com.bungeobbang.app.view.storeController;
 
 import com.bungeobbang.app.biz.declare.DeclareDTO;
 import com.bungeobbang.app.biz.declare.DeclareService;
