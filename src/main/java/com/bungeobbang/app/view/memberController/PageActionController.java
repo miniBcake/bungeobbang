@@ -1,11 +1,13 @@
-package memberController;
+package com.bungeobbang.app.view.memberController;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+@Controller
 public class PageActionController { // redirect 방식의 페이지 이동 controller
 
 /*	@PostMapping(value="/checkMyPagePW.do") // MyPage 이동 controller / session에 있는 로그인 정보에 따라 다른 페이지 이동
@@ -31,28 +33,29 @@ public class PageActionController { // redirect 방식의 페이지 이동 contr
 		return "findPw.jsp";
 	}
 	
-	@PostMapping(value="/addMember.do") // 회원 가입 페이지 이동 controller
+	@GetMapping(value="/addMember.do") // 회원 가입 페이지 이동 controller
 	public String joinPage() {
-		return "redirect:signup.jsp";
+
+		return "signup";
 	}
 	
-	@PostMapping(value="/loginPage.do") // 로그인 페이지 이동 controller
+	@RequestMapping(value="/loginPage.do") // 로그인 페이지 이동 controller
 	public String loginiPage() {
 
-		return "redirect:login.jsp";
+		return "login";
 	}
 	
-	@PostMapping(value="/findPW.do") // 비밀번호 변경 모달에서 사용하는 controller
+	@GetMapping(value="/findPW.do") // 비밀번호 변경 모달에서 사용하는 controller
 	public String updatePW() {
 		// 모달에서 findPW.jsp로 이동
 		return "redirect:findPW.jsp";
 	}
 	
-	@RequestMapping(value="/logout.do", method=RequestMethod.GET) // 로그아웃 controller
+	@RequestMapping(value="/logout.do") // 로그아웃 controller
 	public String logout (HttpSession session) {
 		session.invalidate(); // invalidate == 현재 세션 무효화
 		
-		return "redirect:mainPage.do"; // mainPage.do 요청으로 이동
+		return "redirect:main.do"; // mainPage.do 요청으로 이동
 	}
 
 
@@ -60,5 +63,10 @@ public class PageActionController { // redirect 방식의 페이지 이동 contr
 	public String addPoint() {
 
 		return "redirect:pointRecharge.jsp";
+	}
+
+	@GetMapping(value = "/signupPage.do")
+	public String signup() {
+		return "signUp";
 	}
 }
