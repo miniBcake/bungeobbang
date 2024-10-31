@@ -56,7 +56,7 @@
                </div>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="addStore.do">가게 제보</a>
+               <a class="nav-link" href="addStore.do?condition=userStoreReport">가게 제보</a>
             </li>
             <li class="nav-item">
                <a class="nav-link" href="goToCart.do">장바구니</a>

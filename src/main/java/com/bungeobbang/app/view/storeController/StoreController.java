@@ -60,24 +60,11 @@ public class StoreController {
     public String addStore(String condition, Model model){
         log.info("log: /addStore.do addStore GET - start");
         log.info("log: addStore - param condition : [{}]", condition);
-        String path; //경로 저장 변수
-        if(condition.equals(REPORT_STORE)){//제보라면
-            log.info("log: addStore report");
-            path = PAGE_REPORT_STORE;
-        }
-        else if(condition.equals(ADD_STORE)){//가게 추가라면
-            log.info("log: addStore admin");
-            path = PAGE_ADD_STORE;
-        }
-        else {
-            log.error("log: addStore - error condition");
-            path = FAIL_DO; //일치하는 컨디션 값이 아닐 때 실패처리
-        }
         model.addAttribute("condition", condition);
         //확인
         log.info("log: addStore - send condition : [{}]", condition);
         log.info("log: /addStore.do addStore GET - end");
-        return path;
+        return condition;
     }
 
 
