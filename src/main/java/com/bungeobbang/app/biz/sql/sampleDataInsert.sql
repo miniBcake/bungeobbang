@@ -1,8 +1,3 @@
--- 게시글 카테고리 데이터
-INSERT INTO bb_board_category (BOARD_CATEGORY_NUM, BOARD_CATEGORY_NAME)
-VALUES (1, 'noticeBoard'),
-       (2, 'boardList');
-
 -- 상품 카테고리 데이터
 INSERT INTO bb_product_category (PRODUCT_CATEGORY_NAME)
 VALUES ('문구/사무'),
@@ -10,23 +5,22 @@ VALUES ('문구/사무'),
        ('패션/잡화'),
        ('디지털/IT'),
        ('홈데코');
+-- 상품 데이터(크롤링)
+INSERT INTO bb_product (PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_PROFILE_WAY, PRODUCT_CATEGORY_NUM)
+VALUES 
+('붕어빵 기계', 150000, 'DEFAULT.PNG', 1), -- 문구/사무
+('붕어빵 모양 쿠션', 25000, 'DEFAULT.PNG', 2), -- 리빙
+('붕어빵 패턴 가방', 30000, 'DEFAULT.PNG', 3), -- 패션/잡화
+('붕어빵 전자레인지', 80000, 'DEFAULT.PNG', 4), -- 디지털/IT
+('붕어빵 장식품', 50000, 'DEFAULT.PNG', 5), -- 홈데코
+('붕어빵 모양 머그컵', 12000, 'DEFAULT.PNG', 2), -- 리빙
+('붕어빵 향수', 35000, 'DEFAULT.PNG', 3), -- 패션/잡화
+('붕어빵 만들기 책', 20000, 'DEFAULT.PNG', 1), -- 문구/사무
+('붕어빵 원피스', 45000, 'DEFAULT.PNG', 3), -- 패션/잡화
+('붕어빵 굽기 팬', 22000, 'DEFAULT.PNG', 4); -- 디지털/IT
 
--- BB_STORE 샘플 데이터 (역삼역 부근 도로명주소)
-INSERT INTO bb_store (STORE_NAME, STORE_ADDRESS, STORE_ADDRESS_DETAIL, STORE_CONTACT, STORE_CLOSED, STORE_SECRET)
-VALUES ('달콤붕어빵', '서울특별시 강남구 테헤란로 152', '1층 키오스크 앞', '02-555-5555', 'N', 'N'),
-       ('호호붕어빵', '서울특별시 강남구 테헤란로 142', '역삼역 3번출구 앞', '02-666-6666', 'N', 'N'),
-       ('사랑붕어빵', '서울특별시 강남구 역삼로 166', '역삼역 4번출구 앞', '02-777-7777', 'N', 'N'),
-       ('행복붕어빵', '서울특별시 강남구 테헤란로 129', 'GFC 건물 앞', '02-888-8888', 'N', 'N'),
-       ('즐거운붕어빵', '서울특별시 강남구 논현로 508', '2층 카페 앞', '02-999-9999', 'N', 'N'),
-       ('맛있는붕어빵', '서울특별시 강남구 역삼로 170', '역삼동 주민센터 맞은편', '02-111-1111', 'N', 'N'),
-       ('황금붕어빵', '서울특별시 강남구 테헤란로 146', 'SK허브블딩 1층', '02-222-2222', 'Y', 'N'),
-       ('은빛붕어빵', '서울특별시 강남구 역삼로7길 16', '역삼역 캄피나폴리스 앞', '02-333-3333', 'N', 'N'),
-       ('동네붕어빵', '서울특별시 강남구 테헤란로 134', '포스코P&S타워 앞', '02-444-4444', 'N', 'Y'),
-       ('정성붕어빵', '서울특별시 강남구 역삼로 155', '강남역삼푸르지오 앞', '02-555-5556', 'N', 'N'),
-       ('왕붕어빵', '서울특별시 강남구 테헤란로25길 10', '역삼역 푸드코트 옆', '02-666-6667', 'N', 'N'),
-       ('명품붕어빵', '서울특별시 강남구 역삼로3길 12', '역삼초등학교 정문 앞', '02-777-7778', 'N', 'N');
 
--- 나머지 Member 데이터
+-- Member 데이터
 INSERT INTO bb_member (MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_NICKNAME, MEMBER_PHONE, MEMBER_PROFILE_WAY, MEMBER_ROLE)
 VALUES ('admin', '123123123', '관리자', '관리자닉네임', '010-1111-1111', 'default_profile.png', 'ADMIN'),
        ('admin2', 'admin456!', '부관리자', '부관리자닉네임', '010-1111-1112', 'default_profile.png', 'ADMIN'),
@@ -45,51 +39,50 @@ VALUES ('admin', '123123123', '관리자', '관리자닉네임', '010-1111-1111'
        ('user7@test.com', 'user104!', '바둑이', '붕어빵러버7', '010-5555-5560', 'default_profile.png', 'USER'),
        ('user8@test.com', 'user105!', '누렁이', '붕어빵러버8', '010-5555-5561', 'default_profile.png', 'USER');
 
--- BB_DECLARE 샘플 데이터
-INSERT INTO bb_declare (STORE_NUM, DECLARE_CONTENT)
-VALUES (1, '위생 상태가 좋지 않습니다'),
-       (2, '영업시간이 일정하지 않습니다'),
-       (3, '메뉴 가격이 표시된 것과 다릅니다'),
-       (4, '직원이 불친절합니다'),
-       (5, '가게 주변이 너무 지저분합니다'),
-       (6, '위생장갑을 착용하지 않습니다'),
-       (1, '음식이 너무 차갑습니다'),
-       (2, '대기시간이 너무 깁니다'),
-       (3, '포장이 불량입니다'),
-       (4, '가격이 너무 비쌉니다'),
-       (5, '맛이 일정하지 않습니다'),
-       (6, '재료가 신선하지 않아 보입니다');
 
--- BB_PAYMENT 샘플 데이터
-INSERT INTO bb_payment (MEMBER_NUM, PAYMENT_AMOUNT)
-VALUES (9, 10000),
-       (10, 15000),
-       (11, 20000),
-       (12, 25000),
-       (13, 30000),
-       (14, 35000),
-       (15, 40000),
-       (16, 45000),
-       (9, 50000),
-       (10, 55000),
-       (11, 60000),
-       (12, 65000);
+-- BB_STORE 샘플 데이터 (역삼역 부근 도로명주소)
+INSERT INTO bb_store (STORE_NAME, STORE_ADDRESS, STORE_ADDRESS_DETAIL, STORE_CONTACT, STORE_CLOSED, STORE_SECRET)
+VALUES ('달콤붕어빵', '서울특별시 강남구 테헤란로 152', '1층 키오스크 앞', '02-555-5555', 'N', 'N'),
+       ('호호붕어빵', '서울특별시 강남구 테헤란로 142', '역삼역 3번출구 앞', '02-666-6666', 'N', 'N'),
+       ('사랑붕어빵', '서울특별시 강남구 역삼로 166', '역삼역 4번출구 앞', '02-777-7777', 'N', 'N'),
+       ('행복붕어빵', '서울특별시 강남구 테헤란로 129', 'GFC 건물 앞', '02-888-8888', 'N', 'N'),
+       ('즐거운붕어빵', '서울특별시 강남구 논현로 508', '2층 카페 앞', '02-999-9999', 'N', 'N'),
+       ('맛있는붕어빵', '서울특별시 강남구 역삼로 170', '역삼동 주민센터 맞은편', '02-111-1111', 'N', 'N'),
+       ('황금붕어빵', '서울특별시 강남구 테헤란로 146', 'SK허브블딩 1층', '02-222-2222', 'Y', 'N'),
+       ('은빛붕어빵', '서울특별시 강남구 역삼로7길 16', '역삼역 캄피나폴리스 앞', '02-333-3333', 'N', 'N'),
+       ('동네붕어빵', '서울특별시 강남구 테헤란로 134', '포스코P&S타워 앞', '02-444-4444', 'N', 'Y'),
+       ('정성붕어빵', '서울특별시 강남구 역삼로 155', '강남역삼푸르지오 앞', '02-555-5556', 'N', 'N'),
+       ('왕붕어빵', '서울특별시 강남구 테헤란로25길 10', '역삼역 푸드코트 옆', '02-666-6667', 'N', 'N'),
+       ('명품붕어빵', '서울특별시 강남구 역삼로3길 12', '역삼초등학교 정문 앞', '02-777-7778', 'N', 'N');
 
--- BB_POINT 샘플 데이터
+-- BB_DECLARE
+INSERT INTO BB_DECLARE (STORE_NUM, DECLARE_CONTENT)
+values (7, '폐점 신고'),(7, '폐점 신고'),(7, '폐점 신고');
+
+INSERT INTO bb_payment (MEMBER_NUM, PAYMENT_AMOUNT, PAYMENT_NAME, IMP_UUID)
+VALUES (9, 10000, '10000 포인트 구매', 'e7a1c1bc-1c4e-4d84-8b95-9b2aaffffac0'),
+       (10, 15000, '15000 포인트 구매', 'e0f25d5e-31bb-4f5d-a5e0-01c7fc3c7b20'),
+       (11, 20000, '20000 포인트 구매', '3c8a31a1-ec45-4d41-b12f-e6a60c0c6c80'),
+       (12, 25000, '25000 포인트 구매', 'bcb68c74-6a87-4b67-b51f-ecf69cc6e600'),
+       (13, 30000, '30000 포인트 구매', '11d1c063-b46d-4937-91f1-5e5a3fdc9c6e'),
+       (14, 35000, '35000 포인트 구매', '583abb30-5248-4db8-a5b1-80b69f7b3e5e'),
+       (15, 40000, '40000 포인트 구매', '682da79c-50f4-4c64-b4b4-f7dc54f9a134'),
+       (16, 45000, '45000 포인트 구매', 'e6f12b6c-bf46-4e5f-b5b8-cfd79ec9f4bb'),
+       (9, 50000, '50000 포인트 구매', 'b3e3f12c-e9c1-47ee-b6af-e0b13eabcfb3'),
+       (10, 55000, '55000 포인트 구매', 'd4ac2f54-fb3c-4f1e-9a8c-1b4f1cb74d00'),
+       (11, 60000, '60000 포인트 구매', 'c8f50c02-86e1-4cde-88d5-8cdb22f3e47c'),
+       (12, 65000, '65000 포인트 구매', '501eecc6-fec8-45a0-b3e0-efc1a0c7f3b6');
+
+
+-- BB_POINT 샘플 데이터(충전, 상품 구매 TRIGGER)
 INSERT INTO bb_point (MEMBER_NUM, POINT_PLUS, POINT_MINUS, POINT_CONTENT)
 VALUES (9, 1000, NULL, '회원가입 보너스'),
-       (9, NULL, 500, '상품 구매 사용'),
        (10, 2000, NULL, '이벤트 당첨'),
-       (10, NULL, 1000, '상품 구매 사용'),
        (11, 3000, NULL, '리뷰 작성 보너스'),
-       (11, NULL, 1500, '상품 구매 사용'),
        (12, 4000, NULL, '출석 체크 보너스'),
-       (12, NULL, 2000, '상품 구매 사용'),
        (13, 5000, NULL, '친구 추천 보너스'),
-       (14, NULL, 2500, '상품 구매 사용'),
-       (15, 6000, NULL, '이벤트 참여 보너스'),
-       (16, NULL, 3000, '상품 구매 사용');
-
+       (15, 6000, NULL, '이벤트 참여 보너스');
+      
 -- BB_STORE_MENU 샘플 데이터
 INSERT INTO bb_store_menu (STORE_NUM, STORE_MENU_NORMAL, STORE_MENU_VEG, STORE_MENU_MINI, STORE_MENU_POTATO,
                            STORE_MENU_ICE, STORE_MENU_CHEESE, STORE_MENU_PASTRY, STORE_MENU_OTHER)
@@ -148,6 +141,11 @@ VALUES (1, 'MON', '2024-10-29 09:00:00', '2024-10-29 18:00:00'),
        (12, 'SUN', '2024-10-29 11:00:00','2024-10-29 20:00:00'),
        (12, 'MON', '2024-10-29 11:00:00','2024-10-29 20:00:00');
 
+-- 게시글 카테고리 데이터
+INSERT INTO bb_board_category (BOARD_CATEGORY_NUM, BOARD_CATEGORY_NAME)
+VALUES (1, 'noticeBoard'),
+       (2, 'boardList');
+
 -- BB_BOARD 샘플 데이터
 INSERT INTO bb_board (BOARD_TITLE, BOARD_CONTENT, BOARD_FOLDER, MEMBER_NUM, BOARD_OPEN, BOARD_DELETE, STORE_NUM)
 VALUES ('맛있는 붕어빵 후기', '정말 맛있었어요! 특히 팥앙금이 일품이에요', '/uploads/review1', 9, 'Y', 'N', 1),
@@ -194,6 +192,25 @@ VALUES (1, 10),
        (9, 13),
        (9, 14);
 
+-- BB_ORDER 샘플 데이터
+ INSERT INTO bb_order (MEMBER_NUM, PRODUCT_NUM, ORDER_STATUS)
+ VALUES (9, 1, 'Y'),
+       (10, 2, 'N'),
+        (11, 3, 'N'),
+        (12, 3, 'N'),
+        (13, 10, 'Y'),
+        (14, 5, 'N'),
+        (15, 1, 'N'),
+        (16, 3, 'N'),
+        (9, 7, 'Y'),
+        (10, 9, 'Y'),
+        (11, 8, 'N'),
+        (12, 4, 'N'),
+       (13, 1, 'Y'),
+       (14, 2, 'Y'),
+        (15, 3, 'N'),
+        (16, 1, 'Y');
+
 -- BB_REPLY 샘플 데이터
 INSERT INTO bb_reply (REPLY_CONTENT, MEMBER_NUM, BOARD_NUM)
 VALUES ('저도 가보고 싶네요!', 10, 1),
@@ -219,21 +236,3 @@ VALUES ('저도 가보고 싶네요!', 10, 1),
 
 
 
-# -- BB_ORDER 샘플 데이터
-# INSERT INTO bb_order (MEMBER_NUM, PRODUCT_NUM, ORDER_STATUS)
-# VALUES (9, 1, '주문완료'),
-#        (10, 2, '준비중'),
-#        (11, 3, '완료'),
-#        (12, 1, '주문완료'),
-#        (13, 2, '준비중'),
-#        (14, 3, '취소'),
-#        (15, 1, '완료'),
-#        (16, 2, '주문완료'),
-#        (9, 3, '준비중'),
-#        (10, 1, '완료'),
-#        (11, 2, '주문완료'),
-#        (12, 3, '준비중'),
-#        (13, 1, '완료'),
-#        (14, 2, '취소'),
-#        (15, 3, '주문완료'),
-#        (16, 1, '준비중');

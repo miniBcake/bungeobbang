@@ -100,6 +100,28 @@
                 </div>   
             </div>
         </form>
+        
+        <p>다양한 상품을 검색해보세요!</p>
+        <div class="empty-photo-album">
+		    <div class="photo-album">
+		        <c:forEach var="index" begin="1" end="16">
+		            <c:choose>
+		                <c:when test="${index % 2 == 0}">
+		                    <img src="${pageContext.request.contextPath}/resources/assets/images/image${index}.png" 
+		                         alt="이미지 ${index}" 
+		                         class="stacked-photo even" 
+		                         style="--index: ${index};">
+		                </c:when>
+		                <c:otherwise>
+		                    <img src="${pageContext.request.contextPath}/resources/assets/images/image${index}.png" 
+		                         alt="이미지 ${index}" 
+		                         class="stacked-photo odd" 
+		                         style="--index: ${index};">
+		                </c:otherwise>
+		            </c:choose>
+		        </c:forEach>
+		    </div>
+		</div>
      
         <!-- 추천 상품 섹션 -->
         <section id="recommend-products-section">
@@ -185,27 +207,6 @@
 	                </c:when>
 	                <c:otherwise>
 	                    <h3>최근에 본 상품이 없습니다.</h3>
-	                    <p>다양한 상품을 검색해보세요!</p>
-						<div class="empty-photo-album">
-						    <div class="photo-album">
-						        <c:forEach var="index" begin="1" end="16">
-						            <c:choose>
-						                <c:when test="${index % 2 == 0}">
-						                    <img src="${pageContext.request.contextPath}/resources/assets/images/image${index}.png" 
-						                         alt="이미지 ${index}" 
-						                         class="stacked-photo even" 
-						                         style="--index: ${index};">
-						                </c:when>
-						                <c:otherwise>
-						                    <img src="${pageContext.request.contextPath}/resources/assets/images/image${index}.png" 
-						                         alt="이미지 ${index}" 
-						                         class="stacked-photo odd" 
-						                         style="--index: ${index};">
-						                </c:otherwise>
-						            </c:choose>
-						        </c:forEach>
-						    </div>
-						</div>
 	                </c:otherwise>
 	            </c:choose>
 	        </div>

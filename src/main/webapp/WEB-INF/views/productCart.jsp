@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<c:if test="${not empty memberPK}">
-    <span id="memberPK" style="display: none;">${memberPK}</span>
+<c:if test="${not empty userPK}">
+    <span id="memberPK" style="display: none;">${userPK}</span>
 </c:if>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,6 +94,11 @@
                         <input type="text" id="phoneInput" class="form-control" placeholder="전화번호">
                     </div>                 
                 </div>
+                
+                <div id="addressLayer">
+				    <button id="btnCloseLayer" onclick="closeAddressLayer()">×</button>
+				    <div id="addressLayerContent"></div> <!-- API 주소 검색 창이 들어갈 영역 -->
+				</div>
 
                 <!-- 주문 완료 버튼 -->
                 <div class="text-right mt-3">

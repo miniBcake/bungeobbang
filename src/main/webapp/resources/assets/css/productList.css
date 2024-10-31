@@ -1,6 +1,7 @@
 /* 전체 레이아웃 스타일 */
 body {
     background-color: #f9f9f9;
+    padding-top: 100px;	
 }
 
 #page-wrapper {

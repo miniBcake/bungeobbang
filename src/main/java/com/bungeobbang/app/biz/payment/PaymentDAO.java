@@ -19,24 +19,35 @@ public class PaymentDAO {
 	private JdbcTemplate jdbcTemplate;
 
 	//insert 쿼리
-	private final String INSERT_PAYMENT = "INSERT INTO BB_PAYMENT(MEMBER_NUM, PAYMENT_AMOUNT) "
-			+ "VALUES(?,?)";
+	private final String INSERT_PAYMENT = "INSERT INTO BB_PAYMENT(MEMBER_NUM, PAYMENT_AMOUNT,PAYMENT_NAME,IMP_UUID) "
+			+ "VALUES(?,?,?,?)";
 	//update 쿼리
 	private final String UPDATE_ADMINCHECK = "UPDATE BB_PAYMENT SET ADMIN_CHECKED = 'Y' WHERE PAYMENT_NUM = ?";
 
 	//selectAll 쿼리
-	private final String SELECTALL = "SELECT PAYMENT_NUM, MEMBER_NUM, PAYMENT_AMOUNT, ADMIN_CHECKED "
-			+ "FROM BB_PAYMENT ";
+	private final String SELECTALL = """
+			SELECT
+				P.PAYMENT_NUM,
+				P.MEMBER_NUM,
+				P.PAYMENT_AMOUNT,
+				P.ADMIN_CHECKED,
+				P.PAYMENT_AT,
+				P.PAYMENT_NAME,
+				M.MEMBER_EMAIL,
+				P.IMP_UUID
+			FROM
+				BB_PAYMENT P
+			JOIN 
+				BB_MEMBER M
+			ON
+				P.MEMBER_NUM = M.MEMBER_NUM
+			""";
 
 	private final String NUMFILTER = "WHERE 1=1";
 
 	private final String SELECTALL_ENDPART = "ORDER BY PAYMENT_NUM LIMIT ?,?";
 
-	//selectOne 쿼리
-	private final String SELECTONE = "SELECT PAYMENT_NUM, POINT_NUM, PAYMENT_AMOUNT, ADMIN_CHECKED "
-			+ "FROM BB_PAYMENT "
-			+ "WHERE PAYMENT_NUM = ? ";
-
+	//selectOne 쿼리 미사용
 
 	public boolean insert(PaymentDTO paymentDTO) {
 		System.out.println("log: Payment insert start");
@@ -48,8 +59,10 @@ public class PaymentDAO {
 			System.out.println("log : Payment insert : INSERT_PAYMENT");
 			query= INSERT_PAYMENT;
 			args=new Object[] {
-					paymentDTO.getMemberNum(),//회원 번호
-					paymentDTO.getPaymentAmount()//결제 금액
+					paymentDTO.getMemberNum(),		//회원 번호
+					paymentDTO.getPaymentAmount(),	//결제 금액	
+					paymentDTO.getPaymentName(), 	// 결제 상품명
+				    paymentDTO.getImpUUid() 		 // UUID
 			};
 
 			System.out.println("log: parameter paymentDTO ["+paymentDTO+"]");
@@ -166,14 +179,14 @@ public class PaymentDAO {
 		return datas;
 	}
 
-	public PaymentDTO selectOne(PaymentDTO paymentDTO) {
+	private PaymentDTO selectOne(PaymentDTO paymentDTO) {
 		System.out.println("log: Payment selectOne start");
 		Object[] args = null;
 		String query = "";
 		PaymentDTO data = new PaymentDTO();
 		if(paymentDTO.getCondition().equals("SELECTONE_PAYMENT")) {
 			System.out.println("log : Payment selectOne : SELECTONE_PAYMENT");
-			query = SELECTONE;
+//			query = SELECTONE;
 			args = new Object[] {paymentDTO.getPaymentNum()};
 		}
 		else {
@@ -201,6 +214,10 @@ public class PaymentDAO {
 			data.setMemberNum(rs.getInt("MEMBER_NUM")); //회원번호
 			data.setPaymentAmount(rs.getInt("PAYMENT_AMOUNT")); // 결제 금액
 			data.setAdminChecked(rs.getString("ADMIN_CHECKED")); // 관리자 확인 여부
+			data.setPaymentAt(rs.getString("PAYMENT_AT"));
+			data.setPaymentName(rs.getString("PAYMENT_NAME"));
+			data.setMemberEmail(rs.getString("MEMBER_EMAIL"));
+			data.setImpUUid(rs.getString("IMP_UUID"));
 			System.out.println("log : result ["+data.getPaymentNum()+"]");
 			return data;
 		}

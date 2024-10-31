@@ -202,7 +202,7 @@ function searchStore(address) {
 			type: 'POST',
 			// 요청 데이터 application/json
 			contentType: 'application/json',
-			data: JSON.stringify({ storeDefaultAddress: address }),
+			data: JSON.stringify({ storeAddress: address }),
 			dataType: 'json',
 			// 성공 시
 			success: function(data) {
@@ -235,7 +235,7 @@ function searchStore(address) {
 						append(storeList, item);
 
 						// 지도에 표시할 주소
-						var itemAddress = item.storeDefaultAddress + ' ' + item.storeDetailAddress;
+						var itemAddress = item.storeAddress + ' ' + item.storeAddressDetail;
 						console.log('printMap.js itemAddress :' + itemAddress + ']');
 
 						// 주소로 좌표를 검색
@@ -294,11 +294,11 @@ function append(storeList, item) {
 		+ '<i class="fas fa-map"></i>'
 		+ '</div>'
 		+ '<div class="col-9 leftPadding text-start">'
-		+ '<span  id="address">' + item.storeDefaultAddress + ' <br> ' + item.storeDetailAddress
+		+ '<span  id="address">' + item.storeAddress + ' <br> ' + item.storeAddressDetail
 		+ '</span>'
 		+ '</div>'
 		+ '<div class="col-2 nonePadding">'
-		+ '<button class="copy" value="' + item.storeDefaultAddress + ' ' + item.storeDetailAddress + '">복사</button>'
+		+ '<button class="copy" value="' + item.storeAddress + '1 ' + item.storeAddressDetail + '">복사</button>'
 		+ '</div>'
 		+ '</div>'
 		+ '<div class="storeDataContent">'
@@ -306,10 +306,10 @@ function append(storeList, item) {
 		+ '<i class="fas fa-phone"></i>'
 		+ '</div>'
 		+ '<div class="col-9 leftPadding text-start">'
-		+ '<span>' + item.storePhoneNum + '</span>'
+		+ '<span>' + item.storeContact + '</span>'
 		+ '</div>'
 		+ '<div class="col-2 nonePadding">'
-		+ '<button class="copy" value="' + item.storePhoneNum + '">복사</button>'
+		+ '<button class="copy" value="' + item.storeContact + '">복사</button>'
 		+ '</div>'
 		+ '</div>'
 		+ '</div>'
@@ -412,7 +412,7 @@ function showMarkerNameToDiv(marker, map, i, positions, search) {
 				overlay.setContent(`<div style="padding:5px; z-index:1;">${storeName}</div>`);
 
 				// position의 주소값 가져오기
-				var markerAddress = positions[index].store.storeDefaultAddress + positions[index].store.storeDetailAddress;
+				var markerAddress = positions[index].store.storeAddress + positions[index].store.storeAddressDetail;
 				var markerName = positions[index].store.storeName;
 
 				// 비교를 위해 공백 지우기
@@ -504,7 +504,7 @@ function showDivToMarkerName(map, positions, markers, search) {
 
 			// 마커의 이름, 주소 가져오기
 			var markerName = position.store.storeName;
-			var markerAddress = position.store.storeDefaultAddress + position.store.storeDetailAddress;
+			var markerAddress = position.store.storeAddress + position.store.storeAddressDetail;
 
 			// 비교를 위해 공백 지우기
 			markerName = markerName.replace(/\s+/g, '');
