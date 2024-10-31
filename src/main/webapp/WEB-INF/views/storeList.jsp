@@ -5,6 +5,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<%--검색 check 유지를 위한 값 세팅--%>
+<c:set var="menu" value="${fn:join(paramValues.storeMenu,',')}"/>
+<c:set var="payment" value="${fn:join(paramValues.storePayment,',')}"/>
+<%--페이지네이션 검색 check 유지를 위한 값 세팅--%>
+<c:set var="queryString" value="${pageContext.request.queryString}" />
 <!DOCTYPE HTML>
 
 <html>
@@ -50,14 +55,10 @@
 </head>
 <body>
 	<div id="page-wrapper">
-
-		<!-- Header 커스터 태그 -->
-
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 			integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 			crossorigin="anonymous">
-			
 		</script>
 
 		<custom:header />
@@ -102,35 +103,35 @@
 								<div class="col-10 col-md-10">
 									<div class="row">
 										<custom:categoryKeyword name="storeMenu" value="MENU_NORMAL" id="" role="팥/슈크림"
-											checked="${storeMenu == null || !storeMenu.contains('MENU_NORMAL') ? '' : 'checked'}">
+											checked="${fn:contains(menu, 'MENU_NORMAL') ? 'checked' : ''}">
 											팥/슈크림<span> (${menuCnt.storeMenuNormalCnt})</span>
 										</custom:categoryKeyword>
 										<custom:categoryKeyword name="storeMenu" value="MENU_VEG" id="" role="야채/김치/만두"
-											checked="${storeMenu == null || !storeMenu.contains('MENU_VEG') ? '' : 'checked'}">
+											checked="${fn:contains(menu, 'MENU_VEG') ? 'checked' : ''}">
 											야채/김치/만두<span> (${menuCnt.storeMenuVegCnt})</span>
 										</custom:categoryKeyword>
 										<custom:categoryKeyword name="storeMenu" value="MENU_MINI" id="" role="미니 붕어빵"
-											checked="${storeMenu == null || !storeMenu.contains('MENU_MINI') ? '' : 'checked'}">
+											checked="${fn:contains(menu, 'MENU_MINI') ? 'checked' : ''}">
 											미니 붕어빵<span> (${menuCnt.storeMenuMiniCnt})</span>
 										</custom:categoryKeyword>
 										<custom:categoryKeyword name="storeMenu" value="MENU_POTATO" id="" role="고구마"
-											checked="${storeMenu == null || !storeMenu.contains('MENU_POTATO') ? '' : 'checked'}">
+											checked="${fn:contains(menu, 'MENU_POTATO') ? 'checked' : ''}">
 											고구마<span> (${menuCnt.storeMenuPotatoCnt})</span>
 										</custom:categoryKeyword>
 										<custom:categoryKeyword name="storeMenu" value="MENU_ICE" id="" role="아이스크림/초코"
-											checked="${storeMenu == null || !storeMenu.contains('MENU_ICE') ? '' : 'checked'}">
+											checked="${fn:contains(menu, 'MENU_ICE') ? 'checked' : ''}">
 											아이스크림/초코<span> (${menuCnt.storeMenuIceCnt})</span>
 										</custom:categoryKeyword>
 										<custom:categoryKeyword name="storeMenu" value="MENU_CHEESE" id="" role="치즈"
-											checked="${storeMenu == null || !storeMenu.contains('MENU_CHEESE') ? '' : 'checked'}">
+											checked="${fn:contains(menu, 'MENU_CHEESE') ? 'checked' : ''}">
 											치즈<span> (${menuCnt.storeMenuCheeseCnt})</span>
 										</custom:categoryKeyword>
 										<custom:categoryKeyword name="storeMenu" value="MENU_PASTRY" id="" role="페스츄리"
-											checked="${storeMenu == null || !storeMenu.contains('MENU_PASTRY') ? '' : ''}">
+											checked="${fn:contains(menu, 'MENU_PASTRY') ? 'checked' : ''}">
 											페스츄리<span> (${menuCnt.storeMenuPastryCnt})</span>
 										</custom:categoryKeyword>
 										<custom:categoryKeyword name="storeMenu" value="MENU_OTHER" id="" role="기타"
-											checked="${storeMenu == null || !storeMenu.contains('MENU_OTHER') ? '' : ''}">
+											checked="${fn:contains(menu, 'MENU_OTHER') ? 'checked' : ''}">
 											기타<span> (${menuCnt.storeMenuOtherCnt})</span>
 										</custom:categoryKeyword>
 									</div>
@@ -145,15 +146,15 @@
 								<div class="col-10 col-md-10">
 									<div class="row">
 										<custom:categoryKeyword name="storePayment" value="PAYMENT_CASHMONEY" id="" role="현금결제"
-											checked="${storePayment == null || !storePayment.contains('PAYMENT_CASHMONEY') ? '' : 'checked'}">
+											checked="${fn:contains(payment, 'PAYMENT_CASHMONEY') ? 'checked' : ''}">
 											현금결제<span>(${paymentCnt.storePaymentCashmoneyCnt})</span>
 										</custom:categoryKeyword>
 										<custom:categoryKeyword name="storePayment" value="PAYMENT_CARD" id="" role="카드결제"
-											checked="${storePayment == null || !storePayment.contains('PAYMENT_CARD') ? '' : 'checked'}">
+											checked="${fn:contains(payment, 'PAYMENT_CARD') ? 'checked' : ''}">
 											카드결제<span>(${paymentCnt.storePaymentCardCnt})</span>
 										</custom:categoryKeyword>
 										<custom:categoryKeyword name="storePayment" value="PAYMENT_ACCOUNT" id="" role="계좌이체"
-											checked="${storePayment == null || !storePayment.contains('PAYMENT_ACCOUNT') ? '' : 'checked'}">
+											checked="${fn:contains(payment, 'PAYMENT_ACCOUNT') ? 'checked' : ''}">
 											계좌이체<span>(${paymentCnt.storePaymentAccountCnt})</span>
 										</custom:categoryKeyword>
 									</div>
@@ -168,7 +169,7 @@
 								<div class="col-10 col-md-10">
 									<div class="row">
 										<custom:categoryKeyword name="storeClosed" value="N" id="" role="영업중인 가게만 보기"
-											checked="${storeClosed != null && storeClosed == 'N' ? 'checked' : ''}">
+											checked="${storeClosed == 'N' ? 'checked' : ''}">
 											영업중인 가게만 보기</custom:categoryKeyword>
 									</div>
 								</div>
@@ -187,9 +188,8 @@
 					<span>검색 결과가 없습니다.</span>
 				</c:if>
 				<c:if test="${not empty storeList}">
-					확인
 					<!-- 지도 출력 부분 -->
-				<%--	<div class="col-6 text-center nonePadding fullWidthHeight">
+					<div class="col-6 text-center nonePadding fullWidthHeight">
 						<!-- 검색 결과 출력 부분-->
 						<div class="map" id="map"></div>
 					</div>
@@ -200,11 +200,10 @@
 								<customStore:simpleStoreData store="${store}"/>
 							</c:forEach>
 						</div>
-					</div>--%>
+					</div>
 				</c:if>
 				</div>
 			</div>
-
 			<!-- container01 : 3행 1열 -->
 			<div class="row ">
 				<div class="col-12">
@@ -213,9 +212,8 @@
 						<div class="pagination">
 							<!-- 이전 페이지 버튼 -->
 							<c:if test="${page > 1}">
-								<a
-									href="?page=${page - 1}${keyword != null ? '&keyword='+keyword : ''}"
-									id="pagenationPreValue">&laquo; 이전</a>
+								<c:set var="queryWithNewPage" value="${fn:replace(queryString, 'page='+=page, 'page='+=page-1)}" />
+								<a href="?${queryWithNewPage}" id="pagenationNextValue">&laquo; 이전</a>
 							</c:if>
 
 							<c:set var="startPage" value="${page - 5}" />
@@ -234,17 +232,15 @@
 										<strong>${i}</strong>
 									</c:when>
 									<c:otherwise>
-										<a
-											href="?page=${i}${keyword != null ? '&keyword='+keyword : ''}"
-											class="pagenationValue">${i}</a>
+										<c:set var="queryWithNewPage" value="${fn:replace(queryString, 'page='+=page, 'page='+=i)}" />
+										<a href="?${queryWithNewPage}" class="pagenationValue">${i}</a>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
 
-							<c:if test="${page < totalPages}">
-								<a
-									href="?page=${page + 1}${keyword != null ? '&keyword='+keyword : ''}"
-									id="pagenationNextValue">다음 &raquo;</a>
+							<c:if test="${page < totalPage}">
+								<c:set var="queryWithNewPage" value="${fn:replace(queryString, 'page='+=page, 'page='+=page+1)}" />
+								<a href="?${queryWithNewPage}" id="pagenationNextValue">다음 &raquo;</a>
 							</c:if>
 						</div>
 					</section>
