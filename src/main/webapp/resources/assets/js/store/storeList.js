@@ -1,5 +1,6 @@
 // 페이지가 로드 되었을 때 실행
 $(document).ready(function() {
+	stillCheckboxTag();
 
 	// 체크박스 상태가 변경될 때 호출되는 이벤트 핸들러
 	toggleTagByCheckbox();
@@ -17,14 +18,16 @@ $(document).ready(function() {
 // 함수 목록 ------------------------------------------------------------------------------------------------
 
 // 체크박스 내부 값 로그 함수
-function checkBoxLog() {
+function checkBoxCheck() {
+	console.log('menuCheckBox : checkBoxCheck() 시작');
+	
 	// 체크 박스의 값을 담을 배열 생성
 	const checkedValues = [];
 
 	// checkbox 값들 가져오기
 	// 메뉴 checkbox 가져오기
 	const menuCheckBox = document.querySelectorAll('input[name="storeMenu"]:checked');
-	console.log('menuCheckBox : [' + Array.from(menuCheckBox) + ']');
+	console.log('menuCheckBox : [' + Array.from(menuCheckBox) +']');
 
 	// 결제방법 checkbox 가져오기
 	const paymentCheckBox = document.querySelectorAll('input[name="storePayment"]:checked');
@@ -32,18 +35,57 @@ function checkBoxLog() {
 
 	// 체크박스의 값을 모두 모을 배열 생성
 	menuCheckBox.forEach((checkbox) => {
-		checkedValues.push(checkbox.value);
+		console.log('checkbox : [' + checkbox.dataset.role + ']');
+		checkedValues.push(checkbox.dataset.role);
 	});
 	paymentCheckBox.forEach((checkbox) => {
-		checkedValues.push(checkbox.value);
+		console.log('checkbox : [' + checkbox.dataset.role + ']');
+		checkedValues.push(checkbox.dataset.role);
 	});
 
 	console.log('체크된 값들 : [' + checkedValues + ']');
+
+	return checkedValues;
 }
+
+// 체크된 값들을 태그로 만들어 놓기
+function stillCheckboxTag() {
+	console.log('menuCheckBox : stillCheckboxTag() 시작');
+	
+	const checkedValues = checkBoxCheck(); // 체크된 값 배열
+
+	// 기존의 데이터 리스트를 가져옴
+	var dataList = $('#tagBox');
+
+	// checkedValues 배열 길이만큼 반복
+	checkedValues.forEach(function(value) {
+		// 데이터 리스트에 이미 존재하는지 확인
+		if (dataList.find('.filterOption').filter(function() {
+			// value값이 같은 값 반환
+			var tag = $(this).text().trim();
+
+			// 뒤에 'X' 지우기
+			tag = tag.slice(0, -1).trim(); // 'X'를 잘라내고 공백 제거
+			console.log('tag : [' + tag + ']'); // 로그 출력
+			return tag === value; // value와 비교
+		}).length === 0) { // 같은 값이 없을 경우
+			// 기존 박스에 태그 추가
+			dataList.append(
+				'<span class="filterOption">'
+				+ value // 체크된 값을 추가
+				+ '<button class="filterButton">X</button>'
+				+ '</span>'
+			);
+		}
+	});
+}
+
 
 // 체크박스로 태그값을 변경하는 함수
 function toggleTagByCheckbox() {
 	$('input[type="checkbox"]').on('change', function() {
+		console.log('menuCheckBox : toggleTagByCheckbox() 시작');
+		
 		// 기존의 데이터 리스트를 가져옴
 		// 데이터가 변경될 것이므로 객체 자체를 가져옴
 		var dataList = $('#tagBox');
@@ -88,13 +130,16 @@ function toggleTagByCheckbox() {
 			console.log(checkedBoxValue + ' 체크 해제')
 		}
 
-		checkBoxLog();
+		checkBoxCheck();
 
 	});
 }
 
+// 태그의 x 버튼을 클릭 시 태그 삭제
 function tagByXbutton() {
 	$(document).on('click', '.filterButton', function() {
+		console.log('menuCheckBox : tagByXbutton() 시작');
+		
 		// 해당 태그의 텍스트 가져옴
 		// closest()으로 가장 가까운 부모 중 class가 'filterOption'인 요소를 찾음
 		// .content를 통해 span 요소의 모든 자식 노드를 가져옴
@@ -118,7 +163,7 @@ function tagByXbutton() {
 			return checkBoxValue === tag;
 		}).prop('checked', false);
 
-		checkBoxLog();
+		checkBoxCheck();
 	});
 }
 
@@ -127,6 +172,8 @@ function storePagenation() {
 
 	// id가 pagenationValue인 것을 클릭했다면
 	$('.pagenationValue').on('click', function() {
+		console.log('menuCheckBox : storePagenation() 시작');
+		
 		// a태그 링크를 잠시 멈춤
 		console.log("페이지에이션 버튼 클릭");
 
