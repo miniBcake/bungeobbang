@@ -1,4 +1,4 @@
-package com.bungeobbang.app.view.controller;
+package com.bungeobbang.app.view.boardController;
 
 import com.bungeobbang.app.biz.imageFile.ImageFileDTO;
 import com.bungeobbang.app.view.util.FileUtil;

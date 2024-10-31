@@ -1,4 +1,4 @@
-package com.bungeobbang.app.view.controller;
+package com.bungeobbang.app.view.boardController;
 
 import com.bungeobbang.app.biz.like.LikeDTO;
 import com.bungeobbang.app.biz.like.LikeService;

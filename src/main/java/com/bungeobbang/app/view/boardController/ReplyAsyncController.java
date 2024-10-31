@@ -1,8 +1,7 @@
-package com.bungeobbang.app.view.controller;
+package com.bungeobbang.app.view.boardController;
 
 import com.bungeobbang.app.biz.reply.ReplyDTO;
 import com.bungeobbang.app.biz.reply.ReplyService;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
