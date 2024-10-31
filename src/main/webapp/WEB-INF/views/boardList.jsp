@@ -33,44 +33,49 @@
 	crossorigin="anonymous">
 </head>
 <body>
+	 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="${path}/resources/assets/js/insertReply.js"></script>
+<script src="${path}/resources/assets/js/deleteReply.js"></script>
 
 	<custom:header />
-	
-	<div class="container">
-		<!-- 첫 번째 행 -->
-		<div class="row">
-			<!-- C에서 온 카테고리가 일반이라면 -->
-			<c:if test="true">
-				<custom:pageTilte>일반 게시판</custom:pageTilte>
-			</c:if>
-			<!-- 에서 온 카테고리가 문의이라면 -->
-			<c:if test="false">
-				<custom:pageTilte>문의 게시판</custom:pageTilte>
-			</c:if>
-		</div>
+	<form action="loadListBoards.do" method="GET">
+<!--  -->
+		<div class="container">
+			<!-- 첫 번째 행 -->
+			<div class="row">
+				<!-- C에서 온 카테고리가 일반이라면 -->
+				<c:if test="${data.condition eq boardList}">
+					<custom:pageTitle>일반 게시판</custom:pageTitle>
+				</c:if>
+				<!-- 에서 온 카테고리가 문의이라면 -->
+				<c:if test="${data.condition eq noticeBoard}">
+					<custom:pageTitle>문의 게시판</custom:pageTitle>
+				</c:if>
+			</div>
 
-		<!-- 두 번째 행 -->
-		<div class="row align-items-center">
-			<custom:boardSearchBar />
-		</div>
+			<!-- 두 번째 행 -->
+			<div class="row align-items-center">
+				<custom:boardSearchBar />
+			</div>
 
-		<!-- 세 번째 행 -->
-		<div class="row">
-			<div class="col-12">
-				<p hidden>게시글 리스트</p>
-				<custom:boardlist />
+			<!-- 세 번째 행 -->
+			<div class="row">
+				<div class="col-12">
+					<p>게시글 리스트</p>
+					<custom:boardlist />
+				</div>
+			</div>
+
+			<!-- 네 번째 행 -->
+			<div class="row">
+				<div class="col-12">
+					<p>페이지네이션</p>
+					<!-- 페이지네이션 -->
+					<custom:pagination />
+				</div>
 			</div>
 		</div>
-
-		<!-- 네 번째 행 -->
-		<div class="row">
-			<div class="col-12">
-				<p hidden>페이지네이션</p>
-				<!-- 페이지네이션 -->
-				<custom:pagination />
-			</div>
-		</div>
-	</div>
+	</form>
 	<custom:footer />
 </body>
 </html>

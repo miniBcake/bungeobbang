@@ -38,7 +38,7 @@
 			<div class="col-10">
 				<!-- 첫 번째 행 -->
 				<div class="row">
-					<custom:pageTilte>${member.memberName}님이 작성한 게시글</custom:pageTilte>
+					<custom:pageTitle>${userNickname}님이 작성한 게시글</custom:pageTitle>
 				</div>
 
 				<!-- 두 번째 행 -->
@@ -49,7 +49,7 @@
 				<!-- 세 번째 행 -->
 				<div class="row">
 					<div class="col-12">
-						<p hidden>게시글 리스트</p>
+						<p>게시글 리스트</p>
 						<custom:boardlist />
 					</div>
 				</div>
