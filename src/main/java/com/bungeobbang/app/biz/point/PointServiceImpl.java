@@ -13,7 +13,7 @@ public class PointServiceImpl implements PointService{
 	
 	@Override
 	public boolean insert(PointDTO pointDTO) {
-		return this.pointDAO.insert(pointDTO);
+		return false;
 	}
 
 	@Override

@@ -69,31 +69,31 @@ public class EmailAPIAsyncController { // 비밀번호 찾기에 사용되는 �
         return result; // 결과 반환
     }
     
-    @PostMapping(value="/checkEmailName.do") // 이메일 이름 비동기 확인 controller
-    public @ResponseBody Map<String, Object> emailNameCheck(MemberDTO memberDTO) {
-        log.info("[CheckEmailName] 시작");
-
-        // 결과를 보관할 boolean flag 변수 생성
-    	Map<String, Object> result = new HashMap<>();
-        boolean flag = false;
-
-        // MemberDTO 세팅
-        memberDTO.setCondition("EMAIL_NAME_SELECTONE");
-        log.info("[CheckEmailName View에서 받아온 값] : {}", memberDTO);
-
-        // 일치하는 값 확인x
-        memberDTO = memberService.selectOne(memberDTO);
-        log.info("[CheckEmailName selectOne 이후 반환 받은 값] : {}", memberDTO);
-        if (memberDTO != null) {
-            flag = true;
-        }
-
-        result.put("flag", flag);
-        result.put("memberDTO", memberDTO);
-        log.info("[CheckEmailName 반환 해줄 return값 확인] : {}", result);
-
-        return result;
-    }
+//    @PostMapping(value="/checkEmailName.do") // 이메일 이름 비동기 확인 controller
+//    public @ResponseBody Map<String, Object> emailNameCheck(MemberDTO memberDTO) {
+//        log.info("[CheckEmailName] 시작");
+//
+//        // 결과를 보관할 boolean flag 변수 생성
+//    	Map<String, Object> result = new HashMap<>();
+//        boolean flag = false;
+//
+//        // MemberDTO 세팅
+//        memberDTO.setCondition("EMAIL_NAME_SELECTONE");
+//        log.info("[CheckEmailName View에서 받아온 값] : {}", memberDTO);
+//
+//        // 일치하는 값 확인x
+//        memberDTO = memberService.selectOne(memberDTO);
+//        log.info("[CheckEmailName selectOne 이후 반환 받은 값] : {}", memberDTO);
+//        if (memberDTO != null) {
+//            flag = true;
+//        }
+//
+//        result.put("flag", flag);
+//        result.put("memberDTO", memberDTO);
+//        log.info("[CheckEmailName 반환 해줄 return값 확인] : {}", result);
+//
+//        return result;
+//    }
     
     @PostMapping("/checkEmailNum.do") // 이메일로 전송된 인증번호 비동기 확인 controller
     public @ResponseBody boolean emailNumCheck(@RequestParam("checkNum") String inputCheckNum, HttpSession session) {

@@ -32,7 +32,7 @@ public class PaymentServiceImpl implements PaymentService{
 
 	@Override
 	public PaymentDTO selectOne(PaymentDTO paymentDTO) {
-		return this.paymentDAO.selectOne(paymentDTO);
+		return null;
 	}
 
 }
