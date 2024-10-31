@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Controller
@@ -69,26 +70,40 @@ public class AdminController {
 
     //가게 주문 리스트
     @RequestMapping("/loadListOrder.do")
-    public String loadListOrder(){
-        //KS 일단 보류 장바구니쪽이 정리되면 맞춰서 데이터 전달
+    public String loadListOrder(Model model){
+        log.info("log: /loadListOrder.do loadListOrder - start");
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setCondition("");
+        ArrayList<OrderDTO> orderList = orderService.selectAll(orderDTO);
+        model.addAttribute("orderList", orderList);
+        log.info("log: loadListOrder - send orderList : {}", orderList);
+        log.info("log: /loadListOrder.do loadListOrder - end");
         return PAGE_ORDER_LIST;
     }
 
     //가게 신고 리스트
     @RequestMapping("/loadListStoreReport.do")
     public String loadListStoreReport(Model model){
+        log.info("log: /loadListStoreReport.do loadListStoreReport - start");
         StoreDTO storeDTO = new StoreDTO();
         storeDTO.setCondition("SELECTALL_DECLARED_CNT");
-        model.addAttribute("storeReportList", storeService.selectAll(storeDTO));
+        ArrayList<StoreDTO> storeReportList = storeService.selectAll(storeDTO);
+        model.addAttribute("storeReportList", storeReportList);
+        log.info("log: loadListStoreReport - send storeReportList : {}", storeReportList);
+        log.info("log: /loadListStoreReport.do loadListStoreReport - end");
         return PAGE_REPORT_LIST;
     }
 
     //가게 제보리스트
     @RequestMapping("/loadListStoreTipOff.do")
     public String loadListStoreTipOff(Model model){
+        log.info("log: /loadListStoreTipOff.do loadListStoreTipOff - start");
         StoreDTO storeDTO = new StoreDTO();
         storeDTO.setCondition("STORE_TIP_OFF_LIST");
-        model.addAttribute("storeTipOffList", storeService.selectAll(storeDTO));
+        ArrayList<StoreDTO> storeTipOffList = storeService.selectAll(storeDTO);
+        model.addAttribute("storeTipOffList", storeTipOffList);
+        log.info("log: loadListStoreTipOff - send storeTipOffList : {}", storeTipOffList);
+        log.info("log: /loadListStoreTipOff.do loadListStoreTipOff - end");
         return PAGE_TIPOFF_LIST;
     }
 
@@ -141,7 +156,7 @@ public class AdminController {
         return "redirect:loadListStoreReport.do";
     }
 
-    //가게 비공개 설정
+    //가게 비공개 설정 (온 오프)
     @RequestMapping("/updateStoreVisible.do")
     public String updateStoreVisible(StoreDTO storeDTO, Model model){
         log.info("log: /updateStoreVisible.do updateStoreVisible - start");
@@ -153,7 +168,7 @@ public class AdminController {
             return FAIL_DO;
         }
         HashMap<String, String> filterList = new HashMap<>();
-        filterList.put("UPDATE_SECRET", this.NO);
+        filterList.put("UPDATE_SECRET", storeDTO.getStoreSecret());
         storeDTO.setFilterList(filterList);
         if(!storeService.update(storeDTO)){
             log.error("log: updateStoreVisible - store update visible failed");

@@ -1,3 +1,7 @@
+$('.cancel').on('click', function(){
+	console.log('clicked');
+})
+
 //운영중인 붕어빵 가게 제보 승인 및 취소 처리
 //미등록되어 있는 붕어빵 가게 제보글 승인(=등록+공개상태 전환)
 $('.storeTipOffList').on('click', function() {

@@ -8,7 +8,7 @@ public class StoreFilter extends FilterSearchUtil{
 	
 	private void storeFilter() {
 		//STORE
-		Filter_SQL_MAP.put("NAME_LIKE", "AND STORE_NAME LIKE CONCAT('%', ?, '%')");
+		Filter_SQL_MAP.put("NAME_LIKE", "AND STORE_NAME LIKE CONCAT('%', ?, '%') COLLATE utf8mb4_unicode_ci");
 		Filter_SQL_MAP.put("STORE_CLOSED", "AND STORE_CLOSED = ?");
 		Filter_SQL_MAP.put("MENU_NORMAL", "AND STORE_MENU_NORMAL = ?");
 		Filter_SQL_MAP.put("MENU_VEG", "AND STORE_MENU_VEG = ?");
