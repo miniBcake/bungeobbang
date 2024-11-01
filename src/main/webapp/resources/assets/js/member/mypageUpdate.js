@@ -58,7 +58,7 @@ $(document).ready(function() {
 
 	}
 	//마이페이지 정보 수정 필수 요소
-	var isNickNameChecked = false; // 닉네임 중복 확인 여부
+	var isNicknameChecked = false; // 닉네임 중복 확인 여부
 	var isPhoneNumChecked = false;//전화번호 12자리 확인 여부
 	var isPasswordChecked = false;//비밀번호 영문/한글/숫자 보안성 확보 여부
 
