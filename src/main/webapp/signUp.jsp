@@ -13,6 +13,7 @@
 	<!--bootstrap CDN코드-->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link rel="stylesheet" href="resources/assets/css/loginAndSign.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<style>/* 이미지 반응형 스타일 */
 	.signupimg {
 		max-width: 100%; 	/* 반응형 이미지 크기 조정	*/
@@ -28,14 +29,13 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	<%--sweetAlert2 CDN--%>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
-	<%--	<script src="resources/assets/js/mypageUpdate.js"></script>--%>
 	<script src="resources/assets/js/signUp.js"></script>
 </head>
 <body>
 	<custom:header />
 	<div class="container text-center">
 	<br><br>
-		<form id="login" action="join.do" method="POST" enctype="multipart/form-data">
+		<form id="login" action="join.do" method="POST">
 			<div class="row-md-12">
 				<h2>회원가입</h2>
 				<br> <br>
@@ -47,27 +47,19 @@
  -->
 			<div class="row" >
 				<div class="col-6">
-					<!--1-1열 : 이미지 및 업로드,제거-->
-					<div class="row-md-12">
-						<!--1행 : 프로필사진 등록-->
-						<img src="resources/assets/images/breadfishProfile.jpg"
-							class="signupimg" id="previewImage"> <br> <br>
-					</div>
-					<!--프로필사진 등록 끝-->
-
-					<div class="row-md-12">
-						<!-- 프로필사진 버튼-->
-						<!--이미지 업로드-->
-						<label for="file" class="btn btn-warning btn-lg"> 이미지업로드 </label>
-						<input type="file" id="file" name="file" style="display: none;"
-							onchange="previewImage(event)"> &nbsp &nbsp
-						<!--이미지 제거-->
-						<button class="btn btn-warning btn-lg" type="button"
-							id="deleteImage">이미지제거</button>
-					</div>
-					<!--프로필사진 버튼 끝-->
-				</div>
-				<!--이미지 및 업로드,제거 끝-->
+                <!-- 프로필 사진 -->
+                <div class="mb-3">
+                    <img src="resources/assets/images/breadfishProfile.jpg" class="signupimg" id="previewImage">
+                </div>
+                
+                <!-- 이미지 업로드 및 제거 버튼 -->
+                <div class="mb-3">
+					<!-- HTML 코드 -->
+					<label for="file" class="btn btn-warning btn-lg">이미지 업로드</label>
+					<input type="file" id="file" name="file" style="display: none;" onchange="previewImageSignUp(event)">
+					<button type="button" class="btn btn-warning btn-lg" onclick="deleteImageSignUp()">이미지 제거</button>
+                </div>
+            </div>
 
 
 <!-- 
@@ -98,10 +90,9 @@
 								style="color: black;" required placeholder="이메일을 입력해주세요" >
 
 							<!--이메일 중복확인버튼-->
-							<button class="btn btn-warning btn-lg" type="button"
-								id="checkEmailBtn">인증번호 발송</button>
+							<button class="btn btn-warning btn-lg" type="button" id="checkEmailBtn">인증번호 발송</button>
 						</div>
-						<div id="checkEmailMsg"></div>
+						<div id="sendEmailMsg"></div>
 					</div>
 					<br>
 					<!--항목2 인증번호-->
@@ -119,11 +110,11 @@
 									d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5" />
 							<path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
 						</svg>
-							<input type="text" class="inputbox" style="color: black;" required placeholder="인증번호를 입력해주세요">
+							<input type="text" class="inputbox" name="checkNum" style="color: black;" required placeholder="인증번호를 입력해주세요">
 							<!--인증번호 전송 버튼-->
-							<button class="btn btn-warning btn-lg" type="button">인증번호
-								확인</button>
+							<button id="checkNumBtn" class="btn btn-warning btn-lg" type="button">인증번호	확인</button>
 						</div>
+						<div id="checkNumMsg"></div>
 					</div>
 					<br>
 					<!--항목3 비밀번호-->
@@ -140,12 +131,14 @@
 							<path
 									d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1" />
 						</svg>
-							<input type="text" class="inputbox" id="password1" style="color: black;" required placeholder="비밀번호를 입력해주세요">
+							<input type="password" class="inputbox" id="password1" style="color: black;" required placeholder="비밀번호를 입력해주세요">
+					        <div id="passwordErrorMsg" style="color: red; font-size: 0.9em;"></div>
+					        <i id="togglePassword1" class="fas fa-eye" style="cursor: pointer; margin-left: 10px;"></i>					        
 						</div>
 					</div>
 					<br>
 					<div class="row-12">
-						<span class="label">Password</span>
+						<span class="label">Password Check</span>
 					</div>
 					<!--항목3 인풋값 및 비밀번호 확인 버튼-->
 					<div class="row-md-12">
@@ -156,9 +149,10 @@
 								fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
 							<path
 									d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1" />
-						</svg>
-							<input type="text" class="inputbox" id="password2" required placeholder="비밀번호를 다시 입력해주세요"><br><span id="resultPW"></span>
-							<!--비밀번호 확인 버튼-->
+							</svg>
+							<input type="password" class="inputbox" id="password2" style="color: black;" required placeholder="비밀번호를 다시 입력해주세요"><br><span id="resultPW"></span>
+					        <div id="resultPW" style="font-size: 0.9em;"></div>
+					        <i id="togglePassword2" class="fas fa-eye" style="cursor: pointer; margin-left: 10px;"></i>
 						</div>
 					</div>
 					<br>
@@ -175,7 +169,7 @@
 							<path fill-rule="evenodd"
 									d="m4.736 1.968-.892 3.269-.014.058C2.113 5.568 1 6.006 1 6.5 1 7.328 4.134 8 8 8s7-.672 7-1.5c0-.494-1.113-.932-2.83-1.205l-.014-.058-.892-3.27c-.146-.533-.698-.849-1.239-.734C9.411 1.363 8.62 1.5 8 1.5s-1.411-.136-2.025-.267c-.541-.115-1.093.2-1.239.735m.015 3.867a.25.25 0 0 1 .274-.224c.9.092 1.91.143 2.975.143a30 30 0 0 0 2.975-.143.25.25 0 0 1 .05.498c-.918.093-1.944.145-3.025.145s-2.107-.052-3.025-.145a.25.25 0 0 1-.224-.274M3.5 10h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5m-1.5.5q.001-.264.085-.5H2a.5.5 0 0 1 0-1h3.5a1.5 1.5 0 0 1 1.488 1.312 3.5 3.5 0 0 1 2.024 0A1.5 1.5 0 0 1 10.5 9H14a.5.5 0 0 1 0 1h-.085q.084.236.085.5v1a2.5 2.5 0 0 1-5 0v-.14l-.21-.07a2.5 2.5 0 0 0-1.58 0l-.21.07v.14a2.5 2.5 0 0 1-5 0zm8.5-.5h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5" />
 						</svg>
-							<input type="email" class="inputbox" style="color: black;" required placeholder="이름을 입력하세요">
+							<input type="text" class="inputbox" style="color: black;" required placeholder="이름을 입력하세요">
 						</div>
 					</div>
 					<br>
@@ -193,9 +187,10 @@
 							<path fill-rule="evenodd"
 									d="m4.736 1.968-.892 3.269-.014.058C2.113 5.568 1 6.006 1 6.5 1 7.328 4.134 8 8 8s7-.672 7-1.5c0-.494-1.113-.932-2.83-1.205l-.014-.058-.892-3.27c-.146-.533-.698-.849-1.239-.734C9.411 1.363 8.62 1.5 8 1.5s-1.411-.136-2.025-.267c-.541-.115-1.093.2-1.239.735m.015 3.867a.25.25 0 0 1 .274-.224c.9.092 1.91.143 2.975.143a30 30 0 0 0 2.975-.143.25.25 0 0 1 .05.498c-.918.093-1.944.145-3.025.145s-2.107-.052-3.025-.145a.25.25 0 0 1-.224-.274M3.5 10h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5m-1.5.5q.001-.264.085-.5H2a.5.5 0 0 1 0-1h3.5a1.5 1.5 0 0 1 1.488 1.312 3.5 3.5 0 0 1 2.024 0A1.5 1.5 0 0 1 10.5 9H14a.5.5 0 0 1 0 1h-.085q.084.236.085.5v1a2.5 2.5 0 0 1-5 0v-.14l-.21-.07a2.5 2.5 0 0 0-1.58 0l-.21.07v.14a2.5 2.5 0 0 1-5 0zm8.5-.5h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5" />
 						</svg>
-							<input type="email" class="inputbox" style="color:black;" required placeholder="닉네임을 입력하세요">
-							<button class="btn btn-warning btn-lg" type="button"id="checkNickname">중복확인</button>
+							<input type="text" name="nickName" class="inputbox" style="color:black;" required placeholder="닉네임을 입력하세요">
+							<button class="btn btn-warning btn-lg" type="button" id="checkNicknameBtn">중복확인</button>
 						</div>
+						<div id="checkNicknameMsg"></div>
 					</div>
 					<br>
 
@@ -212,13 +207,13 @@
 						<path
 									d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
 						<path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-					</svg>
-							<input type="text" class="inputbox" style="color:black;" placeholder="전화번호를 입력해주세요(선택)">
+						</svg>
+							<input type="tel" id="phone" name="phone" placeholder="010-1234-5678" style="border: none; outline: none;">
 						</div>
 					</div>
 					<br>
 					<div class="d-grid gap-2 text-center">
-						<button type="submit" class="btn btn-primary">회원가입</button>
+						<button id="joinForm" type="submit" class="btn btn-primary">회원가입</button>
 					</div>
 					<!-- 구글 로그인 버튼 시작 : ** client_id를 변경하시면 됩니다 -->
 					<div>
