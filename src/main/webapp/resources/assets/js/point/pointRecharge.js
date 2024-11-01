@@ -14,13 +14,13 @@ function selectPaymentMethod(method) {
 		window.selectedCardCompany = method;
     } else if (method === '카카오페이') {
         pg = 'kakaopay';
-        pay_method = 'easy';
+        pay_method = 'card';
     } else if (method === '네이버페이') {
         pg = 'naverpay';
-        pay_method = 'easy';
+        pay_method = 'card';
 	} else if (method === '토스페이') {
 	    pg = 'tosspayments'; // 토스페이 간편결제
-	    pay_method = 'easy';
+	    pay_method = 'card';
 	}
 
     // 선택된 결제 방식과 PG사 값을 전역 변수로 설정
