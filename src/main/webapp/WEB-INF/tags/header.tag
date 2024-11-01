@@ -56,7 +56,7 @@
                </div>
             </li>
             <li class="nav-item">
-               <a class="nav-link" href="addStore.do">가게 제보</a>
+               <a class="nav-link" href="addStore.do?condition=userStoreReport">가게 제보</a>
             </li>
             <li class="nav-item">
                <a class="nav-link" href="goToCart.do">장바구니</a>
@@ -64,10 +64,12 @@
 
             <!-- 로그인/회원가입 or 프로필 이미지 표시 -->
             <c:choose>
-               <c:when test="${empty userPK}">
-                  <li class="nav-item">
-                     <img src="${path}/resources/assets/images/default_profile.png" class="rounded-circle" style="width: 40px; height: 40px;" alt="Default Profile">
-                  </li>
+               <c:when test="${empty userPk}">
+<%--                  <li class="nav-item">
+                     <a href="infoMypage.do">
+                        <img src="${path}/resources/assets/images/default_profile.png" class="rounded-circle" style="width: 40px; height: 40px;" alt="Default Profile">
+                     </a>
+                  </li>--%>
                   <li class="nav-item">
                      <a class="nav-link" href="signupPage.do">회원가입</a>
                   </li>
@@ -77,7 +79,9 @@
                </c:when>
                <c:otherwise>
                   <li class="nav-item">
-                     <img src="${profileImageUrl}" class="rounded-circle" style="width: 40px; height: 40px;" alt="Profile Image">
+                     <a href="infoMypage.do">
+                        <img src="${path}/uploads/${userProfile}" class="rounded-circle" style="width: 40px; height: 40px;" alt="MYPAGE">
+                     </a>
                   </li>
                   <li class="nav-item">
                      <a class="nav-link" href="logout.do">로그아웃</a>

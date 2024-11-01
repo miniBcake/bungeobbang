@@ -51,7 +51,7 @@ public class MemberDAO {
 	// SELECTALL_RECENT 쿼리
 	private final String SELECTALL_RECENT = "SELECT @rownum := @rownum + 1 AS RN, "
 			+ "       MEMBER_NUM, MEMBER_EMAIL, MEMBER_NAME, MEMBER_PHONE, \r\n"
-			+ "       MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE, MEMBER_HIREDAY"
+			+ "       MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE, MEMBER_HIREDAY "
 			+ "FROM ("
 			+ "    SELECT MEMBER_NUM, MEMBER_EMAIL, MEMBER_NAME, MEMBER_PHONE, "
 			+ "           MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE, MEMBER_HIREDAY"
@@ -64,7 +64,7 @@ public class MemberDAO {
 	private final String SELECTONE_EMAIL = "SELECT MEMBER_EMAIL FROM BB_MEMBER WHERE MEMBER_EMAIL = ?";
 	private final String SELECTONE_NICKNAME = "SELECT MEMBER_NICKNAME FROM BB_MEMBER WHERE MEMBER_NICKNAME = ?";
 	private final String SELECTONE_PASSWORD_RESET = "SELECT MEMBER_NUM FROM BB_MEMBER WHERE MEMBER_EMAIL = ? AND MEMBER_NAME = ?";
-	private final String SELECTONE_LOGIN = "SELECT MEMBER_NUM, MEMBER_NICKNAME, MEMBER_ROLE FROM BB_MEMBER WHERE MEMBER_EMAIL = ? AND MEMBER_PASSWORD = ?";
+	private final String SELECTONE_LOGIN = "SELECT MEMBER_NUM, MEMBER_NICKNAME, MEMBER_ROLE, MEMBER_PROFILE_WAY FROM BB_MEMBER WHERE MEMBER_EMAIL = ? AND MEMBER_PASSWORD = ?";
 	private final String SELECTONE_INFO = "SELECT MEMBER_NUM, MEMBER_EMAIL, MEMBER_NAME, MEMBER_PHONE, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE, MEMBER_HIREDAY "
 			+ "FROM BB_MEMBER WHERE MEMBER_NUM = ?";
 	private final String SELECTONE_PASSWORD_CHECK = "SELECT MEMBER_NUM FROM BB_MEMBER WHERE MEMBER_NUM = ? AND MEMBER_PASSWORD = ?";
@@ -295,9 +295,13 @@ public class MemberDAO {
 				//넘어온 값 확인 로그
 				System.out.println("log: parameter getMemberEmail : "+memberDTO.getMemberEmail());
 				System.out.println("log: parameter getMemberPassword : "+memberDTO.getMemberPassword());
-				
-				data = jdbcTemplate.queryForObject(query,args,new LoginRowMapper());
-			}
+
+                try {
+                    data = jdbcTemplate.queryForObject(query,args,new LoginRowMapper());
+                } catch (EmptyResultDataAccessException e) {
+                    data = null;
+                }
+            }
 			else if(memberDTO.getCondition().equals("INFO_CONDITION")) {
 				//회원정보
 				System.out.println("log: Member selectOne : SELECTONE_INFO");
@@ -433,6 +437,7 @@ public class MemberDAO {
 			data.setMemberNum(rs.getInt("MEMBER_NUM")); 			//멤버번호
 			data.setMemberNickname(rs.getString("MEMBER_NICKNAME")); //닉네임
 			data.setMemberRole(rs.getString("MEMBER_ROLE")); 		//권한
+			data.setMemberProfileWay(rs.getString("MEMBER_PROFILE_WAY")); 		//권한
 			System.out.println("result exists");
 			return data;
 		}

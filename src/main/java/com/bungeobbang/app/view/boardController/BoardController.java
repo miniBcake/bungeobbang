@@ -51,6 +51,7 @@ public class BoardController {
     private final String PAGE_BOARD_INFO = "board"; //views 하위 게시글 상세
     private final String PAGE_BOARD_UPDATE = "fixBoard"; //views 하위 게시글 수정
     private final String PAGE_BOARD_ADD = "boardWrite"; //views 하위 게시글 작성
+    private final String PAGE_BOARD_LIST = "boardList"; //views 하위 게시글 작성
 
     //view에서 boardCategoryName으로 전달받는 값 기록용
     private final String PAGE_BOARD_NOTICE = "noticeBoard"; //views 하위 문의게시판
@@ -124,7 +125,7 @@ public class BoardController {
     }
 
     //게시글 전체 리스트
-    //KS 작업해야함 loadListBoard's' check! boardCateDTO필드명
+    //KS 작업해야함 boardCateDTO필드명
     @RequestMapping("/loadListBoards.do")
     public String loadListBoards(Model model, Integer page, String boardCategoryName, BoardDTO totalCNT, BoardDTO boardDTO, BoardCateDTO boardCateDTO,
                                  String keyword, String contentFilter, String writeDayFilter, BoardDTO boardTotalCNT) {
@@ -190,7 +191,7 @@ public class BoardController {
         log.info("log: loadListBoards - send boardCategoryName : [{}]", boardCategoryName);
 
         log.info("log: /loadListBoards.do loadListBoards - end");
-        return boardCategoryName;
+        return PAGE_BOARD_LIST;
     }
 
     //게시글 수정 페이지로 이동
