@@ -40,8 +40,8 @@
         <!-- 상품 카테고리 버튼 -->
         <div class="category-buttons">
             <c:forEach var="category" items="${productCategory}">
-                <a href="loadListProduct.do?categoryNum=${category.productCateNum}" 
-                   class="category-link">${category.productCateName}</a>
+                <a href="loadListProduct.do?categoryNum=${category.productCategoryNum}" 
+                   class="category-link">${category.productCategoryName}</a>
             </c:forEach>
         </div>
 
@@ -93,7 +93,7 @@
                         <select class="form-control" id="categorySelect" name="categoryNum">
                             <option value="">전체 카테고리</option>
                             <c:forEach var="category" items="${productCategory}">
-                                <option value="${category.productCateNum}">${category.productCateName}</option>
+                                <option value="${category.productCategoryNum}">${category.productCategoryName}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -128,11 +128,11 @@
             <div class="container">
                 <div class="recommend-products">
                     <c:choose>
-                        <c:when test="${not empty recommProducts}">
+                        <c:when test="${not empty recommProduct}">
                             <h2>추천 상품</h2>
                             <div class="swiper-container swiper-recommend">
                                 <div class="swiper-wrapper">
-                                    <c:forEach var="product" items="${recommProducts}">
+                                    <c:forEach var="product" items="${recommProduct}">
                                         <div class="swiper-slide">
                                             <div class="product-card">
                                                 <div class="product-row">
@@ -173,11 +173,11 @@
 	    <div class="container">
 	        <div class="recent-products">
 	            <c:choose>
-	                <c:when test="${not empty resentProducts}">
+	                <c:when test="${not empty resentProduct}">
 	                    <h2>최근에 본 상품</h2>
 	                    <div class="swiper-container swiper-recent">
 	                        <div class="swiper-wrapper">
-	                            <c:forEach var="product" items="${resentProducts}">
+	                            <c:forEach var="product" items="${resentProduct}">
 	                                <div class="swiper-slide">
 	                                    <div class="product-card">
 	                                        <div class="product-row">
@@ -213,30 +213,35 @@
 	    </div>
 	</section>
         <!-- 상품 목록 -->
-        <section>
-            <h3>필터링된 상품 목록</h3>
-            <c:forEach var="product" items="${productList}">
-                <div class="product-item">
-                    <c:choose>
-                        <c:when test="${not empty product.productProfileWay}">
-                            <a href="infoProduct.do?productNum=${product.productNum}">
-                                <img src="${product.productProfileWay}" alt="${product.productName}" class="thumbnail-image" />
-                            </a>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="infoProduct.do?productNum=${product.productNum}">
-                                <img src="${path}/resources/assets/images/default.png" alt="${product.productName}" class="thumbnail-image" />
-                            </a>
-                        </c:otherwise>
-                    </c:choose>
-                    <span>제목: ${product.boardTitle}</span><br> 
-                    <span>카테고리: ${product.productCateName}</span><br> 
-                    <span>상품명: ${product.productName}</span><br> 
-                    <span>가격: ${product.productPrice}원</span>
-                </div>
-                <hr>
-            </c:forEach>
-        </section>
+		<section>
+		    <h3>필터링된 상품 목록</h3>
+		    <c:forEach var="product" items="${productList}">
+		        <div class="product-item">
+		            <div class="product-image">
+		                <c:choose>
+		                    <c:when test="${not empty product.productProfileWay}">
+		                        <a href="infoProduct.do?productNum=${product.productNum}">
+		                            <img src="${product.productProfileWay}" alt="${product.productName}" class="thumbnail-image" />
+		                        </a>
+		                    </c:when>
+		                    <c:otherwise>
+		                        <a href="infoProduct.do?productNum=${product.productNum}">
+		                            <img src="${path}/resources/assets/images/default.png" alt="${product.productName}" class="thumbnail-image" />
+		                        </a>
+		                    </c:otherwise>
+		                </c:choose>
+		            </div>
+		            <div class="product-info">
+		                <span>제목: ${product.boardTitle}</span><br>
+		                <span>카테고리: ${product.productCategoryName}</span><br>
+		                <span>상품명: ${product.productName}</span><br>
+		                <span>가격: ${product.productPrice}원</span>
+		            </div>
+		        </div>
+		        <hr>
+		    </c:forEach>
+		</section>
+
 
         <!-- 페이지네이션 -->
         <div class="pagination">

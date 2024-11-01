@@ -10,7 +10,8 @@ $(document).ready(function() {
         // 수량과 상품 번호 가져오기
         var quantity = $('#quantity').val();
         var productNum = $('#productNum').val();
-        
+        console.log(productNum);
+		
         // AJAX 요청
         $.ajax({
             url: 'addToCart.do', // 서버 측 경로와 일치하는지 확인 필요

@@ -25,8 +25,7 @@
 	            <div class="product-images">
 	               <c:choose>
 	                  <c:when test="${not empty product.productProfileWay}">         
-	                     <img src="${product.productProfileWay}"
-	                          alt="${product.productName}" class="thumbnail-image" />
+	                     <img src="${product.productProfileWay}" alt="${product.productName}" class="thumbnail-image" />
 	                  </c:when>
 	                  <c:otherwise>
 	                     <img src="assets/images/default.png" 
@@ -37,50 +36,51 @@
 	            </div>
 	         </div>
 	
-	         <div class="col-md-4">
-	            <!-- 상품 정보 -->
-				<div class="product-info mb-4 card p-4 shadow-sm">
-				    <h4 class="card-title mb-3" style="font-family: 'Gamja Flower', sans-serif;">상품 정보</h4>
-				    <div class="row mb-2">
-				        <div class="col-3 font-weight-bold">소개</div>
-				        <div class="col-9">${product.boardTitle}</div>
-				    </div>
-				    <div class="row mb-2">
-				        <div class="col-3 font-weight-bold">상품명</div>
-				        <div class="col-9">${product.productName}</div>
-				    </div>
-				    <div class="row mb-2">
-				        <div class="col-3 font-weight-bold">가격</div>
-				        <div class="col-9">${product.productPrice}원</div>
-				    </div>
-				    <div class="row">
-				        <div class="col-3 font-weight-bold">상세 설명</div>
-				        <div class="col-9">${product.boardContent}</div>
-				    </div>
-				</div>
-	
-	
-	            <!-- 수량 선택 -->
-	            <div class="quantity-section mb-4">
-	                <h5>수량 선택</h5>
-	                <select id="quantity" class="form-control" style="width: 100px;">
-	                    <option value="1">1</option>
-	                    <option value="2">2</option>
-	                    <option value="3">3</option>
-	                    <option value="4">4</option>
-	                    <option value="5">5</option>
-	                </select>
-	            </div>
-	
-	            <!-- 버튼 -->
-	            <div class="btn-section">
-	            	<input type="hidden" id="productNum" name="productNum" value="${product.productNum}">
-	                <button id="addToCartBtn" class="btn btn-primary mb-2">구매하기</button>
-	                <form action="goToCart.do" method="GET" id="goToCartForm">
-	                    <button type="submit" class="btn btn-secondary">장바구니로 가기</button>
-	                </form>
-	            </div>
-	         </div>
+			<div class="col-md-4">
+			    <div class="product-info custom-width mb-4 card p-4 shadow-sm">
+			        <h4 class="card-title mb-3" style="font-family: 'Gamja Flower', sans-serif;">상품 정보</h4>
+			        <div class="row mb-2">
+			            <div class="col-3 font-weight-bold">소개</div>
+			            <div class="col-9">${product.boardTitle}</div>
+			        </div>
+			        <div class="row mb-2">
+			            <div class="col-3 font-weight-bold">상품명</div>
+			            <div class="col-9">${product.productName}</div>
+			        </div>
+			        <div class="row mb-2">
+			            <div class="col-3 font-weight-bold">가격</div>
+			            <div class="col-9">${product.productPrice}원</div>
+			        </div>
+			        <div class="row">
+			            <div class="col-3 font-weight-bold">상세 설명</div>
+			            <div class="col-9">${product.boardContent}</div>
+			        </div>
+			    </div>
+			    
+			    <!-- 수량 선택 및 버튼 섹션 -->
+			    <div class="quantity-button-container custom-width">
+			        <div class="quantity-section">
+			            <h5>수량 선택</h5>
+			            <select id="quantity" class="form-control" style="width: 100px;">
+			                <option value="1">1</option>
+			                <option value="2">2</option>
+			                <option value="3">3</option>
+			                <option value="4">4</option>
+			                <option value="5">5</option>
+			            </select>
+			        </div>
+			
+			        <div class="btn-section">
+			            <div class="btn-container">
+			            <input type="hidden" id="productNum" name="productNum" value="${product.productNum}">
+			                <button id="addToCartBtn" class="btn btn-primary">구매하기</button>
+			                <form action="goToCart.do" method="GET" id="goToCartForm" style="margin: 0;">
+			                    <button type="submit" class="btn btn-secondary">장바구니로 가기</button>
+			                </form>
+			            </div>
+			        </div>
+			    </div>
+			</div>
 	      </div>
 	   </section>
 	</div>
