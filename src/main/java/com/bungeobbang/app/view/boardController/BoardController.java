@@ -125,7 +125,7 @@ public class BoardController {
     }
 
     //게시글 전체 리스트
-    //KS 작업해야함 loadListBoard's' check! boardCateDTO필드명
+    //KS 작업해야함 boardCateDTO필드명
     @RequestMapping("/loadListBoards.do")
     public String loadListBoards(Model model, Integer page, String boardCategoryName, BoardDTO totalCNT, BoardDTO boardDTO, BoardCateDTO boardCateDTO,
                                  String keyword, String contentFilter, String writeDayFilter, BoardDTO boardTotalCNT) {

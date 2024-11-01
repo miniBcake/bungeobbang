@@ -26,6 +26,8 @@ public class MemberController {
     private final String SESSION_ROLE = "userRole";
     private final String SESSION_PK = "userPk";
     private final String SESSION_NICKNAME = "userNickname";
+    private final String SESSION_PROFILE = "userProfile";
+    private final String SESSION_POINT = "userPoint";
 
     @PostMapping("/join.do") // 회원가입 controller
     public String join(ServletContext servletContext,MemberDTO memberDTO, MultipartFile file) {
@@ -52,7 +54,7 @@ public class MemberController {
     }
 
     @PostMapping(value = "/login.do") // 로그인 controller
-    public String login(HttpSession session, MemberDTO memberDTO, Model model) {
+    public String login(HttpSession session, MemberDTO memberDTO) {
         log.info("[Login] 시작");
 
         // 로그인 로직에 사용할 condition 저장
@@ -65,11 +67,14 @@ public class MemberController {
         if (memberDTO == null) { // 로그인이 실패한다면
             return "redirect:login.do"; // 로그인 페이지로 돌아가기
         }
+        //KS 포인트 정보 조회
+        session.setAttribute(SESSION_POINT, "1000");
 
         // 로그인 성공 시 세션에 사용자 정보 저장
         session.setAttribute(SESSION_PK, memberDTO.getMemberNum());
         session.setAttribute(SESSION_NICKNAME, memberDTO.getMemberNickname());
         session.setAttribute(SESSION_ROLE, memberDTO.getMemberRole());
+        session.setAttribute(SESSION_PROFILE, memberDTO.getMemberProfileWay());
 
         return "redirect:main.do"; // 메인 페이지로 리다이렉트
     }
@@ -91,20 +96,13 @@ public class MemberController {
         boolean flag = memberService.delete(memberDTO);
         log.info("[DeleteMember 성공 여부 flag] : {}", flag);
 
-        // 계정 삭제 성공
-        // flag가 true라면
-        if(flag) {
-            // 모든 session 삭제
-            // invalidate 사용
-            session.removeAttribute(SESSION_PK);
-            session.removeAttribute(SESSION_NICKNAME);
-            session.removeAttribute(SESSION_ROLE);
-
-            // 이동 페이지 : mainPage.do
-            return "redirect:mainPage.do";
+        // 계정 삭제 실패 시
+        if(!flag) {
+            //실패로 이동
+            return FAIL_DO;
         }
-        //TODO 확인해서 정리바랍니다.
-        return "";//컴파일에러 임시해결값
+        //로그아웃 진행
+        return "redirect:logout.do";
     }
 
     @PostMapping(value="/setPw.do") // 비빌번호 수정 controller
@@ -168,6 +166,8 @@ public class MemberController {
         session.removeAttribute(SESSION_PK);
         session.removeAttribute(SESSION_NICKNAME);
         session.removeAttribute(SESSION_ROLE);
+        session.removeAttribute(SESSION_PROFILE);
+        session.removeAttribute(SESSION_POINT);
         return "redirect:main.do"; // mainPage.do 요청으로 이동
     }
 

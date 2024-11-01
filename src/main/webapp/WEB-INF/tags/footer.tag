@@ -14,22 +14,22 @@
                                  <div class="row">
                                     <div class="col-3 col-12-small">
                                        <ul class="link-list last-child">
-                                          <li><a href="https://blog.naver.com/wx_wns_">정재준 View</a></li>
-                                          <li><a href="https://hrong98.tistory.com/">조충현 View</a></li>
-                                          <li><a href="https://blog.naver.com/study_j04">정재희 Controller</a></li>
-                                          <li><a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502">안제호 Controller</a></li>
-                                          <li><a href="https://minibcake.tistory.com/">한지윤 Model</a></li>
-                                          <li><a href="https://blog.naver.com/rhalwls56">고미진 Model</a></li>
+                                          <li><a href="https://hrong98.tistory.com/">조충현 Model</a></li>
+                                          <li><a href="https://blog.naver.com/rhalwls56">고미진 View</a></li>
+                                          <li><a href="https://blog.naver.com/study_j04">정재희 View</a></li>
+                                          <li><a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502">안제호 View</a></li>
+                                          <li><a href="https://blog.naver.com/wx_wns_">정재준 Controller</a></li>
+                                          <li><a href="https://minibcake.tistory.com/">한지윤 Controller </a></li>
                                        </ul>
                                     </div>
                                     <div class="col-3 col-12-small">
                                        <ul class="link-list last-child">
-                                       <li><a href="https://blog.naver.com/wx_wns_">갈빵질빵 팀장</a></li>
-                                       <li><a href="https://hrong98.tistory.com/">V파트장</a></li>
-                                          <li><a href=" https://blog.naver.com/study_j04">C파트장</a></li>
-                                          <li><a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502">C파트원</a></li>
-                                          <li><a href=" https://minibcake.tistory.com/">M파트장</a></li>
-                                          <li><a href="https://blog.naver.com/rhalwls56">M파트원</a></li>
+                                          <li><a href="https://hrong98.tistory.com/">Model 파트장</a></li>
+                                          <li><a href="https://blog.naver.com/rhalwls56">View 파트장</a></li>
+                                          <li><a href="https://blog.naver.com/study_j04">View</a></li>
+                                          <li><a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502">View</a></li>
+                                          <li><a href="https://blog.naver.com/wx_wns_">붕어빵원정대 팀장</a></li>
+                                          <li><a href="https://minibcake.tistory.com/">Controller 파트장</a></li>
                                        </ul>
                                     </div>
                                     <div class="col-3 col-12-small">

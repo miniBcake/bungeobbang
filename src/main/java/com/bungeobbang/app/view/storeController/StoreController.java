@@ -136,16 +136,16 @@ public class StoreController {
             return FAIL_DO;
         }
 
-        //가게 설명
-        if(boardDTO != null){ //가게 설명이 있다면
-            log.info("log: addStore board is not null - boardDTO : [{}]", boardDTO);
-            boardDTO.setCondition("MARKET_INSERT"); //가게 설명 추가용 condition
-            boardDTO.setStoreNum(storePK); //FK설정
-            if(!boardService.insert(boardDTO)) {//DB에 추가
-                log.error("log: board insert failed");
-                return FAIL_DO;
-            }
-        }
+//        //가게 설명
+//        if(boardDTO != null){ //가게 설명이 있다면
+//            log.info("log: addStore board is not null - boardDTO : [{}]", boardDTO);
+//            boardDTO.setCondition("MARKET_INSERT"); //가게 설명 추가용 condition
+//            boardDTO.setStoreNum(storePK); //FK설정
+//            if(!boardService.insert(boardDTO)) {//DB에 추가
+//                log.error("log: board insert failed");
+//                return FAIL_DO;
+//            }
+//        }
         //등록 성공 시
         log.info("log: /addStore.do addStore - end");
         return "redirect:loadListStore.do";

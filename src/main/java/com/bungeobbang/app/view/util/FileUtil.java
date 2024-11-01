@@ -81,7 +81,7 @@ public class FileUtil {
 
         String newFileName = fileName + extension; //DB에 저장하는 경우를 위한 String 값
         try {
-            file.transferTo(new File(folder.getPath() + newFileName)); //지정된 경로에 전달받은 이름, 추출한 확장자로 저장
+            file.transferTo(new File(folder, newFileName)); //지정된 경로에 전달받은 이름, 추출한 확장자로 저장
         } catch (IOException e) {
             log.error("log: insertFile - file save fail");
             return null;

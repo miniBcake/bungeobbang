@@ -35,7 +35,7 @@
 	<custom:header />
 	<div class="container text-center">
 	<br><br>
-		<form id="login" action="join.do" method="POST">
+		<form id="login" action="join.do" method="POST" enctype="multipart/form-data">
 			<div class="row-md-12">
 				<h2>회원가입</h2>
 				<br> <br>
@@ -58,7 +58,6 @@
 					<div class="row-md-12">
 						<!-- 프로필사진 버튼-->
 						<!--이미지 업로드-->
-						<%--TODO Multifile--%>
 						<label for="file" class="btn btn-warning btn-lg"> 이미지업로드 </label>
 						<input type="file" id="file" name="file" style="display: none;"
 							onchange="previewImage(event)"> &nbsp &nbsp
