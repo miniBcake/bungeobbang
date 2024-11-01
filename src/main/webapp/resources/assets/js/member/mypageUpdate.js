@@ -59,78 +59,8 @@ $(document).ready(function() {
 	}
 	//마이페이지 정보 수정 필수 요소
 	var isNickNameChecked = false; // 닉네임 중복 확인 여부
-	var isEmailChecked = false; // 이메일 중복 확인 여부
 	var isPhoneNumChecked = false;//전화번호 12자리 확인 여부
 	var isPasswordChecked = false;//비밀번호 영문/한글/숫자 보안성 확보 여부
-
-	// 이메일 중복 확인 버튼 클릭
-	var email = "${member.memberEmail}";
-	$('#checkEmailBtn').on('click', function() {
-		//인풋값이 있고
-		if ($('#email').val() !== '') {
-			//기존 이메일과 같다면
-			if ($('#email').val() === email) {
-				$("#checkEmailMsg").text("기존의 이메일과 동일한 이메일입니다.").css('color', 'red');
-				console.log("mypageUpdate.js form emailCheckButton each");
-				isEmailChecked = true; // 중복 확인 성공 시 true로 설정
-			} else {
-				console.log("mypageUpdate.js form emailCheckButton react");
-
-				checkEmailFunction();//비동기처리 진행
-			}
-		} else {
-			Swal.fire({
-				icon: 'error',
-				title: '이메일 기재 요청',
-				text: '이메일을 다시 입력해주세요',
-				confirmButtonText: '확인'
-			});
-		}
-	});
-
-	// 이메일 중복 확인 함수
-	function checkEmailFunction() {
-
-		console.log("mypageUpdate.js checkEmailFunction() start");
-
-		//12자리가 일치 여부 확인
-		var realEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9 \-]+\.[A-za-z0-9\-]+/
-		var email = $('#email').val();
-
-		if (realEmail.test(email) === false) {//만약 이메일 형태가 아니라면 false반환
-			console.log("mypageUpdate.js checkEmailFunction() RealEmail false");
-		}
-
-		$.ajax({
-			url: 'checkEmail.do',
-			method: 'POST',
-			data: {
-				email: email
-			},
-			success: function(data) {
-				console.log("[" + data + "]");
-				if (data === 'true') {
-					$("#checkEmailMsg").text("사용 가능한 이메일입니다.")
-						.css('color', 'green');
-					isEmailChecked = true; // 중복 확인 성공 시 true로 설정
-				} else {
-					$("#checkEmailMsg").text("이미 사용중인 이메일입니다.")
-						.css('color', 'red');
-					$('#email').val('').focus();
-				}
-				console.log("mypageUpdate.js checkEmailFunction() success end");
-			},
-			error: function() {
-				Swal.fire({
-					icon: 'error',
-					title: '오류',
-					text: '이메일 중복 확인 중 오류가 발생했습니다',
-					confirmButtonText: '확인'
-				});
-				console.log("mypageUpdate.js checkEmailFunction() error end");
-			}
-		});
-	}
 
 	// 닉네임 중복 확인 버튼 클릭
 	var nick = "${member.memberNickname}";
@@ -256,3 +186,74 @@ $(document).ready(function() {
 		}
 	});
 });
+/*
+// 이메일 중복 확인 버튼 클릭
+var email = "${member.memberEmail}";
+$('#checkEmailBtn').on('click', function() {
+	//인풋값이 있고
+	if ($('#email').val() !== '') {
+		//기존 이메일과 같다면
+		if ($('#email').val() === email) {
+			$("#checkEmailMsg").text("기존의 이메일과 동일한 이메일입니다.").css('color', 'red');
+			console.log("mypageUpdate.js form emailCheckButton each");
+			isEmailChecked = true; // 중복 확인 성공 시 true로 설정
+		} else {
+			console.log("mypageUpdate.js form emailCheckButton react");
+
+			checkEmailFunction();//비동기처리 진행
+		}
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: '이메일 기재 요청',
+			text: '이메일을 다시 입력해주세요',
+			confirmButtonText: '확인'
+		});
+	}
+});
+
+// 이메일 중복 확인 함수
+function checkEmailFunction() {
+
+	console.log("mypageUpdate.js checkEmailFunction() start");
+
+	//12자리가 일치 여부 확인
+	var realEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9 \-]+\.[A-za-z0-9\-]+/
+	var email = $('#email').val();
+
+	if (realEmail.test(email) === false) {//만약 이메일 형태가 아니라면 false반환
+		console.log("mypageUpdate.js checkEmailFunction() RealEmail false");
+	}
+
+	$.ajax({
+		url: 'checkEmail.do',
+		method: 'POST',
+		data: {
+			email: email
+		},
+		success: function(data) {
+			console.log("[" + data + "]");
+			if (data === 'true') {
+				$("#checkEmailMsg").text("사용 가능한 이메일입니다.")
+					.css('color', 'green');
+				isEmailChecked = true; // 중복 확인 성공 시 true로 설정
+			} else {
+				$("#checkEmailMsg").text("이미 사용중인 이메일입니다.")
+					.css('color', 'red');
+				$('#email').val('').focus();
+			}
+			console.log("mypageUpdate.js checkEmailFunction() success end");
+		},
+		error: function() {
+			Swal.fire({
+				icon: 'error',
+				title: '오류',
+				text: '이메일 중복 확인 중 오류가 발생했습니다',
+				confirmButtonText: '확인'
+			});
+			console.log("mypageUpdate.js checkEmailFunction() error end");
+		}
+	});
+}
+
+ */
