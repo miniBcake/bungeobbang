@@ -31,7 +31,7 @@ body {
     flex: 1; /* 입력란이 가용 공간을 차지하도록 설정 */
     padding: 0; /* 기본 패딩 제거 */
     font-size: 16px; /* 글자 크기 설정 */
-    color: transparent; /* 텍스트 색상 투명 */
+/*    color: transparent; !* 텍스트 색상 투명 *!*/
     caret-color: #000; /* 커서 색상 설정 */
 }
 
