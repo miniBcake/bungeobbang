@@ -1,14 +1,14 @@
-// 전역 변수 선언
-var popup = document.getElementById("pointPopup");
-var btnPoint = document.getElementById("pointButton");
-var btnClosePopup = document.querySelector(".close-popup");
-var inputSearch = document.getElementById('searchInput');
-var selectCategory = document.getElementById('categorySelect');
-var inputMinPrice = document.getElementById('minPrice');
-var inputMaxPrice = document.getElementById('maxPrice');
-var inputCondition = document.getElementById('conditionInput');
-var divSelectedOptions = document.getElementById('selectedOptions');
-var btnSearch = document.getElementById('searchButton');
+//전역변수 선언
+let popup = document.getElementById("pointPopup");
+let btnPoint = document.getElementById("pointButton");
+let btnClosePopup = document.querySelector(".close-popup");
+let inputSearch = document.getElementById('searchInput');
+let selectCategory = document.getElementById('categorySelect');
+let inputMinPrice = document.getElementById('minPrice');
+let inputMaxPrice = document.getElementById('maxPrice');
+let inputCondition = document.getElementById('conditionInput');
+let divSelectedOptions = document.getElementById('selectedOptions');
+let btnSearch = document.getElementById('searchButton');
 
 // DOMContentLoaded 이벤트 리스너
 document.addEventListener('DOMContentLoaded', function () {
@@ -32,8 +32,8 @@ function initializeSwiper(containerClass, prevButtonClass, nextButtonClass, pagi
         slidesPerGroup: 4,
         loop: false,
         navigation: {
-            nextEl: prevButtonClass,
-            prevEl: nextButtonClass,
+            nextEl: nextButtonClass,
+            prevEl: prevButtonClass,
         },
         pagination: {
             el: paginationClass,
