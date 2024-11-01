@@ -35,7 +35,7 @@ public class MainController {
 
     //실패 기본값
     private String msg = "요청한 서비스를 찾을 수 없습니다.";
-    private String path = "redirect:/main.do";
+    private String path = "main.do";
 
     private final String COOKIE_NAME = "viewedProducts"; //쿠키 이름 설정
     private final String BOARD_LIST = "boardList"; //커뮤니티 카테고리명

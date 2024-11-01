@@ -2,6 +2,9 @@ package com.bungeobbang.app.view.memberController;
 
 import com.bungeobbang.app.biz.member.MemberDTO;
 import com.bungeobbang.app.biz.member.MemberService;
+import com.bungeobbang.app.biz.point.PointDTO;
+import com.bungeobbang.app.biz.point.PointService;
+import com.bungeobbang.app.biz.point.PointServiceImpl;
 import com.bungeobbang.app.view.util.FileUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -11,14 +14,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Controller
 public class MypageController {
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private PointService pointService;
 
 	private final String FAIL_DO = "redirect:failInfo.do"; //기본 실패 처리
+
+	private final String DEFAULT_IMG = "default_profile.png";//기본 이미지
 
 	//page
 	private final String PAGE_MYPAGE = "mypage"; //마이페이지
@@ -34,12 +42,13 @@ public class MypageController {
 	@GetMapping("/infoMypage.do")
 	public String infoMypage(HttpSession session, Model model) {
 		log.info("log: /infoMypage.do infoMypage - start");
-		//KS 포인트 갱신
 		MemberDTO memberDTO = new MemberDTO(); //빈 객체 생성
 		memberDTO.setMemberNum((int)session.getAttribute(SESSION_PK)); //세션값 저장
 		memberDTO.setCondition("INFO_CONDITION");
 		//세션(로그인 중인 사용자) 정보 호출
 		memberDTO = memberService.selectOne(memberDTO);
+
+		//데이터 전달
 		model.addAttribute("member", memberDTO); //반환
 		//확인
 		log.info("log: infoMypage - send member : [{}]", memberDTO);
@@ -70,18 +79,24 @@ public class MypageController {
 	public String updateProfile(HttpSession session, HttpServletRequest request, MemberDTO memberDTO) {
 		log.info("[UpdateProfile] 시작");
 		log.info("[UpdateProfile View에서 전달 받은 값] : {}", memberDTO);
-		memberDTO.setCondition("UPDATE_CONDITION");
 		memberDTO.setMemberNum((int)session.getAttribute(SESSION_PK));
 
-		// 프로필 사진 업로드 처리
-		String path = "uploads/"; // 업로드할 경로
-		String fileName = FileUtil.createFileName(); // 파일 이름 생성
+		MultipartFile file = memberDTO.getFile();
+		memberDTO.setCondition("PROFILE_WAY_CONDITION");
+		String profilePicPath = memberService.selectOne(memberDTO).getMemberProfileWay(); //가지고 있던 이미지 정보
+		//변경할 파일이 있다면
+		if(file != null && !file.isEmpty()) {
+			// 프로필 사진 업로드 처리
+			String path = "uploads/"; // 업로드할 경로
+			String fileName = FileUtil.createFileName(); // 파일 이름 생성
 
-		//파일 저장
-		String profilePicPath = FileUtil.insertFile(request.getServletContext(), path, memberDTO.getFile(), fileName);
-		log.info("[UpdateProfile 새로 생성한 프로필 이미지 이름] : {}", profilePicPath);
-
+			//파일 저장
+			profilePicPath = FileUtil.insertFile(request.getServletContext(), path, memberDTO.getFile(), fileName); //새 이미지로 변경
+			log.info("[UpdateProfile 새로 생성한 프로필 이미지 이름] : {}", profilePicPath);
+		}
+		memberDTO.setCondition("UPDATE_CONDITION");//업데이트 컨디션으로 변경
 		memberDTO.setMemberProfileWay(profilePicPath); //DB에 저장하기 위해 저장한 파일명 세팅
+
 		//비밀번호를 제외한 업데이트 진행
 		if(!memberService.update(memberDTO)) {
 			log.error("log: updateMypage - normal update error");
@@ -105,6 +120,14 @@ public class MypageController {
 		session.setAttribute(SESSION_NICKNAME, memberDTO.getMemberNickname());
 		session.setAttribute(SESSION_PK, memberDTO.getMemberNum());
 		session.setAttribute(SESSION_PROFILE, memberDTO.getMemberProfileWay());
+		//포인트 갱신//////////////////////////////////////////////////////////////////////////////////
+		PointDTO pointDTO = new PointDTO();
+		pointDTO.setMemberNum(memberDTO.getMemberNum());
+		pointDTO.setCondition("SELECTONE_MEMBER_POINT");
+		pointDTO = pointService.selectOne(pointDTO);
+		session.setAttribute(SESSION_POINT, pointDTO.getTotalMemberPoint());
+		log.info("log: pointDTO [{}], point [{}]", pointDTO, pointDTO.getTotalMemberPoint());
+		//////////////////////////////////////////////////////////////////////////////////////////////
 		//마이페이지로 이동
 		return "redirect:infoMypage.do";
 	}

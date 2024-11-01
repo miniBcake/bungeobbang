@@ -24,7 +24,7 @@ public class MemberDAO {
 	private final String INSERT = "INSERT INTO BB_MEMBER( "
 			+ "MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_PHONE, "
 			+ "MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE, MEMBER_HIREDAY) "
-			+ "VALUES(?, ?, ?, ?, ?, ?, ?)";
+			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
 	// UPDATE 쿼리들
 	private final String UPDATE = "UPDATE BB_MEMBER SET MEMBER_EMAIL = ?, MEMBER_NAME = ?, "
@@ -68,7 +68,8 @@ public class MemberDAO {
 	private final String SELECTONE_INFO = "SELECT MEMBER_NUM, MEMBER_EMAIL, MEMBER_NAME, MEMBER_PHONE, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, MEMBER_ROLE, MEMBER_HIREDAY "
 			+ "FROM BB_MEMBER WHERE MEMBER_NUM = ?";
 	private final String SELECTONE_PASSWORD_CHECK = "SELECT MEMBER_NUM FROM BB_MEMBER WHERE MEMBER_NUM = ? AND MEMBER_PASSWORD = ?";
-	 
+	private final String SELECTONE_PROFILE = "SELECT MEMBER_PROFILE_WAY FROM BB_MEMBER WHERE MEMBER_NUM = ?";
+
 	//고정설정
 	private final int RECENT_PIVOT = 7; //최근가입한 회원 기준 (day)
 
@@ -260,9 +261,13 @@ public class MemberDAO {
 				};
 				//넘어온 값 확인 로그
 				System.out.println("log: parameter getMemberNickname : "+memberDTO.getMemberNickname());
-				
-				data = jdbcTemplate.queryForObject(query, args, new NickRowMapper());
-			}
+
+                try {
+                    data = jdbcTemplate.queryForObject(query, args, new NickRowMapper());
+                } catch (EmptyResultDataAccessException e) {
+                    data = null;
+                }
+            }
 			else if(memberDTO.getCondition().equals("PASSWORD_RESET_CONDITION")) {
 				//비밀번호 리셋 
 				System.out.println("log: Member selectOne : SELECTONE_PASSWORD_RESET");
@@ -331,18 +336,18 @@ public class MemberDAO {
 				data = jdbcTemplate.queryForObject(query, args, new NumRowMapper());
 				
 			}
-//			else if(memberDTO.getCondition().equals("PROFILE_WAY_CONDITION")) {
-//				//프로필이미지경로
-//				System.out.println("log: Member selectOne : SELECTONE_PROFILE");
-//				query = SELECTONE_PROFILE;
-//				args = new Object[] {
-//						memberDTO.getMemberNum()
-//				};
-//				//넘어온 값 확인 로그
-//				System.out.println("log: parameter getMemberNum : "+memberDTO.getMemberNum());
-//				data = jdbcTemplate.queryForObject(query,args, new ProfileRowMapper());
-//
-//			}
+			else if(memberDTO.getCondition().equals("PROFILE_WAY_CONDITION")) {
+				//프로필이미지경로
+				System.out.println("log: Member selectOne : SELECTONE_PROFILE");
+				query = SELECTONE_PROFILE;
+				args = new Object[] {
+						memberDTO.getMemberNum()
+				};
+				//넘어온 값 확인 로그
+				System.out.println("log: parameter getMemberNum : "+memberDTO.getMemberNum());
+				data = jdbcTemplate.queryForObject(query,args, new ProfileRowMapper());
+
+			}
 //			else if(memberDTO.getCondition().equals("CNT_CONDITION")) {
 //				//전체회원 수 (+필터검색)
 //				System.out.println("log: Member selectOne : SELECTONE_CNT");

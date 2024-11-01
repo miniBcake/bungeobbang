@@ -2,6 +2,7 @@
 		 pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 
@@ -19,9 +20,9 @@
 			border: none; /* 두 번째 열의 테두리 없애기 */
 		}
 	</style>
-	<link rel="stylesheet" href="resources/assets/css/main.css">
-	<link rel="stylesheet" href="resources/assets/css/header.css">
-	<link rel="stylesheet" href="resources/assets/css/myPage.css">
+	<link rel="stylesheet" href="${path}/resources/assets/css/main.css">
+	<link rel="stylesheet" href="${path}/resources/assets/css/header.css">
+	<link rel="stylesheet" href="${path}/resources/assets/css/myPage.css">
 
 </head>
 
@@ -52,7 +53,7 @@
 		<!-- 1열 붕어빵 이미지 및 프로필 수정버튼 -->
 		<div class="col-md-4" style="text-align: center;">
 				<span class="col-2"> <br> <br> 
-				<img src="${pageContext.request.contextPath}/uploads/${member.memberProfileWay}" alt="회원 프로필사진" class="signupimg">
+				<img src="${path}/uploads/${member.memberProfileWay}" alt="회원 프로필사진" class="signupimg">
 				</span> <br> <br>
 			<div>
 				<h4>Point : ${userPoint}점</h4>
