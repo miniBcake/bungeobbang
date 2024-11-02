@@ -2,8 +2,11 @@ package com.bungeobbang.app.view.memberController;
 
 import com.bungeobbang.app.biz.member.MemberDTO;
 import com.bungeobbang.app.biz.member.MemberService;
+import com.bungeobbang.app.biz.point.PointDTO;
+import com.bungeobbang.app.biz.point.PointService;
 import com.bungeobbang.app.view.util.FileUtil;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +17,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+
 @Controller
 @Slf4j
 public class MemberController {
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private PointService pointService;
 
     private final String FAIL_DO = "redirect:failInfo.do"; //기본 실패 처리
+    private final String FAIL_URL = "failInfo2"; //실패 처리할 페이지
 
     //session
     private final String SESSION_ROLE = "userRole";
@@ -29,18 +37,32 @@ public class MemberController {
     private final String SESSION_PROFILE = "userProfile";
     private final String SESSION_POINT = "userPoint";
 
+    private final String DEFAULT_IMG = "default_profile.png";//기본 이미지
+
+    //msg
+    private final String MSG_FAIL_LOGIN = "올바르지 않은 이메일 또는 비밀번호입니다.";
+    private final String MSG_FAIL_PW = "비밀번호 변경에 실패했습니다. 관리자에게 문의바랍니다.";
+    private final String MSG_SUCCESS_PW = "비밀번호가 변경되었습니다. 로그인바랍니다.";
+
     @PostMapping("/join.do") // 회원가입 controller
-    public String join(ServletContext servletContext,MemberDTO memberDTO, MultipartFile file) {
+    public String join(HttpServletRequest request, MemberDTO memberDTO, Model model) {
         log.info("[Join] 시작");
 
         // 프로필 사진 업로드 처리
         String path = "uploads/"; // 업로드할 경로
         String fileName = FileUtil.createFileName(); // 파일 이름 생성
-        String profilePicPath = FileUtil.insertFile(servletContext, path, file, fileName);
-        log.info("[Join view에서 받은 프로필사진 경로] : {}", profilePicPath);
-
-        memberDTO.setMemberProfileWay(profilePicPath);
-
+        MultipartFile file = memberDTO.getFile();
+        if(file != null || !file.isEmpty()){
+            String profilePicPath = FileUtil.insertFile(request.getServletContext(), path, memberDTO.getFile(), fileName);
+            log.info("[Join view에서 받은 프로필사진 경로] : {}", profilePicPath);
+            memberDTO.setMemberProfileWay(profilePicPath);
+        }
+        else {
+            //입력받은 데이터가 없는 경우 기본 이미지 저장
+            memberDTO.setMemberProfileWay(DEFAULT_IMG);
+        }
+        memberDTO.setMemberRole("USER"); //유저 가입 고정
+        memberDTO.setMemberHireDay(LocalDate.now().toString()); //현재 날짜
         // 회원가입 요청
         boolean flag = memberService.insert(memberDTO);
         log.info("[Join insert 성공 실패 여부] : {}", flag);
@@ -50,11 +72,13 @@ public class MemberController {
             return FAIL_DO; // 에러 페이지로 이동
         }
 
-        return "redirect:login.do"; // 로그인 페이지로 리다이렉트
+        model.addAttribute("msg", "회원가입 성공! 로그인 진행 바랍니다.");
+        model.addAttribute("path", "login.do");
+        return FAIL_URL;
     }
 
     @PostMapping(value = "/login.do") // 로그인 controller
-    public String login(HttpSession session, MemberDTO memberDTO) {
+    public String login(HttpSession session, MemberDTO memberDTO,Model model) {
         log.info("[Login] 시작");
 
         // 로그인 로직에 사용할 condition 저장
@@ -65,10 +89,19 @@ public class MemberController {
         log.info("[Login selectOne된 값] : {}", memberDTO);
 
         if (memberDTO == null) { // 로그인이 실패한다면
-            return "redirect:login.do"; // 로그인 페이지로 돌아가기
+            //실패 안내 후 로그인 페이지로 돌아가게 하기
+            model.addAttribute("path", "login.do");
+            model.addAttribute("msg", MSG_FAIL_LOGIN);
+            return FAIL_URL;
         }
-        //KS 포인트 정보 조회
-        session.setAttribute(SESSION_POINT, "1000");
+        //포인트 갱신//////////////////////////////////////////////////////////////////////////////////
+        PointDTO pointDTO = new PointDTO();
+        pointDTO.setMemberNum(memberDTO.getMemberNum());
+        pointDTO.setCondition("SELECTONE_MEMBER_POINT");
+        pointDTO = pointService.selectOne(pointDTO);
+        session.setAttribute(SESSION_POINT, pointDTO.getTotalMemberPoint());
+        log.info("log: pointDTO [{}], point [{}]", pointDTO, pointDTO.getTotalMemberPoint());
+        //////////////////////////////////////////////////////////////////////////////////////////////
 
         // 로그인 성공 시 세션에 사용자 정보 저장
         session.setAttribute(SESSION_PK, memberDTO.getMemberNum());
@@ -105,31 +138,26 @@ public class MemberController {
         return "redirect:logout.do";
     }
 
-    @PostMapping(value="/setPw.do") // 비빌번호 수정 controller
-    public String updatePW(MemberDTO memberDTO) {
+    @PostMapping(value="/updatePassword.do") // 비빌번호 수정 controller
+    public String updatePW(MemberDTO memberDTO, Model model) {
         log.info("[UpdatePW] 시작");
-
+        log.info("[UpdatePW View에서 전달 받은 값] : {}", memberDTO);
         // memberDTO.setCondition : PASSWORD_UPDATE 값 넣어주기
         // memberDTO.set으로 memberNum, password 값 넣기
         memberDTO.setCondition("UPDATE_PASSWORD_CONDTION");
-        log.info("[UpdatePW View에서 전달 받은 값] : {}", memberDTO);
-
-        //FIXME 선언한 적 없는 변수 호출 확인 바람 (주석처리)
-//		memberDTO.setMemberNum(memberNum);
-//		memberDTO.setMemberPassword(memberPassword);
 
         // memberDAO.update을 사용하여 memberDTO 업데이트
         // boolean flag에 반환값 저장
         boolean flag = memberService.update(memberDTO);
         log.info("[UpdatePW update 수행 이후 반환 값] : {}", flag);
         // 업데이트에 성공했다면
+        model.addAttribute("msg", MSG_SUCCESS_PW);
         // flag가 false이면
         if(!flag) {
-            return FAIL_DO;
+            model.addAttribute("msg", MSG_FAIL_PW);
         }
-
-        // 이동할 페이지 : loginPage.do
-        return "redirect:login.do";
+        model.addAttribute("path", "login.do");
+        return FAIL_URL;
 
     }
 

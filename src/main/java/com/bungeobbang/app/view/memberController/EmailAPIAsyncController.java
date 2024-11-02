@@ -28,46 +28,7 @@ public class EmailAPIAsyncController { // 비밀번호 찾기에 사용되는 �
     private JavaMailSender mailSender; // JavaMailSender 주입
 
     
-    @PostMapping("/checkNickname.do") // 닉네임 확인 비동기 controller
-    public @ResponseBody String checkNickName(HttpSession session, MemberDTO memberDTO) {
-        log.info("[CheckNickname] 시작");
-        // 결과를 보관할 boolean flag 변수 생성
-        // 기본 값은 false
-        boolean flag = false;
 
-        // (C -> M) 해당 닉네임 존재 체크
-        memberDTO.setCondition("NICKNAME_SELECTONE"); // 나중 수정
-        log.info("[CheckNickname View에서 받은 값 확인] : {}", memberDTO);
-
-        // MemberDAO.selectOne 요청
-        // 결과값(MemberDTO) 받아오기
-        // memberDTO에 저장
-        memberDTO = memberService.selectOne(memberDTO);
-        log.info("[CheckNickname selectOne 이후 반환 받은 값] : {}", memberDTO);
-
-        // 만약 사용 가능한 닉네임이라면
-        if (memberDTO == null) {
-            // flag를 true로 변경
-            flag = true;
-        }
-
-        // 만약 로그인 시
-        if (session.getAttribute("userPK") != null) {
-            // session에서 memberNickName 값 받아오기
-            String memberNickName = (String) session.getAttribute("userNickName");
-
-            // 만약 memberNickName과 입력 nickName이 같다면
-            if (memberNickName != null && memberNickName.equals(memberDTO.getMemberNickname())) {
-                // flag값을 true로 변경
-                flag = true;
-            }
-        }
-
-        // V에게 결과 보내기
-        // flag를 String 변수에 담아 반환
-        String result = flag ? "true" : "false"; // flag 값을 String으로 변환
-        return result; // 결과 반환
-    }
     
 //    @PostMapping(value="/checkEmailName.do") // 이메일 이름 비동기 확인 controller
 //    public @ResponseBody Map<String, Object> emailNameCheck(MemberDTO memberDTO) {

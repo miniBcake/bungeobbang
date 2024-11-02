@@ -13,7 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>로그인 페이지</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="${path}/resources/assets/js/LoginAndSign.css">
+<link rel="stylesheet" href="${path}/resources/assets/css/loginAndSign.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -23,7 +23,7 @@
 <%--<script src="${path}/resources/assets/js/main.js"></script>--%>
 </head>
 <body>
-	<script src="${path}/resources/assets/js/loginPwFind.js"></script>
+	<script src="${path}/resources/assets/js/loginPwFind.js" defer></script>
 	<script src="${path}/resources/assets/js/loginGoogleAPI.js"></script>
 
 	<custom:header />
@@ -74,13 +74,12 @@
 									placeholder="비밀번호를 입력해주세요" required>
 							</div>
 							<div>
-								<button class="btn btn-primary.text-nowrap" data-toggle="modal"
+								<button class="btn btn-primary.text-nowrap" data-toggle="modal" type="button"
 									data-target="#forgetModal">비밀번호를 잊어버리셨나요?</button>
 							</div>
 						</div>
 						<br>
 						<div class="d-grid gap-2 col-mx-auto">
-							<%--TODO 나중에 확인할 것--%>
 							<button class="btn btn-warning" >로그인</button>
 						</div>
 						<div>
@@ -135,20 +134,20 @@
 					<!-- 1. 이름 입력 -->
 					<div class="form-group">
 						<%--@declare id="username"--%><label for="username">이름</label> <input type="text"
-							class="form-control" id="memberNickname" name="memberNickname" required
+							class="form-control" id="name" name="memberNickname" required
 							placeholder="이름을 입력해주세요">
 					</div>
 
 					<!-- 2. 이메일 입력 -->
 					<div class="form-group">
 						<%--@declare id="email"--%><label for="email">이메일</label> <input type="email"
-							class="form-control" id="memberEmail" name="memberEmail" required
+							class="form-control" id="email" name="memberEmail" required
 							placeholder="이메일을 입력해주세요">
 
 					</div>
 					<!-- 인증번호가 일치할 경우, 비밀번호 재설정 버튼 open / 인증번호 빈칸 혹은 입력값 틀렸다면 hidden처리 -->
 					<div class="d-grid gap-2 text-center">
-						<button type="submit" class="btn btn-dark" id="resetPw"
+						<button type="button" class="btn btn-dark"
 							name="resetPw" data-bs-target="#setPwModal"
 							data-bs-toggle="modal" id="loginPwFind">회원정보 확인</button>
 					</div>
@@ -185,7 +184,8 @@
 				</div>
 
 				<!-- 신규 비밀번호 설정 및 비밀번호 업데이트 -->
-				<form id="setPw" action="setPw.do" method="POST">
+				<form id="setPw" action="updatePassword.do" method="POST">
+					<input type="hidden" id="passwordFindResult" name="memberNum">
 					<!-- 새 비밀번호 입력 및 변경 완료 내용 -->
 					<div class="modal-body">
 						<!-- 1. 신규 비밀번호 입력 -->
@@ -205,8 +205,8 @@
 						</div>
 
 						<div class="d-grid gap-2">
-							<button type="submit" class="btn btn-dark" id="completePw"
-								name="completePw" onclick="closedModal()">비밀번호 변경하기</button>
+							<button type="button" class="btn btn-dark" id="completePw"
+								name="completePw" >비밀번호 변경하기</button>
 						</div>
 
 						<div class="text-center mt-3">

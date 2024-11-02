@@ -35,7 +35,7 @@
 	<custom:header />
 	<div class="container text-center">
 	<br><br>
-		<form id="login" action="join.do" method="POST">
+		<form id="login" action="join.do" method="POST" enctype="multipart/form-data">
 			<div class="row-md-12">
 				<h2>회원가입</h2>
 				<br> <br>
@@ -131,7 +131,7 @@
 							<path
 									d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1" />
 						</svg>
-							<input type="password" class="inputbox" id="password1" style="color: black;" required placeholder="비밀번호를 입력해주세요">
+							<input type="password" class="inputbox" id="password1" style="color: black;" name="memberPassword" required placeholder="비밀번호를 입력해주세요">
 					        <div id="passwordErrorMsg" style="color: red; font-size: 0.9em;"></div>
 					        <i id="togglePassword1" class="fas fa-eye" style="cursor: pointer; margin-left: 10px;"></i>					        
 						</div>
@@ -169,7 +169,7 @@
 							<path fill-rule="evenodd"
 									d="m4.736 1.968-.892 3.269-.014.058C2.113 5.568 1 6.006 1 6.5 1 7.328 4.134 8 8 8s7-.672 7-1.5c0-.494-1.113-.932-2.83-1.205l-.014-.058-.892-3.27c-.146-.533-.698-.849-1.239-.734C9.411 1.363 8.62 1.5 8 1.5s-1.411-.136-2.025-.267c-.541-.115-1.093.2-1.239.735m.015 3.867a.25.25 0 0 1 .274-.224c.9.092 1.91.143 2.975.143a30 30 0 0 0 2.975-.143.25.25 0 0 1 .05.498c-.918.093-1.944.145-3.025.145s-2.107-.052-3.025-.145a.25.25 0 0 1-.224-.274M3.5 10h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5m-1.5.5q.001-.264.085-.5H2a.5.5 0 0 1 0-1h3.5a1.5 1.5 0 0 1 1.488 1.312 3.5 3.5 0 0 1 2.024 0A1.5 1.5 0 0 1 10.5 9H14a.5.5 0 0 1 0 1h-.085q.084.236.085.5v1a2.5 2.5 0 0 1-5 0v-.14l-.21-.07a2.5 2.5 0 0 0-1.58 0l-.21.07v.14a2.5 2.5 0 0 1-5 0zm8.5-.5h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5" />
 						</svg>
-							<input type="text" class="inputbox" style="color: black;" required placeholder="이름을 입력하세요">
+							<input type="text" class="inputbox" style="color: black;" name="memberName" required placeholder="이름을 입력하세요">
 						</div>
 					</div>
 					<br>
@@ -187,7 +187,7 @@
 							<path fill-rule="evenodd"
 									d="m4.736 1.968-.892 3.269-.014.058C2.113 5.568 1 6.006 1 6.5 1 7.328 4.134 8 8 8s7-.672 7-1.5c0-.494-1.113-.932-2.83-1.205l-.014-.058-.892-3.27c-.146-.533-.698-.849-1.239-.734C9.411 1.363 8.62 1.5 8 1.5s-1.411-.136-2.025-.267c-.541-.115-1.093.2-1.239.735m.015 3.867a.25.25 0 0 1 .274-.224c.9.092 1.91.143 2.975.143a30 30 0 0 0 2.975-.143.25.25 0 0 1 .05.498c-.918.093-1.944.145-3.025.145s-2.107-.052-3.025-.145a.25.25 0 0 1-.224-.274M3.5 10h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5m-1.5.5q.001-.264.085-.5H2a.5.5 0 0 1 0-1h3.5a1.5 1.5 0 0 1 1.488 1.312 3.5 3.5 0 0 1 2.024 0A1.5 1.5 0 0 1 10.5 9H14a.5.5 0 0 1 0 1h-.085q.084.236.085.5v1a2.5 2.5 0 0 1-5 0v-.14l-.21-.07a2.5 2.5 0 0 0-1.58 0l-.21.07v.14a2.5 2.5 0 0 1-5 0zm8.5-.5h2a.5.5 0 0 1 .5.5v1a1.5 1.5 0 0 1-3 0v-1a.5.5 0 0 1 .5-.5" />
 						</svg>
-							<input type="text" name="nickName" class="inputbox" style="color:black;" required placeholder="닉네임을 입력하세요">
+							<input type="text" name="memberNickname" class="inputbox" style="color:black;" required placeholder="닉네임을 입력하세요">
 							<button class="btn btn-warning btn-lg" type="button" id="checkNicknameBtn">중복확인</button>
 						</div>
 						<div id="checkNicknameMsg"></div>
@@ -196,7 +196,7 @@
 
 					<!--항목6 전화번호(선택)-->
 					<div class="row-12">
-						<span class="label">Phone Number(선택)</span>
+						<span class="label">Phone Number</span>
 					</div>
 					<div class="row-md-12">
 						<!--인풋값-->
@@ -208,7 +208,7 @@
 									d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
 						<path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
 						</svg>
-							<input type="tel" id="phone" name="phone" placeholder="010-1234-5678" style="border: none; outline: none;">
+							<input type="tel" id="phone" name="memberPhone" placeholder="010-1234-5678" style="border: none; outline: none;" required>
 						</div>
 					</div>
 					<br>
