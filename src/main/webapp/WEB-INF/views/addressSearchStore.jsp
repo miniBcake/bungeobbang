@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="${path}/resources/assets/css/main.css">
 <link rel="stylesheet" href="${path}/resources/assets/css/searchbar.css">
 <link rel="stylesheet"
-	href="${path}/resources/assets/css/searchvalue.css">
+	href="${path}/resources/assets/css/store/searchvalue.css">
 
 <!-- bootstrap -->
 <link rel="stylesheet"
@@ -35,13 +35,16 @@
 	crossorigin="anonymous">
 
 <!-- bootstrap icon 사용 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
 <!-- 맵을 그리기 위한 script -->
 <!-- appkey에 발급받은 APP KEY를 넣음 -->
 <!-- 추가 기능 사용 시 &libraries=services 코드 추가(주소를 좌표로) -->
 <script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey='지도api app키 작성 위치'&libraries=services"></script>
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey='지도 api 키 부분'&libraries=services"></script>
+<!-- sweetAlert을 사용하기 위한 script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- js를 쓰므로 jquery 사용 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -54,55 +57,54 @@
 
 </head>
 <body>
+	<div id="page-wrapper">
 
-	<custom:header />
+		<custom:header />
 
-	<div class="container">
+		<div class="container">
 
-		<div class="row">
-			<!-- 지도 부분 -->
-			<div class="col-12 col-md-8 nonePadding fullWidthHeight">
-				<div class="fullMap" id="addressSearchMap"></div>
-			</div>
-
-			<!-- 주소 검색 창 -->
-			<div class="col-12 col-md-4 mapSearchContainer">
-
-				<div class="row">
-					<!-- 검색 부분 -->
-					<div class="addressSearch">
-						<section id="adTitle">
-							<!-- 제목 -->
-							<h4>주소 검색</h4>
-						</section>
-						<section id="adSelect">
-							<!-- 주소 select-->
-							<select class="addresSelect" name="address1" id="city">
-								<option selected disabled="disabled">특별/광역시</option>
-							</select>
-							<!-- 구 주소-->
-							<select class="addresSelect" name="address2" id="district">
-								<option selected disabled="disabled">군/구</option>
-							</select>
-						</section>
-						<hr>
-					</div>
+			<div class="row">
+				<!-- 지도 부분 -->
+				<div class="col-12 col-md-8 nonePadding fullWidthHeight">
+					<div class="fullMap" id="addressSearchMap"></div>
 				</div>
 
-				<div class="row">
-					<div class="col-12 text-center">
-						<div class="scrollContainer">
-							<div class="storeList" id="storeList">
-								
+				<!-- 주소 검색 창 -->
+				<div class="col-12 col-md-4 mapSearchContainer">
+
+					<div class="row">
+						<!-- 검색 부분 -->
+						<div class="addressSearch">
+							<section id="adTitle">
+								<!-- 제목 -->
+								<h4>주소 검색</h4>
+							</section>
+							<section id="adSelect">
+								<!-- 주소 select-->
+								<select class="addresSelect" name="address1" id="city">
+									<option selected disabled="disabled">특별/광역시</option>
+								</select>
+								<!-- 구 주소-->
+								<select class="addresSelect" name="address2" id="district">
+									<option selected disabled="disabled">군/구</option>
+								</select>
+							</section>
+							<hr>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12 text-center">
+							<div class="scrollContainer">
+								<div class="storeList" id="storeList"></div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<br>
 		</div>
-		<br>
 		<custom:footer />
 	</div>
-	
 </body>
 </html>
