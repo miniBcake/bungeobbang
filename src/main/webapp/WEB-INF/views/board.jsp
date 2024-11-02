@@ -61,7 +61,7 @@
 										</svg>&nbsp; 좋아요 &nbsp; ${boardList.likeCnt}</th>
 
 									<!-- 작성자명 -->
-									<th class="tableWriter">${boardList.memberName}
+									<th class="tableWriter">${boardList.memberNickname}
 									<input type="hidden" id="memberNum" name="memberNum" value="${boardList.memberNum}">
 									<input type="hidden" id="boardNum" name="boardNum" value="${boardList.boardNum}">
 									</th>
@@ -77,7 +77,7 @@
 				</div>
 				<div class="button-container col-12">
 					<!-- 작성자가 지금 로그인한 유저라면 게시물수정버튼 생성/아니라면 숨김-->
-					<c:if test="${boardList.memberName eq userNickname}">
+					<c:if test="${boardList.memberNum eq userPk}">
 						<div id="edit-button-container" style="display: inline;">
 							<br> <a href="updateBoard.do" class="btn btn-primary" role="button">수정 </a>
 								<a href="deleteBoard.do" class="btn btn-danger" role="button">삭제 </a>
@@ -99,7 +99,7 @@
 							</div>
 						</div>
 						<!-- 작성자가 지금 로그인한 유저라면 댓글 작성란 생성/아니라면 숨김-->
-						<c:if test="${boardList.memberName eq userNickname}">
+						<c:if test="${boardList.memberNum eq userPk}">
 							<div class="replyMid">
 								<!-- 댓글 등록 -->
 								<div class="profile">

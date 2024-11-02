@@ -22,9 +22,9 @@ public class LogFilter implements Filter {
         String cp = req.getContextPath();
         // 프로젝트 패스만큼 자름
         String command = uri.substring(cp.length());
-        log.info("\u001B[35mFilter command start : [{}]\u001B[0m", command);
-        chain.doFilter(request, response);
-        log.info("\u001B[35mFilter command end : [{}]\u001B[0m", command);
+        log.info("\u001B[35mFilter command start : [{}]\u001B[0m", command); //요청 시작 로그
+        chain.doFilter(request, response); //해당 코드를 기준으로 전처리, 후처리
+        log.info("\u001B[35mFilter command end : [{}]\u001B[0m", command); //요청 끝 로그
     }
 
     @Override

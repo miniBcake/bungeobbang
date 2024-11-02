@@ -1,5 +1,7 @@
 package com.bungeobbang.app.view.memberController;
 
+import com.bungeobbang.app.biz.declare.DeclareDTO;
+import com.bungeobbang.app.biz.declare.DeclareService;
 import com.bungeobbang.app.biz.order.OrderDTO;
 import com.bungeobbang.app.biz.order.OrderService;
 import com.bungeobbang.app.biz.store.StoreDTO;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +25,8 @@ public class AdminController {
     @Autowired
     private StoreService storeService;
     @Autowired
+    private DeclareService declareService;
+    @Autowired
     private HttpSession session;
 
     private final String FAIL_DO = "redirect:failInfo.do"; //기본 실패 처리
@@ -32,6 +37,7 @@ public class AdminController {
     private final String STORE_DELETE_FAIL = "가게 정보 삭제에 실패했습니다.";
     private final String CLOSE_FAIL_MSG = "폐점 전환에 실패했습니다.";
     private final String SECRET_FAIL_MSG = "가게 승인(공개) 전환에 실패했습니다.";
+    private final String REPORT_FAIL_MSG = "신고 삭제에 실패했습니다.";
 
     private final String NO = "N";
     private final String YES = "Y";
@@ -73,7 +79,7 @@ public class AdminController {
     public String loadListOrder(Model model){
         log.info("log: /loadListOrder.do loadListOrder - start");
         OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setCondition("");
+        orderDTO.setCondition("SELECTALL");
         ArrayList<OrderDTO> orderList = orderService.selectAll(orderDTO);
         model.addAttribute("orderList", orderList);
         log.info("log: loadListOrder - send orderList : {}", orderList);
@@ -135,11 +141,11 @@ public class AdminController {
         log.info("log: /updateStoreClose.do updateStoreClose - start");
         log.info("log: updateStoreClose - param storeDTO num : [{}]", storeDTO.getStoreNum());
         //만약 관리자가 아니라면
-        if(!session.getAttribute(SESSION_ROLE).equals(ADMIN)){
-            //기본 실패처리
-            log.error("log: updateStoreClose - not admin");
-            return FAIL_DO;
-        }
+//        if(!session.getAttribute(SESSION_ROLE).equals(ADMIN)){
+//            //기본 실패처리
+//            log.error("log: updateStoreClose - not admin");
+//            return FAIL_DO;
+//        }
         HashMap<String, String> filterList = new HashMap<>();
         filterList.put("UPDATE_CLOSED", this.YES);
         storeDTO.setFilterList(filterList);
@@ -152,7 +158,32 @@ public class AdminController {
             return FAIL_URL;
         }
         log.info("log: /updateStoreClose.do updateStoreClose - end");
-        //관리자 가게 신고 목록으로 이동
+        //폐점의심 제보 목록 삭제 처리
+        return "redirect:deleteReport.do?storeNum=" + storeDTO.getStoreNum();
+    }
+
+    //해당 가게의 신고 전부 삭제하기
+    @RequestMapping("/deleteReport.do")
+    public String deleteReport(DeclareDTO declareDTO, Model model){
+        log.info("log: /deleteReport.do deleteReport.do - start");
+        boolean flag = false;//초기값 설정 (신고 삭제에 한 번이라도 성공해야 성공처리)
+        log.info("log: deleteReport.do - declareDTO : {}", declareDTO);
+        for(DeclareDTO dto : declareService.selectAll(declareDTO)){ //해당 가게 번호를 가진 신고 리스트
+            flag = declareService.delete(dto); //신고를 하나씩 삭제
+            if(!flag){ //신고삭제에 실패했다면
+                log.error("log: deleteReport.do - error : {}", dto);
+                break; //종료
+            }
+            log.info("log: deleteReport.do - delete");
+        }
+        if(!flag){
+            log.error("log: deleteReport - store report delete failed");
+            model.addAttribute("msg", REPORT_FAIL_MSG);
+            //관리자 가게 신고 목록으로 이동
+            model.addAttribute("path", "loadListStoreReport.do");
+            return FAIL_URL;
+        }
+        log.info("log: /deleteReport.do deleteReport.do - end : {}", flag);
         return "redirect:loadListStoreReport.do";
     }
 

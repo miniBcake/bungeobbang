@@ -9,6 +9,7 @@ public class OrderDTO {
 	private int memberNum; //회원 번호
 	private int productNum; //상품 번호
 	private String orderStatus; //처리 상태
+	private String orderDay;
 	
 	private String condition; 
 }

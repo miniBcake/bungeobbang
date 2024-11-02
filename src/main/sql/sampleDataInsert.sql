@@ -5,20 +5,6 @@ VALUES ('문구/사무'),
        ('패션/잡화'),
        ('디지털/IT'),
        ('홈데코');
--- 상품 데이터(크롤링)
-INSERT INTO bb_product (PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_PROFILE_WAY, PRODUCT_CATEGORY_NUM)
-VALUES 
-('붕어빵 기계', 150000, 'DEFAULT.PNG', 1), -- 문구/사무
-('붕어빵 모양 쿠션', 25000, 'DEFAULT.PNG', 2), -- 리빙
-('붕어빵 패턴 가방', 30000, 'DEFAULT.PNG', 3), -- 패션/잡화
-('붕어빵 전자레인지', 80000, 'DEFAULT.PNG', 4), -- 디지털/IT
-('붕어빵 장식품', 50000, 'DEFAULT.PNG', 5), -- 홈데코
-('붕어빵 모양 머그컵', 12000, 'DEFAULT.PNG', 2), -- 리빙
-('붕어빵 향수', 35000, 'DEFAULT.PNG', 3), -- 패션/잡화
-('붕어빵 만들기 책', 20000, 'DEFAULT.PNG', 1), -- 문구/사무
-('붕어빵 원피스', 45000, 'DEFAULT.PNG', 3), -- 패션/잡화
-('붕어빵 굽기 팬', 22000, 'DEFAULT.PNG', 4); -- 디지털/IT
-
 
 -- Member 데이터
 INSERT INTO bb_member (MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_NICKNAME, MEMBER_PHONE, MEMBER_PROFILE_WAY, MEMBER_ROLE)
@@ -193,23 +179,23 @@ VALUES (1, 10),
        (9, 14);
 
 -- BB_ORDER 샘플 데이터
- INSERT INTO bb_order (MEMBER_NUM, PRODUCT_NUM, ORDER_STATUS)
- VALUES (9, 1, 'Y'),
-       (10, 2, 'N'),
-        (11, 3, 'N'),
-        (12, 3, 'N'),
-        (13, 10, 'Y'),
-        (14, 5, 'N'),
-        (15, 1, 'N'),
-        (16, 3, 'N'),
-        (9, 7, 'Y'),
-        (10, 9, 'Y'),
-        (11, 8, 'N'),
-        (12, 4, 'N'),
-       (13, 1, 'Y'),
-       (14, 2, 'Y'),
-        (15, 3, 'N'),
-        (16, 1, 'Y');
+#  INSERT INTO bb_order (MEMBER_NUM, PRODUCT_NUM, ORDER_STATUS)
+#  VALUES (9, 1, 'Y'),
+#        (10, 2, 'N'),
+#         (11, 3, 'N'),
+#         (12, 3, 'N'),
+#         (13, 10, 'Y'),
+#         (14, 5, 'N'),
+#         (15, 1, 'N'),
+#         (16, 3, 'N'),
+#         (9, 7, 'Y'),
+#         (10, 9, 'Y'),
+#         (11, 8, 'N'),
+#         (12, 4, 'N'),
+#        (13, 1, 'Y'),
+#        (14, 2, 'Y'),
+#         (15, 3, 'N'),
+#         (16, 1, 'Y');
 
 -- BB_REPLY 샘플 데이터
 INSERT INTO bb_reply (REPLY_CONTENT, MEMBER_NUM, BOARD_NUM)

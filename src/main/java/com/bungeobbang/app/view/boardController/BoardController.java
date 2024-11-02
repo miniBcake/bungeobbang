@@ -37,7 +37,7 @@ public class BoardController {
     private final String FAIL_DO = "redirect:failInfo.do"; //기본 실패 처리
 
     //session
-    private final String SESSION_PK = "userPK"; //세션에 저장된 memberPK
+    private final String SESSION_PK = "userPk"; //세션에 저장된 memberPK
 
     //한 번에 뜨는 데이터 수 : 페이지네이션 용
     private final int CONTENT_SIZE = 10; // 페이지당 게시글 수
