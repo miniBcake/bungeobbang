@@ -15,11 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class ImageAsyncController {
 
-    private String FOLDER_PATH = "uploads/board/"; //webapp기준
+    private String FOLDER_PATH = "/uploads/board/"; //webapp기준
 
     //이미지 저장
     @RequestMapping("/addImage.do")
-    public @ResponseBody String addImage(HttpServletRequest request, @RequestBody ImageFileDTO imageFileDTO) {
+    public @ResponseBody String addImage(HttpServletRequest request, ImageFileDTO imageFileDTO) {
         log.info("log: /addImage.do addImage - start");
         log.info("log: /addImage.do addImage - param imageFileDTO: " + imageFileDTO);
         //폴더명은 게시글 작성 페이지가 열릴 때 view에 전달

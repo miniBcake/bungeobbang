@@ -253,11 +253,11 @@ public class BoardController {
         boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCategoryNum());
         boardDTO.setCondition("BOARD_INSERT");//컨디션 설정
         //게시글 추가
-        if(boardService.insert(boardDTO)){
+        if(!boardService.insert(boardDTO)){
             //실패 시
             log.error("log: addBoard - insert fail");
             model.addAttribute("msg", FAIL_BOARD_INSERT_MSG);
-            model.addAttribute("path", "boardList.do?categoryName="+boardCateDTO.getBoardCategoryName());
+            model.addAttribute("path", "loadListBoards.do?categoryName="+boardCateDTO.getBoardCategoryName());
             return FAIL_URL;
         }
         //작성한 글이 있는 카테고리 페이지로 이동

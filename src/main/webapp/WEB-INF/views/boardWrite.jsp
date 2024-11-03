@@ -50,7 +50,7 @@
                <!-- 게시글 작성 폼 -->
                <form id="postForm" action="addBoard.do" method="post" enctype="multipart/form-data" class="mt-4">
                   <!-- 작성자 ID를 서버에서 전달받아 숨겨진 필드에 저장 -->
-                  <input type="hidden" name="memberNum" value="${sessionScope.userPK}">
+                  <input type="hidden" name="memberNum" value="${sessionScope.userPk}">
                   <!-- 폴더명을 서버에서 전달받아 숨겨진 필드에 저장 -->
 				  <input type="hidden" name="boardFolder" value="${data.boardFolder}">
                                    
