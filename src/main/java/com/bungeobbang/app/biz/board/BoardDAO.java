@@ -50,7 +50,7 @@ public class BoardDAO {
 	private final String SELECTALL = 
 			"SELECT @rownum := @rownum + 1 AS RN, BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, " 
 					+"BOARD_OPEN, BOARD_DELETE, BOARD_WRITE_DAY, BOARD_CATEGORY_NUM, BOARD_CATEGORY_NAME, "
-					+"MEMBER_NUM, MEMBER_NICKNAME, MEMBER_PROFILE_WAY " 
+					+"MEMBER_NUM, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, LIKE_CNT, REPLY_CNT, BOARD_FOLDER "
 					+"FROM BB_VIEW_BOARD_JOIN, (SELECT @rownum := 0) AS r "
 					+"WHERE 1=1 ";			
 
@@ -62,7 +62,7 @@ public class BoardDAO {
 	private final String SELECTALL_HOT = 
 			"SELECT BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_OPEN, BOARD_DELETE, " 
 					+"BOARD_CATEGORY_NUM, BOARD_CATEGORY_NAME, MEMBER_NUM, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, "
-					+"BOARD_WRITE_DAY, LIKE_CNT " 
+					+"BOARD_WRITE_DAY, LIKE_CNT, REPLY_CNT, BOARD_FOLDER "
 					+"FROM BB_VIEW_BOARD_JOIN " 
 					+"WHERE BOARD_CATEGORY_NUM = ? AND LIKE_CNT >= ? "
 					+"ORDER BY LIKE_CNT DESC LIMIT ? ";
@@ -71,23 +71,23 @@ public class BoardDAO {
 	private final String SELECTALL_MYPAGE = 
 			"SELECT @rownum := @rownum + 1 AS RN, BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, " +
 					"BOARD_OPEN, BOARD_DELETE, BOARD_CATEGORY_NUM, BOARD_CATEGORY_NAME, MEMBER_NUM, " +
-					"MEMBER_NICKNAME, BOARD_WRITE_DAY , MEMBER_PROFILE_WAY" +
+					"MEMBER_NICKNAME, BOARD_WRITE_DAY, MEMBER_PROFILE_WAY, LIKE_CNT, REPLY_CNT, BOARD_FOLDER " +
 					"FROM BB_VIEW_BOARD_JOIN, (SELECT @rownum := 0) AS r " +
 					"WHERE MEMBER_NUM = ? " +
 					"ORDER BY BOARD_WRITE_DAY DESC LIMIT ?, ?";
 
 	// SELECTONE 쿼리
 	private final String SELECTONE = 
-			"SELECT BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_OPEN, BOARD_DELETE, " +
-					"BOARD_CATEGORY_NUM, BOARD_CATEGORY_NAME, MEMBER_NUM, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, " +
-					"BOARD_WRITE_DAY, BOARD_FOLDER " +
+			"SELECT BOARD_NUM, BOARD_TITLE, BOARD_CONTENT, BOARD_OPEN, BOARD_DELETE, "
+					+"BOARD_CATEGORY_NUM, BOARD_CATEGORY_NAME, MEMBER_NUM, MEMBER_NICKNAME, MEMBER_PROFILE_WAY, "
+					+"BOARD_WRITE_DAY, LIKE_CNT, REPLY_CNT, BOARD_FOLDER " +
 					"FROM BB_VIEW_BOARD_JOIN WHERE BOARD_NUM = ?";
 
 	// SELECTONE_SEARCH 쿼리
 	private final String SELECTONE_SEARCH = 
 			"SELECT COUNT(*) AS CNT FROM BB_BOARD bb " +
 					"JOIN BB_MEMBER bm ON bb.MEMBER_NUM = bm.MEMBER_NUM " +
-					"WHERE BOARD_CATEGORY_NUM = (SELECT BOARD_CATEGORY_NUM FROM BB_BOARD_CATEGORY WHERE BOARD_CATEGORY_NUM = ?)";
+					"WHERE 1=1 ";
 
 	// SELECTONE_MAXPK 쿼리
 	private final String SELECTONE_MAXPK = 
@@ -104,6 +104,7 @@ public class BoardDAO {
 	private final int MINLIKE = 5;		//인기글 최소 기준
 	private final int SHOWHOTBOARD = 3;	//보여줄 인기글 개수
 	private final int PRODUCT = 3; // 상품 카테고리 번호
+	private final int CONTENT_SIZE = 10; // 페이지당 게시글 수
 
 
 	public boolean insert(BoardDTO boardDTO) {
@@ -255,7 +256,7 @@ public class BoardDAO {
 
 			//페이지네이션
 			argsList.add(boardDTO.getStartNum());
-			argsList.add(boardDTO.getEndNum());
+			argsList.add(CONTENT_SIZE);
 
 			//args 배열화
 			args = argsList.toArray();
@@ -321,7 +322,7 @@ public class BoardDAO {
 			//넘어온 MAP filter키워드
 			BoardFilter filterUtil = new BoardFilter();
 			query = filterUtil.buildFilterQuery(SELECTONE_SEARCH,filters).toString();
-			argsList.add(boardDTO.getBoardCategoryNum());
+			//argsList.add(boardDTO.getBoardCategoryNum());
 			//카테고리 명
 
 			//넘어온 값 확인 로그
@@ -384,8 +385,10 @@ public class BoardDAO {
 			data.setMemberNickname(rs.getString("MEMBER_NICKNAME")); //멤버 닉네임
 			data.setMemberProfileWay(rs.getString("MEMBER_PROFILE_WAY")); //회원 프로필 사진
 			data.setBoardWriteDay(rs.getString("BOARD_WRITE_DAY")); //작성일자
-			data.setBoardDelete(rs.getString("BOARD_DELETE")); 		//관리자 글 삭제여부				
-
+			data.setBoardDelete(rs.getString("BOARD_DELETE")); 		//관리자 글 삭제여부
+			data.setBoardFolder(rs.getString("BOARD_FOLDER")); //폴더
+			data.setLikeCnt(rs.getInt("LIKE_CNT")); //좋아요 수
+			data.setReplyCnt(rs.getInt("REPLY_CNT")); //댓글 수
 			System.out.print(" | result "+data.getBoardNum());
 			return data;
 		}

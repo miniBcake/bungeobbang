@@ -64,7 +64,7 @@
 
             <!-- 로그인/회원가입 or 프로필 이미지 표시 -->
             <c:choose>
-               <c:when test="${empty userPk}">
+               <c:when test="${empty userPK}">
 <%--                  <li class="nav-item">
                      <a href="infoMypage.do">
                         <img src="${path}/resources/assets/images/default_profile.png" class="rounded-circle" style="width: 40px; height: 40px;" alt="Default Profile">

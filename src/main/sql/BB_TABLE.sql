@@ -250,12 +250,14 @@ select
     `bb`.`BOARD_WRITE_DAY` as `BOARD_WRITE_DAY`,
     `bb`.`BOARD_OPEN` as `BOARD_OPEN`,
     `bb`.`BOARD_DELETE` as `BOARD_DELETE`,
+    bb.BOARD_FOLDER,
     `bm`.`MEMBER_NUM` as `MEMBER_NUM`,
     `bm`.`MEMBER_NICKNAME` as `MEMBER_NICKNAME`,
     `bm`.`MEMBER_PROFILE_WAY` as `MEMBER_PROFILE_WAY`,
     ifnull(`bl2`.`LIKE_CNT`, 0) as `LIKE_CNT`,
     `bbc`.`BOARD_CATEGORY_NUM` as `BOARD_CATEGORY_NUM`,
-    `bbc`.`BOARD_CATEGORY_NAME` as `BOARD_CATEGORY_NAME`
+    `bbc`.`BOARD_CATEGORY_NAME` as `BOARD_CATEGORY_NAME`,
+    (SELECT ifnull(COUNT(*), 0) FROM BB_REPLY WHERE BOARD_NUM = bb.BOARD_NUM) as REPLY_CNT
 from
     (((`fishshapedbread`.`bb_board` `bb`
         left join `fishshapedbread`.`bb_member` `bm` on

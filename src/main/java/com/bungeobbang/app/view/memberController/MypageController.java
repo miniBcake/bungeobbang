@@ -34,7 +34,7 @@ public class MypageController {
 
 	//session
 	private final String SESSION_ROLE = "userRole";
-	private final String SESSION_PK = "userPk";
+	private final String SESSION_PK = "userPK";
 	private final String SESSION_NICKNAME = "userNickname";
 	private final String SESSION_PROFILE = "userProfile";
 	private final String SESSION_POINT = "userPoint";

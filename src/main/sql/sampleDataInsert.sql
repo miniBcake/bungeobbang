@@ -133,23 +133,23 @@ VALUES (1, 'noticeBoard'),
        (2, 'boardList');
 
 -- BB_BOARD 샘플 데이터
-INSERT INTO bb_board (BOARD_TITLE, BOARD_CONTENT, BOARD_FOLDER, MEMBER_NUM, BOARD_OPEN, BOARD_DELETE, STORE_NUM)
-VALUES ('맛있는 붕어빵 후기', '정말 맛있었어요! 특히 팥앙금이 일품이에요', '/uploads/review1', 9, 'Y', 'N', 1),
+INSERT INTO bb_board (BOARD_TITLE, BOARD_CONTENT, BOARD_FOLDER, MEMBER_NUM, BOARD_OPEN, BOARD_DELETE, BOARD_CATEGORY_NUM)
+VALUES ('맛있는 붕어빵 후기', '정말 맛있었어요! 특히 팥앙금이 일품이에요', '/uploads/review1', 9, 'Y', 'N', 2),
        ('붕어빵 맛집 발견', '여기 붕어빵이 최고예요. 크기도 크고 맛도 좋아요', '/uploads/review2', 10, 'Y', 'N', 2),
        ('신메뉴 출시했습니다', '치즈붕어빵 새로 나왔어요. 많이 찾아주세요!', '/uploads/notice1', 3, 'Y', 'N', 2),
-       ('역삼역 최고의 붕어빵', '퇴근길에 항상 들러서 먹고 있어요', '/uploads/review3', 11, 'Y', 'N', 3),
-       ('가격 인상 안내', '원재료 가격 상승으로 인한 가격 인상 안내드립니다', '/uploads/notice2', 4, 'Y', 'N', 4),
-       ('크림붕어빵 맛집', '크림붕어빵 여기가 진짜예요!', '/uploads/review4', 12, 'Y', 'N', 5),
-       ('휴무 안내', '내일 임시 휴무입니다', '/uploads/notice3', 5, 'Y', 'N', 5),
-       ('붕어빵 시식 이벤트', '오늘 5시부터 신메뉴 무료 시식회 있습니다', '/uploads/event1', 6, 'Y', 'N', 6),
-       ('대박맛집 인증', '정말 맛있어서 재방문했어요', '/uploads/review5', 13, 'Y', 'N', 7),
-       ('영업시간 변경 안내', '다음 주부터 영업시간이 변경됩니다', '/uploads/notice4', 7, 'Y', 'N', 8),
-       ('붕어빵 최고!', '여기 붕어빵 강추합니다', '/uploads/review6', 14, 'Y', 'N', 9),
-       ('이번주 할인 이벤트', '금주 전 메뉴 20% 할인합니다', '/uploads/event2', 8, 'Y', 'N', 10),
-       ('맛있는 붕어빵 인증', '너무 맛있어서 후기 남깁니다', '/uploads/review7', 15, 'Y', 'N', 11),
-       ('신메뉴 투표해주세요', '다음 신메뉴 설문조사 이벤트', '/uploads/event3', 3, 'Y', 'N', 12),
+       ('역삼역 최고의 붕어빵', '퇴근길에 항상 들러서 먹고 있어요', '/uploads/review3', 11, 'Y', 'N', 2),
+       ('가격 인상 안내', '원재료 가격 상승으로 인한 가격 인상 안내드립니다', '/uploads/notice2', 4, 'Y', 'N', 1),
+       ('크림붕어빵 맛집', '크림붕어빵 여기가 진짜예요!', '/uploads/review4', 12, 'Y', 'N', 1),
+       ('휴무 안내', '내일 임시 휴무입니다', '/uploads/notice3', 5, 'Y', 'N', 1),
+       ('붕어빵 시식 이벤트', '오늘 5시부터 신메뉴 무료 시식회 있습니다', '/uploads/event1', 6, 'Y', 'N', 1),
+       ('대박맛집 인증', '정말 맛있어서 재방문했어요', '/uploads/review5', 13, 'Y', 'N', 1),
+       ('영업시간 변경 안내', '다음 주부터 영업시간이 변경됩니다', '/uploads/notice4', 7, 'Y', 'N', 2),
+       ('붕어빵 최고!', '여기 붕어빵 강추합니다', '/uploads/review6', 14, 'Y', 'N', 2),
+       ('이번주 할인 이벤트', '금주 전 메뉴 20% 할인합니다', '/uploads/event2', 8, 'Y', 'N', 2),
+       ('맛있는 붕어빵 인증', '너무 맛있어서 후기 남깁니다', '/uploads/review7', 15, 'Y', 'N', 2),
+       ('신메뉴 투표해주세요', '다음 신메뉴 설문조사 이벤트', '/uploads/event3', 3, 'Y', 'N', 2),
        ('직접 만든 팥앙금', '팥앙금을 직접 만들어서 더 맛있어요', '/uploads/review8', 16, 'Y', 'N', 1),
-       ('가게 이전 안내', '다음달부터 이전된 장소에서 영업합니다', '/uploads/notice5', 4, 'Y', 'N', 2);
+       ('가게 이전 안내', '다음달부터 이전된 장소에서 영업합니다', '/uploads/notice5', 4, 'Y', 'N', 1);
 
 -- BB_LIKE 샘플 데이터
 INSERT INTO bb_like (BOARD_NUM, MEMBER_NUM)

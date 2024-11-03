@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class ImageAsyncController {
 
-    private String FOLDER_PATH = "/uploads/board/"; //webapp기준
+    private String FOLDER_PATH = "uploads/board/"; //webapp기준
 
     //이미지 저장
     @RequestMapping("/addImage.do")
@@ -33,7 +33,7 @@ public class ImageAsyncController {
             log.error("log: addImage - error insertFile() NPE or Illeagl : "+e.getMessage());
             return null;
         }
-        src = request.getContextPath() + FOLDER_PATH + imageFileDTO.getBoardFolder() + "/" + fileName;
+        src = request.getContextPath() + "/" + FOLDER_PATH + imageFileDTO.getBoardFolder() + "/" + fileName;
         log.info("log: addImage - src: [{}]", src);
         log.info("log: /addImage.do addImage - end");
         //서버 주소 경로 반환 img src내용

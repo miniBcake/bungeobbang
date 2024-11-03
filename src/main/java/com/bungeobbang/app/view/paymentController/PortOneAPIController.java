@@ -25,7 +25,7 @@ import java.net.http.HttpResponse;
 
 @Slf4j
 @RestController
-public class ProtOneAPIController { // 결제 API 비동기 Controller
+public class PortOneAPIController { // 결제 API 비동기 Controller
 
     @Autowired
     private PaymentTokenService paymentTokenService;
@@ -102,7 +102,7 @@ public class ProtOneAPIController { // 결제 API 비동기 Controller
 
     // 결제 단건 조회
     @PostMapping(value = "/infoPayment.do")
-    public @ResponseBody ResponseEntity<String> paymentTest(HttpSession session,PaymentInfoDTO paymentInfoDTO,
+    public @ResponseBody ResponseEntity<String> paymentTest(HttpSession session, com.bungeobbang.app.view.paymentController.PaymentInfoDTO paymentInfoDTO,
                                                             PaymentDTO paymentDTO,
                                                             PointDTO pointDTO) {
 
@@ -186,7 +186,7 @@ public class ProtOneAPIController { // 결제 API 비동기 Controller
 
     // 사전 검증 등록
     @RequestMapping(value = "/addPrepare.do")
-    public @ResponseBody String prepare(PaymentInfoDTO paymentInfoDTO) {
+    public @ResponseBody String prepare(com.bungeobbang.app.view.paymentController.PaymentInfoDTO paymentInfoDTO) {
         log.info("[AddPrepare] 사전검증 등록 시작");
         paymentInfoDTO=paymentTokenService.getAccessToken(paymentInfoDTO);
         log.info("[AddPrepare 토큰 발급 완료]");
@@ -211,7 +211,7 @@ public class ProtOneAPIController { // 결제 API 비동기 Controller
 
     // 사전 검증 조회
     @RequestMapping(value = "/checkPrepareResult.do")
-    public @ResponseBody ResponseEntity<String> prepareResult(PaymentInfoDTO paymentInfoDTO) {
+    public @ResponseBody ResponseEntity<String> prepareResult(com.bungeobbang.app.view.paymentController.PaymentInfoDTO paymentInfoDTO) {
         log.info("[CheckPrepareResult] 등록된 사전검증 조회 시작");
         log.info("[CheckPrepareResult View에서 받아온 DTO값] : " + paymentInfoDTO.getAmount());
         log.info("[CheckPrepareResult View에서 받아온 DTO값] : " + paymentInfoDTO.getMerchant_uid());
@@ -250,7 +250,7 @@ public class ProtOneAPIController { // 결제 API 비동기 Controller
 
     // 결제 취소
     @PostMapping(value = "/cancelPayment.do")
-    public boolean cancelPayment(PaymentInfoDTO paymentInfoDTO) {
+    public boolean cancelPayment(com.bungeobbang.app.view.paymentController.PaymentInfoDTO paymentInfoDTO) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.iamport.kr/payments/cancel?_token=" + paymentInfoDTO.getToken()))
                 .header("Content-Type", "application/json")

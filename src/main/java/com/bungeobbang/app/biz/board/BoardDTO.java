@@ -20,6 +20,7 @@ public class BoardDTO {
 	//타 테이블
 	//좋아요 합계
 	private int likeCnt;				//좋아요 수(합계)
+	private int replyCnt; //댓글 수
 	//멤버
 	private String memberNickname;		//닉네임
 	private String memberProfileWay; 	//회원 프로필 사진 경로

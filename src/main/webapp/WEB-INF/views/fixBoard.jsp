@@ -46,7 +46,7 @@
 
             <section>
                <!-- 게시글 수정 폼 -->
-               <form id="postForm" action="updateBoard.do" method="post" enctype="multipart/form-data" class="mt-4">
+               <form id="updateForm" action="updateBoard.do" method="post" enctype="multipart/form-data" class="mt-4">
                   <!-- 사용자의 ID와 게시글 번호를 hidden 필드에 저장 -->
                   <input type="hidden" name="memberNum" value="${sessionScope.userPK}">
                   <input type="hidden" id="boardNum" name="boardNum" value="${board.boardNum}" />
