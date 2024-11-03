@@ -40,6 +40,7 @@
 </head>
 
 <body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="resources/assets/js/closedStoreDeclareList.js"></script>
 
 <div class="wrapper">

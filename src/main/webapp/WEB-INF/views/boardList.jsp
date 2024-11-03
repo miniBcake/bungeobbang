@@ -33,9 +33,10 @@
 	crossorigin="anonymous">
 </head>
 <body>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<script src="${path}/resources/assets/js/insertReply.js"></script>
-<script src="${path}/resources/assets/js/deleteReply.js"></script>
+	<script src="${path}/resources/assets/js/board/board.js"></script>
+
 
 	<custom:header />
 	<form action="loadListBoards.do" method="GET">
