@@ -1,5 +1,10 @@
+@import url('color.css');
 
-input, textarea {
+#page-wrapper {
+	background-color: var(--page-background-color);
+}
+
+textarea {
 	/* 브라우저 기본 UI 스타일 제거 */
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -8,9 +13,9 @@ input, textarea {
 }
 
 /* Container */
-
 .container {
-    margin: 0 auto;
+    margin: 0;
+    padding: 60px;
     max-width: 100%;
     width: 1200px;
 }

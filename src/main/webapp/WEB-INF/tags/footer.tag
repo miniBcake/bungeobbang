@@ -1,60 +1,93 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
-<%@ attribute name="footer" %>
+<%@ attribute name="footer"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="path" value="${pageContext.request.contextPath}" />
+
+<link rel="stylesheet"
+	href="${path}/resources/assets/css/footer.css">
+
+<style>
+/* css 해당 ${path}를 가져오지 못해서 가져옴 */
+#footer .link-list li {
+    list-style-image: url('${path}/resources/assets/images/fishbread_icon_2.png');
+    padding-left: 30px; /* 이미지와 텍스트 간의 간격 조정 */
+}
+</style>
 
 <!-- Footer -->
-            <section id="footer">
-               <div class="container">
-                  <div class="row">
-                     <div class="col-8 col-12-medium">
+<section id="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-8 col-12-medium">
 
-                        <!-- Links -->
-                           <section>
-                              <h2>개발자 블로그</h2>
-                              <div>
-                                 <div class="row">
-                                    <div class="col-3 col-12-small">
-                                       <ul class="link-list last-child">
-                                          <li><a href="https://hrong98.tistory.com/">조충현 Model</a></li>
-                                          <li><a href="https://blog.naver.com/rhalwls56">고미진 View</a></li>
-                                          <li><a href="https://blog.naver.com/study_j04">정재희 View</a></li>
-                                          <li><a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502">안제호 View</a></li>
-                                          <li><a href="https://blog.naver.com/wx_wns_">정재준 Controller</a></li>
-                                          <li><a href="https://minibcake.tistory.com/">한지윤 Controller </a></li>
-                                       </ul>
-                                    </div>
-                                    <div class="col-3 col-12-small">
-                                       <ul class="link-list last-child">
-                                          <li><a href="https://hrong98.tistory.com/">Model 파트장</a></li>
-                                          <li><a href="https://blog.naver.com/rhalwls56">View 파트장</a></li>
-                                          <li><a href="https://blog.naver.com/study_j04">View</a></li>
-                                          <li><a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502">View</a></li>
-                                          <li><a href="https://blog.naver.com/wx_wns_">붕어빵원정대 팀장</a></li>
-                                          <li><a href="https://minibcake.tistory.com/">Controller 파트장</a></li>
-                                       </ul>
-                                    </div>
-                                    <div class="col-3 col-12-small">
-                                       <ul class="link-list last-child">
-                                       </ul>
-                                    </div>
-                                    
-                                 </div>
-                              </div>
-                           </section>
+				<!-- Links -->
+				<section>
+					<h2>
+					<img src="${path}/resources/assets/images/fishbread_blog.png" alt="logo Image" class="footerIcon" />
+					 개발자 블로그</h2>
+					<div>
+						<div class="row">
+							<div class="col-3 col-12-small">
+								<ul class="link-list last-child">
+									<li><a href="https://blog.naver.com/wx_wns_"><span class="memberName">정재준</span></a><br>
+										<a href="https://blog.naver.com/wx_wns_"><span class="memberRoll">최프 : 전체 팀장</span></a><br>
+										<a href="https://blog.naver.com/wx_wns_"><span class="memberRoll">중프 : 전체 팀장</span></a>
+									</li>
+									<li><a href="https://hrong98.tistory.com/"><span class="memberName">조충현</span></a><br>
+										<a href="https://hrong98.tistory.com/"><span class="memberRoll">최프 : V 팀장</span></a><br>
+										<a href="https://hrong98.tistory.com/"><span class="memberRoll">중프 : M 팀장</span></a>
+									</li>
+								</ul>
+							</div>
+							<div class="col-3 col-12-small">
+								<ul class="link-list last-child">
+									<li><a href="https://blog.naver.com/study_j04"><span class="memberName">정재희</span></a><br>
+										<a href=" https://blog.naver.com/study_j04"><span class="memberRoll">최프 : C 팀장</span></a><br>
+										<a href=" https://blog.naver.com/study_j04"><span class="memberRoll">중프 : V 멤버</span></a>
+									</li>
+									<li><a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502"><span class="memberName">안제호</span></a><br>
+										<a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502"><span class="memberRoll">최프 : C 멤버</span></a><br>
+										<a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502"><span class="memberRoll">중프 : V 멤버</span></a>
+										</li>
+								</ul>
+							</div>
+							<div class="col-3 col-12-small">
+								<ul class="link-list last-child">
+									<li><a href="https://minibcake.tistory.com/"><span class="memberName">한지윤</span></a><br>
+										<a href=" https://minibcake.tistory.com/"><span class="memberRoll">최프 : M 팀장</span></a><br>
+										<a href=" https://minibcake.tistory.com/"><span class="memberRoll">중프 : C팀장</span></a>
+									</li>
+									<li><a href="https://blog.naver.com/rhalwls56"><span class="memberName">고미진</span></a><br>
+										<a href="https://blog.naver.com/rhalwls56"><span class="memberRoll">최프 : M 멤버</span></a><br>
+										<a href="https://blog.naver.com/rhalwls56"><span class="memberRoll">중프 : V 팀장</span></a>
+									</li>
+								</ul>
+							</div>
 
-                     </div>
-                     <div class="col-4 col-12-medium imp-medium">
+						</div>
+					</div>
+				</section>
 
-                        <!-- Blurb -->
-                           <section>
-                              <h2>붕어빵 원정대</h2>
-                              <p>
-                                 저희조 프로젝트 주제를 붕어빵으로 한 이유는 이번 정규 수업이 끝날때 쯤 추운 겨울이고 붕어빵이 생각나는 계절이라 주제 선정에 대한 신선함도 있었고 추운 겨울 따뜻한 온기를 나눠주는 붕어빵같은 조로 개발자의 꿈을 꾸다 막히는 일이 있을 때 언제든 도움을 줄 수 있는 그런 팀이 되었으면 좋겠다는 마음에 주제를 붕어빵으로 하고 팀명을 붕어빵 원정대로 지었습니다.
-                              </p>
-                           </section>
+			</div>
+			<div class="col-4 col-12-medium imp-medium">
 
-                     </div>
-                  </div>
-               </div>
-            </section>
-	
-    
+				<!-- Blurb -->
+				<section>
+					<h2>
+						<img src="${path}/resources/assets/images/logo.png" alt="logo Image" class="footerIcon" />
+						붕어빵 원정대
+					</h2>
+					<p id="siteContent">"갈빵질빵"은 전국의 붕어빵 애호가들이 모여 정보를 공유하고, 위치를 손쉽게 찾는 것을 목적으로 만들었습니다.
+						다양한 커뮤니티 활동을 통해 붕어빵에 대한 애정을 나누며, 관련 상품을 구매합니다.</p>
+				</section>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Copyright -->
+<div id="copyright">
+	&copy; Untitled. All rights reserved. | Design: <a
+		href="http://html5up.net">HTML5 UP</a>
+</div>

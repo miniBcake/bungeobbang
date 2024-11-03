@@ -9,11 +9,18 @@ $(document).ready(function() {
 	var options = {
 		//지도의 중심좌표. 위도 경도 순으로 작성
 		center: new kakao.maps.LatLng(33.450701, 126.570667),
+		// 지도의 이동, 확대/축소를 막음
+		draggable: false,
 		//지도의 레벨(확대, 축소 정도)
-		level: 3
+		level: 4
 	};
 
 	var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+	// 지도 확대 축소를 제어할 수 있는 줌 컨트롤을 생성
+	var zoomControl = new kakao.maps.ZoomControl();
+	// 생성한 줌 컨트롤러를 지도의 오른쪽에 추가
+	map.addControl(zoomControl, kakao.maps.ControlPosition.BOTTOMRIGHT);
 
 	// map 객체 생성 확인
 	console.log('printMap.js : map 생성 확인 : [' + map + ']');
@@ -42,19 +49,27 @@ $(document).ready(function() {
 			})
 			.then(address => {
 				// 가게 검색
-				return searchStore(address);
+				return searchStoreNotPrint(address);
 			})
 			// 주소 검색이 들어가야 함
 			.then(positions => {
 				console.log('printMap.js : positions : [' + positions + ']');
 
-				// 마커가 다 보이도록 지도 범위 재설정
-				mapBounds(map, positions, myAddress);
+				// 지도에 마커 출력
+				createMapAndMarker(positions, map);
 			})
 			.catch(error => {
 				console.error(error);
 			});
+	});
 
+	// div의 크기가 변경될 때마다 지도의 중심을 사용자 위치로 다시 설정
+	$(window).resize(function() {
+		// 내 주소값이 존재한다면
+		if (myAddress) {
+			console.log('printMap.js : div 크기 변경 - 중심 재설정');
+			map.setCenter(myAddress); // 지도의 중심을 내 위치로 재설정
+		}
 	});
 });
 
@@ -191,7 +206,7 @@ function latLngToAddress(locPosition) {
 }
 
 // 주소로 가게들을 검색하는 함수
-function searchStore(address) {
+function searchStoreNotPrint(address) {
 	// ajax 실행
 	return new Promise((resolve, reject) => { // Promise를 반환하도록 수정
 		$.ajax({
@@ -207,20 +222,12 @@ function searchStore(address) {
 				// data 존재 확인 로그 (데이터 길이만 확인)
 				console.log('printMap.js : data.length : [' + data.length + ']');
 
-				// #storeList 가져오기
-				var storeList = $('#storeList');
-				console.log('printMap.js : storeList : ', storeList);
-
-				// 기존 데이터 초기화
-				storeList.empty();
-
 				// 주소를 좌표로 변환할 객체 생성
 				var geocoder = new kakao.maps.services.Geocoder();
 
 				// 데이터가 비어있다면
 				if (data.length === 0) { // 수정: length가 0일 때
-					storeList.append('<span>검색 결과 없음</span>');
-					resolve([]); // 비어있는 배열 반환
+
 				} else {
 					// 주소의 좌표를 보관할 배열 생성
 					var positions = [];
@@ -229,9 +236,6 @@ function searchStore(address) {
 
 					// 온 data 갯수만큼 하나씩 코드를 작성하여 넣음
 					data.forEach(function(item) {
-						// <customStore:simpleStoreData/> 출력
-						append(storeList, item);
-
 						// 지도에 표시할 주소
 						var itemAddress = item.storeAddress + ' ' + item.storeAddressDetail;
 						console.log('printMap.js itemAddress :' + itemAddress + ']');
@@ -278,100 +282,8 @@ function searchStore(address) {
 	});
 }
 
-
-// jsp 파일에 추가될 요소 코드
-function append(storeList, item) {
-	storeList.append(
-		'<div class="storeData">'
-		+ '<div class="storeDataTitle">'
-		+ '<a href="/viewStorePage.do?storeNum=' + item.storeNum + '">'
-		+ '<h4 class="text-hover">' + item.storeName + '</h4></a>'
-		+ '</div>'
-		+ '<div class="storeDataContent">'
-		+ '<div class="col-1 nonePadding">'
-		+ '<i class="fas fa-map"></i>'
-		+ '</div>'
-		+ '<div class="col-11 leftPadding text-start">'
-		+ '<span  id="address">' + item.storeAddress + ' <br> ' + item.storeAddressDetail
-		+ '</span>'
-		+ '</div>'
-		+ '</div>'
-		+ '<div class="storeDataContent">'
-		+ '<div class="col-1 nonePadding">'
-		+ '<i class="fas fa-phone"></i>'
-		+ '</div>'
-		+ '<div class="col-11 leftPadding text-start">'
-		+ '<span>' + item.storeContact + '</span>'
-		+ '</div>'
-		+ '</div>'
-		+ '</div>'
-	);
-}
-
-// 마커를 생성하고 지도 범위 번경하는 함수
-function mapBounds(map, positions, myAddress) {
-	console.log('printMap.js : mapBounds');
-	// point 배열초기화
-	var points = [];
-
-	// marker 배열을 담을 변수
-	var markers = [];
-
-	// 사용자의 현재 주소를 가장 처음 넣음
-	points.push(myAddress);
-	// myAddress가 잘 들어갔는지 확인
-	console.log('printMap.js : points 1 : [' + points + ']');
-	console.log('printMap.js : points.length : [' + points.length + ']');
-
-	// positions 배열을 반복하여 points에 LatLng 객체를 추가
-	for (var i = 0; i < positions.length; i++) {
-		points.push(positions[i].latlng);
-		console.log('printMap.js : positions[' + i + '].latlng : [' + positions[i].latlng + ']');
-	}
-
-	console.log('printMap.js : points 2 : [' + points + ']');
-	console.log('printMap.js : points.length : [' + points.length + ']');
-
-	// LatLngBounds 객체를 생성 (경계 범위 객체)
-	var bounds = new kakao.maps.LatLngBounds();
-
-	// 현재 위치 마커를 위한 이미지 설정
-	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-	var imageSize = new kakao.maps.Size(24, 35);
-	var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-
-	for (var i = 0; i < points.length; i++) {
-		// 배열의 좌표들이 잘 보이게 마커를 지도에 추가
-		var markerOptions = { position: points[i] };
-		// 첫 번째 마커만 특별하게 표시
-		if (i == 0) {
-			markerOptions.image = markerImage;
-		}
-		console.log('printMap.js : ' + i + '번째 마커 작성');
-
-		var marker = new kakao.maps.Marker(markerOptions);
-		marker.setMap(map);
-		markers.push(marker);
-
-		// LatLngBounds 객체에 좌표를 추가
-		bounds.extend(points[i]);
-
-		// 마커에 마우스가 닿을 시 오버레이 표시
-		showMarkerNameToDiv(marker, map, i, positions, false);
-	}
-
-	// map이 출력되는 크기, 위치 조정
-	map.setBounds(bounds);
-
-	// div에 마우스가 닿을 시 오버레이 표시
-	showDivToMarkerName(map, positions, markers, false);
-
-	console.log('printMap.js : 범위 재설정 완료');
-}
-
 // 마커에 마우스를 가져다대면 위에 가게 이름 띄우고, storeName 클래스의 div를 표시하는 함수
-function showMarkerNameToDiv(marker, map, i, positions, search) {
+function showMarkerNameAndAddress(marker, map, i, positions, search) {
 	console.log('printMap.js : showMarkerNameToDiv');
 
 	// 오버레이 생성
@@ -396,58 +308,15 @@ function showMarkerNameToDiv(marker, map, i, positions, search) {
 
 				console.log('printMap.js : 마우스에 닿은 마커 i 값 : [' + index + ']');
 
-				// positions에서 오버레이에 사용할 이름을 가져옴 
+				// positions에서 오버레이에 사용할 이름, 주소를 가져옴 
 				const storeName = positions[index].store.storeName;
+				const storeAddress = positions[index].store.storeAddress;
+				const storeAddressDetail = positions[index].store.storeAddressDetail;
 
 				// 오버레이 content 설정
 				overlay.setContent('<div id="marker" style="padding:5px; z-index:1; white-space: nowrap; border-radius: 10px; background-color: white; border: 3px solid orange;">'
-								+ '<b style="color: orange">' + storeName + '</b></div>');
-
-
-				// position의 주소값 가져오기
-				var markerAddress = positions[index].store.storeAddress + positions[index].store.storeAddressDetail;
-				var markerName = positions[index].store.storeName;
-
-				// 비교를 위해 공백 지우기
-				markerAddress = markerAddress.replace(/\s+/g, '');
-				markerName = markerName.replace(/\s+/g, '');
-				console.log('printMap.js : markerAddress : [' + markerAddress + ']');
-				console.log('printMap.js : markerName : [' + markerName + ']');
-
-				// storeData 클래스인 요소 불러와서 반복
-				$('.storeData').each(function() {
-					// 요소의 주소, 가게이름 가져오기
-					var childElAddress = $(this).find('span[id="address"]');
-					var childElName = $(this).find('h4').text().trim();
-
-					// text 형식으로 변경 후 비교를 위한 공백 제거
-					var childAddressText = childElAddress.text().replace(/\s+/g, '');
-					childElName = childElName.replace(/\s+/g, '');
-					console.log('printMap.js : childAddressText : [' + childAddressText + ']');
-					console.log('printMap.js : childElName : [' + childElName + ']');
-
-					// 마커와 요소의 이름, 주소 비교
-					const isNameMatch = childElName === markerName;
-					const isAddressMatch = childAddressText === markerAddress;
-					console.log('printMap.js : childAddressText, childElName : [' + isNameMatch + ', ' + isAddressMatch + ']');
-
-					// 요소의 주소가 존재하고 이름, 주소 둘 다 존재하는 값이 있다면
-					if (childElAddress.length && isAddressMatch && isNameMatch) {
-						// 굵기를 굵게 변경
-						$(this).css('border', '5px solid #d8c15a');
-
-						// scrollContainer 클래스의 스크롤이 해당 요소가 보이도록 움직임
-						$('.scrollContainer').animate({
-							scrollTop: $(this).position().top + $('.scrollContainer').scrollTop()
-							// 800의 속도로 이동
-						}, 800);
-
-						// 반복문 종료
-						return false;
-					} else {
-						console.log('printMap.js : 일치하지 않음');
-					}
-				});
+					+ '<b style="color: orange">' + storeName + '</b><br>'
+					+ '<span style="font-size: 12px;">' + storeAddress + '<br>' + storeAddressDetail + '</span></div>');
 
 				// 오버레이 열기
 				overlay.open(map, marker);
@@ -465,78 +334,19 @@ function showMarkerNameToDiv(marker, map, i, positions, search) {
 	});
 }
 
-// div에 마우스를 가져다 댔을 때 마커에도 오버레이가 표시되는 함수
-function showDivToMarkerName(map, positions, markers, search) {
-	var overlay = null; // overlay를 초기화하여 함수 범위에서 정의
+// map을 생성하고 마커 표시
+function createMapAndMarker(positions, map) {
+	// map에 표시
+	for (var i = 0; i < positions.length; i++) {
 
-	$('.storeData').on('mouseover', function() {
-		// 선 굵기를 변경
-		$(this).css('border', '5px solid #d8c15a');
-
-		var childElName = $(this).find('h4').text().trim();
-		var childAddressText = $(this).find('span[id="address"]').text().trim();
-
-		childElName = childElName.replace(/\s+/g, '');
-		childAddressText = childAddressText.replace(/\s+/g, '');
-
-		markers.forEach((marker, i) => {
-			let index = search ? i : i - 1; // index 정의
-
-			// index 유효성 체크
-			if (index < 0 || index >= positions.length) {
-				console.warn(`printMap.js : 유효하지 않은 index 값: ${index}`);
-				return; // 유효하지 않으면 다음으로 넘어감
-			}
-
-			// positions[index]가 undefined인지 체크
-			const position = positions[index];
-			if (!position || !position.store) {
-				console.warn(`printMap.js : position이 유효하지 않음: ${position}`);
-				return; // position이 유효하지 않으면 다음으로 넘어감
-			}
-
-			// 마커의 이름, 주소 가져오기
-			var markerName = position.store.storeName;
-			var markerAddress = position.store.storeAddress + position.store.storeAddressDetail;
-
-			// 비교를 위해 공백 지우기
-			markerName = markerName.replace(/\s+/g, '');
-			markerAddress = markerAddress.replace(/\s+/g, '');
-			console.log('printMap.js : markerAddress : [' + markerAddress + ']');
-			console.log('printMap.js : markerName : [' + markerName + ']');
-
-			// 마커와 요소의 이름, 주소 비교
-			const isNameMatch = childElName === markerName;
-			const isAddressMatch = childAddressText === markerAddress;
-			console.log('printMap.js : childAddressText, childElName : [' + isNameMatch + ', ' + isAddressMatch + ']');
-
-			// 이름, 주소 둘 다 존재하는 값이 있다면
-			if (isNameMatch && isAddressMatch) {
-				// overlay가 없을 때만 생성
-				if (!overlay) {
-					overlay = new kakao.maps.InfoWindow({});
-				}
-
-				// 오버레이의 내용 설정
-				overlay.setContent('<div id="marker" style="padding:5px; z-index:1; white-space: nowrap; border-radius: 10px; background-color: white; border: 3px solid orange;">'
-												+ '<b style="color: orange">' + markerName + '</b></div>');
-				// 마커 위에 오버레이 표시
-				overlay.open(map, marker);
-				console.log('printMap.js : 일치하는 마커에 오버레이 표시');
-
-				// forEach 종료
-				return false; // 반복문 종료
-			}
+		// 마커를 생성
+		var marker = new kakao.maps.Marker({
+			map: map,
+			position: positions[i].latlng,
+			title: positions[i].title
 		});
-		// 마우스가 벗어났다면
-	}).on('mouseout', function() {
-		if (overlay) {
-			// 오버레이 닫기
-			overlay.close();
-			// overlay를 null로 초기화하여 재사용 방지
-			overlay = null;
-		}
-		// 굵기 요소를 원래대로
-		$('.storeData').css('border', '');
-	});
+
+		// 마커에 마우스가 닿을 시 오버레이 표시
+		showMarkerNameAndAddress(marker, map, i, positions, true);
+	}
 }
