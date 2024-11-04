@@ -196,7 +196,7 @@
 										<strong>${post.boardTitle}</strong> - ${post.memberNickname}
 									</p>
 									<p>${fn:length(post.boardContent) > 30 ? fn:substring(post.boardContent, 0, 30) + '...' : post.boardContent}</p>
-									<a href="infoboard.do?boardNum=${post.boardNum}"
+									<a href="infoBoard.do?boardNum=${post.boardNum}"
 									class="btn btn-secondary">게시글 보러 가기</a>
 								</li>
 							</c:forEach>

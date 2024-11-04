@@ -34,6 +34,7 @@
 	crossorigin="anonymous">
 </head>
 <body>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="${path}/resources/assets/js/board/board.js"></script>
 	<script src="${path}/resources/assets/js/board/replyList.js"></script>
@@ -82,11 +83,11 @@
 					<c:if test="${board.memberNum eq userPK}">
 						<div id="edit-button-container" style="display: inline;">
 							<br> <a href="updateBoard.do?boardNum=${board.boardNum}" class="btn btn-primary" role="button">수정 </a>
-								<a href="deleteBoard.do?boardNum=${board.boardNum}" class="btn btn-danger" role="button">삭제 </a>
+								<button type="button" id="deleteButton" class="btn btn-danger" role="button">삭제 </button>
 						</div>
 					</c:if>
 					<button id="back-button" class="btn btn-light"
-						onclick="history.back()">게시물 돌아가기</button>
+						onclick="history.back()">게시판 돌아가기</button>
 				</div>
 				<!-- 세 번째 행 : 댓글 -->
 				<div class="row">
@@ -103,51 +104,24 @@
 						<!-- 작성자가 지금 로그인한 유저라면 댓글 작성란 생성/아니라면 숨김-->
 						<%--댓글 입력은 글 작성자가 아니어도 가능해야하므로 로그인 여부만 판단하는 걸로 수정했습니다.--%>
 						<%--입력창은 그냥 보이게 두고 댓글 입력 누를 때 로그인 유도하는 방식도 좋을 것 같아요 하신다면 JS로 구현하시면 될 것 같습니다.--%>
-						<c:if test="${not empty userPK}">
-							<div class="replyMid">
-								<!-- 댓글 등록 -->
-								<div class="profile">
-									<span id="userNickname">${userNickname}</span>
-								</div>
-								<div class="replyInput">
-									<input type="hidden" id="replyMemberNum" name="memberNum" value="${userPK}">
-									<!-- 댓글 입력 창 :replyContent로 form데이터 전송-->
-									<textarea id="myReplyContent" name="replyContent"
-										placeholder="댓글을 입력해주세요" required>${replyList.replyContent}</textarea>
-								</div>
-								<!-- 댓글 작성 버튼 -->
-								<div class="replyButtom">
-									<button class="btn btn-primary" type="button" id=insertReply name="insertReply">댓글작성</button>
-								</div>
+						<div class="replyMid">
+							<!-- 댓글 등록 -->
+<%--							<div class="profile">--%>
+<%--								<span id="userNickname">${userNickname}</span>--%>
+<%--							</div>--%>
+							<div class="replyInput">
+								<input type="hidden" id="replyMemberNum" name="memberNum" value="${userPK}">
+								<!-- 댓글 입력 창 :replyContent로 form데이터 전송-->
+								<textarea id="myReplyContent" name="replyContent"
+										  placeholder="댓글을 입력해주세요" required>${replyList.replyContent}</textarea>
 							</div>
-						</c:if>
-						<div class="replyList">
-							<%--<c:forEach var="replyList" items="${replyList}">
-								<input type="hidden" id="replyNum" name="replyNum"
-									value="${replyList.replyNum}">
-								<div class="row align-items-center">
-									<div class="col-12 col-md-9">
-										<div class="replySection">
-											<!-- 닉네임 -->
-											<span class="nickName">${replyList.replyNickname}</span>
-											<!-- 댓글 내용 -->
-											<span class="replyContent">{replyList.replyContent}</span>
-										</div>
-									</div>
-									<div class="col-12 col-md-2 text-center" id="replyData">
-										<!-- 작성 날짜 -->
-										<div class="date">{replyList.replyWriteDay}</div>
-										<!-- 댓글 삭제 버튼 -->
-										<!-- 작성자가 지금 로그인한 유저라면 댓글 작성란 생성/아니라면 숨김-->
-										<c:if test="${boardList.memberName eq userNickname}">
-											<div class="buttonBox">
-												<button class="btn btn-danger" id="deleteReply" name="deleteReply">삭제</button>
-											</div>
-										</c:if>
-									</div>
-									<hr>
-								</div>
-							</c:forEach>--%>
+							<!-- 댓글 작성 버튼 -->
+							<div class="replyButtom">
+								<button class="btn btn-primary" type="button" id="insertReply" name="insertReply">댓글작성</button>
+							</div>
+						</div>
+						<div id="replyList" class="replyList">
+							<%--댓글이 들어갈 공간 / 비동기--%>
 						</div>
 					</div>
 				</div>
@@ -156,7 +130,10 @@
 				<custom:boardSideBar />
 			</div>
 		</div>
-		<custom:footer />
 	</div>
+	<custom:footer />
+<form action="deleteBoard.do" id="deleteForm" method="POST">
+	<input type="hidden" name="boardNum" value="${board.boardNum}">
+</form>
 </body>
 </html>

@@ -76,7 +76,7 @@ public class BoardController {
         boardDTO = boardService.selectOne(boardDTO);
 
         //댓글 정보 조회 (개수)
-        replyDTO.setCondition("SELECTONE_BOARD");
+        replyDTO.setCondition("CNT_BOARD_RP");
         replyDTO = replyService.selectOne(replyDTO);
         int replyCnt = 0;
         if(replyDTO != null) { //NPE방지
@@ -132,13 +132,13 @@ public class BoardController {
             log.error("log: deleteBoard - delete board fail");
             //게시글 삭제 실패
             model.addAttribute("msg", FAIL_BOARD_DELETE_MSG);
-            model.addAttribute("path", "loadListBoards.do?categoryName="+boardDTO.getBoardCategoryName());
+            model.addAttribute("path", "loadListBoards.do?boardCategoryName="+boardDTO.getBoardCategoryName());
             return FAIL_URL;
         }
 
         //해당 카테고리 게시판으로 이동
         log.info("log: /deleteBoard.do deleteBoard - end : loadListBoards.do");
-        return "loadListBoards.do?categoryName="+boardDTO.getBoardCategoryName();
+        return "redirect:loadListBoards.do?boardCategoryName="+boardDTO.getBoardCategoryName();
     }
 
     //게시글 전체 리스트
@@ -296,11 +296,11 @@ public class BoardController {
             //실패 시
             log.error("log: addBoard - insert fail");
             model.addAttribute("msg", FAIL_BOARD_INSERT_MSG);
-            model.addAttribute("path", "loadListBoards.do?categoryName="+boardDTO.getBoardCategoryName());
+            model.addAttribute("path", "loadListBoards.do?boardCategoryName="+boardDTO.getBoardCategoryName());
             return FAIL_URL;
         }
         //작성한 글이 있는 카테고리 페이지로 이동
         log.info("log: /addBoard.do addBoard - end");
-        return "redirect:loadListBoards.do?categoryName="+boardDTO.getBoardCategoryName();
+        return "redirect:loadListBoards.do?boardCategoryName="+boardDTO.getBoardCategoryName();
     }
 }

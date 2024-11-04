@@ -19,6 +19,7 @@ $(document).ready(() => {
 				data: JSON.stringify({ boardNum: boardNum }),
 				dataType: 'json',
 				success: function(result) {
+					console.log("log: ajax loadListReply success");
 					$('#replyList').empty(); // 댓글 초기화
 					$.each(result, function(index, reply) {
 						var replyListResult = `
@@ -27,7 +28,7 @@ $(document).ready(() => {
 				            <div class="row align-items-center">
 				            	<div class="col-12 col-md-9">
 				                	<div class="replySection"><!-- 댓글 닉네임 및 내용 출력 -->
-				                    	<span class="nickName">${reply.replyNickname}</span>
+				                    	<span class="nickName">${reply.memberNickname}</span>
 				                    	<span class="replyContent">${reply.replyContent}</span>
 				                    </div>
 				                </div>
@@ -49,6 +50,7 @@ $(document).ready(() => {
 					});
 				},
 				error: function() {
+					console.log("log: reply error");
 					Swal.fire({
 						icon: 'error',
 						title: '댓글 목록 불러오기 오류',

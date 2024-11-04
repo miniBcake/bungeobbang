@@ -32,7 +32,6 @@ public class StoreDAO {
 	//조회 데이터 : 가게 고유번호(PK), 가게 상호명, 기본&상세주소, 가게 전화번호, 가게폐점여부, 비공개 여부
 	private final String INFO_STORE_SELECTONE = """
             SELECT 
-            ROW_NUMBER() OVER (ORDER BY STORE_NUM) AS ROWNUM,
             STORE_NUM, 
             STORE_NAME,
             STORE_ADDRESS,
@@ -67,7 +66,6 @@ public class StoreDAO {
 	//필터링 후 해당하는 가게 고유번호(PK) 모두 조회
 	private final String SELECTALL_VIEW = """
 			SELECT 
-				ROW_NUMBER() OVER (ORDER BY STORE_NUM) AS ROWNUM,
 				STORE_NUM, 
 				STORE_NAME, 
 	            STORE_ADDRESS,
@@ -92,7 +90,6 @@ public class StoreDAO {
 
 	private final String SELECTALL_DECLARED_CNT="""
 			SELECT 
-				ROW_NUMBER() OVER (ORDER BY S.STORE_NUM) AS ROWNUM,  
 				S.STORE_NUM, 
 				S.STORE_NAME, 
 		     	STORE_ADDRESS,
@@ -141,7 +138,7 @@ public class StoreDAO {
 	//항상 조건절 충족하도록 WHERE 1=1 변수 생성
 	private final String SELECTALLNUMFILTER = " WHERE 1=1 ";
 
-	private final String SELECTALL_ENDPART = "ORDER BY ROWNUM DESC LIMIT ?,?";
+	private final String SELECTALL_ENDPART = " LIMIT ?,?";
 
 
 	// UPDATE_필터 변수 모음 ------------------------------------------------------------------------------------------------------
@@ -283,7 +280,7 @@ public class StoreDAO {
 				query = filterUtil.buildFilterQuery(query,filters)+" "+SELECTALL_ENDPART;
 				argsList = filterUtil.setFilterKeywords(argsList, filters); //필터 검색 검색어
 
-				argsList.add(storeDTO.getStartNum()-1);
+				argsList.add(storeDTO.getStartNum() < 1? 0: storeDTO.getStartNum()-1);
 				argsList.add(CONTENT_SIZE); // 페이지 네이션 시작, 끝 번호
 
 				//args 배열화

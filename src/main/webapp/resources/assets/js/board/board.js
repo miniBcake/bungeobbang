@@ -2,17 +2,17 @@
 
 // 특정 행(게시물)을 클릭하면 상세조회 이동
 $(document).ready(function() {
-	$(document).on('click', '.infoBoardRow', function() {
-		$('#infoBoardform').submit(); // 수정 폼 제출
-	});
+// 	$(document).on('click', '.infoBoardRow', function() {
+// 		$('#infoBoardform').submit(); // 수정 폼 제출
+// 	});
 
 
 
 	//글쓰기 버튼을 누르면
-	$(document).on('click', '#addBoardButton', function() {
-		$('#addBoardForm').submit(); // 수정 폼 제출
-
-	});
+	// $(document).on('click', '#addBoardButton', function() {
+	// 	$('#addBoardForm').submit(); // 수정 폼 제출
+	//
+	// });
 
 	
 	
