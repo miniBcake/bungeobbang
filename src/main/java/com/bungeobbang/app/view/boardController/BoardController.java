@@ -169,10 +169,12 @@ public class BoardController {
         HashMap<String, String> filterList = new HashMap<>();
         // 검색 조건 설정
         if (keyword != null && !keyword.isEmpty()) {
+            log.info("log: loadListBoards - add keyword search : contentFilter [{}]", contentFilter);
             filterList.put(contentFilter, keyword);
         }
         // 작성일 검색 조건 설정
         if (!(writeDayFilter == null || writeDayFilter.equals("ALL"))) { //ALL은 전체기간 검색용
+            log.info("log: loadListBoards - add writeDayFilter : [{}]", writeDayFilter);
             filterList.put("SELECT_PART_PERIOD", writeDayFilter);
         }
         //고정 데이터 : 카테고리값
@@ -186,8 +188,10 @@ public class BoardController {
         boardTotalCNT.setCondition("CNT_BOARD");
         boardTotalCNT.setBoardCategoryName(boardCategoryName);
         totalSize = boardService.selectOne(totalCNT).getCnt(); //게시글 수
+        log.info("log: loadListBoards - totalSize : [{}]", totalSize);
         // view 에게 보낼 총 페이지 수
         totalPage = PaginationUtils.calTotalPages(totalSize, CONTENT_SIZE);
+        log.info("log: loadListBoards - totalPage : [{}]", totalPage);
 
         //페이지네이션 정보 설정 (startNum, endNum - 기존 Pagination util 재활용)
         PaginationUtils.setPagination(page, CONTENT_SIZE, totalSize, boardDTO);
@@ -196,6 +200,17 @@ public class BoardController {
         boardDTO.setBoardCategoryNum(boardCategoryNum);
         boardDTO.setCondition("FILTER_BOARD");
         boardList = boardService.selectAll(boardDTO);
+
+        //만약 카테고리가 일반 게시판이고 검색이 없을 때만 인기글 데이터 전달 /////////////////////
+        if(boardCategoryName.equals(PAGE_BOARD_COMMU) && filterList.size() <= 1){ //카테고리 조건만 filter에 있는 경우는 검색을 안한 경우
+            log.info("log: loadListBoards - hotBoardList add");
+            //인기글 데이터 요청
+            boardDTO.setCondition("HOT_BOARD");
+            ArrayList<BoardDTO> hotBoardList = boardService.selectAll(boardDTO);
+            model.addAttribute("hotBoardList", hotBoardList);//인기글
+            log.info("log: loadListBoards - send hotBoardList : {}", hotBoardList);
+        }
+        ///////////////////////////////////////////////////////////////////////////////
 
         //데이터 전달
         model.addAttribute("boardList", boardList); // 게시글 데이터

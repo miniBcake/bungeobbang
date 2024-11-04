@@ -255,7 +255,7 @@ public class BoardDAO {
 			argsList = filterUtil.setFilterKeywords(argsList, filters);
 
 			//페이지네이션
-			argsList.add(boardDTO.getStartNum());
+			argsList.add(boardDTO.getStartNum()-1);
 			argsList.add(CONTENT_SIZE);
 
 			//args 배열화
@@ -287,8 +287,8 @@ public class BoardDAO {
 			System.out.println("log: Board selectAll : MY_BOARD");
 			args = new Object[] {
 					boardDTO.getMemberNum(),
-					boardDTO.getStartNum(),
-					boardDTO.getEndNum()
+					boardDTO.getStartNum()-1,
+					CONTENT_SIZE
 			};
 			query = SELECTALL_MYPAGE;
 		}

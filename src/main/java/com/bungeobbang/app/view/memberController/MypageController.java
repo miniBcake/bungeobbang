@@ -39,9 +39,20 @@ public class MypageController {
 	private final String SESSION_PROFILE = "userProfile";
 	private final String SESSION_POINT = "userPoint";
 
+	//유저권한 구분
+	private final String ADMIN = "ADMIN";
+
+	//마이페이지 이동
 	@GetMapping("/infoMypage.do")
 	public String infoMypage(HttpSession session, Model model) {
 		log.info("log: /infoMypage.do infoMypage - start");
+		//관리자라면
+		if(session.getAttribute(SESSION_ROLE).equals(ADMIN)) {
+			//관리자 페이지로 이동
+			return "redirect:loadListOrder.do";
+		}
+
+		//일반 유저라면
 		MemberDTO memberDTO = new MemberDTO(); //빈 객체 생성
 		memberDTO.setMemberNum((int)session.getAttribute(SESSION_PK)); //세션값 저장
 		memberDTO.setCondition("INFO_CONDITION");
