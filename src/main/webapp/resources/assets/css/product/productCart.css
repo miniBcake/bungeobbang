@@ -1,6 +1,9 @@
 @charset "UTF-8";
+@import url('color.css');
+
 body {
-	padding-top: 100px;
+	font-family: 'Gamja Flower', cursive !important;
+	color: var(--normal-font-color)!important;
 }
 
 .cart-header {
@@ -24,7 +27,7 @@ body {
 }
 
 .cart-products {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--hr-line-color);
     padding-top: 20px;
 }
 
@@ -34,7 +37,7 @@ body {
 }
 
 .product-item {
-    border: 1px solid #ccc;
+    border: 1px solid var(--hr-line-color);
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
@@ -69,7 +72,7 @@ body {
     align-items: center;
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--hr-line-color);
 }
 
 .cart-footer .total-price {
@@ -78,14 +81,14 @@ body {
 }
 
 .btn-custom {
-    background-color: #555;
+    background-color: var(--button-line-color);
     color: white;
     border: none;
     padding: 10px 20px;
 }
 
 .btn-custom:hover {
-    background-color: #333;
+    background-color: var(--button-hover-line-color);
 }
 
 .fade-out {
@@ -102,11 +105,13 @@ body {
 #orderSection h5 {
     font-weight: bold;
     margin-bottom: 15px;
+    
+    font-size: 160% !important;
 }
 
 /* 주소 검색 버튼 스타일 */
 #addressSearchButton {
-    background-color: #007bff;
+    background-color: var(--button-background-color);
     color: #fff;
     border: none;
     padding: 8px 12px;
@@ -117,7 +122,7 @@ body {
 }
 
 #addressSearchButton:hover {
-    background-color: #0056b3;
+    background-color: var(--button-hover-background-color);
 }
 
 /* 우편번호 및 주소 입력 필드 스타일 */
@@ -128,7 +133,7 @@ body {
     padding: 8px;
     margin-top: 5px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--hr-line-color);
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -137,14 +142,14 @@ body {
 #phoneInput {
     width: 100%;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--hr-line-color);
     border-radius: 4px;
     box-sizing: border-box;
 }
 
 /* 전화번호 변경 버튼 스타일 */
 #phoneChangeButton {
-    background-color: #007bff;
+    background-color: var(--button-background-color);
     color: #fff;
     border: none;
     padding: 8px 12px;
@@ -154,7 +159,7 @@ body {
 }
 
 #phoneChangeButton:hover {
-    background-color: #0056b3;
+    background-color: var(--button-hover-background-color);
 }
 
 /* 주소 검색 레이어 스타일 */
@@ -167,7 +172,7 @@ body {
     width: 300px;
     height: 300px;
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid var(--hr-line-color);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
@@ -183,6 +188,24 @@ body {
     cursor: pointer;
     width: 24px;
     height: 24px;
+}
+
+.btn-outline-secondary {
+	color: var(--button-font-color) !important;;
+    border: 2px solid var(--button-line-color) !important;
+}
+.btn-outline-secondary:hover {
+	color: white !important;
+	background-color: var(--button-background-color) !important;
+	
+}
+
+.allCheck {
+	font-size: 150%;
+}
+
+#myPoint {
+	font-size: 150%;
 }
 
 @keyframes fadeOut {
