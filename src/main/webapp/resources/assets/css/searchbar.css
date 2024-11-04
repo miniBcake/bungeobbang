@@ -79,9 +79,7 @@
     margin: 5px;
     align-items: center; 
     
-    background-color: white;
-    
-    
+    background-color: white; 
 }
 
 .searchInput i {
@@ -90,9 +88,10 @@
 }
 
 /* searchBar의 input 태그 */
-.searchInput input[type="text"] {
+.searchInput #searchInput {
     font-size: var(--search-font-size);
-    width: var(--none-category-width);
+    font-family: 'Gamja Flower', cursive;
+    width: var(--none-category-width) !important;
     border: none;
     outline: none;
     padding: 1px;
@@ -106,21 +105,22 @@
 }
 
 /* searchBar의 input 태그의 submit 속성 */
-.row input[type="submit"] {
+/* searchInputBTN id 값 */
+#searchInputBTN {
     display: inline-block;
 
 	padding: 1px;
     font-size: 150%;
     width: 15%;
     height: 30%;
-    border: 2px solid var(--tag-line-color);
-    border-radius: 50px;          /* 모서리를 15px만큼 둥글게 */
+    border: 2px solid var(--tag-line-color) !important;
+    border-radius: 50px !important;          /* 모서리를 15px만큼 둥글게 */
     align-items: center;          /* 수직 중앙 정렬 */
     justify-content: center;      /* 수평 중앙 정렬 */
     
-    background-color: var(--tag-background-color);    /* 배경 색상 */
+    background-color: var(--tag-background-color) !important;    /* 배경 색상 */
     font-family: 'Gamja Flower', cursiv;
-    color: var(--page-title-color);
+    color: var(--page-title-color) !important;
     font-weight: bold;
 }
 

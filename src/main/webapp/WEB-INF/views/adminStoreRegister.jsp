@@ -105,7 +105,8 @@
 									<br>
 
 									<form id="storeRegister" action="addStore.do" method="POST">
-										<input type="hidden" name="storeDeclared" value="Y">
+										<input type="hidden" name="storeSecret" value="N">
+										<input type="hidden" name="storeClosed" value="N">
 
 										<!--1. 상호명 입력란-->
 										<div class="row">
@@ -265,7 +266,7 @@
 												<table id="weekTable">
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Mon"
-															value="월요일" data-role="businessDaysGroup">월요일</td>
+															value="MON" data-role="businessDaysGroup">월요일</td>
 														<td><input type="time" id="startTime-Mon"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Mon"
@@ -273,7 +274,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Tue"
-															value="화요일" data-role="businessDaysGroup">화요일</td>
+															value="TUE" data-role="businessDaysGroup">화요일</td>
 														<td><input type="time" id="startTime-Tue"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Tue"
@@ -281,7 +282,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Wed"
-															value="수요일" data-role="businessDaysGroup">수요일</td>
+															value="WED" data-role="businessDaysGroup">수요일</td>
 														<td><input type="time" id="startTime-Wed"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Wed"
@@ -289,7 +290,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Thu"
-															value="묙요일" data-role="businessDaysGroup">목요일</td>
+															value="THU" data-role="businessDaysGroup">목요일</td>
 														<td><input type="time" id="startTime-Thu"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Thu"
@@ -297,7 +298,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Fri"
-															value="금요일" data-role="businessDaysGroup">금요일</td>
+															value="FRI" data-role="businessDaysGroup">금요일</td>
 														<td><input type="time" id="startTime-Fri"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Fri"
@@ -305,7 +306,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Sat"
-															value="토요일" data-role="businessDaysGroup">토요일</td>
+															value="SAT" data-role="businessDaysGroup">토요일</td>
 														<td><input type="time" id="startTime-Sat"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Sat"
@@ -313,7 +314,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Sun"
-															value="일요일" data-role="businessDaysGroup">일요일</td>
+															value="SUN" data-role="businessDaysGroup">일요일</td>
 														<td><input type="time" id="startTime-Sun"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Sun"
