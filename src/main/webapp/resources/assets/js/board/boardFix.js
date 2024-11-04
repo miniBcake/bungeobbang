@@ -1,4 +1,4 @@
-let editorInstance;  // 전역 변수로 선언
+let editorInstance;
 
 class MyUploadAdapter {
     constructor(loader) {
@@ -32,18 +32,16 @@ class MyUploadAdapter {
 // CKEditor 초기화
 document.addEventListener('DOMContentLoaded', () => {
     ClassicEditor.create(document.querySelector('#boardContent'), {
-		language: 'ko',
-		ckfinder: {
-		    uploadUrl: '/addImage.do'
-		},
+        language: 'ko',
+        ckfinder: {
+            uploadUrl: '/addImage.do'
+        },
     }).then(editor => {
         editorInstance = editor;
-		// 설정 후 에디터 높이 수정
-		editor.ui.view.editable.element.style.height = '500px';
-        
-        // 에디터에 초기 데이터를 설정 (기존 게시글 내용을 로드)
-        const initialContent = `<c:out value="${board.boardContent}" escapeXml="false" />`;
-        editor.setData(initialContent);
+        editor.setData(initialContent);  // 데이터를 에디터에 세팅
+        console.log("CKEditor 초기 데이터 설정 완료:", initialContent);
+
+        editor.ui.view.editable.element.style.height = '500px';
 
         editor.plugins.get('FileRepository').createUploadAdapter = loader => new MyUploadAdapter(loader);
     }).catch(error => {
