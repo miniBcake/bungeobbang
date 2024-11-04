@@ -101,14 +101,11 @@
 									${replyCnt}개</div>
 							</div>
 						</div>
-						<!-- 작성자가 지금 로그인한 유저라면 댓글 작성란 생성/아니라면 숨김-->
-						<%--댓글 입력은 글 작성자가 아니어도 가능해야하므로 로그인 여부만 판단하는 걸로 수정했습니다.--%>
-						<%--입력창은 그냥 보이게 두고 댓글 입력 누를 때 로그인 유도하는 방식도 좋을 것 같아요 하신다면 JS로 구현하시면 될 것 같습니다.--%>
 						<div class="replyMid">
 							<!-- 댓글 등록 -->
-<%--							<div class="profile">--%>
-<%--								<span id="userNickname">${userNickname}</span>--%>
-<%--							</div>--%>
+							<div class="profile">
+								<span id="userNickname"><strong>${userNickname}</strong></span>
+							</div>
 							<div class="replyInput">
 								<input type="hidden" id="replyMemberNum" name="memberNum" value="${userPK}">
 								<!-- 댓글 입력 창 :replyContent로 form데이터 전송-->
@@ -117,7 +114,16 @@
 							</div>
 							<!-- 댓글 작성 버튼 -->
 							<div class="replyButtom">
-								<button class="btn btn-primary" type="button" id="insertReply" name="insertReply">댓글작성</button>
+								<c:choose>
+									<c:when test="${empty userPK}">
+										<%--로그인 상태가 아니라면 로그인으로 이동--%>
+										<button class="btn btn-primary" type="button" onclick="location.href='login.do'">댓글작성</button>
+									</c:when>
+									<c:otherwise>
+										<%--로그인 상태라면 댓글 작성 진행--%>
+										<button class="btn btn-primary" type="button" id="insertReply" name="insertReply">댓글작성</button>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 						<div id="replyList" class="replyList">
