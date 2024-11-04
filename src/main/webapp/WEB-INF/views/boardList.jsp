@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" %>
+	pageEncoding="UTF-8"
+	import="java.util.ArrayList, java.util.HashMap, java.util.Map, java.util.List"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-<%--페이지네이션 검색 유지를 위한 값 세팅--%>
-<c:set var="queryString" value="${pageContext.request.queryString}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +20,9 @@
 <link rel="stylesheet" href="${path}/resources/assets/css/main.css">
 <link rel="stylesheet" href="${path}/resources/assets/css/boardlist.css">
 <link rel="stylesheet" href="${path}/resources/assets/css/searchbar.css">
-<link rel="stylesheet" href="${path}/resources/assets/css/pagination.css">
+<link rel="stylesheet"
+	href="${path}/resources/assets/css/pagination.css">
+
 <!-- bootstrap -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -31,9 +32,10 @@
 	crossorigin="anonymous">
 </head>
 <body>
-	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
-	<script src="${path}/resources/assets/js/insertReply.js"></script>
-	<script src="${path}/resources/assets/js/deleteReply.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="${path}/resources/assets/js/board/board.js"></script>
+
 
 	<custom:header />
 

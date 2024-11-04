@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url('color.css');
 
 /* .클래스명 */
 /* 	
@@ -17,10 +18,9 @@
 /* css 변수 설정 */
 :root{
     /* font-size */
-    --category-font-size: 120%;
+    --category-font-size: 150%;
     --search-font-size: 110%;
-    --submit-font-size: 80%
-    --checkmark-font-size:100px;
+    --checkmark-font-size: 120%;
 
     /* class category */
     --category-width: 100%;
@@ -37,17 +37,6 @@
     padding: 5px; /* 열 내부 여백 조정 */
 }
 
-/* 전체 컨테이너 */
-.container {
-	width: 100%;							/* 컨테이너의 너비를 브라우저 100%로 지정 */
-	max-width: 1200px;						/* 최대 너비 */		
-	margin: 0 auto;							/* 여백 위아래 : 0, 양옆 : 가운데 정렬 */
-	padding: 20px;							/* 컨테이너 안의 내부 여백 20px 지정 */
-	font-family: 'Arial';					/* 폰트 Arial 지정 */
-    display: flex;
-    flex-flow: column;
-}
-
 .custom-row {
     width: 50%;
     align-items: center; 
@@ -56,6 +45,9 @@
 /* searchBar의 category 태그 */
 .row .category {
     font-size: var(--category-font-size);              /* 글자 크기 */
+    font-family: 'Gamja Flower', cursive;
+    font-weight: bold;
+    color: var(--page-title-color);
 
     height: 50%;
     margin-right: 5px;
@@ -66,8 +58,8 @@
     justify-content: center;      /* 수평 중앙 정렬 */
     align-items: center;          /* 수직 중앙 정렬 */
 
-    border: 2px solid #ccc;
-    background-color: #f9f9f9;    /* 배경 색상 */
+    border: 2px solid var(--tag-line-color);
+    background-color: var(--tag-background-color);    /* 배경 색상 */
 }
 .full {
 	width: var(--category-width);
@@ -82,16 +74,24 @@
     font-size: var(--search-font-size);
     padding: 5px;
     width: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid var(--tag-line-color);
     border-radius: 50px;
     margin: 5px;
     align-items: center; 
+    
+    background-color: white; 
+}
+
+.searchInput i {
+	font-size: 150%;
+	color: var(--tag-line-color);
 }
 
 /* searchBar의 input 태그 */
-.searchInput input[type="text"] {
+.searchInput #searchInput {
     font-size: var(--search-font-size);
-    width: var(--none-category-width);
+    font-family: 'Gamja Flower', cursive;
+    width: var(--none-category-width) !important;
     border: none;
     outline: none;
     padding: 1px;
@@ -105,28 +105,37 @@
 }
 
 /* searchBar의 input 태그의 submit 속성 */
-.row input[type="submit"] {
+/* searchInputBTN id 값 */
+#searchInputBTN {
     display: inline-block;
 
 	padding: 1px;
-    font-size: 100%;
+    font-size: 150%;
     width: 15%;
     height: 30%;
-    border: 2px solid #ccc;
-    border-radius: 50px;          /* 모서리를 15px만큼 둥글게 */
+    border: 2px solid var(--tag-line-color) !important;
+    border-radius: 50px !important;          /* 모서리를 15px만큼 둥글게 */
     align-items: center;          /* 수직 중앙 정렬 */
     justify-content: center;      /* 수평 중앙 정렬 */
-    background-color: #f9f9f9;    /* 배경 색상 */
+    
+    background-color: var(--tag-background-color) !important;    /* 배경 색상 */
+    font-family: 'Gamja Flower', cursiv;
+    color: var(--page-title-color) !important;
+    font-weight: bold;
 }
 
 /* row 클래스 안의 filter */
 .row .filterOption {
 	
-    border: 1px solid black;
+    border: 2px solid var(--tag-line-color);
     border-radius: 10px;
     padding: 3px;
     align-items: center;          /* 수직 중앙 정렬 */
     margin: 2px;
+    
+    background-color: var(--tag-background-color);
+    
+    font-family: 'Gamja Flower', cursive;
 }
 
 .filterOption .filterButton {
@@ -155,6 +164,8 @@
 .row .checkmark {
     font-size: var(--checkmark-font-size);
     white-space: nowrap;       /* 줄 바꿈 방지 */
+    
+    font-family: 'Gamja Flower', cursive;
 }
 
 .row hr {

@@ -19,7 +19,8 @@
 <!-- jQuery 라이브러리 -->
 <script src="${path}/resources/assets/js/core/popper.min.js"></script>
 <!-- Popper.js (툴팁 및 팝오버를 위한 라이브러리) -->
-<script src="${path}/resources/assets/js/core/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <!-- Bootstrap JavaScript -->
 <!-- jQuery Scrollbar -->
 <script
@@ -28,6 +29,8 @@
 <!-- Datatables -->
 <script
 	src="${path}/resources/assets/js/plugin/datatables/datatables.min.js"></script>
+<!-- Kaiadmin JS -->
+<script src="${path}/resources/assets/js/kaiadmin.js"></script>
 <!-- Fonts and icons -->
 <script src="${path}/resources/assets/js/plugin/webfont/webfont.min.js"></script>
 <!-- 등록 js 파일 -->
@@ -38,7 +41,6 @@
 <script src="${path}/resources/assets/js/daumPostCode.js"></script>
 <!-- sweetAlert을 사용하기 위한 script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script>
 	WebFont.load({
 		google : {
@@ -64,7 +66,7 @@
 	href="${path}/resources/assets/css/kaiadmin.min.css" />
 <!-- <link rel="stylesheet" href="${path}/resources/assets/css/admin.css"> -->
 <link rel="stylesheet"
-	href="${path}/resources/assets/css/storeRegister.css">
+	href="${path}/resources/assets/css/store/storeRegister.css">
 </head>
 
 <body>
@@ -103,7 +105,8 @@
 									<br>
 
 									<form id="storeRegister" action="addStore.do" method="POST">
-										<input type="hidden" name="storeDeclared" value="Y">
+										<input type="hidden" name="storeSecret" value="N">
+										<input type="hidden" name="storeClosed" value="N">
 
 										<!--1. 상호명 입력란-->
 										<div class="row">
@@ -135,7 +138,7 @@
 										<div class="row">
 											<section>
 												<div id="addressLayer"
-													style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
+													style="display: none; position: absolute; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
 													<img
 														src="//t1.daumcdn.net/postcode/resource/images/close.png"
 														id="btnCloseLayer"
@@ -145,7 +148,8 @@
 												<!--1행 주소검색 -->
 												<div class="containerFluid d-flex justify-content-between">
 													<!-- 컨테이너로 좌우 정렬 -->
-													<h3 class="pull-left"><b>주소 입력<span class="import"> *</span></b>
+													<h3 class="pull-left">
+														<b>주소 입력<span class="import"> *</span></b>
 													</h3>
 													<div class="copyright"></div>
 													<div>
@@ -178,38 +182,45 @@
 														<table class="menuTable" id="menuTable">
 															<tr>
 																<td class=menuTd><input type="checkbox"
-																	name="storeMenuNormal" id="normal" value="Y" data-role="businessMenusGroup">팥/슈크림
-																	<input type="hidden" name="storeMenuNormal"
+																	name="storeMenuNormal" id="normal" value="Y"
+																	data-role="businessMenusGroup">팥/슈크림 <input
+																	type="hidden" name="storeMenuNormal"
 																	id="nonChecked-normal" value="N"></td>
 																<td class=menuTd><input type="checkbox"
-																	name="storeMenuIce" id="ice" value="Y" data-role="businessMenusGroup">아이스크림/초코
-																	<input type="hidden" name="storeMenuIce"
-																	id="nonChecked-ice" value="N"></td>
+																	name="storeMenuIce" id="ice" value="Y"
+																	data-role="businessMenusGroup">아이스크림/초코 <input
+																	type="hidden" name="storeMenuIce" id="nonChecked-ice"
+																	value="N"></td>
 															</tr>
 															<tr>
 																<td><input type="checkbox" name="storeMenuVeg"
-																	id="veg" value="Y" data-role="businessMenusGroup">야채/김치/만두 <input
-																	type="hidden" name="storeMenuVeg" id="nonChecked-veg"
-																	value="N"></td>
+																	id="veg" value="Y" data-role="businessMenusGroup">야채/김치/만두
+																	<input type="hidden" name="storeMenuVeg"
+																	id="nonChecked-veg" value="N"></td>
 																<td><input type="checkbox" name="storeMenuCheese"
-																	id="cheese" value="Y" data-role="businessMenusGroup">치즈 <input type="hidden"
-																	name="storeMenuCheese" id="nonChecked-cheese" value="N"></td>
+																	id="cheese" value="Y" data-role="businessMenusGroup">치즈
+																	<input type="hidden" name="storeMenuCheese"
+																	id="nonChecked-cheese" value="N"></td>
 															</tr>
 															<tr>
 																<td><input type="checkbox" name="storeMenuMini"
-																	id="mini" value="Y" data-role="businessMenusGroup">미니 붕어빵 <input type="hidden"
-																	name="storeMenuMini" id="nonChecked-mini" value="N"></td>
+																	id="mini" value="Y" data-role="businessMenusGroup">미니
+																	붕어빵 <input type="hidden" name="storeMenuMini"
+																	id="nonChecked-mini" value="N"></td>
 																<td><input type="checkbox" name="storeMenuPastry"
-																	id="pastry" value="Y" data-role="businessMenusGroup">패스츄리 <input type="hidden"
-																	name="storeMenuPastry" id="nonChecked-pastry" value="N"></td>
+																	id="pastry" value="Y" data-role="businessMenusGroup">패스츄리
+																	<input type="hidden" name="storeMenuPastry"
+																	id="nonChecked-pastry" value="N"></td>
 															</tr>
 															<tr>
 																<td><input type="checkbox" name="storeMenuPotato"
-																	id="potato" value="Y" data-role="businessMenusGroup">고구마 <input type="hidden"
-																	name="storeMenuPotato" id="nonChecked-potato" value="N"></td>
+																	id="potato" value="Y" data-role="businessMenusGroup">고구마
+																	<input type="hidden" name="storeMenuPotato"
+																	id="nonChecked-potato" value="N"></td>
 																<td><input type="checkbox" name="storeMenuOther"
-																	id="other" value="Y" data-role="businessMenusGroup">기타 <input type="hidden"
-																	name="storeMenuOther" id="nonChecked-other" value="N"></td>
+																	id="other" value="Y" data-role="businessMenusGroup">기타
+																	<input type="hidden" name="storeMenuOther"
+																	id="nonChecked-other" value="N"></td>
 															</tr>
 														</table>
 												</section>
@@ -223,19 +234,22 @@
 													<table class="paymentTable" id="paymentTable">
 														<tr>
 															<td><input type="checkbox"
-																name="storePaymentCashmoney" id="cash" value="Y" data-role="businessPaymentsGroup">현금결제
-																<input type="hidden" name="storePaymentCashmoney"
+																name="storePaymentCashmoney" id="cash" value="Y"
+																data-role="businessPaymentsGroup">현금결제 <input
+																type="hidden" name="storePaymentCashmoney"
 																id="nonChecked-cash" value="N"></td>
 														</tr>
 														<tr>
 															<td><input type="checkbox" name="storePaymentCard"
-																id="card" value="Y" data-role="businessPaymentsGroup">카드결제 <input type="hidden"
-																name="storePaymentCard" id="nonChecked-card" value="N"></td>
+																id="card" value="Y" data-role="businessPaymentsGroup">카드결제
+																<input type="hidden" name="storePaymentCard"
+																id="nonChecked-card" value="N"></td>
 														</tr>
 														<tr>
 															<td><input type="checkbox"
-																name="storePaymentAccount" id="account" value="Y" data-role="businessPaymentsGroup">계좌이체
-																<input type="hidden" name="storePaymentAccount"
+																name="storePaymentAccount" id="account" value="Y"
+																data-role="businessPaymentsGroup">계좌이체 <input
+																type="hidden" name="storePaymentAccount"
 																id="nonChecked-account" value="N"></td>
 														</tr>
 													</table>
@@ -252,7 +266,7 @@
 												<table id="weekTable">
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Mon"
-															value="월요일" data-role="businessDaysGroup">월요일</td>
+															value="MON" data-role="businessDaysGroup">월요일</td>
 														<td><input type="time" id="startTime-Mon"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Mon"
@@ -260,7 +274,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Tue"
-															value="화요일" data-role="businessDaysGroup">화요일</td>
+															value="TUE" data-role="businessDaysGroup">화요일</td>
 														<td><input type="time" id="startTime-Tue"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Tue"
@@ -268,7 +282,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Wed"
-															value="수요일" data-role="businessDaysGroup">수요일</td>
+															value="WED" data-role="businessDaysGroup">수요일</td>
 														<td><input type="time" id="startTime-Wed"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Wed"
@@ -276,7 +290,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Thu"
-															value="묙요일" data-role="businessDaysGroup">목요일</td>
+															value="THU" data-role="businessDaysGroup">목요일</td>
 														<td><input type="time" id="startTime-Thu"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Thu"
@@ -284,7 +298,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Fri"
-															value="금요일" data-role="businessDaysGroup">금요일</td>
+															value="FRI" data-role="businessDaysGroup">금요일</td>
 														<td><input type="time" id="startTime-Fri"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Fri"
@@ -292,7 +306,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Sat"
-															value="토요일" data-role="businessDaysGroup">토요일</td>
+															value="SAT" data-role="businessDaysGroup">토요일</td>
 														<td><input type="time" id="startTime-Sat"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Sat"
@@ -300,7 +314,7 @@
 													</tr>
 													<tr>
 														<td><input type="checkbox" name="workWeek" id="Sun"
-															value="일요일" data-role="businessDaysGroup">일요일</td>
+															value="SUN" data-role="businessDaysGroup">일요일</td>
 														<td><input type="time" id="startTime-Sun"
 															name="workStartTime" disabled></td>
 														<td><input type="time" id="endTime-Sun"
@@ -345,8 +359,6 @@
 		<!-- 메인 패널 종료 -->
 	</div>
 	<!-- 전체 wrapper 종료 -->
-
-
 </body>
 
 </html>

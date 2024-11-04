@@ -35,6 +35,8 @@
 </head>
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="${path}/resources/assets/js/board/board.js"></script>
+	<script src="${path}/resources/assets/js/board/replyList.js"></script>
 
 	<div class="container">
 		<custom:header />
