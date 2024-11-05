@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%> 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <c:set var="path" value="${pageContext.request.contextPath}" /> 
 <!DOCTYPE html>
 <html lang="ko">
@@ -21,7 +23,7 @@
     <!-- 타이틀과 현재 포인트 표시 -->
     <div class="row mb-4">
         <div class="col-md-6">
-            <h3 class="current-point2">포인트 충전</h3> <!-- 페이지의 주요 타이틀 -->
+            <h3 class="current-point2">포인트 충전 내역</h3> <!-- 페이지의 주요 타이틀 -->
         </div>
         <div class="col-md-6 text-right">
             <%  // 애플리케이션 범위에서 현재 포인트를 가져오며, 값이 없으면 0으로 초기화
@@ -30,7 +32,7 @@
                     myPoint = 0; 
                 }
             %>
-            <h5 class="current-point">현재 포인트: <strong id="myPoint"><%= myPoint %>P</strong></h5> <!-- 포인트 값 표시 -->
+            <h5 class="current-point">현재 포인트: <strong id="myPoint">${userPonint}P</strong></h5> <!-- 포인트 값 표시 -->
             <small class="text-muted current-point-note">* 1년이 지나면 포인트 사용내역이 사라집니다.</small> <!-- 알림 문구 -->
         </div>
     </div>
@@ -40,18 +42,20 @@
         <table class="table table-bordered order-history">
             <thead>
                 <tr>
-                    <th>일자/일시</th>
-                    <th>내용</th>
-                    <th>충전포인트</th>
+                    <th>결제 상품명</th>
+                    <th>상품 내용</th>
+                    <th>결제 금액</th>
                 </tr>
             </thead>
             <tbody id="orderTable">
                 <!-- 서버로부터 가져온 결제 내역을 반복하여 테이블에 표시 -->
                 <c:forEach var="payment" items="${paymentList}">
                     <tr>
-                        <td><c:out value="${payment.paymentDate}"/></td> <!-- 결제 날짜 및 시간 -->
-                        <td><c:out value="${payment.paymentContent}"/></td> <!-- 결제 내용 -->
-                        <td><c:out value="${payment.paymentAmount}"/>P</td> <!-- 충전된 포인트 양 -->
+                        <td><c:out value="${payment.paymentName}"/></td> <!-- 결제 상품명 -->
+                        <td><c:out value="${payment.paymentAmount}"/>P</td> <!-- 결제 금액 -->
+                        <td>
+                            <c:out value="${fn:replace(payment.paymentAmount, 'P', '')}"/> 원
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>

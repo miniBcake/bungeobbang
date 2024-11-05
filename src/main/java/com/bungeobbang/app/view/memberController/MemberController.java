@@ -202,7 +202,7 @@ public class MemberController {
 
     @GetMapping(value = "/addPoint.do") // 포인트 충전 페이지 이동 controller
     public String addPoint() {
-        return "redirect:pointRecharge.jsp";
+        return "pointRecharge";
     }
 
     @GetMapping(value = "/signupPage.do")
