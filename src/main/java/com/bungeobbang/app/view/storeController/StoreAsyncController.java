@@ -22,7 +22,6 @@ public class StoreAsyncController {
         log.info("log: loadListStoreMap - param keyword: " + storeDTO);
         HashMap<String, String> filterList = new HashMap<>(); //필터 검색용 맵
         filterList.put("STORE_ADDRESS", storeDTO.getStoreAddress()); //필터 검색용 값 설정
-        StoreDTO storeDTO = new StoreDTO(); //DB조회를 위한 정보 전달 용
         storeDTO.setCondition("SELECTALL_VIEW_FILTER");
         storeDTO.setFilterList(filterList);
         log.info("log: /loadListStoreMap.do loadListStoreMap - end");

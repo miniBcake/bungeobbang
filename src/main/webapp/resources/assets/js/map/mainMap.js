@@ -214,7 +214,7 @@ function searchStoreNotPrint(address) {
 			type: 'POST',
 			// 요청 데이터 application/json
 			contentType: 'application/json',
-			data: JSON.stringify({ keyword: address }),
+			data: JSON.stringify({ storeAddress: address }),
 			dataType: 'json',
 			// 성공 시
 			success: function(data) {
