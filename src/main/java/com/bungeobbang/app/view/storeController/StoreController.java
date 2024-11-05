@@ -53,7 +53,15 @@ public class StoreController {
     private final String PAGE_REPORT_STORE = "userStoreReport"; //views 하위, 가게 제보
     private final String PAGE_INFO_STORE = "store"; //views 하위, 가게 상세
     private final String PAGE_LOAD_LIST_STORE = "storeList"; //views 하위, 가게 검색+리스트
+    private final String PAGE_MAP_STORE = "addressSearchStore"; //views 하위 가게 주소검색
 
+    //가게 주소 검색 페이지 이동
+    @RequestMapping(value = "/loadListStoreMap.do", method = RequestMethod.GET)
+    public String loadListStoreMap(){
+        //전달할 데이터는 비동기 호출
+        log.info("log: /loadListStoreMap.do loadListStoreMap GET");
+        return PAGE_MAP_STORE;
+    }
 
     //가게 등록 페이지 이동
     @RequestMapping(value = "/addStore.do", method = RequestMethod.GET)
@@ -67,10 +75,9 @@ public class StoreController {
         return condition;
     }
 
-
     //가게 등록 기능 수행
     @RequestMapping(value = "/addStore.do", method = RequestMethod.POST)
-    public String addStore(HttpSession session, StoreDTO storeDTO, StoreMenuDTO storeMenuDTO, StorePaymentDTO storePaymentDTO, BoardDTO boardDTO,
+    public String addStore(StoreDTO storeDTO, StoreMenuDTO storeMenuDTO, StorePaymentDTO storePaymentDTO, BoardDTO boardDTO,
                            String[] workWeek, String[] workStartTime, String[] workEndTime) {
         log.info("log: /addStore.do addStore - start");
         log.info("log: addStore - param storeDTO : [{}]", storeDTO);
@@ -168,7 +175,7 @@ public class StoreController {
         return PAGE_INFO_STORE;
     }
 
-    //가게 검색 (동기, 전체)
+    //가게 검색 (동기, 전체) + 가게 검색 페이지 이동
     @RequestMapping("/loadListStore.do")
     public String loadListStore(Model model, StoreDTO storeDTO, StoreDTO storeCntDTO,
                                 String[] storeMenu, String[] storePayment, String storeClosed, String keyword, Integer page){

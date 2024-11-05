@@ -5,6 +5,7 @@ import com.bungeobbang.app.biz.store.StoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class StoreAsyncController {
     private StoreService storeService;
 
     //지도 옆 주소 검색 : 가게
-    @RequestMapping("/loadListStoreMap.do")
+    @RequestMapping(value = "/loadListStoreMap.do", method = RequestMethod.POST)
     public ArrayList<StoreDTO> loadListStoreMap(String keyword){
         log.info("log: /loadListStoreMap.do loadListStoreMap - start");
         log.info("log: loadListStoreMap - param keyword: " + keyword);
