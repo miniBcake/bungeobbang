@@ -21,16 +21,13 @@
         <div class="col-md-6">
             <select id="orderFilter" class="form-control small-select">
                 <option value="" disabled selected>포인트 사용 내역</option>
-                <option value="recent">최근 결제순</option>
-                <option value="status">결제 상태</option>
+                <option value="newOrder">최근 결제순</option>
+                <option value="oldOrder">결제 상태</option>
             </select>
         </div>
         <div class="col-md-6 text-right">
-            <%
-                Object myPoint = application.getAttribute("userPoint");
-                if (myPoint == null) myPoint = 0; 
-            %>
-            <h5 class="current-point">현재 포인트: <strong id="myPoint"><%= myPoint %>P</strong></h5>
+
+            <h5 class="current-point">현재 포인트: <strong id="myPoint">${userPoint}P</strong></h5>
             <small class="text-muted current-point-note">* 1년이 지나면 포인트 사용내역이 사라집니다.</small>
         </div>
     </div>
@@ -39,24 +36,24 @@
     <div class="scrollable-table">
         <table class="table table-bordered order-history">
             <thead>
-                <tr>
-                    <th>구매일자</th>
-                    <th>상품번호</th>
-                    <th>상품명</th>
-                    <th>결제 상태</th>
-                    <th>사용 금액</th>
-                </tr>
+            <tr>
+                <th>구매일자</th>
+                <th>상품명</th>
+                <th>상품 가격</th>
+                <th>결제 수량</th>
+                <th>결제 포인트</th>
+            </tr>
             </thead>
             <tbody id="orderTable">
-                <c:forEach var="item" items="${pointHistoryList}">
-                    <tr>
-                        <td>${item.purchaseDate}</td>
-                        <td>${item.productNumber}</td>
-                        <td>${item.productName}</td>
-                        <td>${item.paymentStatus}</td>
-                        <td>${item.amountUsed}</td>
-                    </tr>
-                </c:forEach>
+            <c:forEach var="item" items="${pointHistoryList}">
+                <tr>
+                    <td>${item.orderDate}</td>
+                    <td>${item.productName}</td>
+                    <td>${item.productPrice}</td>
+                    <td>${item.orderQuantity}</td>
+                    <td>${item.totalPrice}</td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>
