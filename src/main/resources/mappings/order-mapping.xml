@@ -40,6 +40,7 @@
 			O.MEMBER_NUM AS memberNum,
 			OD.PRODUCT_NUM AS prductNum,
 			PD.PRODUCT_PRICE AS productPrice,
+			PD.PRODUCT_NAME AS productName,
 			O.ORDER_NUM AS orderNum,
 			O.ORDER_DATE AS orderDate,
 			OD.ORDER_QUANTITY AS orderQuantity,
