@@ -61,7 +61,7 @@ public class PaymentController {
 
     @GetMapping(value = "/addPoint.do") // 포인트 충전 페이지 이동 controller
     public String addPoint(HttpSession session, Model model, MemberDTO memberDTO) {
-        Integer memberPK = (Integer) session.getAttribute("userPk");
+        Integer memberPK = (Integer) session.getAttribute("userPK");
 
         memberDTO.setCondition("INFO_CONDITION");
         memberDTO.setMemberNum(memberPK);

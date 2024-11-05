@@ -27,8 +27,8 @@ public class MemberDAO {
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
 	// UPDATE 쿼리들
-	private final String UPDATE = "UPDATE BB_MEMBER SET MEMBER_EMAIL = ?, MEMBER_NAME = ?, "
-			+ "MEMBER_PHONE = ?, MEMBER_NICKNAME = ?, MEMBER_PROFILE_WAY = ? , MEMBER_ROLE = ? "
+	private final String UPDATE = "UPDATE BB_MEMBER SET MEMBER_NAME = ?, "
+			+ "MEMBER_PHONE = ?, MEMBER_NICKNAME = ?, MEMBER_PROFILE_WAY = ? "
 			+ "WHERE MEMBER_NUM = ?";
 	private final String UPDATE_PASSWORD = "UPDATE BB_MEMBER SET MEMBER_PASSWORD = ? WHERE MEMBER_NUM = ?";
 
@@ -112,12 +112,10 @@ public class MemberDAO {
 			if(memberDTO.getCondition().equals("UPDATE_CONDITION")) {
 				//개인정보수정(비밀번호 제외)
 				rs = jdbcTemplate.update(UPDATE,
-						memberDTO.getMemberEmail(),		//이메일
 						memberDTO.getMemberName(), 		//이름
 						memberDTO.getMemberPhone(), 	//전화번호
 						memberDTO.getMemberNickname(), 	//닉네임
 						memberDTO.getMemberProfileWay(), //프로필사진경로
-						memberDTO.getMemberRole(),
 						memberDTO.getMemberNum()
 						);//멤버 번호
 				//넘어온 값 확인 로그
