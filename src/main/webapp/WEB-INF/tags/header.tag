@@ -47,7 +47,7 @@
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item"><a class="nav-link" href="main.do">메인화면</a>
 				</li>
-				<li class="nav-item"><a class="nav-link" href="#"
+				<li class="nav-item dropdown"><a class="nav-link" href="#"
 					id="navbarDropdown" role="button" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="false">붕어빵 찾기</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
