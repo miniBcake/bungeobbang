@@ -16,6 +16,7 @@
 <title>마이 페이지</title>
 <head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 
 <style type="text/css">
 /* 두, 세번째 열의 테두리 없애기 */
@@ -34,7 +35,7 @@
 </head>
 
 <body>
-	<script src="${path}/resources/assets/js/mypageUpdate.js"></script>
+	<script src="${path}/resources/assets/js/member/mypageUpdate.js"></script>
 	<custom:header />
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -44,8 +45,8 @@
 		<br> <br> <br>
 		<h2>마이 페이지 수정</h2>
 		<br> <br>
-		<form id="submitBtn" action="updateMypage.do" method="POST"
-			enctype="multipart/form-data">
+		<form id="submitBtn" action="updateMypage.do" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="memberRole" value="${memberDTO.memberRole}"/>
 			<!--개인정보&사이드바 행-->
 			<div class="row align-items-start justify-content-center">
 				<br> <br>
@@ -67,8 +68,8 @@
 									d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
                 				<path
 									d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
-            				</svg> <input type="file" id="file" name="file"
-							style="display: none;" onchange="a(event)">
+            				</svg>
+							<input type="file" id="file" name="file" style="display: none;" onchange="a(event)">
 						</label>
 					</div>
 					<br> <br>
@@ -76,7 +77,7 @@
 						<%--						<h4>Point &nbsp; &nbsp; &nbsp;
 							${userPoint}점</h4>--%>
 						<br>
-						<button type="submit" class="btn btn-primary">수정 완료</button>
+						<button type="submit" id="submit-button" class="btn btn-primary">수정 완료</button>
 						<!-- 회원정보 업데이트 -->
 						<a href="javascript:history.back()" class="btn btn-danger"
 							role="button">취소</a>
@@ -105,7 +106,7 @@
 							<td><input type="text" class="inputbox" id="nickname"
 								name="memberNickname" value="${memberDTO.memberNickname}"
 								placeholder="닉네임 입력해주세요"></td>
-							<td><button class="btn btn-light" id="checkNicknameBtn">중복검사</button></td>
+							<td><button type="button" class="btn btn-light" id="checkNicknameBtn">중복검사</button></td>
 						</tr>
 						<tr>
 							<td class="underline">전화번호</td>

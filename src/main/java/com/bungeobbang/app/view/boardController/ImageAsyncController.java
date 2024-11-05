@@ -19,7 +19,7 @@ public class ImageAsyncController {
 
     //이미지 저장
     @RequestMapping("/addImage.do")
-    public @ResponseBody String addImage(HttpServletRequest request, @RequestBody ImageFileDTO imageFileDTO) {
+    public @ResponseBody String addImage(HttpServletRequest request, ImageFileDTO imageFileDTO) {
         log.info("log: /addImage.do addImage - start");
         log.info("log: /addImage.do addImage - param imageFileDTO: " + imageFileDTO);
         //폴더명은 게시글 작성 페이지가 열릴 때 view에 전달
@@ -33,7 +33,7 @@ public class ImageAsyncController {
             log.error("log: addImage - error insertFile() NPE or Illeagl : "+e.getMessage());
             return null;
         }
-        src = request.getContextPath() + FOLDER_PATH + imageFileDTO.getBoardFolder() + "/" + fileName;
+        src = request.getContextPath() + "/" + FOLDER_PATH + imageFileDTO.getBoardFolder() + "/" + fileName;
         log.info("log: addImage - src: [{}]", src);
         log.info("log: /addImage.do addImage - end");
         //서버 주소 경로 반환 img src내용

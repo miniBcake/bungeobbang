@@ -3,7 +3,8 @@
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,11 +12,15 @@
     <title>가게 폐점 제보 페이지</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
           name="viewport"/>
-    <link rel="icon" href="resources/assets/images/logo.png"
+    <link rel="icon" href="${path}/resources/assets/images/logo.png"
           type="image/x-icon"/>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <%--sweetAlert2 CDN--%>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+
     <!-- 웹 폰트 및 아이콘 -->
-    <script src="resources/assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="${path}/resources/assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
         WebFont.load({
             google: {
@@ -33,15 +38,14 @@
     </script>
 
     <!-- CSS 스타일 -->
-    <link rel="stylesheet" href="resources/assets/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="resources/assets/css/plugins.min.css"/>
-    <link rel="stylesheet" href="resources/assets/css/kaiadmin.min.css"/>
-    <link rel="stylesheet" href="resources/assets/css/admin.css">
+    <link rel="stylesheet" href="${path}/resources/assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="${path}/resources/assets/css/plugins.min.css"/>
+    <link rel="stylesheet" href="${path}/resources/assets/css/kaiadmin.min.css"/>
+    <link rel="stylesheet" href="${path}/resources/assets/css/admin.css">
 </head>
 
 <body>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="resources/assets/js/closedStoreDeclareList.js"></script>
+<script src="${path}/resources/assets/js/closedStoreDeclareList.js" defer></script>
 
 <div class="wrapper">
     <!-- 전체 페이지를 감싸는 wrapper -->
@@ -54,7 +58,7 @@
             <div class="logo-header" data-background-color="dark">
                 <!-- 로고 헤더 -->
                 <a href="main.do" class="logo"> <!-- 메인 페이지로 이동하는 링크 --> <img
-                        src="resources/assets/images/logo_name.png" alt="navbar brand"
+                        src="${path}/resources/assets/images/logo_name.png" alt="navbar brand"
                         class="navbar-brand" height="40"/> <!-- 로고 이미지 -->
                 </a>
                 <!-- 로고 옆에 사이드바 줄이는 버튼 -->
@@ -184,16 +188,15 @@
                                                 <td>${storeReport.storeContact}</td>
 
                                                 <!--가게주소-->
-                                                <td>${storeReport.storeAddress}&nbsp;
-                                                        ${storeReport.storeAddressDetail}</td>
+                                                <td>${storeReport.storeAddress} ${storeReport.storeAddressDetail}</td>
                                                 <!--승인 -->
                                                 <td><!-- 	제보 승인 : 정말 폐점 처리하겠습니까? 확인을 누르면 폐점 상태로 전환됩니다. (확인/취소)
 																	제보 삭제 : 폐점 신고된 글을 삭제하겠습니까? 확인을 누르면 신고된 제보는 삭제됩니다.(확인/취소)	-->
                                                     <div class="d-grid gap-2 d-md-block">
-                                                        <button class="btn btn-danger" type="button"
+                                                        <button class="btn btn-danger" type="button" onclick="addReport(${storeReport.storeNum})"
                                                                 id="addReport">제보승인
                                                         </button>
-                                                        <button class="btn btn-primary" type="button"
+                                                        <button class="btn btn-primary" type="button" onclick="deleteReport(${storeReport.storeNum})"
                                                                 id="deleteReport">제보삭제
                                                         </button>
                                                     </div>
@@ -219,7 +222,7 @@
                 </nav>
                 <div class="copyright">
                     <!-- 저작권 정보 -->
-                    <img src="resources/assets/images/favicon.png"> 갈빵질빵
+                    <img src="${path}/resources/assets/images/favicon.png"> 갈빵질빵
                 </div>
                 <div>
                     <!-- 추가 정보 -->
@@ -234,112 +237,24 @@
 <!-- 전체 wrapper 종료 -->
 
 <!-- Core JS Files -->
-<script src="../resources/assets/js/core/jquery-3.7.1.min.js"></script>
+<script src="${path}/resources/assets/js/core/jquery-3.7.1.min.js"></script>
 <!-- jQuery 라이브러리 -->
-<script src="../resources/assets/js/core/popper.min.js"></script>
+<script src="${path}/resources/assets/js/core/popper.min.js"></script>
 <!-- Popper.js (툴팁 및 팝오버를 위한 라이브러리) -->
-<script src="../resources/assets/js/core/bootstrap.min.js"></script>
+<script src="${path}/resources/assets/js/core/bootstrap.min.js"></script>
 <!-- Bootstrap JavaScript -->
 
 <!-- jQuery Scrollbar -->
 <script
-        src="../resources/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+        src="${path}/resources/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <!-- jQuery 스크롤바 플러그인 -->
 <!-- Datatables -->
 <script
-        src="../resources/assets/js/plugin/datatables/datatables.min.js"></script>
+        src="${path}/resources/assets/js/plugin/datatables/datatables.min.js"></script>
 <!-- DataTables 플러그인 -->
 
 <!-- Kaiadmin JS -->
-<script>
-    $(document)
-        .ready(
-            function () { // 문서가 준비되면 실행되는 함수
-                $("#basic-datatables").DataTable({}); // 기본 DataTable 초기화
-                $("#multi-filter-select")
-                    .DataTable(
-                        { // 다중 필터 선택 DataTable 초기화
-                            pageLength: 5, // 페이지당 항목 수
-                            initComplete: function () { // 초기화 완료 후 실행되는 함수
-                                this
-                                    .api()
-                                    // DataTable API 호출
-                                    .columns()
-                                    // 모든 열에 대해
-                                    .every(
-                                        function () { // 각 열에 대해 반복
-                                            var column = this; // 현재 열을 변수에 저장
-                                            var select = $(
-                                                '<select class="form-select"><option value=""></option></select>')
-                                                // 필터 선택 박스 생성
-                                                .appendTo(
-                                                    $(
-                                                        column
-                                                            .footer())
-                                                        .empty())
-                                                // 열의 푸터에 추가
-                                                .on(
-                                                    "change",
-                                                    function () { // 선택 박스 변경 시
-                                                        var val = $.fn.dataTable.util
-                                                            .escapeRegex($(
-                                                                this)
-                                                                .val()); // 선택된 값 정규 표현식으로 변환
-                                                        column
-                                                            // 현재 열에 대해
-                                                            .search(
-                                                                val ? "^"
-                                                                    + val
-                                                                    + "$"
-                                                                    : "",
-                                                                true,
-                                                                false)
-                                                            // 선택된 값으로 검색
-                                                            .draw(); // 테이블 다시 그리기
-                                                    });
-                                            column
-                                                // 현재 열의 데이터에 대해
-                                                .data()
-                                                // 데이터 가져오기
-                                                .unique()
-                                                // 고유한 값만 가져오기
-                                                .sort()
-                                                // 정렬
-                                                .each(
-                                                    function (
-                                                        d,
-                                                        j) { // 각 데이터에 대해 반복
-                                                        select
-                                                            .append( // 선택 박스에 옵션 추가
-                                                                '<option value="' + d + '">'
-                                                                + d
-                                                                + "</option>");
-                                                    });
-                                        });
-                            },
-                        });
-
-                // Add Row
-                $("#add-row").DataTable({ // 추가 행 DataTable 초기화
-                    pageLength: 5, // 페이지당 항목 수
-                });
-
-                var action = // 행에 추가할 액션 버튼 HTML
-                    '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-                $("#addRowButton").click(function () { // 추가 버튼 클릭 시
-                    $("#add-row") // 추가 행 DataTable에
-                        .dataTable() // DataTable API 호출
-                        .fnAddData([ // 데이터 추가
-                            $("#addName").val(), // 이름 입력값
-                            $("#addPosition").val(), // 직위 입력값
-                            $("#addOffice").val(), // 사무실 입력값
-                            action, // 액션 버튼
-                        ]);
-                    $("#addRowModal").modal("hide"); // 모달 닫기
-                });
-            });
-</script>
+<script src="${path}/resources/assets/js/kaiadmin.js"></script>
 </body>
 
 </html>

@@ -38,13 +38,12 @@
 			<div class="col-10">
 				<!-- 첫 번째 행 -->
 				<div class="row">
-					<custom:pageTitle>${userNickname}님이 작성한 게시글</custom:pageTitle>
+					<custom:pageTitle>'${userNickname}'님이 작성한 게시글</custom:pageTitle>
 				</div>
 
 				<!-- 두 번째 행 -->
 				<div class="row">
 					<div class="col-12">
-						<p>게시글 리스트</p>
 						<table class="customTable">
 							<thead>
 								<tr>
@@ -54,40 +53,42 @@
 									<th class="tableWriter">작성자</th>
 									<th class="tableReplyNum">댓글 수</th>
 									<th class="tableLike">좋아요 수</th>
+									<%--TODO CSS 확인바랍니다...!--%>
+									<th class="tableLike">카테고리</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:if test="${fn:length(datas) < 1 || empty datas}">
+								<c:if test="${empty boardList}">
 									<tr>
 										<td colspan="6">검색 결과가 없습니다.</td>
 									</tr>
 								</c:if>
-								<c:if test="true">
-									<c:forEach var="boardList" items="${boardList}">
+								<c:if test="${not empty boardList}">
+									<c:forEach var="board" items="${boardList}">
 										<!-- 상세조회로 가는 form -->
-										<form action="infoBoard.do" method="POST" id="infoBoardform">
-											<input type="hidden" id="boardCategoryNum" name="boardCategoryNum" value="${boardList.boardCategoryNum}"> 
-											<input type="hidden" id="boardNum" name="boardNum" value="${boardList.boardNum}">
-										</form>
-										<tr class="infoBoardRow">
-											<!-- 게시글카테고리(문의/일반) -->
-											<td align="center">${boardList.boardCategoryName}<input
-												type="hidden" name="${boardList.boardCategoryNum}"
-												value="${boardList.boardCategoryNum}"></td>
+<%--										<form action="infoBoard.do" method="POST" id="infoBoardform">--%>
+<%--											<input type="hidden" id="boardCategoryNum" name="boardCategoryNum" value="${board.boardCategoryNum}">--%>
+<%--											<input type="hidden" id="boardNum" name="boardNum" value="${board.boardNum}">--%>
+<%--										</form>--%>
+										<tr class="infoBoardRow" onclick="location.href='infoBoard.do?boardNum=${board.boardNum}'">
 											<!-- 작성일자 -->
-											<td align="center">${boardList.boardWriteDay}</td>
+											<td align="center">${board.boardWriteDay}</td>
 											<!-- 고유번호  -->
-											<td align="center">${boardList.boardNum}</td>
+											<td align="center">${board.boardNum}</td>
 											<!-- 제목 -->
-											<td align="center">${boardList.boardTitle}</td>
+											<td align="center">${board.boardTitle}</td>
 											<!-- 작성자 -->
-											<td align="left">${boardList.memberNum}</td>
+											<td align="left">${board.memberNickname}</td>
 											<!-- 댓글수 -->
-											<td align="left">${boardList.replyCnt}</td>
+											<td align="left">${board.replyCnt}</td>
 											<!-- 좋아요수 -->
 											<td align="left"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
   												<path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a10 10 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733q.086.18.138.363c.077.27.113.567.113.856s-.036.586-.113.856c-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.2 3.2 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.8 4.8 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" />
-												</svg> &nbsp;${boardList.likeCnt}
+												</svg> &nbsp;${board.likeCnt}
+											</td>
+											<!-- 게시글카테고리(문의/일반) -->
+											<td align="center">${board.boardCategoryName eq 'boardList'? '커뮤니티' : board.boardCategoryName eq 'notice'? '문의': '기타'}
+												<input type="hidden" name="boardCategoryNum" value="${board.boardCategoryNum}">
 											</td>
 										</tr>
 									</c:forEach>
@@ -102,7 +103,42 @@
 					<div class="col-12">
 						<p hidden>페이지네이션</p>
 						<!-- 페이지네이션 -->
-						<custom:pagination />
+						<section id="pagination">
+							<div class="pagination">
+								<!-- 이전 페이지 버튼 -->
+								<c:if test="${page > 1}">
+									<%--url을 받아와 page가 있다면 변경하고 없다면 추가, 받아올 url이 없는 경우에도 추가--%>
+									<!-- 이전 페이지 -->
+									<a href="?page=${page-1}" id="pagenationPreValue">&laquo; 이전</a>
+								</c:if>
+
+								<c:set var="startPage" value="${page - 5}" />
+								<c:set var="endPage" value="${page + 4}" />
+
+								<c:if test="${startPage < 1}">
+									<c:set var="startPage" value="1" />
+								</c:if>
+								<c:if test="${endPage > totalPage}">
+									<c:set var="endPage" value="${totalPage}" />
+								</c:if>
+
+								<c:forEach var="i" begin="${startPage}" end="${endPage}">
+									<c:choose>
+										<c:when test="${i == page}">
+											<strong>${i}</strong>
+										</c:when>
+										<c:otherwise>
+											<a href="?page=${i}" class="pagenationValue">${i}</a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+
+								<c:if test="${page < totalPage}">
+									<a href="?page=${page+1}" id="pagenationNextValue">다음 &raquo;</a>
+								</c:if>
+							</div>
+						</section>
+						<!-- 페이지네이션 종료 -->
 					</div>
 				</div>
 			</div>

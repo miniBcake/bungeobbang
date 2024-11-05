@@ -6,9 +6,12 @@ import com.bungeobbang.app.biz.boardCate.BoardCateDTO;
 import com.bungeobbang.app.biz.boardCate.BoardCateService;
 import com.bungeobbang.app.biz.like.LikeDTO;
 import com.bungeobbang.app.biz.like.LikeService;
+import com.bungeobbang.app.biz.reply.ReplyDTO;
+import com.bungeobbang.app.biz.reply.ReplyService;
 import com.bungeobbang.app.view.util.FileUtil;
 import com.bungeobbang.app.view.util.PaginationUtils;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,8 @@ public class BoardController {
     private LikeService likeService;
     @Autowired
     private BoardCateService boardCateService;
+    @Autowired
+    private ReplyService replyService;
 
     //경로
     private final String FOLDER_NAME = "uploads/board/";
@@ -52,7 +57,6 @@ public class BoardController {
     private final String PAGE_BOARD_UPDATE = "fixBoard"; //views 하위 게시글 수정
     private final String PAGE_BOARD_ADD = "boardWrite"; //views 하위 게시글 작성
     private final String PAGE_BOARD_LIST = "boardList"; //views 하위 게시글 작성
-	private final String PAGE_BOARD_MYLIST = "myBoardList";
 
     //view에서 boardCategoryName으로 전달받는 값 기록용
     private final String PAGE_BOARD_NOTICE = "noticeBoard"; //views 하위 문의게시판
@@ -60,7 +64,7 @@ public class BoardController {
 
     //게시글 상세보기
     @RequestMapping("/infoBoard.do")
-    public String infoBoard(HttpSession session, Model model, LikeDTO likeDTO, BoardDTO boardDTO) {
+    public String infoBoard(HttpSession session, Model model, LikeDTO likeDTO, BoardDTO boardDTO, ReplyDTO replyDTO) {
         log.info("log: /infoBoard.do infoBoard - start");
         log.info("log: infoBoard - param likeDTO : [{}]", likeDTO);
         log.info("log: infoBoard - param boardDTO : [{}]", boardDTO);
@@ -70,6 +74,14 @@ public class BoardController {
         //데이터 조회
         boardDTO.setCondition("ONE_BOARD");
         boardDTO = boardService.selectOne(boardDTO);
+
+        //댓글 정보 조회 (개수)
+        replyDTO.setCondition("CNT_BOARD_RP");
+        replyDTO = replyService.selectOne(replyDTO);
+        int replyCnt = 0;
+        if(replyDTO != null) { //NPE방지
+            replyCnt = replyDTO.getCnt();
+        }
 
         // 로그인 한 상태라면 좋아요 여부 확인
         if (sessionMemberPK != null) {
@@ -85,8 +97,12 @@ public class BoardController {
         //데이터 전달
         model.addAttribute("board", boardDTO); //게시글 내용 전달
         model.addAttribute("userLiked", userLiked); //초기 좋아요 상태 전달
-
-        log.info("log: /infoBoard.do viewBoard - end");
+        model.addAttribute("replyCnt", replyCnt); //댓글 개수만 전달
+        //확인
+        log.info("log: infoBoard - send board : [{}]", boardDTO);
+        log.info("log: infoBoard - param userLiked : [{}]", userLiked);
+        log.info("log: infoBoard - param replyCnt : [{}]", replyCnt);
+        log.info("log: /infoBoard.do infoBoard - end");
         return PAGE_BOARD_INFO;
     }
 
@@ -94,7 +110,7 @@ public class BoardController {
     @RequestMapping("/deleteBoard.do")
     public String deleteBoard(Model model, BoardDTO boardDTO,
                               //상대경로 변환용 realPath 사용을 위한 객체
-                              ServletContext servletContext) {
+                              HttpServletRequest request) {
         log.info("log: /deleteBoard.do deleteBoard - start");
         log.info("log: deleteBoard - param boardDTO : [{}]", boardDTO);
         String imagePath; //경로
@@ -105,7 +121,7 @@ public class BoardController {
         boardDTO = boardService.selectOne(boardDTO);
 
         //해당 게시글 이미지 폴더 삭제
-        imagePath = servletContext.getRealPath(FOLDER_NAME) + boardDTO.getBoardFolder();  // 이미지 경로 설정
+        imagePath = request.getServletContext().getRealPath(FOLDER_NAME) + boardDTO.getBoardFolder();  // 이미지 경로 설정
         if(FileUtil.deleteFileAndDirectory(new File(imagePath))){
             log.error("log: deleteBoard - delete file fail check");
         }
@@ -116,17 +132,16 @@ public class BoardController {
             log.error("log: deleteBoard - delete board fail");
             //게시글 삭제 실패
             model.addAttribute("msg", FAIL_BOARD_DELETE_MSG);
-            model.addAttribute("path", "loadListBoards.do?categoryName="+boardDTO.getBoardCategoryName());
+            model.addAttribute("path", "loadListBoards.do?boardCategoryName="+boardDTO.getBoardCategoryName());
             return FAIL_URL;
         }
 
         //해당 카테고리 게시판으로 이동
         log.info("log: /deleteBoard.do deleteBoard - end : loadListBoards.do");
-        return "loadListBoards.do?categoryName="+boardDTO.getBoardCategoryName();
+        return "redirect:loadListBoards.do?boardCategoryName="+boardDTO.getBoardCategoryName();
     }
 
     //게시글 전체 리스트
-    //KS 작업해야함 boardCateDTO필드명
     @RequestMapping("/loadListBoards.do")
     public String loadListBoards(Model model, Integer page, String boardCategoryName, BoardDTO totalCNT, BoardDTO boardDTO, BoardCateDTO boardCateDTO,
                                  String keyword, String contentFilter, String writeDayFilter, BoardDTO boardTotalCNT) {
@@ -143,7 +158,8 @@ public class BoardController {
         int totalPage; //총페이지 수 정보
         int totalSize; //게시글 수
         ArrayList<BoardDTO> boardList; //게시글 정보
-
+        int boardCategoryNum = boardCateService.selectOne(boardCateDTO).getBoardCategoryNum(); //해당 카테고리의 번호
+        log.info("log: loadListBoards - boardCategoryName : [{}] -> boardCategoryNum : [{}]", boardCateDTO.getBoardCategoryName(), boardCategoryNum);
         //페이지 정보
         page = page == null? 1 : page; //페이지 정보가 있다면 해당 페이지, 없다면 기본값 1
 
@@ -152,83 +168,69 @@ public class BoardController {
         HashMap<String, String> filterList = new HashMap<>();
         // 검색 조건 설정
         if (keyword != null && !keyword.isEmpty()) {
+            log.info("log: loadListBoards - add keyword search : contentFilter [{}]", contentFilter);
             filterList.put(contentFilter, keyword);
         }
         // 작성일 검색 조건 설정
-        if (writeDayFilter != null) {
-            filterList.put("WRITEDAY_FILTER", writeDayFilter);
+        if (!(writeDayFilter == null || writeDayFilter.equals("ALL"))) { //ALL은 전체기간 검색용
+            log.info("log: loadListBoards - add writeDayFilter : [{}]", writeDayFilter);
+            filterList.put("SELECT_PART_PERIOD", writeDayFilter);
         }
-        if(!filterList.isEmpty()){//검색 조건이 있다면
-            //검색조건 세팅
-            boardDTO.setFilterList(filterList);
-            boardTotalCNT.setFilterList(filterList);
-        }
+        //고정 데이터 : 카테고리값
+        filterList.put("SELECT_PART_CATE", ""+boardCategoryNum);
+        // 검색조건 세팅
+        boardDTO.setFilterList(filterList);
+        boardTotalCNT.setFilterList(filterList);
         //////////////////////////////////////////////////////////////////////
 
         //CNT를 구하기위한 DTO
         boardTotalCNT.setCondition("CNT_BOARD");
         boardTotalCNT.setBoardCategoryName(boardCategoryName);
         totalSize = boardService.selectOne(totalCNT).getCnt(); //게시글 수
+        log.info("log: loadListBoards - totalSize : [{}]", totalSize);
         // view 에게 보낼 총 페이지 수
         totalPage = PaginationUtils.calTotalPages(totalSize, CONTENT_SIZE);
+        log.info("log: loadListBoards - totalPage : [{}]", totalPage);
 
         //페이지네이션 정보 설정 (startNum, endNum - 기존 Pagination util 재활용)
         PaginationUtils.setPagination(page, CONTENT_SIZE, totalSize, boardDTO);
 
         //데이터 요청
-        boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCategoryNum());
+        boardDTO.setBoardCategoryNum(boardCategoryNum);
         boardDTO.setCondition("FILTER_BOARD");
         boardList = boardService.selectAll(boardDTO);
+
+        //만약 카테고리가 일반 게시판이고 검색이 없을 때만 인기글 데이터 전달 /////////////////////
+        if(boardCategoryName.equals(PAGE_BOARD_COMMU) && filterList.size() <= 1){ //카테고리 조건만 filter에 있는 경우는 검색을 안한 경우
+            log.info("log: loadListBoards - hotBoardList add");
+            //인기글 데이터 요청
+            boardDTO.setCondition("HOT_BOARD");
+            ArrayList<BoardDTO> hotBoardList = boardService.selectAll(boardDTO);
+            model.addAttribute("hotBoardList", hotBoardList);//인기글
+            log.info("log: loadListBoards - send hotBoardList : {}", hotBoardList);
+        }
+        ///////////////////////////////////////////////////////////////////////////////
 
         //데이터 전달
         model.addAttribute("boardList", boardList); // 게시글 데이터
         model.addAttribute("page", page); // 현재 페이지 번호
         model.addAttribute("totalPage", totalPage); // 게시글 페이지네이션 갯수
         model.addAttribute("boardCategoryName", boardCategoryName); // 게시글 카테고리 이름
+        //검색 유지
+        model.addAttribute("keyword", keyword); //검색어 유지
+        model.addAttribute("contentFilter", contentFilter); //검색종류
+        model.addAttribute("writeDayFilter", writeDayFilter); //검색기간
         //확인
         log.info("log: loadListBoards - send boardList : {}", boardList);
         log.info("log: loadListBoards - send page : {}", page);
         log.info("log: loadListBoards - send totalPage : {}", totalPage);
         log.info("log: loadListBoards - send boardCategoryName : [{}]", boardCategoryName);
-
+        log.info("log: loadListBoards - send keyword : [{}]", keyword);
+        log.info("log: loadListBoards - send contentFilter : [{}]", contentFilter);
+        log.info("log: loadListBoards - send writeDayFilter : [{}]", writeDayFilter);
         log.info("log: /loadListBoards.do loadListBoards - end");
         return PAGE_BOARD_LIST;
     }
-
-	// 나의 게시물목록 조회
-	@RequestMapping("/loadListMyBoard.do")
-	public String loadListMyBoard(Model model, Integer page, String boardCategoryName, BoardDTO totalCNT,
-			BoardDTO boardDTO, BoardCateDTO boardCateDTO, BoardDTO boardTotalCNT) {
-		int totalPage; // 총페이지 수 정보
-		int totalSize; // 게시글 수
-		ArrayList<BoardDTO> boardList; // 게시글 정보
-
-		// 페이지 정보
-		page = page == null ? 1 : page; // 페이지 정보가 있다면 해당 페이지, 없다면 기본값 1
-
-		// CNT를 구하기위한 DTO
-		boardTotalCNT.setCondition("CNT_BOARD");
-		boardTotalCNT.setBoardCategoryName(boardCategoryName);
-		totalSize = boardService.selectOne(totalCNT).getCnt(); // 게시글 수
-		// view 에게 보낼 총 페이지 수
-		totalPage = PaginationUtils.calTotalPages(totalSize, CONTENT_SIZE);
-
-		// 페이지네이션 정보 설정 (startNum, endNum - 기존 Pagination util 재활용)
-		PaginationUtils.setPagination(page, CONTENT_SIZE, totalSize, boardDTO);
-
-		// 데이터 요청 : userPK && selectAll condition
-		boardDTO.setMemberNum(userPK);
-		boardDTO.setCondition("SELECTALL_MYBOARD");
-		boardList = boardService.selectAll(boardDTO);
-
-		// 데이터 전달
-		model.addAttribute("boardList", boardList); // 게시글 데이터
-		model.addAttribute("page", page); // 현재 페이지 번호
-		model.addAttribute("totalPage", totalPage); // 게시글 페이지네이션 갯수
-		model.addAttribute("boardCategoryName", boardCategoryName); // 게시글 카테고리 이름
-
-		return PAGE_BOARD_MYLIST;
-	}
     
     //게시글 수정 페이지로 이동
     @RequestMapping(value = "/updateBoard.do", method = RequestMethod.GET)
@@ -266,7 +268,7 @@ public class BoardController {
         log.info("log: updateBoard - param boardDTO : [{}]", boardDTO);
         boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCategoryNum());//카테고리이름을 번호로 변경
         boardDTO.setCondition("BOARD_UPDATE");//컨디션 설정
-        if(boardService.update(boardDTO)){
+        if(!boardService.update(boardDTO)){
             log.error("log: updateBoard - update fail");
             model.addAttribute("msg", FAIL_BOARD_UPDATE_MSG);
             //업데이트 실패 시 해당 글 상세보기로 이동
@@ -280,7 +282,7 @@ public class BoardController {
 
     //게시글 작성
     @RequestMapping(value = "/addBoard.do", method = RequestMethod.POST)
-    public String addBoard(HttpSession session, BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model){
+    public String addBoard(BoardDTO boardDTO, BoardCateDTO boardCateDTO, Model model){
         log.info("log: /addBoard.do addBoard - start");
         log.info("log: addBoard - param boardDTO : [{}]", boardDTO);
         log.info("log: addBoard - param boardCateDTO : [{}]", boardCateDTO);
@@ -289,15 +291,15 @@ public class BoardController {
         boardDTO.setBoardCategoryNum(boardCateService.selectOne(boardCateDTO).getBoardCategoryNum());
         boardDTO.setCondition("BOARD_INSERT");//컨디션 설정
         //게시글 추가
-        if(boardService.insert(boardDTO)){
+        if(!boardService.insert(boardDTO)){
             //실패 시
             log.error("log: addBoard - insert fail");
             model.addAttribute("msg", FAIL_BOARD_INSERT_MSG);
-            model.addAttribute("path", "boardList.do?categoryName="+boardCateDTO.getBoardCategoryName());
+            model.addAttribute("path", "loadListBoards.do?boardCategoryName="+boardDTO.getBoardCategoryName());
             return FAIL_URL;
         }
         //작성한 글이 있는 카테고리 페이지로 이동
         log.info("log: /addBoard.do addBoard - end");
-        return "redirect:loadListBoards.do?categoryName="+boardCateDTO.getBoardCategoryName();
+        return "redirect:loadListBoards.do?boardCategoryName="+boardDTO.getBoardCategoryName();
     }
 }

@@ -1,4 +1,4 @@
-package com.bungeobbang.app.view.product;
+package com.bungeobbang.app.view.productController;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -15,8 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.bungeobbang.app.util.CookieUtil;
-import com.bungeobbang.app.util.PaginationUtils;
+import com.bungeobbang.app.view.util.CookieUtil;
+import com.bungeobbang.app.view.util.PaginationUtils;
 import com.bungeobbang.app.biz.product.ProductDTO;
 import com.bungeobbang.app.biz.product.ProductService;
 import com.bungeobbang.app.biz.productCate.ProductCateDTO;

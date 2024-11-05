@@ -1,7 +1,7 @@
 package com.bungeobbang.app.biz.product;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +28,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
 	@Override
-	public List<ProductDTO> selectAll(ProductDTO productDTO) {
+	public ArrayList<ProductDTO> selectAll(ProductDTO productDTO) {
 		applyDefaultValues(productDTO);
-		return (List<ProductDTO>) this.productDAO.selectAll(productDTO);
+		return (ArrayList<ProductDTO>) this.productDAO.selectAll(productDTO);
 	}
 
 	@Override
 	//명시적 Null처리 위한 Optional 사용
 	public Optional<ProductDTO> selectOne(ProductDTO productDTO) {
 		applyDefaultValues(productDTO);
-	    return Optional.ofNullable(productDAO.selectOne(productDTO));
+	    //return Optional.ofNullable(productDAO.selectOne(productDTO));
+		return null;
 	}
 	
 

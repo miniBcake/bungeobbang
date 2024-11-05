@@ -29,7 +29,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	<%--sweetAlert2 CDN--%>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
-	<script src="resources/assets/js/signUp.js"></script>
+	<script src="resources/assets/js/member/signUp.js"></script>
 </head>
 <body>
 	<custom:header />
@@ -49,7 +49,7 @@
 				<div class="col-6">
                 <!-- 프로필 사진 -->
                 <div class="mb-3">
-                    <img src="resources/assets/images/breadfishProfile.jpg" class="signupimg" id="previewImage">
+                    <img src="uploads/default_profile.png" class="signupimg" id="previewImage" width="300">
                 </div>
                 
                 <!-- 이미지 업로드 및 제거 버튼 -->

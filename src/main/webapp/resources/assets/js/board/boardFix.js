@@ -19,7 +19,11 @@ class MyUploadAdapter {
                 .then(response => response.text())
                 .then(url => {
                     if (url) {
-                        resolve({ default: url });
+                        // url 앞뒤의 따옴표 제거 후 resolve
+                        const cleanUrl = url.replace(/^"|"$/g, '');
+                        const result = { default: cleanUrl };
+                        console.log('resolve할 객체:', result);
+                        resolve(result);
                     } else {
                         reject("이미지 업로드 실패");
                     }

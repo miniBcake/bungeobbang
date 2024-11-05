@@ -76,7 +76,7 @@ public class ReplyDAO {
 		return true;
 	}
 
-	private boolean update(ReplyDTO replyDTO) {
+	public boolean update(ReplyDTO replyDTO) {
 		System.out.println("log: Reply update start");
 		String query = ""; //쿼리문 초기화
 		int rs = 0; // 결과 초기화
@@ -157,7 +157,7 @@ public class ReplyDAO {
 		return datas;
 	}
 
-	private ReplyDTO selectOne(ReplyDTO replyDTO) {
+	public ReplyDTO selectOne(ReplyDTO replyDTO) {
 		System.out.println("log: Reply selectOne start");
 		String query = "";
 		Object[] args = null; //쿼리문과 args 초기화

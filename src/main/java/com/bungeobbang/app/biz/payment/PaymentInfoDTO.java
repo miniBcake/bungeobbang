@@ -1,4 +1,4 @@
-package com.bungeobbang.app.view.paymentController;
+package com.bungeobbang.app.biz.payment;
 
 import lombok.ToString;
 

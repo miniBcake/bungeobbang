@@ -14,12 +14,12 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Override
 	public ArrayList<ReplyDTO> selectAll(ReplyDTO replyDTO) {
-		return null;
+		return (ArrayList<ReplyDTO>) this.replyDAO.selectAll(replyDTO);
 	}
 
 	@Override
 	public ReplyDTO selectOne(ReplyDTO replyDTO) {
-		return null;
+		return this.replyDAO.selectOne(replyDTO);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public boolean update(ReplyDTO replyDTO) {
-		return false;
+		return this.replyDAO.update(replyDTO);
 	}
 
 	@Override

@@ -55,7 +55,7 @@
                   <input type="hidden" name="memberNum" value="${sessionScope.userPK}">
                   <input type="hidden" id="boardNum" name="boardNum" value="${board.boardNum}" />
                   <input type="hidden" name="boardFolder" value="${board.boardFolder}">
-                  
+
           		<div class="form-group">
    				    <label for="boardCateName">일반/문의</label>
 				   <!-- 게시판 카테고리 선택 옵션 -->
@@ -64,7 +64,7 @@
 				      <option value="noticeBoard" <c:if test="${board.boardCategoryName == 'noticeBoard'}">selected</c:if>>문의</option>
 				   </select>
 				</div>
-				
+
 				<div id="postSecretGroup" class="form-group custom-checkbox-group">
 				   <!-- 비공개 게시물 체크박스 -->
 				   <label class="custom-checkbox">
@@ -74,20 +74,20 @@
 				   </label>
 				   <input type="hidden" id="hiddenBoardOpen" name="boardOpen" value="Y"> <!-- 비공개 여부를 위한 hidden 필드 -->
 				</div>
-				
+
                   <div class="form-group mt-3">
                      <label for="boardTitle">게시글 제목</label>
                      <!-- 게시글 제목 입력 필드 -->
                      <input type="text" id="boardTitle" name="boardTitle" class="form-control" placeholder="제목을 입력해주세요!" value="${board.boardTitle}" required />
                   </div>
-                  
+
                   <div class="form-group mt-3">
                      <label for="boardContent">게시글 내용</label>
                      <!-- 게시글 내용을 위한 숨김 필드로, CKEditor와 연동됨 -->
                      <textarea id="boardContent" name="boardContent" style="display: none;"></textarea>
                   </div>
                   <!-- 폼 제출 버튼 -->
-                  <button class="btn btn-primary btn-block" type="submit">게시글 등록</button>                        
+                  <button class="btn btn-primary btn-block" type="submit">게시글 등록</button>
                 </form>
              </section>
            </div>
@@ -107,7 +107,7 @@
    <!-- jQuery 및 기타 스크립트 로드 -->
    <script src="${path}/resources/assets/js/jquery.min.js"></script>
    <script src="${path}/resources/assets/js/browser.min.js"></script>
-   <script src="${path}/resources/assets/js/util.js"></script>  
+   <script src="${path}/resources/assets/js/util.js"></script>
    <!-- 게시글 수정에 필요한 커스텀 스크립트 파일 로드 -->
    <script src="${path}/resources/assets/js/board/boardFix.js"></script>
    <script src="${path}/resources/assets/js/board/boardCate.js"></script>

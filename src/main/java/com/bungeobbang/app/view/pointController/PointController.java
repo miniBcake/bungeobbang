@@ -28,7 +28,7 @@ public class PointController {
     public boolean minusPoint(HttpSession session, PointDTO pointDTO, @RequestParam int amount){
         log.info("[MinusPoint] 시작");
 
-        Integer memberPK = (Integer) session.getAttribute("userPk"); // session에 저장된 memberPK 가져오기
+        Integer memberPK = (Integer) session.getAttribute("userPK"); // session에 저장된 memberPK 가져오기
 
         // view에서 전달해주는 product의 가격을 받아 사용자의 point에서 minus 진행
         pointDTO.setMemberNum(memberPK);
@@ -43,7 +43,7 @@ public class PointController {
     @PostMapping(value = "/loadListPoint.do")
     public String loadListPoint(HttpSession session, PointDTO pointDTO, Model model){
         log.info("[LoadListPoint] 시작");
-        Integer memberPK = (Integer) session.getAttribute("userPk"); // session에 저장된 memberPK 가져오기
+        Integer memberPK = (Integer) session.getAttribute("userPK"); // session에 저장된 memberPK 가져오기
         if(memberPK == null){
             return "redirect:/login.do";
         }

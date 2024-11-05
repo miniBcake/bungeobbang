@@ -1,6 +1,5 @@
 package com.bungeobbang.app.biz.payment;
 
-import com.bungeobbang.app.view.paymentController.PaymentInfoDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

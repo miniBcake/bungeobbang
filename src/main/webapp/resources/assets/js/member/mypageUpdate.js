@@ -2,33 +2,33 @@
 1. 이메일 중복검사 및 닉네임 중복검사해야만 수정완료 버튼 작용
 */
 //아래로직과 똑같음.. 나중에 제거 필요. 컴파일 꼬임 발생으로 2개 생성함
+function a(event) {
+	// 선택된 파일을 가져옴
+	const file = event.target.files[0];
+	console.log('mypageUpdate.js previewImge(event) load complete');
+
+	// FileReader 객체를 생성
+	const reader = new FileReader();
+	console.log('mypageUpdate.js previewImge(event) read');
+
+	// 파일이 로드되었을 때 실행되는 이벤트 핸들러
+	reader.onload = function() {
+		console.log('mypageUpdate.js previewImge(event) loading');
+
+		// 미리보기 이미지 태그의 src 속성을 선택된 파일의 데이터로 설정
+		const previewImage = document.getElementById('previewImage');
+		previewImage.src = reader.result; // 파일의 데이터 URL
+		//reviewImage.style.display = 'block'; // 이미지 태그를 보이도록 설정
+		console.log('mypageUpdate.js previewImge(event) show');
+
+	};
+
+	// 파일 읽기 시작
+	reader.readAsDataURL(file);
+	console.log('mypageUpdate.js previewImge(event) show complete');
+
+}
 $(document).ready(function() {
-	function a(event) {
-		// 선택된 파일을 가져옴
-		const file = event.target.files[0];
-		console.log('mypageUpdate.js previewImge(event) load complete');
-
-		// FileReader 객체를 생성
-		const reader = new FileReader();
-		console.log('mypageUpdate.js previewImge(event) read');
-
-		// 파일이 로드되었을 때 실행되는 이벤트 핸들러
-		reader.onload = function() {
-			console.log('mypageUpdate.js previewImge(event) loading');
-
-			// 미리보기 이미지 태그의 src 속성을 선택된 파일의 데이터로 설정
-			const previewImage = document.getElementById('previewImage');
-			previewImage.src = reader.result; // 파일의 데이터 URL
-			previewImage.style.display = 'block'; // 이미지 태그를 보이도록 설정
-			console.log('mypageUpdate.js previewImge(event) show');
-
-		};
-
-		// 파일 읽기 시작
-		reader.readAsDataURL(file);
-		console.log('mypageUpdate.js previewImge(event) show complete');
-
-	}
 
 	// 파일 입력 필드에서 파일이 선택되었을 때 호출되는 함수
 	function previewImage(event) {
@@ -137,7 +137,7 @@ $(document).ready(function() {
 		isPasswordChecked == true;//비밀번호 확인
 	});
 	// 폼 제출 시 중복 확인 여부 검사
-	$('#submitBtn').on('click', function(event) {
+	$('#submit-button').on('click', function(event) {
 		if (!isNicknameChecked) {//초기값:!false=>중복검사 미실시
 			console.log("mypageUpdate.js form ninameCheck");
 			Swal.fire({

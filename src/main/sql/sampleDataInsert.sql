@@ -5,20 +5,6 @@ VALUES ('문구/사무'),
        ('패션/잡화'),
        ('디지털/IT'),
        ('홈데코');
--- 상품 데이터(크롤링)
-INSERT INTO bb_product (PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_PROFILE_WAY, PRODUCT_CATEGORY_NUM)
-VALUES 
-('붕어빵 기계', 150000, 'DEFAULT.PNG', 1), -- 문구/사무
-('붕어빵 모양 쿠션', 25000, 'DEFAULT.PNG', 2), -- 리빙
-('붕어빵 패턴 가방', 30000, 'DEFAULT.PNG', 3), -- 패션/잡화
-('붕어빵 전자레인지', 80000, 'DEFAULT.PNG', 4), -- 디지털/IT
-('붕어빵 장식품', 50000, 'DEFAULT.PNG', 5), -- 홈데코
-('붕어빵 모양 머그컵', 12000, 'DEFAULT.PNG', 2), -- 리빙
-('붕어빵 향수', 35000, 'DEFAULT.PNG', 3), -- 패션/잡화
-('붕어빵 만들기 책', 20000, 'DEFAULT.PNG', 1), -- 문구/사무
-('붕어빵 원피스', 45000, 'DEFAULT.PNG', 3), -- 패션/잡화
-('붕어빵 굽기 팬', 22000, 'DEFAULT.PNG', 4); -- 디지털/IT
-
 
 -- Member 데이터
 INSERT INTO bb_member (MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_NICKNAME, MEMBER_PHONE, MEMBER_PROFILE_WAY, MEMBER_ROLE)
@@ -147,23 +133,23 @@ VALUES (1, 'noticeBoard'),
        (2, 'boardList');
 
 -- BB_BOARD 샘플 데이터
-INSERT INTO bb_board (BOARD_TITLE, BOARD_CONTENT, BOARD_FOLDER, MEMBER_NUM, BOARD_OPEN, BOARD_DELETE, STORE_NUM)
-VALUES ('맛있는 붕어빵 후기', '정말 맛있었어요! 특히 팥앙금이 일품이에요', '/uploads/review1', 9, 'Y', 'N', 1),
+INSERT INTO bb_board (BOARD_TITLE, BOARD_CONTENT, BOARD_FOLDER, MEMBER_NUM, BOARD_OPEN, BOARD_DELETE, BOARD_CATEGORY_NUM)
+VALUES ('맛있는 붕어빵 후기', '정말 맛있었어요! 특히 팥앙금이 일품이에요', '/uploads/review1', 9, 'Y', 'N', 2),
        ('붕어빵 맛집 발견', '여기 붕어빵이 최고예요. 크기도 크고 맛도 좋아요', '/uploads/review2', 10, 'Y', 'N', 2),
        ('신메뉴 출시했습니다', '치즈붕어빵 새로 나왔어요. 많이 찾아주세요!', '/uploads/notice1', 3, 'Y', 'N', 2),
-       ('역삼역 최고의 붕어빵', '퇴근길에 항상 들러서 먹고 있어요', '/uploads/review3', 11, 'Y', 'N', 3),
-       ('가격 인상 안내', '원재료 가격 상승으로 인한 가격 인상 안내드립니다', '/uploads/notice2', 4, 'Y', 'N', 4),
-       ('크림붕어빵 맛집', '크림붕어빵 여기가 진짜예요!', '/uploads/review4', 12, 'Y', 'N', 5),
-       ('휴무 안내', '내일 임시 휴무입니다', '/uploads/notice3', 5, 'Y', 'N', 5),
-       ('붕어빵 시식 이벤트', '오늘 5시부터 신메뉴 무료 시식회 있습니다', '/uploads/event1', 6, 'Y', 'N', 6),
-       ('대박맛집 인증', '정말 맛있어서 재방문했어요', '/uploads/review5', 13, 'Y', 'N', 7),
-       ('영업시간 변경 안내', '다음 주부터 영업시간이 변경됩니다', '/uploads/notice4', 7, 'Y', 'N', 8),
-       ('붕어빵 최고!', '여기 붕어빵 강추합니다', '/uploads/review6', 14, 'Y', 'N', 9),
-       ('이번주 할인 이벤트', '금주 전 메뉴 20% 할인합니다', '/uploads/event2', 8, 'Y', 'N', 10),
-       ('맛있는 붕어빵 인증', '너무 맛있어서 후기 남깁니다', '/uploads/review7', 15, 'Y', 'N', 11),
-       ('신메뉴 투표해주세요', '다음 신메뉴 설문조사 이벤트', '/uploads/event3', 3, 'Y', 'N', 12),
+       ('역삼역 최고의 붕어빵', '퇴근길에 항상 들러서 먹고 있어요', '/uploads/review3', 11, 'Y', 'N', 2),
+       ('가격 인상 안내', '원재료 가격 상승으로 인한 가격 인상 안내드립니다', '/uploads/notice2', 4, 'Y', 'N', 1),
+       ('크림붕어빵 맛집', '크림붕어빵 여기가 진짜예요!', '/uploads/review4', 12, 'Y', 'N', 1),
+       ('휴무 안내', '내일 임시 휴무입니다', '/uploads/notice3', 5, 'Y', 'N', 1),
+       ('붕어빵 시식 이벤트', '오늘 5시부터 신메뉴 무료 시식회 있습니다', '/uploads/event1', 6, 'Y', 'N', 1),
+       ('대박맛집 인증', '정말 맛있어서 재방문했어요', '/uploads/review5', 13, 'Y', 'N', 1),
+       ('영업시간 변경 안내', '다음 주부터 영업시간이 변경됩니다', '/uploads/notice4', 7, 'Y', 'N', 2),
+       ('붕어빵 최고!', '여기 붕어빵 강추합니다', '/uploads/review6', 14, 'Y', 'N', 2),
+       ('이번주 할인 이벤트', '금주 전 메뉴 20% 할인합니다', '/uploads/event2', 8, 'Y', 'N', 2),
+       ('맛있는 붕어빵 인증', '너무 맛있어서 후기 남깁니다', '/uploads/review7', 15, 'Y', 'N', 2),
+       ('신메뉴 투표해주세요', '다음 신메뉴 설문조사 이벤트', '/uploads/event3', 3, 'Y', 'N', 2),
        ('직접 만든 팥앙금', '팥앙금을 직접 만들어서 더 맛있어요', '/uploads/review8', 16, 'Y', 'N', 1),
-       ('가게 이전 안내', '다음달부터 이전된 장소에서 영업합니다', '/uploads/notice5', 4, 'Y', 'N', 2);
+       ('가게 이전 안내', '다음달부터 이전된 장소에서 영업합니다', '/uploads/notice5', 4, 'Y', 'N', 1);
 
 -- BB_LIKE 샘플 데이터
 INSERT INTO bb_like (BOARD_NUM, MEMBER_NUM)
@@ -214,7 +200,7 @@ VALUES ('저도 가보고 싶네요!', 10, 1),
        ('이번 주말에 꼭 가봐야겠어요', 10, 2),
        ('신메뉴 먹어보고 싶네요', 11, 3),
        ('역시 맛집이죠!!', 12, 4);
-      
+
 -- BB_ORDER 샘플 데이터
 INSERT INTO BB_ORDER (MEMBER_NUM, ADMIN_CHECKED, ORDER_DATE, ORDER_ADDRESS) VALUES
 (1, 'N', '2024-11-01 10:30:00', '서울 중구'),

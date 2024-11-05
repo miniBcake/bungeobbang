@@ -22,6 +22,7 @@ public class StoreFilter extends FilterSearchUtil{
 		Filter_SQL_MAP.put("PAYMENT_CASHMONEY", "AND STORE_PAYMENT_CASHMONEY = ?");
 		Filter_SQL_MAP.put("PAYMENT_ACCOUNT", "AND STORE_PAYMENT_ACCOUNT = ?");
 		Filter_SQL_MAP.put("STORE_SECRET", "AND STORE_SECRET = ?");	
+		Filter_SQL_MAP.put("STORE_ADDRESS", "AND STORE_ADDRESS LIKE concat('%', ? ,'%')");
 
 		Filter_SQL_MAP.put("STORE_DECLARED", "AND STORE_DECLARED = ?");		
 
