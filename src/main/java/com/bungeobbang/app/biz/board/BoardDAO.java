@@ -90,15 +90,11 @@ public class BoardDAO {
 					"WHERE 1=1 ";
 
 	// SELECTONE_MAXPK 쿼리
-	private final String SELECTONE_MAXPK = 
-			"SELECT IFNULL(MAX(BOARD_NUM), 0) AS MAXPK FROM BB_BOARD";
+	private final String SELECTONE_MAXPK = "SELECT IFNULL(MAX(BOARD_NUM), 0) AS MAXPK FROM BB_BOARD";
 
-	private final String SELECTONE_FOLDER = 
-			"SELECT BOARD_NUM, BOARD_FOLDER FROM BB_BOARD WHERE BOARD_NUM = ?";
-	private final String SELECTONE_MY = "SELECT COUNT(*) AS CNT FROM BB_BOARD bb " +
-			"JOIN BB_MEMBER bm ON bb.MEMBER_NUM = bm.MEMBER_NUM " +
-			"WHERE MEMBER_NUM = ?";
+	private final String SELECTONE_FOLDER = "SELECT BOARD_NUM, BOARD_FOLDER FROM BB_BOARD WHERE BOARD_NUM = ?";
 
+	private final String SELECTONE_MY = "SELECT COUNT(*) AS CNT FROM BB_BOARD WHERE MEMBER_NUM = ?";
 
 	//고정 설정
 	private final int MINLIKE = 5;		//인기글 최소 기준
@@ -255,7 +251,7 @@ public class BoardDAO {
 			argsList = filterUtil.setFilterKeywords(argsList, filters);
 
 			//페이지네이션
-			argsList.add(boardDTO.getStartNum()-1);
+			argsList.add(boardDTO.getStartNum() < 1 ? 0 : boardDTO.getStartNum()-1);
 			argsList.add(CONTENT_SIZE);
 
 			//args 배열화
@@ -287,7 +283,7 @@ public class BoardDAO {
 			System.out.println("log: Board selectAll : MY_BOARD");
 			args = new Object[] {
 					boardDTO.getMemberNum(),
-					boardDTO.getStartNum()-1,
+					boardDTO.getStartNum() < 1? 0: boardDTO.getStartNum()-1,
 					CONTENT_SIZE
 			};
 			query = SELECTALL_MYPAGE;

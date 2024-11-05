@@ -37,7 +37,7 @@ public class PaymentController {
     public String paymentSelectAll(HttpSession session, PaymentDTO paymentDTO, Model model) {
         log.info("[PaymentSelectAll] 시작");
 
-        Integer memberPK = (Integer) session.getAttribute("userPk");
+        Integer memberPK = (Integer) session.getAttribute("userPK");
 
         paymentDTO.setCondition("SELECTALL_PAYMENT");
         paymentDTO.setMemberNum(memberPK);

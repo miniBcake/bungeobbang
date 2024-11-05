@@ -57,7 +57,6 @@ public class BoardController {
     private final String PAGE_BOARD_UPDATE = "fixBoard"; //views 하위 게시글 수정
     private final String PAGE_BOARD_ADD = "boardWrite"; //views 하위 게시글 작성
     private final String PAGE_BOARD_LIST = "boardList"; //views 하위 게시글 작성
-	private final String PAGE_BOARD_MYLIST = "myBoardList";
 
     //view에서 boardCategoryName으로 전달받는 값 기록용
     private final String PAGE_BOARD_NOTICE = "noticeBoard"; //views 하위 문의게시판
@@ -143,7 +142,6 @@ public class BoardController {
     }
 
     //게시글 전체 리스트
-    //KS 작업해야함 boardCateDTO필드명 인기글 반환 추가!
     @RequestMapping("/loadListBoards.do")
     public String loadListBoards(Model model, Integer page, String boardCategoryName, BoardDTO totalCNT, BoardDTO boardDTO, BoardCateDTO boardCateDTO,
                                  String keyword, String contentFilter, String writeDayFilter, BoardDTO boardTotalCNT) {
@@ -233,41 +231,6 @@ public class BoardController {
         log.info("log: /loadListBoards.do loadListBoards - end");
         return PAGE_BOARD_LIST;
     }
-
-	// 나의 게시물목록 조회
-	@RequestMapping("/loadListMyBoard.do")
-	public String loadListMyBoard(Model model, Integer page, String boardCategoryName, BoardDTO totalCNT,
-			BoardDTO boardDTO, BoardCateDTO boardCateDTO, BoardDTO boardTotalCNT) {
-		int totalPage; // 총페이지 수 정보
-		int totalSize; // 게시글 수
-		ArrayList<BoardDTO> boardList; // 게시글 정보
-
-		// 페이지 정보
-		page = page == null ? 1 : page; // 페이지 정보가 있다면 해당 페이지, 없다면 기본값 1
-
-		// CNT를 구하기위한 DTO
-		boardTotalCNT.setCondition("CNT_BOARD");
-		boardTotalCNT.setBoardCategoryName(boardCategoryName);
-		totalSize = boardService.selectOne(totalCNT).getCnt(); // 게시글 수
-		// view 에게 보낼 총 페이지 수
-		totalPage = PaginationUtils.calTotalPages(totalSize, CONTENT_SIZE);
-
-		// 페이지네이션 정보 설정 (startNum, endNum - 기존 Pagination util 재활용)
-		PaginationUtils.setPagination(page, CONTENT_SIZE, totalSize, boardDTO);
-
-		// 데이터 요청 : userPK && selectAll condition
-		//KS boardDTO.setMemberNum(userPK);
-		boardDTO.setCondition("SELECTALL_MYBOARD");
-		boardList = boardService.selectAll(boardDTO);
-
-		// 데이터 전달
-		model.addAttribute("boardList", boardList); // 게시글 데이터
-		model.addAttribute("page", page); // 현재 페이지 번호
-		model.addAttribute("totalPage", totalPage); // 게시글 페이지네이션 갯수
-		model.addAttribute("boardCategoryName", boardCategoryName); // 게시글 카테고리 이름
-
-		return PAGE_BOARD_MYLIST;
-	}
     
     //게시글 수정 페이지로 이동
     @RequestMapping(value = "/updateBoard.do", method = RequestMethod.GET)
