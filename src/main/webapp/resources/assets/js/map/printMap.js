@@ -200,7 +200,7 @@ function searchStore(address) {
 			type: 'POST',
 			// 요청 데이터 application/json
 			contentType: 'application/json',
-			data: JSON.stringify({ storeAddress: address }),
+			data: JSON.stringify({ keyword: address }),
 			dataType: 'json',
 			// 성공 시
 			success: function(data) {
