@@ -1,26 +1,29 @@
 // 결제 방법 선택 함수
+
 function selectPaymentMethod(method) {
     let pg = '';
     let pay_method = '';
     let channelKey='';
+    let buyer_name = '';
     // 카드사 선택에 따른 PG사 및 결제 방식 설정
     if (method === '신한카드' || method === '우리카드') {
         pg = 'tosspay';
         pay_method = 'card';
         channelKey = 'channel-key-4caf1408-142e-4c77-a7ac-2039a8f51ebb';
         window.selectedCardCompany = method;
-    } else if (method === '국민은행' || method === '농협은행') {
-        pg = 'tosspay';
+    }
+    else if (method === '가상계좌') {
+        pg = 'html5_inicis';
         pay_method = 'vbank';
-        channelKey = 'channel-key-4caf1408-142e-4c77-a7ac-2039a8f51ebb';
+        channelKey = 'channel-key-1d0d6812-0ece-4bae-97c1-b9c1912c0c6c';
+        buyer_name = memberName;
         window.selectedCardCompany = method;
-    } else if (method === '카카오페이') {
+    }
+    else if (method === '카카오페이') {
         pg = 'kakaopay';
         pay_method = 'card';
-    } else if (method === '네이버페이') {
-        pg = 'naverpay';
-        pay_method = 'card';
-    } else if (method === '토스페이') {
+    }
+    else if (method === '토스페이') {
         pg = 'tosspay'; // 토스페이 간편결제
         pay_method = 'tosspay';
         channelKey = 'channel-key-4caf1408-142e-4c77-a7ac-2039a8f51ebb';
@@ -31,6 +34,7 @@ function selectPaymentMethod(method) {
     window.selectedPG = pg;
     window.selectedPM = pay_method;
     window.selectedCK = channelKey;
+    window.selectedNAME= buyer_name;
     // 사용자가 선택한 결제 방법을 표시
     document.getElementById('paymentMethodSelected').value = method;
 }
