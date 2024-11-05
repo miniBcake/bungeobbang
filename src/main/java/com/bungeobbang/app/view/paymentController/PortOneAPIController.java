@@ -103,7 +103,7 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
         log.info("[PaymentInfo] 시작");
         log.info("[PaymentInfo View에서 전달 해준 DTO 값] : " + paymentInfoDTO);
 
-        Integer memberPK = (Integer) session.getAttribute("UserPK");
+        Integer memberPK = (Integer) session.getAttribute("userPK");
         log.info("[PaymentInfo session에서 가지고온 memberPK 값] : " + memberPK);
 
 
