@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url('color.css');
 
 /* 기본 설정: 여백 제거 및 스크롤 이동 시 부드럽게 */
 body, html {
@@ -6,6 +7,9 @@ body, html {
     padding: 0;
     overflow-x: hidden;
     scroll-behavior: smooth;
+}
+body {
+    font-family: 'Gamja Flower', cursive !important;
 }
 
 /* 상단 헤더 설정 */

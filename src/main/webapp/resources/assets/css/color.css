@@ -36,8 +36,11 @@
 	
 	/* section2 제목 글자색 */
 	--section2-font-color: #FFB347;
-	/* 버튼 글자색 */
+	/* 버튼,a 글자색 */
 	--button-font-color: #FFB347;
+	
+	/* 버튼,a hover */
+	--button-hover-font-color: #CC8537;
     
     
     /* 선 색 ---------------------------- */
