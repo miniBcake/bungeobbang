@@ -132,9 +132,6 @@
 			</div>
 		</div>
 
-		<!-- Footer -->
-		<custom:footer />
-
 		<script>
 			// JSON 문자열을 JavaScript에서 사용하기 전에 디코딩합니다.
 			const encodedCartItemsString = '${fn:escapeXml(cartItemsJson)}';
@@ -167,6 +164,9 @@
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script src="${path}/resources/assets/js/product/productCart.js"></script>
 		<script src="${path}/resources/assets/js/daumPostCode.js"></script>
+		
+		<!-- Footer -->
+		<custom:footer />
 	</div>
 </body>
 

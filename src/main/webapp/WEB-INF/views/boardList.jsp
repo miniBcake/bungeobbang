@@ -18,7 +18,7 @@
 <meta charset="utf-8" />
 
 <link rel="stylesheet" href="${path}/resources/assets/css/main.css">
-<link rel="stylesheet" href="${path}/resources/assets/css/boardlist.css">
+<link rel="stylesheet" href="${path}/resources/assets/css/board/boardlist.css">
 <link rel="stylesheet" href="${path}/resources/assets/css/searchbar.css">
 <link rel="stylesheet"
 	href="${path}/resources/assets/css/pagination.css">
@@ -32,20 +32,23 @@
 	crossorigin="anonymous">
 </head>
 <body>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-	<script src="${path}/resources/assets/js/board/board.js"></script>
+	<div id="page-wrapper">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="${path}/resources/assets/js/board/board.js"></script>
 
 
-	<custom:header />
+		<custom:header />
 
-<!--  -->
+		<!--  -->
 		<div class="container">
 			<form action="loadListBoards.do" method="GET">
 				<!-- 게시글카테고리(문의/일반) -->
-				<input type="hidden" name="boardCategoryName" value="${boardCategoryName}">
+				<input type="hidden" name="boardCategoryName"
+					value="${boardCategoryName}">
 				<!-- 첫 번째 행 -->
-				<br><br>
+				<br>
+				<br>
 				<div class="row">
 					<!-- C에서 온 카테고리가 일반이라면 -->
 					<c:if test="${boardCategoryName eq 'boardList'}">
@@ -63,15 +66,21 @@
 					<div class="col-3 justify-content-center">
 						<div class="categoryBox">
 							<!-- 카테고리 -->
-							<select id="contentFilter" name="contentFilter" class="category half" required>
+							<select id="contentFilter" name="contentFilter"
+								class="category half" required>
 								<%--<option value="category" disabled selected>카테고리</option>--%>
-								<option value="SELECT_PART_TITLE" ${contentFilter eq 'SELECT_PART_TITLE'? 'selected' : ''}>제목</option>
-								<option value="SELECT_PART_CONTENT" ${contentFilter eq 'SELECT_PART_CONTENT'? 'selected' : ''}>내용</option>
-								<option value="SELECT_PART_NICKNAME" ${contentFilter eq 'SELECT_PART_NICKNAME'? 'selected' : ''}>닉네임</option>
+								<option value="SELECT_PART_TITLE"
+									${contentFilter eq 'SELECT_PART_TITLE'? 'selected' : ''}>제목</option>
+								<option value="SELECT_PART_CONTENT"
+									${contentFilter eq 'SELECT_PART_CONTENT'? 'selected' : ''}>내용</option>
+								<option value="SELECT_PART_NICKNAME"
+									${contentFilter eq 'SELECT_PART_NICKNAME'? 'selected' : ''}>닉네임</option>
 							</select>
 							<!-- 날짜 -->
-							<select id="condition" name="writeDayFilter" class="category half" required>
-								<option value="ALL" ${writeDayFilter eq 'ALL' || empty writeDayFilter ? 'selected' : ''}>기간</option>
+							<select id="condition" name="writeDayFilter"
+								class="category half" required>
+								<option value="ALL"
+									${writeDayFilter eq 'ALL' || empty writeDayFilter ? 'selected' : ''}>기간</option>
 								<option value="7" ${writeDayFilter eq '7'? 'selected' : ''}>7일</option>
 								<option value="15" ${writeDayFilter eq '15'? 'selected' : ''}>15일</option>
 								<option value="30" ${writeDayFilter eq '30'? 'selected' : ''}>30일</option>
@@ -79,20 +88,20 @@
 						</div>
 					</div>
 					<div class="col-8">
-						<div class="searchInput" id="searchBox">
-							<img src="${path}/resources/assets/images/search_icon.png" alt="검색창 아이콘 이미지" width="30px" height="30px">
-							<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력해주세요." value="${keyword}">
-							<input type="submit" value="검색">
-						</div>
+					<custom:searchbar placeholder="검색어를 입력해주세요."/>
+						
 					</div>
 
 					<div class="col-1 text-end justify-content-center">
 						<c:choose>
 							<c:when test="${empty userPK}">
-								<a href="login.do" class="btn btn-primary" role="button" id="addBoard" name="addBoard">글쓰기</a>
+								<a href="login.do" class="btn button-orange nowrap" role="button"
+									id="addBoard" name="addBoard">글쓰기</a>
 							</c:when>
 							<c:otherwise>
-								<a href="addBoard.do?boardCategoryName=${boardCategoryName}" class="btn btn-primary" role="button" id="addBoard" name="addBoard">글쓰기</a>
+								<a href="addBoard.do?boardCategoryName=${boardCategoryName}"
+									class="btn button-orange nowrap" role="button" id="addBoard"
+									name="addBoard">글쓰기</a>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -113,38 +122,10 @@
 							</tr>
 						</thead>
 						<tbody>
-						<%--인기글--%>
-						<c:forEach var="board" items="${hotBoardList}">
-							<tr onclick="location.href='infoBoard.do?boardNum=${board.boardNum}'">
-								<!-- 작성일자 -->
-								<td align="center">${board.boardWriteDay}</td>
-								<!-- 고유번호  -->
-								<td align="center">${board.boardNum}</td>
-								<!-- 제목 -->
-								<td align="center">${board.boardTitle}</td>
-								<!-- 작성자 -->
-								<td align="left">${board.memberNickname}</td>
-								<!-- 댓글수 -->
-								<td align="left">${board.replyCnt}</td>
-								<!-- 좋아요수 -->
-								<td align="left">
-									<svg xmlns="http://www.w3.org/2000/svg"
-										 width="16" height="16" fill="currentColor"
-										 class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
-										<path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a10 10 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733q.086.18.138.363c.077.27.113.567.113.856s-.036.586-.113.856c-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.2 3.2 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.8 4.8 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" />
-									</svg> &nbsp ${board.likeCnt}
-								</td>
-							</tr>
-						</c:forEach>
-						<%--일반 게시글--%>
-						<c:if test="${empty boardList}">
-							<tr>
-								<td colspan="6">검색 결과가 없습니다.</td>
-							</tr>
-						</c:if>
-						<c:if test="${not empty boardList}">
-							<c:forEach var="board" items="${boardList}">
-								<tr onclick="location.href='infoBoard.do?boardNum=${board.boardNum}'">
+							<%--인기글--%>
+							<c:forEach var="board" items="${hotBoardList}">
+								<tr
+									onclick="location.href='infoBoard.do?boardNum=${board.boardNum}'">
 									<!-- 작성일자 -->
 									<td align="center">${board.boardWriteDay}</td>
 									<!-- 고유번호  -->
@@ -156,16 +137,44 @@
 									<!-- 댓글수 -->
 									<td align="left">${board.replyCnt}</td>
 									<!-- 좋아요수 -->
-									<td align="left">
-										<svg xmlns="http://www.w3.org/2000/svg"
-											 width="16" height="16" fill="currentColor"
-											 class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
-											<path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a10 10 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733q.086.18.138.363c.077.27.113.567.113.856s-.036.586-.113.856c-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.2 3.2 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.8 4.8 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" />
-										</svg> &nbsp ${board.likeCnt}
-									</td>
+									<td align="left"><svg xmlns="http://www.w3.org/2000/svg"
+											width="16" height="16" fill="currentColor"
+											class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
+										<path
+												d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a10 10 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733q.086.18.138.363c.077.27.113.567.113.856s-.036.586-.113.856c-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.2 3.2 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.8 4.8 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" />
+									</svg> &nbsp ${board.likeCnt}</td>
 								</tr>
 							</c:forEach>
-						</c:if>
+							<%--일반 게시글--%>
+							<c:if test="${empty boardList}">
+								<tr>
+									<td colspan="6">검색 결과가 없습니다.</td>
+								</tr>
+							</c:if>
+							<c:if test="${not empty boardList}">
+								<c:forEach var="board" items="${boardList}">
+									<tr
+										onclick="location.href='infoBoard.do?boardNum=${board.boardNum}'">
+										<!-- 작성일자 -->
+										<td align="center">${board.boardWriteDay}</td>
+										<!-- 고유번호  -->
+										<td align="center">${board.boardNum}</td>
+										<!-- 제목 -->
+										<td align="center">${board.boardTitle}</td>
+										<!-- 작성자 -->
+										<td align="left">${board.memberNickname}</td>
+										<!-- 댓글수 -->
+										<td align="left">${board.replyCnt}</td>
+										<!-- 좋아요수 -->
+										<td align="left"><svg xmlns="http://www.w3.org/2000/svg"
+												width="16" height="16" fill="currentColor"
+												class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
+											<path
+													d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a10 10 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733q.086.18.138.363c.077.27.113.567.113.856s-.036.586-.113.856c-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.2 3.2 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.8 4.8 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" />
+										</svg> &nbsp ${board.likeCnt}</td>
+									</tr>
+								</c:forEach>
+							</c:if>
 						</tbody>
 					</table>
 				</div>
@@ -181,11 +190,13 @@
 							<c:if test="${page > 1}">
 								<%--url을 받아와 page가 있다면 변경하고 없다면 추가, 받아올 url이 없는 경우에도 추가--%>
 								<!-- 이전 페이지 -->
-								<c:set var="queryWithNewPage" value="${empty queryString ? 'page='.concat(page - 1) :
+								<c:set var="queryWithNewPage"
+									value="${empty queryString ? 'page='.concat(page - 1) :
 									  (fn:contains(queryString, 'page=') ?
 										 fn:replace(queryString, 'page='.concat(page), 'page='.concat(page - 1)) :
 										 queryString.concat('&page=').concat(page - 1))}" />
-								<a href="?${queryWithNewPage}" id="pagenationPreValue">&laquo; 이전</a>
+								<a href="?${queryWithNewPage}" id="pagenationPreValue">&laquo;
+									이전</a>
 							</c:if>
 
 							<c:set var="startPage" value="${page - 5}" />
@@ -205,7 +216,8 @@
 									</c:when>
 									<c:otherwise>
 										<%--url을 받아와 page가 있다면 변경하고 없다면 추가, 받아올 url이 없는 경우에도 추가--%>
-										<c:set var="queryWithNewPage" value="${empty queryString ? 'page='.concat(i) :
+										<c:set var="queryWithNewPage"
+											value="${empty queryString ? 'page='.concat(i) :
 											  (fn:contains(queryString, 'page=') ?
 												 fn:replace(queryString, 'page='.concat(page), 'page='.concat(i)) :
 												 queryString.concat('&page=').concat(i))}" />
@@ -216,11 +228,13 @@
 
 							<c:if test="${page < totalPage}">
 								<%--url을 받아와 page가 있다면 변경하고 없다면 추가, 받아올 url이 없는 경우에도 추가--%>
-								<c:set var="queryWithNewPage" value="${empty queryString ? 'page='.concat(page + 1) :
+								<c:set var="queryWithNewPage"
+									value="${empty queryString ? 'page='.concat(page + 1) :
 									  (fn:contains(queryString, 'page=') ?
 										 fn:replace(queryString, 'page='.concat(page), 'page='.concat(page + 1)) :
 										 queryString.concat('&page=').concat(page + 1))}" />
-								<a href="?${queryWithNewPage}" id="pagenationNextValue">다음 &raquo;</a>
+								<a href="?${queryWithNewPage}" id="pagenationNextValue">다음
+									&raquo;</a>
 							</c:if>
 						</div>
 					</section>
@@ -228,6 +242,7 @@
 				</div>
 			</div>
 		</div>
-	<custom:footer />
+		<custom:footer />
+	</div>
 </body>
 </html>

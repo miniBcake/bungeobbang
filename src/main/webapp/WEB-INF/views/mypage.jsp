@@ -15,6 +15,10 @@
 
 <meta charset="UTF-8">
 <title>마이 페이지</title>
+<!-- 파비콘 -->
+<link rel="icon" href="${path}/resources/assets/images/logo.png"
+	type="image/x-icon" />
+
 <style type="text/css">
 .table td:nth-child(2) {
 	border: none; /* 두 번째 열의 테두리 없애기 */

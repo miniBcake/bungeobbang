@@ -6,6 +6,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
+<head>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -14,7 +15,10 @@
 
 <meta charset="UTF-8">
 <title>마이 페이지</title>
-<head>
+<!-- 파비콘 -->
+<link rel="icon" href="${path}/resources/assets/images/logo.png"
+	type="image/x-icon" />
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style type="text/css">

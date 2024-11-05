@@ -8,8 +8,8 @@
 
 <br>
 <div class="sidebar">
-	<a href="loadListBoard.do" class="btn myPageBtn" role="button" id="my-write-board">작성한 게시글</a>
-	<a href="loadListPayment.do" class="btn myPageBtn" role="button">포인트 구매내역</a>
+	<a href="loadListMyBoard.do" class="btn myPageBtn" role="button" id="my-write-board">작성한 게시글</a>
+	<a href="infoMemberPoint.do" class="btn myPageBtn" role="button">포인트 구매내역</a>
 	<a href="loadListPoint.do" class="btn myPageBtn" role="button">포인트 결제내역</a>
 </div>
 
