@@ -27,14 +27,15 @@ public class OrderDAO {
 		return false;
 	}
 	public List<OrderDTO> selectAll(OrderDTO orderDTO){
-		// 처리로 주문 보기
 		List<OrderDTO> datas;
-//		if(orderDTO.getCondition().equals("SELECTALL_MEMBER") && orderDTO.getCondition()!=null) {
-//			datas = mybatis.selectList("OrderDAO.selectAll_member",orderDTO);
-//		}
-//		else {
+		if(orderDTO.getCondition().equals("SELECTALL_MEMBER") && orderDTO.getCondition()!=null) {
+			//회원으로 검색
+			datas = mybatis.selectList("OrderDAO.selectAll_member",orderDTO);
+		}
+		else {
+			// selectAll + adminChecked, desc 동적 수행
 			datas = mybatis.selectList("OrderDAO.selectAll", orderDTO);						
-//		}
+		}
 
 		for (OrderDTO order : datas) {
 			System.out.println("data: " + order);
