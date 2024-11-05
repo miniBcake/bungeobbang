@@ -12,8 +12,10 @@ function requestPay() {
     const pg = window.selectedPG;
     const pay_method = window.selectedPM;
     const cardCompany = window.selectedCardCompany;
+    const channelKey = window.selectedCK;
 
     // 콘솔에 주요 변수 출력
+    console.log("채널키:",channelKey);
     console.log("UUID:", uuid);
     console.log("현재 날짜:", currentDate);
     console.log("주문 번호:", merchant_uid);
@@ -46,7 +48,7 @@ function requestPay() {
         })
         .then(data => {
             console.log("[사전검증 등록 이후 반환 값]:", data);
-            if (data === "true") {
+            if (data === 'true') {
                 console.log("사전 검증 등록 완료");
 
                 // 사전 검증 조회
@@ -65,11 +67,21 @@ function requestPay() {
         })
         .then(response => {
             console.log("사전검증 조회 이후 반환 받은 response :", response.status);
-            if (!response.ok) throw new Error('네트워크 응답이 올바르지 않습니다');
-            return response.json(); // JSON으로 변환
+            if (!response.ok) {
+                throw new Error('네트워크 응답이 올바르지 않습니다');
+            }
+            return response.json();
         })
         .then(data => {
             console.log("사전검증 조회 이후 반환 받은 데이터: ", data);
+            console.log("data의 타입: ", typeof data);
+
+            // data가 문자열이면 JSON으로 파싱
+            if (typeof data === 'string') {
+                data = JSON.parse(data); // 문자열을 JSON 객체로 변환
+                console.log("파싱이후 data : ", data);
+            }
+
             // DTO 구조에 맞춰서 데이터를 처리
             const { merchant_uid, amount } = data; // JSON에서 값 추출
 
@@ -78,8 +90,7 @@ function requestPay() {
 
             if (!isNaN(amount) && amount > 0) {
                 console.log("사전 검증 조회 성공, 금액:", amount);
-            }
-            else {
+            } else {
                 console.error("오류 발생: 반환된 값이 유효하지 않음");
             }
         })
@@ -89,6 +100,7 @@ function requestPay() {
 
     // 결제 요청
     IMP.request_pay({
+        channelKey,
         pg,
         pay_method,
         cardCompany,
@@ -114,9 +126,18 @@ function requestPay() {
                 .then(data => {
                     console.log("결제 정보 응답:", data);
 
+                    if (typeof data === 'string') {
+                        data = JSON.parse(data); // 문자열을 JSON 객체로 변환
+                    }
+
+                    const { result, sessionPoint } = data; // JSON에서 값 추출
+                    console.log("결제 끝난 뒤 data 값에 있는 result 값 : ", result);
+                    console.log("결제 끝난 뒤 data 값에 있는 sessionPoint 값 : ", sessionPoint);
+
+
                     // 서버 응답의 paid_amount가 rsp.paid_amount와 같은지 비교
-                    if (data === true) {
-                        sessionStorage.setItem('memberPoint', data.applicationPoint);
+                    if (result === true) {
+                        sessionStorage.setItem('sessionPoint', sessionPoint);
                         window.history.back(); // 이전 페이지로 돌아감
                     } else {
                         alert("검증 실패");

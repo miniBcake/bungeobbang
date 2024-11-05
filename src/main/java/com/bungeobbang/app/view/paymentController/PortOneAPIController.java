@@ -1,11 +1,10 @@
 package com.bungeobbang.app.view.paymentController;
 
+import com.bungeobbang.app.biz.payment.PaymentInfoDTO;
 import com.bungeobbang.app.biz.payment.PaymentDTO;
 import com.bungeobbang.app.biz.payment.PaymentService;
 import com.bungeobbang.app.biz.payment.PaymentTokenService;
 import com.bungeobbang.app.biz.point.PointDTO;
-import com.bungeobbang.app.view.pointController.ApplicationMemberPoint;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -33,11 +32,6 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
     @Autowired
     private PaymentService paymentService;
 
-    @Autowired
-    private ServletContext application;
-
-    @Autowired
-    private ApplicationMemberPoint applicationMemberPoint;
 
 //    // 결제 복수 조회
 //-----<복수조회 할 때 사용할 거>-------
@@ -102,7 +96,7 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
 
     // 결제 단건 조회
     @PostMapping(value = "/infoPayment.do")
-    public @ResponseBody ResponseEntity<String> paymentTest(HttpSession session, com.bungeobbang.app.view.paymentController.PaymentInfoDTO paymentInfoDTO,
+    public @ResponseBody ResponseEntity<String> paymentTest(HttpSession session,PaymentInfoDTO paymentInfoDTO,
                                                             PaymentDTO paymentDTO,
                                                             PointDTO pointDTO) {
 
@@ -164,16 +158,16 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
             log.info("[PaymentInfo paymentDTO에 저장된 사용자 이메일] : {}", paymentDTO.getMemberEmail());
             paymentDTO.setMemberNum(memberPK);
             log.info("[PaymentInfo paymentDTO에 저장된 회원 번호] : {}", paymentDTO.getMemberNum());
-
+            paymentDTO.setCondition("INSERT_PAYMENT");
+            log.info("[PaymentInfo paymentDTO에 저장된 condition] : {}", paymentDTO.getCondition());
 
             boolean flag = paymentService.insert(paymentDTO); // 반환값 DTO에 담아서 insert
             log.info("[PaymentInfo DB에 저장하고 반환받은 flag값] : {}", flag);
 
             if(flag == true) { // 만약 DB에 구매 정보가 저장이 됐다면 트리거 발생으로 포인트 저장됨
-                applicationMemberPoint.updateApplicationPoint(pointDTO);
-                Integer applicationPoint = (Integer) application.getAttribute("applicationPoint");
+                Integer sessionPoint = (Integer) session.getAttribute("sessionPoint");
                 result.put("result", true);
-                result.put("memberPoint", applicationPoint);
+                result.put("sessionPoint", sessionPoint);
             }
 
         } catch (IOException | InterruptedException | ParseException e) {
@@ -186,7 +180,7 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
 
     // 사전 검증 등록
     @RequestMapping(value = "/addPrepare.do")
-    public @ResponseBody String prepare(com.bungeobbang.app.view.paymentController.PaymentInfoDTO paymentInfoDTO) {
+    public @ResponseBody boolean prepare(PaymentInfoDTO paymentInfoDTO) {
         log.info("[AddPrepare] 사전검증 등록 시작");
         paymentInfoDTO=paymentTokenService.getAccessToken(paymentInfoDTO);
         log.info("[AddPrepare 토큰 발급 완료]");
@@ -201,17 +195,17 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
             response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
             log.info("[AddPrepare 사전검증 등록 이후 포트원 반환 값] : {}", response.body());
             log.info("[AddPrepare 사전검증 등록 성공]");
-            return "true";
+            return true;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             log.info("[AddPrepare 사전검증 등록 실패]");
-            return "false";
+            return false;
         }
     }
 
     // 사전 검증 조회
     @RequestMapping(value = "/checkPrepareResult.do")
-    public @ResponseBody ResponseEntity<String> prepareResult(com.bungeobbang.app.view.paymentController.PaymentInfoDTO paymentInfoDTO) {
+    public @ResponseBody ResponseEntity<String> prepareResult(PaymentInfoDTO paymentInfoDTO) {
         log.info("[CheckPrepareResult] 등록된 사전검증 조회 시작");
         log.info("[CheckPrepareResult View에서 받아온 DTO값] : " + paymentInfoDTO.getAmount());
         log.info("[CheckPrepareResult View에서 받아온 DTO값] : " + paymentInfoDTO.getMerchant_uid());
@@ -250,7 +244,7 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
 
     // 결제 취소
     @PostMapping(value = "/cancelPayment.do")
-    public boolean cancelPayment(com.bungeobbang.app.view.paymentController.PaymentInfoDTO paymentInfoDTO) {
+    public boolean cancelPayment(PaymentInfoDTO paymentInfoDTO) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.iamport.kr/payments/cancel?_token=" + paymentInfoDTO.getToken()))
                 .header("Content-Type", "application/json")

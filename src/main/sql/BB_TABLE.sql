@@ -207,22 +207,27 @@ CREATE TABLE `bb_like` (
   CONSTRAINT `bb_like_ibfk_2` FOREIGN KEY (`MEMBER_NUM`) REFERENCES `bb_member` (`MEMBER_NUM`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- 주문 정보
+CREATE TABLE BB_ORDER (
+    ORDER_NUM INT AUTO_INCREMENT PRIMARY KEY,
+    MEMBER_NUM INT NOT NULL,
+    ADMIN_CHECKED CHAR(1) default 'N',
+    ORDER_DATE DATETIME DEFAULT CURRENT_TIMESTAMP,  -- 현재 날짜 및 시간 저장
+    ORDER_ADDRESS VARCHAR(100),
+    FOREIGN KEY (MEMBER_NUM) REFERENCES BB_MEMBER(MEMBER_NUM),  -- 외래 키 설정 (회원 테이블 참조)
+    CHECK (ADMIN_CHECKED IN ('Y', 'N', 'C'))  -- 체크 제약 조건 수정(Y, N, C(취소))
+);
 
--- fishshapedbread.bb_order definition
-
-CREATE TABLE `bb_order` (
-  `ORDER_NUM` int NOT NULL AUTO_INCREMENT,
-  `MEMBER_NUM` int DEFAULT NULL,
-  `PRODUCT_NUM` int DEFAULT NULL,
-  `ORDER_STATUS` varchar(100) DEFAULT 'N',
-    ORDER_DAY datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`ORDER_NUM`),
-  KEY `MEMBER_NUM` (`MEMBER_NUM`),
-  KEY `PRODUCT_NUM` (`PRODUCT_NUM`),
-  CONSTRAINT `bb_order_ibfk_1` FOREIGN KEY (`MEMBER_NUM`) REFERENCES `bb_member` (`MEMBER_NUM`) ON DELETE SET NULL,
-  CONSTRAINT `bb_order_ibfk_2` FOREIGN KEY (`PRODUCT_NUM`) REFERENCES `bb_product` (`PRODUCT_NUM`) ON DELETE SET NULL,
-  CONSTRAINT `check_order_status` CHECK (ORDER_STATUS IN ('N', 'Y', 'C')) -- 상태 체크
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- 주문 상품 정보
+CREATE TABLE BB_ORDER_DETAIL (
+    ORDER_DETAIL_NUM INT AUTO_INCREMENT PRIMARY KEY,
+    PRODUCT_NUM INT,
+    ORDER_QUANTITY INT,
+    ORDER_NUM INT,
+    FOREIGN KEY (ORDER_NUM) REFERENCES BB_ORDER(ORDER_NUM) ON DELETE CASCADE,  -- 외래 키 설정 (주문 테이블 참조)
+    FOREIGN KEY (PRODUCT_NUM) REFERENCES BB_PRODUCT(PRODUCT_NUM),  -- 외래 키 설정 (상품 테이블 참조)
+    UNIQUE (ORDER_NUM, PRODUCT_NUM)  -- ORDER_NUM과 PRODUCT_NUM의 조합이 유니크함을 보장
+);
 
 
 -- fishshapedbread.bb_reply definition
@@ -359,44 +364,57 @@ BEGIN
     );
 END;
 
-CREATE TRIGGER after_order_insert
-AFTER INSERT ON BB_ORDER
+CREATE TRIGGER after_order_detail_insert
+AFTER INSERT ON BB_ORDER_DETAIL
 FOR EACH ROW
-BEGIN
-    DECLARE PRICE INT;
+begin
+	DECLARE MEMBER_NUM INT;
+    DECLARE TOTAL_PRICE INT;
 
-    -- PRODUCT 테이블에서 가격 조회
-    SELECT PRODUCT_PRICE INTO PRICE
-    FROM BB_PRODUCT
-    WHERE PRODUCT_NUM = NEW.PRODUCT_NUM;
+    -- MEMBER_NUM을 주문 테이블에서 가져오기
+    SELECT O.MEMBER_NUM INTO MEMBER_NUM
+    FROM BB_ORDER O
+    WHERE O.ORDER_NUM = NEW.ORDER_NUM;
 
+    -- MEMBER_NUM이 NULL이 아닌지 확인
+    IF MEMBER_NUM IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'MEMBER_NUM is NULL. Check the ORDER_NUM.';
+    END IF;
+
+   -- 가격과 수량을 합산하여 총 가격 계산
+    SELECT SUM(p.PRODUCT_PRICE * d.ORDER_QUANTITY) INTO TOTAL_PRICE
+    FROM BB_ORDER_DETAIL d
+    JOIN BB_PRODUCT p ON d.PRODUCT_NUM = p.PRODUCT_NUM
+    WHERE d.ORDER_NUM = NEW.ORDER_NUM;
+
+    -- 포인트 차감
     INSERT INTO BB_POINT (MEMBER_NUM, POINT_MINUS, POINT_CONTENT)
     VALUES(
-        NEW.MEMBER_NUM,
-        PRICE,
-        CONCAT('-', PRICE,' 상품 구매')
+        MEMBER_NUM,
+        TOTAL_PRICE,  -- 총 가격을 사용하여 포인트 차감
+        CONCAT('-', TOTAL_PRICE, ' 상품 구매')  -- 포인트 내용
     );
 END;
-
 
 CREATE TRIGGER after_order_update
 AFTER UPDATE ON BB_ORDER
 FOR EACH ROW
 BEGIN 
-    DECLARE PRICE INT;
+    DECLARE TOTAL_PRICE INT;
 
-    IF NEW.ORDER_STATUS = 'C' AND OLD.ORDER_STATUS != 'C' THEN
-        -- PRODUCT 테이블에서 가격 조회
-        SELECT PRODUCT_PRICE INTO PRICE
-        FROM BB_PRODUCT
-        WHERE PRODUCT_NUM = NEW.PRODUCT_NUM;
+    IF NEW.ADMIN_CHECKED = 'C' AND OLD.ADMIN_CHECKED != 'C' THEN
+        -- 가격과 수량을 합산하여 총 가격 계산
+        SELECT SUM(p.PRODUCT_PRICE * d.ORDER_QUANTITY) INTO TOTAL_PRICE
+        FROM BB_ORDER_DETAIL d
+        JOIN BB_PRODUCT p ON d.PRODUCT_NUM = p.PRODUCT_NUM
+        WHERE d.ORDER_NUM = NEW.ORDER_NUM;
 
         -- 포인트 테이블에 포인트 추가 기록
         INSERT INTO BB_POINT (MEMBER_NUM, POINT_PLUS, POINT_CONTENT)
         VALUES (
-            NEW.MEMBER_NUM, -- 회원 번호
-            PRICE, -- 조회한 상품 가격을 포인트로 사용
-            CONCAT('+', PRICE, ' 상품 취소') -- 포인트 내용
+            NEW.MEMBER_NUM,  -- 회원 번호
+            TOTAL_PRICE,  -- 총 가격을 포인트로 사용
+            CONCAT('+', TOTAL_PRICE, ' 상품 취소')  -- 포인트 내용
         );
     END IF;
 END;

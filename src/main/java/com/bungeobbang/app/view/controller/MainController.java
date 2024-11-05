@@ -102,7 +102,7 @@ public class MainController {
             // 쿠키에서 가져온 상품 ID를 기반으로 상품을 조회하고 카테고리별로 개수 카운팅
             for (String pNum : viewedProductList) {
                 productDTO.setProductNum(Integer.parseInt(pNum));
-                ProductDTO product = productService.selectOne(productDTO); // 상품 정보 조회
+                Optional<ProductDTO> product = productService.selectOne(productDTO); // 상품 정보 조회
                 log.info("log: main - viewedProductList for product : [{}]", product);
 
                 //존재하지 않는 상품일 경우
@@ -112,14 +112,15 @@ public class MainController {
                     deleteList.add(pNum);
                     continue;
                 }
+                //TODO 컴파일에러 방지 주석처리
                 //존재하는 상품일 경우 해당 상품을 저장
-                resentProduct.add(product);
+                //resentProduct.add(product);
                 log.info("log: main - resentProducts.add");
 
                 // 카테고리 번호별로 상품 수 계산
-                int categoryNum = product.getProductCategoryNum();
-                log.info("log: main - categoryNum : [{}]", categoryNum);
-                categoryCount.put(categoryNum, categoryCount.getOrDefault(categoryNum, 0) + 1);
+                //int categoryNum = product.getProductCategoryNum();
+                //log.info("log: main - categoryNum : [{}]", categoryNum);
+                //categoryCount.put(categoryNum, categoryCount.getOrDefault(categoryNum, 0) + 1);
             }
             //없는 상품 쿠키에서 제거
             if(CookieUtil.cookieDataDelete(response, cookie, deleteList)){
