@@ -18,7 +18,7 @@
 <section id="footer">
 	<div class="container">
 		<div class="row">
-			<div class="col-8 col-12-medium">
+			<div class="col-12 col-md-8">
 
 				<!-- Links -->
 				<section>
@@ -27,7 +27,7 @@
 					 개발자 블로그</h2>
 					<div>
 						<div class="row">
-							<div class="col-3 col-12-small">
+							<div class="col-12 col-md-3">
 								<ul class="link-list last-child">
 									<li><a href="https://blog.naver.com/wx_wns_"><span class="memberName">정재준</span></a><br>
 										<a href="https://blog.naver.com/wx_wns_"><span class="memberRoll">최프 : 전체 팀장</span></a><br>
@@ -39,7 +39,7 @@
 									</li>
 								</ul>
 							</div>
-							<div class="col-3 col-12-small">
+							<div class="col-12 col-md-3">
 								<ul class="link-list last-child">
 									<li><a href="https://blog.naver.com/study_j04"><span class="memberName">정재희</span></a><br>
 										<a href=" https://blog.naver.com/study_j04"><span class="memberRoll">최프 : C 팀장</span></a><br>
@@ -51,7 +51,7 @@
 										</li>
 								</ul>
 							</div>
-							<div class="col-3 col-12-small">
+							<div class="col-12 col-md-3">
 								<ul class="link-list last-child">
 									<li><a href="https://minibcake.tistory.com/"><span class="memberName">한지윤</span></a><br>
 										<a href=" https://minibcake.tistory.com/"><span class="memberRoll">최프 : M 팀장</span></a><br>
@@ -69,7 +69,7 @@
 				</section>
 
 			</div>
-			<div class="col-4 col-12-medium imp-medium">
+			<div class="col-12 col-md-4 imp-medium">
 
 				<!-- Blurb -->
 				<section>
