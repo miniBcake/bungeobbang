@@ -6,7 +6,7 @@
 <br>
 <!-- 각 버튼을 블록 요소로 만들고 마진을 제거 -->
 <div style="display: flex; flex-direction: column; gap: 10px; text-align: center;">
-    <a href="loadListBoard.do" class="btn btn-light" role="button" id="my-write-board">작성한 게시글</a>
+    <a href="loadListMyBoard.do" class="btn btn-light" role="button" id="my-write-board">작성한 게시글</a>
     <form action="loadListPayment.do" method="POST">
         <button type="submit" class="btn btn-light">포인트 구매내역</button>
     </form>
