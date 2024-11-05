@@ -46,12 +46,12 @@ function checkEmailFunction(email) {
 			checkEmail = data; //true or false
 			if (checkEmail === 'false') {
 				//TODO 검증 완료 후 값을 고정할 것인지, 고정한다면 어떤 방식으로 사용자에게 안내(UIUX)할 것인지는 view 측에서 결정해 진행해주시면 될 것 같습니다!
-				$("#checkEmailMsg").text("사용 가능한 이메일입니다.").css('color', 'green')
+				//$("#checkEmailMsg").text("사용 가능한 이메일입니다.").css('color', 'green')
 				//$('input[name ="memberEmail"]').prop('disabled', true);
 				sendEmail(email);
-			} else {
-				$("#checkEmailMsg").text("이미 사용중인 이메일입니다.").css('color', 'red');
-
+			}
+			else {
+				$("#sendEmailMsg").text("사용 불가한 이메일입니다.").css('color', 'red');
 				// 이메일이 중복인 경우, 입력란을 비우고, 입력창으로 이동
 				$('#email').val('').focus();
 			}
@@ -313,7 +313,7 @@ function previewImageSignUp(event) {
 
 // 이미지 제거 함수
 function deleteImageSignUp() {
-    document.getElementById('previewImage').src = 'resources/assets/images/breadfishProfile.jpg';
+    document.getElementById('previewImage').src = 'uploads/default_profile.png';
     document.getElementById('file').value = ''; // 파일 input 초기화
 }
 
