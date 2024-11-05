@@ -234,11 +234,10 @@ public class StoreController {
                 filterList.put("NAME_LIKE", keyword);
             }
         }
-        if(!filterList.isEmpty()){ //만약 검색 조건이 있다면
-            //검색조건 세팅
-            storeDTO.setFilterList(filterList);
-            storeCntDTO.setFilterList(filterList);
-        }
+        filterList.put("STORE_SECRET", this.NO); //비공개 검색 방지
+        //검색조건 세팅
+        storeDTO.setFilterList(filterList);
+        storeCntDTO.setFilterList(filterList);
         //////////////////////////////////////////////////////////////////////////////////
 
         //설정된 검색이 있다면 해당 조건 추가 아니라면 전체 검색

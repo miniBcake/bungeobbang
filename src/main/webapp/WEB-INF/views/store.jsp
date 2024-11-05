@@ -202,10 +202,12 @@
 											<button class="copy"
 												value="${storeInfo.storeAddress} ${storeInfo.storeAddressDetail}">복사</button>
 										</div>
-										<div class="storeDataContent">
-											<i class="fas fa-phone"></i> <span>${storeInfo.storeContact}</span>
-											<button class="copy" value="${storeInfo.storeContact}">복사</button>
-										</div>
+										<c:if test="${not empty storeInfo.storeContact}">
+											<div class="storeDataContent">
+												<i class="fas fa-phone"></i> <span>${storeInfo.storeContact}</span>
+												<button class="copy" value="${storeInfo.storeContact}">복사</button>
+											</div>
+										</c:if>
 									</div>
 								</div>
 							</div>
