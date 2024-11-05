@@ -175,9 +175,8 @@ function latLngToAddress(locPosition) {
 				// 변경된 주소값을 가져옴
 				// 깊이 3까지의 주소를 가져오기
 				var address = result[0].address.region_1depth_name
-					+ ' ' + result[0].address.region_2depth_name
-					+ ' ' + result[0].address.region_3depth_name;
-				console.log('printMap.js : 주소: ', address);
+					+ ' ' + result[0].address.region_2depth_name;
+				console.log('printMap.js : 주소: '+ address.trim());
 
 				// 완성된 주소값을 반환
 				resolve(address);
@@ -200,7 +199,7 @@ function searchStore(address) {
 			type: 'POST',
 			// 요청 데이터 application/json
 			contentType: 'application/json',
-			data: JSON.stringify({ storeAddress: address }),
+			data: JSON.stringify({ keyword: address }),
 			dataType: 'json',
 			// 성공 시
 			success: function(data) {
