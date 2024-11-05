@@ -37,8 +37,9 @@ public class PaymentController {
     public String paymentSelectAll(HttpSession session, PaymentDTO paymentDTO, Model model) {
         log.info("[PaymentSelectAll] 시작");
 
-        Integer memberPK = (Integer) session.getAttribute("userPK");
+        Integer memberPK = (Integer) session.getAttribute("userPk");
 
+        paymentDTO.setCondition("SELECTALL_PAYMENT");
         paymentDTO.setMemberNum(memberPK);
         log.info("[PaymentSelectAll View에서 전달 받은 값] : {}", paymentDTO);
         List<PaymentDTO> paymentList = paymentService.selectAll(paymentDTO);
@@ -49,7 +50,7 @@ public class PaymentController {
             model.addAttribute("paymentList", paymentList); // 모델에 리스트 추가
             log.info("[PaymentSelectAll selectAll 이후에 보내주는 model 값] : {}", model);
         }
-        return "MoneyToPoint";
+        return "moneyToPoint";
     }
 
 }
