@@ -16,24 +16,22 @@
 		SELECT
 			o.ORDER_NUM AS orderNum,
 			o.ADMIN_CHECKED AS adminChecked,
+			DATE_FORMAT(o.ORDER_DATE, '%Y.%m.%d %H:%i') AS orderDate,
+			o.ORDER_ADDRESS AS orderAddress,
 			d.ORDER_QUANTITY AS orderQuantity,
 			d.PRODUCT_NUM AS productNum,
 			p.PRODUCT_NAME AS productName,
 			p.PRODUCT_PRICE AS productPrice,
-			(p.PRODUCT_PRICE*d.ORDER_QUANTITY) AS totalPrice
+			(p.PRODUCT_PRICE*d.ORDER_QUANTITY) AS totalPrice,
+			m.MEMBER_EMAIL AS memberEmail
 		FROM
 			BB_ORDER o
 		LEFT JOIN
 			BB_ORDER_DETAIL d ON o.ORDER_NUM = d.ORDER_NUM
 		LEFT JOIN
 			BB_PRODUCT p ON d.PRODUCT_NUM = p.PRODUCT_NUM
-	<if test="adminChecked != null">
-		 WHERE
-        	o.ADMIN_CHECKED = #{adminChecked}
-	</if>
-	<if test="desc != null and desc == 'Y'.toString()">
-        ORDER BY o.ORDER_NUM DESC
-    </if>
+		JOIN BB_MEMBER m ON o.MEMBER_NUM = m.MEMBER_NUM
+        ORDER BY ADMIN_CHECKED, o.ORDER_NUM DESC
 	</select>
 	<select id="selectAll_member" resultType="order">
 		SELECT

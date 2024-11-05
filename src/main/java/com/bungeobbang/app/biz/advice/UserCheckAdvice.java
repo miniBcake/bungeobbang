@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-//@Aspect
+@Aspect
 public class UserCheckAdvice {
     @Autowired
     private HttpSession session;

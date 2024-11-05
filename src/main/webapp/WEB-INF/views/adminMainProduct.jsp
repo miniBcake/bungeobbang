@@ -64,12 +64,12 @@
     /*	주문 내역 확인 완료(체크박스) 표시 전환
         숨김 처리된 체크박스의 값
         1: 체크완료(처리)로 전환	|	0: 체크취소(미처리)로 전환		*/
-    function adminchecking(checkbox) {
-        const hiddenInput = document.querySelector('input[type="hidden"][name="adminChecked"]');
-        hiddenInput.value = checkbox.checked ? "1" : "0";
-        colorChecked(checkbox);
+    function adminchecking(checkbox, orderNum) {
+        // const hiddenInput = document.querySelector('#checkValue');
+        // hiddenInput.value = checkbox === 'Y' ? "Y" : "N";
+        //colorChecked(checkbox);
         // form태그 제출
-        document.getElementById('adminchecking').submit();
+        document.getElementById('adminchecking'+orderNum).submit();
     }
 
     function colorChecked(checkbox) {
@@ -116,8 +116,7 @@
                             <div class="card-body">
                                 <div class="table-responsive" style="text-align: center;">
                                     <!-- 테이블을 감싸는 div 추가 -->
-                                    <form id="adminchecking" method="post"
-                                          action="updateOrderCheck.do">
+
                                         <table class="table table-hover">
                                             <!--현재 확인하고 있는 행 확인 위한 호버-->
                                             <tr>
@@ -129,38 +128,36 @@
                                                 <th scope="col">배송주소</th>
                                                 <th scope="col">금액</th>
                                             </tr>
-                                            <c:forEach var="orderList" items="${orderList}">
+                                            <c:forEach var="order" items="${orderList}">
                                                 <!-- 만약 체크박스 표시된 상태라면 해당 블록의 배경색을 변경 -->
                                                 <tr>
                                                     <!--주문내역 확인 여부-->
                                                     <!-- 1: 주문내역 확인 완료-->
                                                     <!-- 2: 주문내역 미확인 -->
                                                     <td>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                   id="flexCheckDefault" id="adminCheck"
-                                                                   name="adminChecked" value="1"
-                                                                   onchange="adminchecking(checkbox)"
-                                                            <c:if test="${orderList.orderStatus == 'N'}">
-                                                                   checked </c:if>>
-                                                            <!-- 체크박스 표시 -->
-                                                        </div>
-                                                        <input type="hidden" id="adminUnCheck"
-                                                               name="adminChecked" value="0"></td>
+                                                        <input class="form-check-input" type="checkbox"
+                                                               id="flexCheckDefault"
+                                                               name="adminChecked"
+                                                               onchange="adminchecking(event, ${order.orderNum})"
+                                                        <c:if test="${order.adminChecked == 'Y'}"> checked </c:if>>
+                                                        <form id="adminchecking${order.orderNum}" method="post" action="updateOrderCheck.do">
+                                                            <input type="hidden" name="orderNum" value="${order.orderNum}">
+                                                            <input type="hidden" name="adminChecked" value="${order.adminChecked}">
+                                                        </form>
+                                                    </td>
                                                     <!--주문번호-->
-                                                    <td>${orderList.orderNum}</td>
+                                                    <td>${order.orderNum}</td>
                                                     <!--구매일시-->
-                                                    <td>{orderList.orderDay}//DAO</td>
+                                                    <td>${order.orderDate}</td>
                                                     <!--구매회원-->
-                                                    <td>${orderList.memberNum}//id로변경요함</td>
+                                                    <td>${order.memberEmail}</td>
                                                     <!--배송주소-->
-                                                    <td>{orderList.memberNum}//DB변경요함</td>
+                                                    <td>${order.orderAddress}</td>
                                                     <!--금액-->
-                                                    <td>{orderList.paymentAmount}//DB변경요함</td>
+                                                    <td>${order.totalPrice}</td>
                                                 </tr>
                                             </c:forEach>
                                         </table>
-                                    </form>
                                 </div>
                             </div>
                         </div>

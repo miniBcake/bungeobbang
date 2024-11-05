@@ -28,7 +28,7 @@ public class OrderDAO {
 	}
 	public List<OrderDTO> selectAll(OrderDTO orderDTO){
 		List<OrderDTO> datas;
-		if(orderDTO.getCondition().equals("SELECTALL_MEMBER") && orderDTO.getCondition()!=null) {
+		if(orderDTO.getCondition().equals("SELECTALL_MEMBER")) {
 			//회원으로 검색
 			datas = mybatis.selectList("OrderDAO.selectAll_member",orderDTO);
 		}
