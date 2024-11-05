@@ -199,12 +199,6 @@ public class MemberController {
         return "redirect:main.do"; // mainPage.do 요청으로 이동
     }
 
-
-    @GetMapping(value = "/addPoint.do") // 포인트 충전 페이지 이동 controller
-    public String addPoint() {
-        return "pointRecharge";
-    }
-
     @GetMapping(value = "/signupPage.do")
     public String signup() {
         return "redirect:signUp.jsp";

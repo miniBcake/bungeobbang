@@ -13,8 +13,9 @@ function requestPay() {
     const pay_method = window.selectedPM;
     const cardCompany = window.selectedCardCompany;
     const channelKey = window.selectedCK;
-
+    const buyer_name= window.selectedNAME;
     // 콘솔에 주요 변수 출력
+    console.log("사용자 이름:", buyer_name);
     console.log("채널키:",channelKey);
     console.log("UUID:", uuid);
     console.log("현재 날짜:", currentDate);
@@ -102,6 +103,7 @@ function requestPay() {
     IMP.request_pay({
         channelKey,
         pg,
+        buyer_name,
         pay_method,
         cardCompany,
         merchant_uid,
@@ -137,7 +139,7 @@ function requestPay() {
 
                     // 서버 응답의 paid_amount가 rsp.paid_amount와 같은지 비교
                     if (result === true) {
-                        sessionStorage.setItem('sessionPoint', sessionPoint);
+
                         window.history.back(); // 이전 페이지로 돌아감
                     } else {
                         alert("검증 실패");
