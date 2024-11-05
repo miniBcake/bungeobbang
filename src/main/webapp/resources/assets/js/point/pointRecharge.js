@@ -1,32 +1,36 @@
 // 결제 방법 선택 함수
 function selectPaymentMethod(method) {
     let pg = '';
-    let pay_method = ''; 
-
+    let pay_method = '';
+    let channelKey='';
     // 카드사 선택에 따른 PG사 및 결제 방식 설정
     if (method === '신한카드' || method === '우리카드') {
-        pg = 'tosspayments';
+        pg = 'tosspay';
         pay_method = 'card';
-		window.selectedCardCompany = method;
+        channelKey = 'channel-key-4caf1408-142e-4c77-a7ac-2039a8f51ebb';
+        window.selectedCardCompany = method;
     } else if (method === '국민은행' || method === '농협은행') {
-        pg = 'tosspayments';
+        pg = 'tosspay';
         pay_method = 'vbank';
-		window.selectedCardCompany = method;
+        channelKey = 'channel-key-4caf1408-142e-4c77-a7ac-2039a8f51ebb';
+        window.selectedCardCompany = method;
     } else if (method === '카카오페이') {
         pg = 'kakaopay';
         pay_method = 'card';
     } else if (method === '네이버페이') {
         pg = 'naverpay';
         pay_method = 'card';
-	} else if (method === '토스페이') {
-	    pg = 'tosspayments'; // 토스페이 간편결제
-	    pay_method = 'card';
-	}
+    } else if (method === '토스페이') {
+        pg = 'tosspay'; // 토스페이 간편결제
+        pay_method = 'tosspay';
+        channelKey = 'channel-key-4caf1408-142e-4c77-a7ac-2039a8f51ebb';
+
+    }
 
     // 선택된 결제 방식과 PG사 값을 전역 변수로 설정
     window.selectedPG = pg;
     window.selectedPM = pay_method;
-
+    window.selectedCK = channelKey;
     // 사용자가 선택한 결제 방법을 표시
     document.getElementById('paymentMethodSelected').value = method;
 }
@@ -37,9 +41,9 @@ function updatePaymentAmountAndTotalPoints() {
     // 선택된 포인트 라디오 버튼의 값을 가져옴
     const selectedPoint = document.querySelector('input[name="point"]:checked');
     const additionalPoints = selectedPoint ? parseInt(selectedPoint.value) : 0;
-	// portOne 결제를 하기 위해 전역변수 설정
-	window.additionalPoints = additionalPoints;
-	
+    // portOne 결제를 하기 위해 전역변수 설정
+    window.additionalPoints = additionalPoints;
+
     // 결제 금액 업데이트
     document.getElementById('paymentAmount').value = `${additionalPoints.toLocaleString()}원`;
 
