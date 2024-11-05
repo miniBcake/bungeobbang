@@ -161,12 +161,6 @@ public class MemberController {
 
     }
 
-    @PostMapping(value="/deleteMemberAccount.do") // 회원 탈퇴 페이지 이동 controller
-    public String deleteMember() {
-        // 이동 페이지 : deleteAccount.jsp
-        return "redirect:deleteAccount.jsp";
-    }
-
     @PostMapping(value="/findPW.do") // 비밀번호 찾기 페이지 이동 controller
     public String findPW() {
         // 이동 페이지 : findPw.jsp
