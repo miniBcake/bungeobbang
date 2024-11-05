@@ -8,7 +8,7 @@ let inputMinPrice = document.getElementById('minPrice');
 let inputMaxPrice = document.getElementById('maxPrice');
 let inputCondition = document.getElementById('conditionInput');
 let divSelectedOptions = document.getElementById('selectedOptions');
-let btnSearch = document.getElementById('searchButton');
+let btnSearch = document.getElementById('searchInputBTN');
 
 // DOMContentLoaded 이벤트 리스너
 document.addEventListener('DOMContentLoaded', function () {
