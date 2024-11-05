@@ -13,7 +13,7 @@
 		WHERE ORDER_NUM = #{orderNum}
 	</update>
 	<select id = "selectAll" resultType="order">
-	SELECT
+		SELECT
 			o.ORDER_NUM AS orderNum,
 			o.ADMIN_CHECKED AS adminChecked,
 			d.ORDER_QUANTITY AS orderQuantity,
