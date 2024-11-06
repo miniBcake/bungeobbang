@@ -5,6 +5,7 @@ import com.bungeobbang.app.biz.payment.PaymentDTO;
 import com.bungeobbang.app.biz.payment.PaymentService;
 import com.bungeobbang.app.biz.payment.PaymentTokenService;
 import com.bungeobbang.app.biz.point.PointDTO;
+import com.bungeobbang.app.biz.point.PointService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -31,6 +32,9 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
 
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private PointService pointService;
 
     // 결제 단건 조회
     @PostMapping(value = "/infoPayment.do")
@@ -103,7 +107,14 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
             log.info("[PaymentInfo DB에 저장하고 반환받은 flag값] : {}", flag);
 
             if(flag == true) { // 만약 DB에 구매 정보가 저장이 됐다면 트리거 발생으로 포인트 저장됨
+
+                // 포인트 저장 확인용
+                pointDTO.setCondition("SELECTONE_MEMBER_POINT");
+                pointDTO.setMemberNum(memberPK);
+                pointDTO = pointService.selectOne(pointDTO);
+                session.setAttribute("userPoint", pointDTO.getTotalMemberPoint());
                 Integer userPoint = (Integer) session.getAttribute("userPoint");
+
                 result.put("result", true);
                 result.put("userPoint", userPoint);
             }

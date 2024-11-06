@@ -33,13 +33,7 @@
             <h3 class="current-point2">포인트 충전 내역</h3> <!-- 페이지의 주요 타이틀 -->
         </div>
         <div class="col-md-6 text-right">
-            <%  // 애플리케이션 범위에서 현재 포인트를 가져오며, 값이 없으면 0으로 초기화
-                Object myPoint = application.getAttribute("userPoint");
-                if (myPoint == null) {
-                    myPoint = 0; 
-                }
-            %>
-            <h5 class="current-point">현재 포인트: <strong id="myPoint">${userPonint}P</strong></h5> <!-- 포인트 값 표시 -->
+            <h5 class="current-point">현재 포인트: <strong id="myPoint">${userPoint}P</strong></h5> <!-- 포인트 값 표시 -->
             <small class="current-point-note">	1년이 지나면 포인트 사용내역이 사라집니다.</small> <!-- 알림 문구 -->
         </div>
     </div>

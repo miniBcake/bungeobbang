@@ -41,21 +41,21 @@ function selectPaymentMethod(method) {
 
 
 // 포인트 선택 시 결제 금액과 총 포인트 업데이트 함수
-function updatePaymentAmountAndTotalPoints() {
-    // 선택된 포인트 라디오 버튼의 값을 가져옴
-    const selectedPoint = document.querySelector('input[name="point"]:checked');
-    const additionalPoints = selectedPoint ? parseInt(selectedPoint.value) : 0;
-    // portOne 결제를 하기 위해 전역변수 설정
-    window.additionalPoints = additionalPoints;
+function updateTotalPoint(currentUserPoint) {
+    // 라디오 버튼 클릭 시 동작
+    document.querySelectorAll('input[name="point"]').forEach(function(radioButton) {
+        radioButton.addEventListener('change', function() {
+            // 선택된 라디오 버튼의 value 값 가져오기
+            var selectedPoint = parseInt(this.value);
 
-    // 결제 금액 업데이트
-    document.getElementById('paymentAmount').value = `${additionalPoints.toLocaleString()}원`;
+            // 선택된 포인트 + 현재 포인트 계산
+            var totalPoint = currentUserPoint + selectedPoint;
 
-    // 충전 후 총 포인트 계산
-    const totalPoints = window.currentPoints + additionalPoints;
-    document.getElementById('totalPoints').textContent = `${totalPoints.toLocaleString()}P`;
+            // 결과를 '충전 후 포인트' 영역에 반영
+            document.getElementById('totalPoints').textContent = totalPoint + "P";
+        });
+    });
 }
-
 // 초기화 작업: 드롭다운 결제 방식 선택 시 다른 드롭다운 초기화
 function initializeDropdowns() {
     document.querySelectorAll('.dropdown-payment').forEach(select => {
