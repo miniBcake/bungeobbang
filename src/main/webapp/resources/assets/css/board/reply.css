@@ -1,8 +1,5 @@
 @charset "UTF-8";
-
-:root {
-    --border: 0.1vw solid black;
-}
+@import url('../color.css');
 
 /* 프로필 사진 */
 .profilePic {
@@ -19,29 +16,37 @@
     flex-direction: column;
     justify-content: end;
     margin-top: 2%;
-    margin-bottom: 10%;
+    margin-bottom: 10px;
 }
+.replyTop hr {
+	border: 1px solid var(--hr-line-color);
+}
+
 #replyTitle {
-    font-size: 1.2vw;
+    font-size: 160%;
     font-weight: bold;
 
-    padding-left: 1vw;
+    padding-left: 30px;
     align-content: end;
     text-align: start;      /* 글자 왼쪽으로 정렬 */
+    
+    color: var(--page-title-color);
 }
 #replyCnt {
-    font-size: 0.8vw;
+    font-size: 120%;
     align-content: end;    /* 아래로 정렬 */
     text-align: end;        /*글자 오른쪽으로 정렬 */
+    
+    color: var(--normal-font-color);
 }
 
 .replyMid{
     width: 100%;
     padding-left: 0vw;
-    margin: 0vw;
+    margin: 0;
 }
 .replyInput {
-    border: var(--border);
+    border: 1px solid var(--hr-line-color);
     border-radius: 10px;       /* 확대해도 그대로 유지하기 위해 vw */
 
     width: 100%;
@@ -49,6 +54,10 @@
 
     margin: 1%;
     padding: 2%;
+    
+    color: var(--normal-font-color);
+    background-color: var(--box-background-color);
+    font-size: 130%;
 }
 textarea {
     width: 100%;
@@ -73,12 +82,9 @@ input[type="submit"] {
     display: inline-block;
     height: 15%;
 
-    color: black;
-    border: var(--border);
-    border-radius: 0.5vw;
-    background-color: lightgray;
+    border-radius: 10px;
 
-    font-size: 1vw;
+    font-size: 120$;
     text-align: center;
 
     padding: 5px;
@@ -86,8 +92,12 @@ input[type="submit"] {
 
 /* 댓글 목록 */
 .replyList {
-    margin-top: 5vw;
-    padding-right: 1vw;
+    margin-top: 30px;
+    padding-right: 10px;
+}
+
+.replyList hr {
+	border: 1px solid var(--hr-line-color);
 }
 
 .replySection {
@@ -99,7 +109,16 @@ input[type="submit"] {
     font-weight: bold;
 
     padding: 1%;
+    color: var(--td-font-color);
 }
+
+#userNickname {
+	font-size: 130%;
+	margin: 13px;
+	
+	color: var(--td-font-color);
+}
+
 .replyContent {
     font-size: 100%;
 
@@ -107,11 +126,17 @@ input[type="submit"] {
 
     word-wrap: break-word;
     width: 100%;
+    
+    color: var(--normal-font-color);
+}
+
+.date {
+	color: var(--normal-font-color);
 }
 
 #replyData {
-    margin-top: 1vw;
-    margin-bottom: 1vw;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .replyButton {
@@ -121,13 +146,15 @@ input[type="submit"] {
     padding: 2%;
     padding-left: 10%;
     padding-right: 10%;
-    margin: 1.5px;
+    margin: 20px;
 
-    color: black;
-    border: var(--border);
-    border-radius: 0.5vw;
-    background-color: lightgray;
+    border-radius: 15px;
 
     font-size: 100%;
     text-align: center;
+}
+
+.buttonBox {
+	padding: 0px !important;
+	text-align: center;
 }

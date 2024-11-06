@@ -25,6 +25,12 @@
 	
 	/* 버튼 active */
 	--button-active-background-color: #b37330;
+	 
+	 /* 버튼 2 */
+	--button2-background-color: #fbf197;
+	 
+	/* 버튼2 hover */
+	--button2-hover-background-color: #efe37a;
 	
 	
 	/* 글자 색 -------------------------- */
@@ -36,8 +42,14 @@
 	
 	/* section2 제목 글자색 */
 	--section2-font-color: #FFB347;
-	/* 버튼 글자색 */
+	/* 버튼,a 글자색 */
 	--button-font-color: #FFB347;
+	
+	/* 버튼,a hover */
+	--button-hover-font-color: #CC8537;
+	
+	/* td 글자색 */
+	 --td-font-color: #CC8537;
     
     
     /* 선 색 ---------------------------- */

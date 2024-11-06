@@ -26,7 +26,7 @@ $(document).ready(() => {
 						var replyListResult = `
 							<!--댓글 고유번호 출력-->
 				        	<input type="hidden" id="replyNum" name="replyNum" value="${reply.replyNum}">
-				            <div class="row align-items-center">
+				            <div class="row align-items-center replyList">
 				            	<div class="col-12 col-md-9">
 				                	<div class="replySection"><!-- 댓글 닉네임 및 내용 출력 -->
 				                    	<span class="nickName">${reply.memberNickname}</span>
@@ -36,14 +36,14 @@ $(document).ready(() => {
 								<!-- 댓글 작성일자 -->
 				                <div class="col-12 col-md-2 text-center" id="replyData">
 				                	<div class="date">${reply.replyWriteDay}</div>
+				               </div>
 									<!-- 댓글 삭제버튼 -->
 									<!-- 만약 사용자라면 댓글 삭제 보여주기 / 아니라면 숨김-->
 									${reply.memberNum == memberNum ?
-								`<div class="buttonBox">
+								`<div class="col-12 col-md-1 buttonBox">
 				                         <button class="btn btn-danger deleteReply" data-reply-num="${reply.replyNum}">삭제</button>
 				                     </div>`
 								: ''}
-				               </div>
 				               <hr>
 				           </div>
 				        `;

@@ -25,6 +25,11 @@ $(document).ready(function() {
 	});
 
 	submitPassCheck();
+
+	// 전화번호 자동 포멧팅
+	document.getElementById('phone').addEventListener('input', function(e) {
+		e.target.value = formatPhoneNumber(e.target.value);
+	});
 });
 
 // 영업시간에서 체크하지 않은 요일은 시작시간과 종료시간 input이 비활성화 되도록 하는 함수
@@ -238,4 +243,21 @@ function submitPassCheck() {
 		// 모든 검증 통과 시 폼 제출
 		this.submit();
 	});
+}
+
+//전화번호 형식
+function formatPhoneNumber(input) {
+	// 숫자만 추출
+	let cleaned = input.replace(/\D/g, '');
+
+	// 숫자를 형식에 맞게 변환
+	let formatted = cleaned;
+
+	if (cleaned.length > 3 && cleaned.length <= 7) {
+		formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+	} else if (cleaned.length > 7) {
+		formatted = `${cleaned.slice(0, 3)}-${cleaned.slice(3, 7)}-${cleaned.slice(7, 11)}`;
+	}
+
+	return formatted;
 }

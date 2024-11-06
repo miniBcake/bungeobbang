@@ -1,5 +1,8 @@
 @charset "UTF-8";
-@import url('color.css');
+@import url('../color.css');
+body {
+    font-family: 'Gamja Flower', cursive !important;
+}
 
 :root {
 	/* font-size */
@@ -58,7 +61,6 @@ div:has([id="marker"]) {
 	}
 	
 		.addressSearch h4 {
-			font-family: 'Gamja Flower', cursive;
 			color: var(--page-title-color);
 			font-size: 250%;
 		}
@@ -78,7 +80,6 @@ div:has([id="marker"]) {
 		
 			.addresSelect {
 				 font-size: 23px;
-				 font-family: 'Gamja Flower', cursive;
 				 color: var(--page-title-color);
 				 
 				 width: 40%;
@@ -152,7 +153,6 @@ div:has([id="marker"]) {
 				margin: 5px;
 				
 				color: var(--page-title-color);
-				font-family: 'Gamja Flower', cursive;
 				font-weight: bold;
 				font-size: 120%;
 			}
@@ -167,7 +167,6 @@ div:has([id="marker"]) {
 				.storeDataContent span {
 					width: 100%;
 					
-					font-family: 'Gamja Flower', cursive;
 					color: var(--normal-font-color);
 					font-size: 130%;
 				}

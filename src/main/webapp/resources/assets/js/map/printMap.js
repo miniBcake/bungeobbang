@@ -176,7 +176,7 @@ function latLngToAddress(locPosition) {
 				// 깊이 3까지의 주소를 가져오기
 				var address = result[0].address.region_1depth_name
 					+ ' ' + result[0].address.region_2depth_name;
-				console.log('printMap.js : 주소: '+ address.trim());
+				console.log('printMap.js : 주소: ', address);
 
 				// 완성된 주소값을 반환
 				resolve(address);

@@ -19,7 +19,7 @@ $(document).ready(function() {
 		if (preCity !== city) {
 			// 나머지 주소 가져오기
 			// id가 district 값인 value 가져오기
-			var district = $(this).val();
+			var district = $('#district').val();
 			console.log('addressSearch.js : district : [' + district + ']');
 
 			// 두 주소 검색값을 하나로 합치기

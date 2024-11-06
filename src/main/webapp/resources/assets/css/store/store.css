@@ -1,5 +1,9 @@
 @charset "UTF-8";
-@import url('color.css');
+@import url('../color.css');
+
+body {
+    font-family: 'Gamja Flower', cursive !important;
+}
 
 :root{
     /* font-size */

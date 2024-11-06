@@ -128,7 +128,7 @@
 													<b>전화번호(선택)</b>
 												</h3>
 												<div>
-													<input type="tel" name="storeContact"
+													<input type="tel" name="storeContact" id="phone"
 														placeholder="전화번호를 입력해주세요."></input>
 												</div>
 											</section>
