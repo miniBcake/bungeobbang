@@ -5,6 +5,8 @@ import com.bungeobbang.app.biz.member.MemberDTO;
 import com.bungeobbang.app.biz.member.MemberService;
 import com.bungeobbang.app.biz.payment.PaymentDTO;
 import com.bungeobbang.app.biz.payment.PaymentService;
+import com.bungeobbang.app.biz.point.PointDTO;
+import com.bungeobbang.app.biz.point.PointService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -35,10 +37,13 @@ public class PaymentController {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private PointService pointService;
+
 
     // 포인트 환전 내역 전체 검색
     @PostMapping(value = "loadListPayment.do")
-    public String paymentSelectAll(HttpSession session, PaymentDTO paymentDTO, Model model) {
+    public String paymentSelectAll(HttpSession session, PaymentDTO paymentDTO, Model model, PointDTO pointDTO) {
         log.info("[PaymentSelectAll] 시작");
 
         Integer memberPK = (Integer) session.getAttribute("userPK");
@@ -47,6 +52,13 @@ public class PaymentController {
         paymentDTO.setMemberNum(memberPK);
         log.info("[PaymentSelectAll View에서 전달 받은 값] : {}", paymentDTO);
         List<PaymentDTO> paymentList = paymentService.selectAll(paymentDTO);
+
+        // session에 memberPoint 업데이트 해주기 ----------------------------------------
+        pointDTO.setCondition("SELECTONE_MEMBER_POINT");
+        pointDTO.setMemberNum(memberPK);
+        pointDTO = pointService.selectOne(pointDTO);
+        session.setAttribute("userPoint", pointDTO.getTotalMemberPoint());
+        //----------------------------------------------------------------------------
 
         if(paymentList != null && !paymentList.isEmpty()) {
             Integer sessionPoint = (Integer) session.getAttribute("sessionPoint");
@@ -58,7 +70,7 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/addPoint.do") // 포인트 충전 페이지 이동 controller
-    public String addPoint(HttpSession session, Model model, MemberDTO memberDTO) {
+    public String addPoint(HttpSession session, Model model, MemberDTO memberDTO, PointDTO pointDTO) {
         Integer memberPK = (Integer) session.getAttribute("userPK");
         log.info("[");
         memberDTO.setCondition("INFO_CONDITION");
@@ -66,6 +78,13 @@ public class PaymentController {
         log.info("[포인트 충전 페이지 이동 전 session에서 가져온 memberPK] : {}", memberPK);
         memberDTO = memberService.selectOne(memberDTO);
         log.info("[포인트 충전 페이지 이동 전 DB에서 가져오는 memberName] : {}", memberDTO);
+
+        // session에 memberPoint 업데이트 해주기 ----------------------------------------
+        pointDTO.setCondition("SELECTONE_MEMBER_POINT");
+        pointDTO.setMemberNum(memberPK);
+        pointDTO = pointService.selectOne(pointDTO);
+        session.setAttribute("userPoint", pointDTO.getTotalMemberPoint());
+        //----------------------------------------------------------------------------
 
         model.addAttribute("memberName", memberDTO.getMemberName());
         return "pointRecharge";

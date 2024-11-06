@@ -140,11 +140,7 @@ function requestPay() {
                     // 서버 응답의 result가 true일 때 처리
                     if (result === true) {
                         // userPoint 값을 sessionStorage에 저장
-                        sessionStorage.setItem("userPoint", userPoint);
-
-                        // 이전 페이지로 돌아감
-                        window.history.back();
-                        window.history.back();
+                        location.href = `addPoint.do`;
                     }
                     else {
                         alert("검증 실패");
