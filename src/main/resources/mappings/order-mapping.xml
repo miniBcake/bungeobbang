@@ -39,7 +39,7 @@
 			OD.PRODUCT_NUM AS prductNum,
 			PD.PRODUCT_PRICE AS productPrice,
 			O.ORDER_NUM AS orderNum,
-			O.ORDER_DATE AS orderDate,
+			DATE_FORMAT(o.ORDER_DATE, '%Y.%m.%d %H:%i') AS orderDate,
 			OD.ORDER_QUANTITY AS orderQuantity,
 			(PD.PRODUCT_PRICE * OD.ORDER_QUANTITY) AS totalPrice
 		FROM BB_ORDER O
