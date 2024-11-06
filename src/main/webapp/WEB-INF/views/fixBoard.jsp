@@ -16,7 +16,7 @@
    <!-- 페이지에 적용할 커스텀 CSS 파일 로드 -->
    <link rel="stylesheet" href="${path}/resources/assets/css/main.css" />
    <link rel="stylesheet" href="${path}/resources/assets/css/pagination.css">
-   <link rel="stylesheet" href="${path}/resources/assets/css/boardWrite.css">
+   <link rel="stylesheet" href="${path}/resources/assets/css/board/boardWrite.css">
     <script>
     // JavaScript 변수로 폴더명을 할당
     const boardFolder = "${data.boardFolder}";
@@ -25,6 +25,7 @@
 
 
 <body class="subpage">
+<div class="page-wrapper">
     <!-- Header -->
     <custom:header /> <!-- 커스텀 헤더 컴포넌트 삽입 -->
    <div class="container">
@@ -111,6 +112,6 @@
    <!-- 게시글 수정에 필요한 커스텀 스크립트 파일 로드 -->
    <script src="${path}/resources/assets/js/board/boardFix.js"></script>
    <script src="${path}/resources/assets/js/board/boardCate.js"></script>
-
+</div>
 </body>
 </html>

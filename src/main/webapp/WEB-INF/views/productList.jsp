@@ -36,12 +36,7 @@
 		<!-- 헤더 -->
 		<custom:header />
 		<div class="container mt-5">
-			<%
-			Object myPoint = application.getAttribute("userPoint");
-			if (myPoint == null) {
-				myPoint = 0; // 기본값 설정
-			}
-			%>
+		<c:if test="${not empty userPK}">
 			<div class="d-flex justify-content-end">
 				<button id="pointButton" class="btn btn-outline-primary">내
 					포인트 보기</button>
@@ -51,11 +46,12 @@
 					<div class="popup-content">
 						<button class="close-popup">&times;</button>
 						<p id="pointValue">
-							<strong><%=myPoint%></strong>Point
+							<strong>${userPoint}</strong>Point
 						</p>
 					</div>
 				</div>
 			</div>
+			</c:if>
 
 			<!-- 상품 카테고리 버튼 -->
 			<div class="category-buttons">
@@ -278,7 +274,7 @@
 							</c:choose>
 						</div>
 						<div class="product-info">
-							<span>제목: ${product.boardTitle}</span><br> <span>카테고리:
+							<%-- <span>제목: ${product.boardTitle}</span><br>  --%><span>카테고리:
 								${product.productCategoryName}</span><br> <span>상품명:
 								${product.productName}</span><br> <span>가격:
 								${product.productPrice}원</span>

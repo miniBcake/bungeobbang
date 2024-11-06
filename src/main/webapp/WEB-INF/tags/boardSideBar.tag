@@ -8,9 +8,14 @@
 
 <br>
 <div class="sidebar">
-	<a href="loadListMyBoard.do" class="btn myPageBtn" role="button" id="my-write-board">작성한 게시글</a>
-	<a href="infoMemberPoint.do" class="btn myPageBtn" role="button">포인트 구매내역</a>
-	<a href="loadListPoint.do" class="btn myPageBtn" role="button">포인트 결제내역</a>
+	<a href="loadListMyBoard.do" class="btn myPageBtn" role="button"
+		id="my-write-board">작성한 게시글</a>
+	<form action="loadListPayment.do" method="POST">
+		<button type="submit" class="btn myPageBtn">포인트 구매내역</button>
+	</form>
+	<form action="loadListPoint.do" method="POST">
+		<button type="submit" class="btn myPageBtn">포인트 사용내역</button>
+	</form>
 </div>
 
 <script>
