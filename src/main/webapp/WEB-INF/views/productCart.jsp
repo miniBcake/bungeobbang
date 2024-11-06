@@ -54,9 +54,9 @@
 				</div>
 
 				<div class="col-md-6 text-end">
-
+					<c:if test="${not empty userPK}">
 					<span>현재 포인트 : <strong id="myPoint">${userPoint}P</strong></span>
-					<button id="chargeButton" class="btn btn-outline-secondary ms-3">충전하기</button>
+					<button id="chargeButton" class="btn btn-outline-secondary ms-3">충전하기</button></c:if>
 				</div>
 			</div>
 

@@ -36,7 +36,7 @@
 					<h5 class="current-point">
 						현재 포인트: <strong id="myPoint">${userPoint}P</strong>
 					</h5>
-					<small class="current-point-note">* 1년이 지나면 포인트
+					<small class="current-point-note">1년이 지나면 포인트
 						사용내역이 사라집니다.</small>
 				</div>
 			</div>

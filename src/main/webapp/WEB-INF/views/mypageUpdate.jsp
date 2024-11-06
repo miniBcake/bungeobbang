@@ -20,6 +20,8 @@
 	type="image/x-icon" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- sweetAlert을 사용하기 위한 script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style type="text/css">
 /* 두, 세번째 열의 테두리 없애기 */
@@ -109,8 +111,10 @@
 								<td class="underline">닉네임</td>
 								<td><input type="text" class="inputbox" id="nickname"
 									name="memberNickname" value="${memberDTO.memberNickname}"
-									placeholder="닉네임 입력해주세요"></td>
-								<td><button class="btn button-orange" id="checkNicknameBtn">중복검사</button></td>
+									placeholder="닉네임 입력해주세요"> </br> <span id="checkNicknameMsg"
+									style="margin-left: 10px;"></span></td>
+								<td><button type="button" class="btn button-orange"
+										id="checkNicknameBtn">중복검사</button></td>
 							</tr>
 							<tr>
 								<td class="underline">전화번호</td>

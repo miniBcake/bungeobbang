@@ -91,7 +91,7 @@
 						</div>
 					</div>
 					<div class="col-8">
-					<custom:searchbar placeholder="검색어를 입력해주세요."/>
+					<custom:searchbar placeholder="검색어를 입력해주세요." value="${keyword}"/>
 						
 					</div>
 
