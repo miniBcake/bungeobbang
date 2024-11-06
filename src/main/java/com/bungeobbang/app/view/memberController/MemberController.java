@@ -25,6 +25,8 @@ import java.time.LocalDate;
 public class MemberController {
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private PointService pointService;
 
     private final String FAIL_DO = "redirect:failInfo.do"; //기본 실패 처리
     private final String FAIL_URL = "failInfo2"; //실패 처리할 페이지
@@ -93,15 +95,21 @@ public class MemberController {
             model.addAttribute("msg", MSG_FAIL_LOGIN);
             return FAIL_URL;
         }
-        //포인트 갱신//////////////////////////////////////////////////////////////////////////////////
-        SessionMemberPointUtil.updatesessionPoint(session);
-        //////////////////////////////////////////////////////////////////////////////////////////////
 
         // 로그인 성공 시 세션에 사용자 정보 저장
         session.setAttribute(SESSION_PK, memberDTO.getMemberNum());
         session.setAttribute(SESSION_NICKNAME, memberDTO.getMemberNickname());
         session.setAttribute(SESSION_ROLE, memberDTO.getMemberRole());
         session.setAttribute(SESSION_PROFILE, memberDTO.getMemberProfileWay());
+
+        //포인트 갱신//////////////////////////////////////////////////////////////////////////////////
+        PointDTO pointDTO = new PointDTO();
+        pointDTO.setMemberNum(memberDTO.getMemberNum());
+        pointDTO.setCondition("SELECTONE_MEMBER_POINT");
+        pointDTO = pointService.selectOne(pointDTO);
+        session.setAttribute(SESSION_POINT, pointDTO.getTotalMemberPoint());
+        log.info("log: pointDTO [{}], point [{}]", pointDTO, pointDTO.getTotalMemberPoint());
+        //////////////////////////////////////////////////////////////////////////////////////////////
 
         return "redirect:main.do"; // 메인 페이지로 리다이렉트
     }
@@ -179,12 +187,13 @@ public class MemberController {
 
     @RequestMapping(value="/logout.do") // 로그아웃 controller
     public String logout (HttpSession session) {
+        //세션 정보 삭제
         session.removeAttribute(SESSION_PK);
         session.removeAttribute(SESSION_NICKNAME);
         session.removeAttribute(SESSION_ROLE);
         session.removeAttribute(SESSION_PROFILE);
         session.removeAttribute(SESSION_POINT);
-        return "redirect:main.do"; // mainPage.do 요청으로 이동
+        return "redirect:main.do"; // main.do 요청으로 이동
     }
 
     @GetMapping(value = "/signupPage.do")
