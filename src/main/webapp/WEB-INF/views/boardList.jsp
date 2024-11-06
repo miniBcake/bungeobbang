@@ -34,6 +34,8 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
+	
+<!-- bootstrap icon 사용 -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 </head>
@@ -112,7 +114,7 @@
 					</div>
 				</div>
 			</form>
-			<!-- 세 번째 행 -->
+			<!-- 세 번째 행 -->			
 			<div class="row">
 				<div class="col-12">
 					<table class="customTable">
@@ -136,7 +138,7 @@
 									<!-- 고유번호  -->
 									<td align="center">${board.boardNum}</td>
 									<!-- 제목 -->
-									<td align="center">${board.boardTitle}</td>
+									<td align="center"><span class="hot">[🔥인기글] </span>${board.boardTitle}</td>
 									<!-- 작성자 -->
 									<td align="left">${board.memberNickname}</td>
 									<!-- 댓글수 -->
@@ -154,6 +156,7 @@
 							</c:if>
 							<c:if test="${not empty boardList}">
 								<c:forEach var="board" items="${boardList}">
+
 								<!-- 1. 유저 게시물 	2.admin(관리자)	3. 공개 게시물인 경우 3중 1 해당시 게시물 출력-->
 									<c:if test="${board.memberNickname eq userNickname or board.memberNickname eq 'ADMIN' or board.boardOpen eq 'Y'}">
 										<tr

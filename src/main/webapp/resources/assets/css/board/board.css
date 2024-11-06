@@ -45,3 +45,22 @@ body {
     background-color: var(--button2-hover-background-color) !important;
     border-color: var(--button2-hover-background-color) !important;
 }
+
+.like-true {
+	color: var(--button-background-color);
+	
+	border: 0px;
+	background-color: transparent;
+}
+.like-false {
+	color: var(--td-font-color);
+	
+	border: 0px;
+	background-color: transparent;
+}
+
+.like-true:hover,
+.like-false:hover {
+	color: var(--redbean-background-color);
+	background-color: transparent;
+}

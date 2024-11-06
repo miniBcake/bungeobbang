@@ -283,7 +283,7 @@ function append(storeList, item) {
 	storeList.append(
 		'<div class="storeData">'
 		+ '<div class="storeDataTitle">'
-		+ '<a href="/viewStorePage.do?storeNum=' + item.storeNum + '">'
+		+ '<a href="infoStore.do?storeNum=' + item.storeNum + '">'
 		+ '<h4 class="text-hover">' + item.storeName + '</h4></a>'
 		+ '</div>'
 		+ '<div class="storeDataContent">'

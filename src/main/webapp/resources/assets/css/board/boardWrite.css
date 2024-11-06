@@ -1,10 +1,9 @@
 /* boardWrite.css */
-@import url('color.css');
+@import url('../color.css');
 
 /* 전체 페이지 레이아웃 관련 스타일 */
 body.subpage {
    padding-top: 50px;
-   background-color: #f8f9fa;
    
    font-family: 'Gamja Flower', cursive;
 }
@@ -28,7 +27,8 @@ h2 {
 }
 
 /* 폼 스타일 */
-#postForm {
+#postForm,
+#updateForm {
    background: #ffffff;
    border-radius: 8px;
    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -36,14 +36,18 @@ h2 {
    margin-top: 20px;
 }
 
-#postForm label {
+#postForm label,
+#updateForm label {
    font-weight: bold;
    color: #444;
 }
 
 #postForm input[type="text"],
 #postForm select,
-#postForm textarea {
+#postForm textarea,
+#updateForm input[type="text"],
+#updateForm select,
+#updateForm textarea {
    width: 100%;
    padding: 5px;
    border: 1px solid var(--hr-line-color);
@@ -55,13 +59,17 @@ h2 {
 
 #postForm input[type="text"]:focus,
 #postForm select:focus,
-#postForm textarea:focus {
+#postForm textarea:focus,
+#updateForm input[type="text"]:focus,
+#updateForm select:focus,
+#updateForm textarea:focus {
    border-color: var(--button-line-color);
    outline: none;
    box-shadow: 0 0 5px var(--button-background-color);
 }
 
-#postForm button {
+#postForm button,
+#updateForm button {
    background-color: var(--button-background-color);
    color: #fff;
    border: none;
@@ -71,7 +79,8 @@ h2 {
    transition: background-color 0.3s ease;
 }
 
-#postForm button:hover {
+#postForm button:hover,
+#updateForm button:hover {
    background-color: var(--button-hover-background-color);
 }
 

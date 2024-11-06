@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url('css/color.css');
+@import url('color.css');
 
 /* .클래스명 */
 /* 	
@@ -88,7 +88,7 @@
 }
 
 /* searchBar의 input 태그 */
-.searchInput #searchInputText {
+.searchInput #searchInput {
     font-size: var(--search-font-size);
     font-family: 'Gamja Flower', cursive;
     width: var(--none-category-width) !important;
