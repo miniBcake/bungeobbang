@@ -56,7 +56,7 @@
 						<div class="col-12">
 							<br> <br>
 							<button id="back-button" class="btn button-yello"
-							onclick="history.back()">게시판 돌아가기</button>
+							onclick="location.href='<%= request.getHeader("Referer") %>'">게시판 돌아가기</button>
 							<table class="customTable">
 								<thead>
 									<tr>
