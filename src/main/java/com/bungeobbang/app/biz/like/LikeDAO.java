@@ -68,7 +68,7 @@ public class LikeDAO {
 		LikeDTO data;
 		if(likeDTO.getCondition() != null && likeDTO.getCondition().equals("CNT")){
 			Object[] args = new Object[]{likeDTO.getBoardNum()};
-			data = jdbcTemplate.queryForObject(SELECTONE, args, (rs, i)->{
+			data = jdbcTemplate.queryForObject(SELECTONE_CNT, args, (rs, i)->{
 				LikeDTO dto = new LikeDTO();
 				dto.setCnt(rs.getInt("CNT")); // 좋아요 고유번호
 				return dto;
