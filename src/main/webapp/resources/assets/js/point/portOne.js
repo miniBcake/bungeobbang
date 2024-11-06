@@ -91,7 +91,8 @@ function requestPay() {
 
             if (!isNaN(amount) && amount > 0) {
                 console.log("사전 검증 조회 성공, 금액:", amount);
-            } else {
+            }
+            else {
                 console.error("오류 발생: 반환된 값이 유효하지 않음");
             }
         })
@@ -132,16 +133,20 @@ function requestPay() {
                         data = JSON.parse(data); // 문자열을 JSON 객체로 변환
                     }
 
-                    const { result, sessionPoint } = data; // JSON에서 값 추출
+                    const { result, userPoint } = data; // JSON에서 값 추출
                     console.log("결제 끝난 뒤 data 값에 있는 result 값 : ", result);
-                    console.log("결제 끝난 뒤 data 값에 있는 sessionPoint 값 : ", sessionPoint);
+                    console.log("결제 끝난 뒤 data 값에 있는 userPoint 값 : ", userPoint);
 
-
-                    // 서버 응답의 paid_amount가 rsp.paid_amount와 같은지 비교
+                    // 서버 응답의 result가 true일 때 처리
                     if (result === true) {
+                        // userPoint 값을 sessionStorage에 저장
+                        sessionStorage.setItem("userPoint", userPoint);
 
-                        window.history.back(); // 이전 페이지로 돌아감
-                    } else {
+                        // 이전 페이지로 돌아감
+                        window.history.back();
+                        window.history.back();
+                    }
+                    else {
                         alert("검증 실패");
                         location.href = `cancelPayment.do?merchant_uid=${data.merchant_uid}`;
                     }
@@ -149,7 +154,8 @@ function requestPay() {
                 .catch(error => {
                     console.error("결제 검증 Fetch 오류:", error);
                 });
-        } else {
+        }
+        else {
             console.error("결제 실패: ", rsp.error_msg);
             alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
         }

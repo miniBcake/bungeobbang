@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -51,21 +51,21 @@ public class PaymentController {
         List<PaymentDTO> paymentList = paymentService.selectAll(paymentDTO);
 
         if(paymentList != null && !paymentList.isEmpty()) {
-            Integer applicationPoint = (Integer) application.getAttribute("applicationPoint");
-            model.addAttribute("applicationPoint", applicationPoint);
+            Integer sessionPoint = (Integer) session.getAttribute("applicationPoint");
+            model.addAttribute("sessionPoint", sessionPoint);
             model.addAttribute("paymentList", paymentList); // 모델에 리스트 추가
             log.info("[PaymentSelectAll selectAll 이후에 보내주는 model 값] : {}", model);
         }
         return "moneyToPoint";
     }
 
-    @GetMapping(value = "/addPoint.do") // 포인트 충전 페이지 이동 controller
+    @RequestMapping(value = "/addPoint.do") // 포인트 충전 페이지 이동 controller
     public String addPoint(HttpSession session, Model model, MemberDTO memberDTO) {
         Integer memberPK = (Integer) session.getAttribute("userPK");
-
+        log.info("[");
         memberDTO.setCondition("INFO_CONDITION");
         memberDTO.setMemberNum(memberPK);
-        log.info("[포인트 충전 페이지 이동 전 session에서 가져온 memberPk] : {}", memberPK);
+        log.info("[포인트 충전 페이지 이동 전 session에서 가져온 memberPK] : {}", memberPK);
         memberDTO = memberService.selectOne(memberDTO);
         log.info("[포인트 충전 페이지 이동 전 DB에서 가져오는 memberName] : {}", memberDTO);
 
