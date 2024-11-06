@@ -231,6 +231,30 @@ function checkNicknameFunction() {
 	});
 }
 
+// 비밀번호 보기 기능
+function togglePasswordVisibility(inputId, iconId) {
+    const passwordField = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        passwordField.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+
+document.getElementById('togglePassword1').addEventListener('click', function() {
+    togglePasswordVisibility('password1', 'togglePassword1');
+});
+
+document.getElementById('togglePassword2').addEventListener('click', function() {
+    togglePasswordVisibility('password2', 'togglePassword2');
+});
+
 //전화번호 형식
 function formatPhoneNumber(input) {
     // 숫자만 추출
@@ -276,29 +300,7 @@ function validateForm() {
     return true; // 모든 조건이 만족되면 제출 허용
 }
 
-// 비밀번호 보기 기능
-function togglePasswordVisibility(inputId, iconId) {
-    const passwordField = document.getElementById(inputId);
-    const icon = document.getElementById(iconId);
 
-    if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else {
-        passwordField.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-    }
-}
-
-document.getElementById('togglePassword1').addEventListener('click', function() {
-    togglePasswordVisibility('password1', 'togglePassword1');
-});
-
-document.getElementById('togglePassword2').addEventListener('click', function() {
-    togglePasswordVisibility('password2', 'togglePassword2');
-});
 
 
 //이미지 업로드

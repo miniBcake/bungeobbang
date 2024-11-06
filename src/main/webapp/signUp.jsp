@@ -250,7 +250,7 @@
 						</div>
 						<br>
 						<div class="d-grid gap-2 text-center">
-							<button id=""joinbutton"" type="submit" class="btn joinForm">회원가입</button>
+							<button id="joinbutton" type="submit" class="btn joinForm">회원가입</button>
 						</div>
 						<!-- 구글 로그인 버튼 시작 : ** client_id를 변경하시면 됩니다 -->
 						<div>
