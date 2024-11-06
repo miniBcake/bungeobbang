@@ -61,4 +61,20 @@ $(document).ready(function() {
 			});
 		}
 	});
+
+	$('#deleteStore').on('submit', function(event) {
+		event.preventDefault();//전송 방지
+		Swal.fire({
+			title: '가게 삭제 안내',
+			text: "가게를 삭제 하시겠습니까?",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: '확인',
+			cancelButtonText: '취소'
+		}).then((result) => {
+			if (result.isConfirmed) {  // '확인' 버튼 클릭 시에만
+				event.target.submit(); // 폼 제출
+			}
+		})
+	});
 });

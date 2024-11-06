@@ -38,6 +38,7 @@ public class AdminController {
     private final String CLOSE_FAIL_MSG = "폐점 전환에 실패했습니다.";
     private final String SECRET_FAIL_MSG = "가게 승인(공개) 전환에 실패했습니다.";
     private final String REPORT_FAIL_MSG = "신고 삭제에 실패했습니다.";
+    private final String STORE_DELETE = "가게를 삭제했습니다.";
 
     private final String NO = "N";
     private final String YES = "Y";
@@ -137,11 +138,13 @@ public class AdminController {
         if(!storeService.delete(storeDTO)){
             log.error("log: deleteStore - delete failed");
             model.addAttribute("msg", STORE_DELETE_FAIL);
-            model.addAttribute("path", "loadListStoreReport.do");
+            model.addAttribute("path", "infoStore.do?storeNum=" + storeDTO.getStoreNum());
             return FAIL_URL;
         }
         log.info("log: /deleteStore.do deleteStore - end");
-        return "redirect:loadListStoreReport.do";
+        model.addAttribute("msg", STORE_DELETE);
+        model.addAttribute("path", "main.do");
+        return FAIL_URL;
     }
 
     //가게 폐점설정

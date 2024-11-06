@@ -41,7 +41,7 @@ $(document).ready(() => {
 									<!-- 만약 사용자라면 댓글 삭제 보여주기 / 아니라면 숨김-->
 									${reply.memberNum == memberNum ?
 								`<div class="col-12 col-md-1 buttonBox">
-				                         <button class="btn btn-danger deleteReply" data-reply-num="${reply.replyNum}">삭제</button>
+				                         <button class="btn btn-danger deleteReply" data-member-num="${reply.memberNum}" data-reply-num="${reply.replyNum}">삭제</button>
 				                     </div>`
 								: ''}
 				               <hr>
@@ -123,6 +123,9 @@ $(document).ready(() => {
 	// 받는 값 : boolean(true/false)
 	$(document).on('click', '.deleteReply', function() {
 		var replyNum = $(this).data('reply-num');
+		var memberNum = $(this).data('member-num');
+		console.log("replyNum : [", replyNum, "]");
+		console.log("memberNum : [", memberNum, "]");
 
 		Swal.fire({
 			icon: 'warning',
@@ -136,7 +139,8 @@ $(document).ready(() => {
 				$.ajax({
 					url: 'deleteReply.do',
 					type: 'POST',
-					data: { replyNum: replyNum },
+					contentType: 'application/json',
+					data: JSON.stringify({ replyNum: replyNum, memberNum : memberNum }),
 					success: function(result) {
 						if (result === 'true') { //댓글이 삭제되었다면
 							//window.location.href = 'board.do'; // board.do로 이동

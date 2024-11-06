@@ -177,7 +177,7 @@
 									</button>
 									<!-- 관리자에게만 보이는 삭제 버튼 -->
 									<c:if test="${userRole eq 'ADMIN'}">
-									<form action="deleteStored.do" method="POST">
+									<form action="deleteStore.do" method="POST" id="deleteStore">
 											<!-- 가게 번호를 전송해야 함 -->
 											<input type="hidden" id="storeNum" name="storeNum" value="${storeInfo.storeNum}">
 											<button type="submit" id="deleteBtn">가게 삭제</button>
