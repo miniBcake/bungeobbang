@@ -26,8 +26,8 @@ public class UserCheckAdvice {
     @Order(1) //첫번째로 실행
     public void loginCheck(JoinPoint joinPoint) {
         log.info("AOP: loginCheck start");
-        //로그인 여부 확인 (member c :회원가입, product c는 검사하지 않음 : 크롤링...)
-        if(!joinPoint.getSignature().toString().contains("MemberService.insert") && !joinPoint.getSignature().toString().contains("ProductService.insert") ) {
+        //로그인 여부 확인 (member:회원가입 비밀번호변경, product c는 검사하지 않음 : 크롤링...)
+        if(!joinPoint.getSignature().toString().contains("MemberService") && !joinPoint.getSignature().toString().contains("ProductService.insert") ) {
             if(session.getAttribute(MEMBER_PK) == null) {
                 //로그인 되지 않은 상태라면 예외처리
                 log.error("AOP try : {} / error not login", joinPoint.getSignature());

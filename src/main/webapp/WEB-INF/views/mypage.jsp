@@ -68,12 +68,8 @@
 							id="pointCharge">포인트 충전</a> <br> <br> <a
 							href="updateMypage.do" class="btn button-orange"
 							id="updateProfile">프로필 수정</a> <br>
-						<%--TODO 회원탈퇴 경고 및 확인 창....추가해주세요.--%>
 						<br>
-						<form action="deleteMember.do" method="POST">
-							<input type="hidden" name="memberNum" value="${userPK}">
-							<input type="submit" value="회원탈퇴" class="btn btn-danger">
-						</form>
+							<a href="deleteMember.do" class="btn btn-danger">회원탈퇴</a>
 						<br>
 					</div>
 				</div>

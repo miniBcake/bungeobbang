@@ -26,7 +26,7 @@ public class ReplyAsyncController {
 
     //댓글 삭제
     @RequestMapping("/deleteReply.do")
-    public @ResponseBody String deleteReply(ReplyDTO replyDTO) {
+    public @ResponseBody String deleteReply(@RequestBody ReplyDTO replyDTO) {
         log.info("log: /deleteReply.do deleteReply - replyDTO: {}", replyDTO);
         //작성자 확인 AOP 대상
         return replyService.delete(replyDTO)+"";

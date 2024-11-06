@@ -16,11 +16,11 @@ public class ReportAsyncController {
 
     //폐점 신고
     @RequestMapping("/addReport.do")
-    public @ResponseBody boolean addReport(DeclareDTO declareDTO){
+    public @ResponseBody String addReport(DeclareDTO declareDTO){
         log.info("log: /addReport.do addReport.do - start");
         declareDTO.setDeclareContent("this store is closed"); //현재 신고가 하나 뿐이라 하드코딩
         log.info("log: addReport.do - declareDTO : {}", declareDTO);
         log.info("log: /addReport.do addReport.do - end");
-        return declareService.insert(declareDTO); //결과값 text로 반환
+        return declareService.insert(declareDTO)+""; //결과값 text로 반환
     }
 }

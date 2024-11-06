@@ -35,4 +35,12 @@ public class LikeAsyncController {
         log.info("log: /infoLike.do infoLike likeDTO: {}", likeDTO);
         return likeService.selectOne(likeDTO).getLikeNum();
     }
+
+    //좋아요 개수 조회
+    @RequestMapping("/infoLikeCnt.do")
+    public @ResponseBody int infoLikeCnt( LikeDTO likeDTO) {
+        likeDTO.setCondition("CNT");
+        log.info("log: /infoLikeCnt.do infoLike likeDTO: {}", likeDTO);
+        return likeService.selectOne(likeDTO).getCnt(); //개수 반환
+    }
 }

@@ -21,7 +21,8 @@
 	type="image/x-icon" />
 
 <link rel="stylesheet" href="${path}/resources/assets/css/main.css">
-<link rel="stylesheet" href="${path}/resources/assets/css/board/boardlist.css">
+<link rel="stylesheet"
+	href="${path}/resources/assets/css/board/boardlist.css">
 <link rel="stylesheet" href="${path}/resources/assets/css/searchbar.css">
 <link rel="stylesheet"
 	href="${path}/resources/assets/css/pagination.css">
@@ -54,8 +55,7 @@
 				<input type="hidden" name="boardCategoryName"
 					value="${boardCategoryName}">
 				<!-- 첫 번째 행 -->
-				<br>
-				<br>
+				<br> <br>
 				<div class="row">
 					<!-- C에서 온 카테고리가 일반이라면 -->
 					<c:if test="${boardCategoryName eq 'boardList'}">
@@ -95,15 +95,15 @@
 						</div>
 					</div>
 					<div class="col-8">
-					<custom:searchbar placeholder="검색어를 입력해주세요." value="${keyword}"/>
-						
+						<custom:searchbar placeholder="검색어를 입력해주세요." value="${keyword}" />
+
 					</div>
 
 					<div class="col-1 text-end justify-content-center">
 						<c:choose>
 							<c:when test="${empty userPK}">
-								<a href="login.do" class="btn button-orange nowrap" role="button"
-									id="addBoard" name="addBoard">글쓰기</a>
+								<a href="login.do" class="btn button-orange nowrap"
+									role="button" id="addBoard" name="addBoard">글쓰기</a>
 							</c:when>
 							<c:otherwise>
 								<a href="addBoard.do?boardCategoryName=${boardCategoryName}"
@@ -144,7 +144,8 @@
 									<!-- 댓글수 -->
 									<td align="left">${board.replyCnt}</td>
 									<!-- 좋아요수 -->
-									<td align="left"><i class="bi bi-hand-thumbs-up-fill"></i> &nbsp ${board.likeCnt}</td>
+									<td align="left"><i class="bi bi-hand-thumbs-up-fill"></i>
+										&nbsp ${board.likeCnt}</td>
 								</tr>
 							</c:forEach>
 							<%--일반 게시글--%>
@@ -155,21 +156,26 @@
 							</c:if>
 							<c:if test="${not empty boardList}">
 								<c:forEach var="board" items="${boardList}">
-									<tr
-										onclick="location.href='infoBoard.do?boardNum=${board.boardNum}'">
-										<!-- 작성일자 -->
-										<td align="center">${board.boardWriteDay}</td>
-										<!-- 고유번호  -->
-										<td align="center">${board.boardNum}</td>
-										<!-- 제목 -->
-										<td align="center">${board.boardTitle}</td>
-										<!-- 작성자 -->
-										<td align="left">${board.memberNickname}</td>
-										<!-- 댓글수 -->
-										<td align="left">${board.replyCnt}</td>
-										<!-- 좋아요수 -->
-										<td align="left"><i class="bi bi-hand-thumbs-up-fill"></i> &nbsp ${board.likeCnt}</td>
-									</tr>
+
+								<!-- 1. 유저 게시물 	2.admin(관리자)	3. 공개 게시물인 경우 3중 1 해당시 게시물 출력-->
+									<c:if test="${board.memberNickname eq userNickname or board.memberNickname eq 'ADMIN' or board.boardOpen eq 'Y'}">
+										<tr
+											onclick="location.href='infoBoard.do?boardNum=${board.boardNum}'">
+											<!-- 작성일자 -->
+											<td align="center">${board.boardWriteDay}</td>
+											<!-- 고유번호  -->
+											<td align="center">${board.boardNum}</td>
+											<!-- 제목 -->
+											<td align="center">${board.boardTitle}</td>
+											<!-- 작성자 -->
+											<td align="left">${board.memberNickname}</td>
+											<!-- 댓글수 -->
+											<td align="left">${board.replyCnt}</td>
+											<!-- 좋아요수 -->
+											<td align="left"><i class="bi bi-hand-thumbs-up-fill"></i>
+												&nbsp ${board.likeCnt}</td>
+										</tr>
+									</c:if>
 								</c:forEach>
 							</c:if>
 						</tbody>

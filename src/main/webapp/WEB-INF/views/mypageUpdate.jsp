@@ -92,7 +92,7 @@
 					</div>
 
 					<!-- 회원정보 테이블 -->
-					<div class="col-12 col-md-5 align-content-center">
+					<div class="col-12 col-md-8 align-content-center">
 						<br> <br> <br> <br>
 						<table class="table">
 							<tr>
