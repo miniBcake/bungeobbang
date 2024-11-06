@@ -26,6 +26,7 @@ public class LikeDAO {
 	//좋아요 삭제
 	//받은 데이터 : 좋아요 고유번호(PK)
 	private final String DELETE = "DELETE FROM BB_LIKE WHERE LIKE_NUM = ?";
+	private final String SELECTONE_CNT = "SELECT COUNT(*) AS CNT FROM BB_LIKE WHERE BOARD_NUM = ?";
 
 	//좋아요 추가----------------------------------------------------------------------
 
@@ -65,17 +66,27 @@ public class LikeDAO {
 		System.out.println("log_StoreLikeDAO_selectOne : start");
 		System.out.println("log_StoreLikeDAO_selectOne controller input likeDTO : " + likeDTO);
 		LikeDTO data;
-		Object[] args = {
-				likeDTO.getMemberNum(),
-				likeDTO.getBoardNum()
-		};
-		try {
-			//쿼리 실행
-			data = jdbcTemplate.queryForObject(SELECTONE, args, new LikeRowMapper());
-			System.out.println("log_StoreLikeDAO_selectOne_executeQuery() complete");
-		} catch (EmptyResultDataAccessException e) {
-			data = null;
-		} 
+		if(likeDTO.getCondition() != null && likeDTO.getCondition().equals("CNT")){
+			Object[] args = new Object[]{likeDTO.getBoardNum()};
+			data = jdbcTemplate.queryForObject(SELECTONE_CNT, args, (rs, i)->{
+				LikeDTO dto = new LikeDTO();
+				dto.setCnt(rs.getInt("CNT")); // 좋아요 고유번호
+				return dto;
+			});
+		}
+		else{
+			Object[] args = {
+					likeDTO.getMemberNum(),
+					likeDTO.getBoardNum()
+			};
+			try {
+				//쿼리 실행
+				data = jdbcTemplate.queryForObject(SELECTONE, args, new LikeRowMapper());
+				System.out.println("log_StoreLikeDAO_selectOne_executeQuery() complete");
+			} catch (EmptyResultDataAccessException e) {
+				data = null;
+			}
+		}
 		return data;
 	}
 	class LikeRowMapper implements RowMapper<LikeDTO>{
