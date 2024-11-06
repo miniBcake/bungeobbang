@@ -38,9 +38,6 @@ public class StoreController {
     private final String FAIL_PATH = "failInfo2";
     private final String FAIL_DO = "redirect:failInfo.do";
 
-    //condition
-    private final String ADD_STORE = "ADD";
-    private final String REPORT_STORE = "USERADD";
 
     private final String NO = "N";
     private final String YES = "Y";

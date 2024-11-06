@@ -167,23 +167,25 @@
 						<br>
 						<div class="col-12 col-md-6">
 							<!-- 오른쪽 부분-->
+							<c:if test="${not empty userPK}">
 							<div class="row justify-content-center">
 								<div class="col-9 justify-content-end warningBox">
 									<!-- 폐점 신고 버튼 -->
 									<button class="closedReport" id="closedReport">
+										<input type="hidden" id="storeInfoNum" value="${storeInfo.storeNum}">
 										<i class="fas fa-exclamation-circle"></i> <span>폐점 신고</span>
 									</button>
 									<!-- 관리자에게만 보이는 삭제 버튼 -->
 									<c:if test="${userRole eq 'ADMIN'}">
-										<form action="deleteStored.do" method="POST">
+									<form action="deleteStored.do" method="POST">
 											<!-- 가게 번호를 전송해야 함 -->
-											<input type="hidden" id="storeNum"
-												value="${storeInfo.storeNum}">
+											<input type="hidden" id="storeNum" name="storeNum" value="${storeInfo.storeNum}">
 											<button type="submit" id="deleteBtn">가게 삭제</button>
 										</form>
 									</c:if>
 								</div>
 							</div>
+							</c:if>
 							<div class="row map-height justify-content-center">
 								<div class="col-9">
 									<!-- 지도 -->

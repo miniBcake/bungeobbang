@@ -5,7 +5,7 @@ $(document).ready(function() {
 	$('#closedReport').on('click', function() {
 		// 가게 번호를 받아옴
 		// id가 storeNum인 요소에서 value 값을 가져옴
-		var storeNum = document.getElementById('storeNum').value;
+		var storeNum = document.getElementById('storeInfoNum').value;
 		console.log('storeNum : [' + storeNum + ']');
 
 		// 가게 번호가 존재할 때
@@ -14,8 +14,7 @@ $(document).ready(function() {
 
 			// 비동기 처리 시작
 			$.ajax({
-				// url은 미정
-				url: '',
+				url: 'addReport.do',
 				// POST 전송
 				type: 'POST',
 				// 가게 번호 전송
