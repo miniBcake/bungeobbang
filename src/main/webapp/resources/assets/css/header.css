@@ -1,5 +1,9 @@
 @charset "UTF-8";
 /* ====== 로고 및 헤더 스타일 ====== */
+.header {
+	font-family: 'Gamja Flower', sans-serif;
+}
+
 /* 로고 크기 및 이미지 정렬 */
 .navbar {
     background-color: var(--navbar-background-color) !important; /* 기본 배경색 */
@@ -90,6 +94,9 @@
 
 .dropdown {
 	margin: 0;
+}
+.dropdown-menu .dropdown-item {
+	font-family: 'Gamja Flower', sans-serif !important;
 }
 
 /* ====== 사이드바 스타일 ====== */

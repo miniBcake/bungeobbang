@@ -59,6 +59,8 @@ textarea {
     font-size: 1.8vw;
     font-weight: bold;
     margin-bottom: 5px;
+    
+    color: var(--page-title-color);
 }
 
 /* 가게 리스트 테이블 */
@@ -71,17 +73,21 @@ textarea {
 }
 
 .customTable th, .customTable td {
-    border-bottom: 1px solid #000; /* 가로선만 표시 */
+    border-top: 1px solid var(--hr-line-color) !important; /* 가로선만 표시 */
+    border-bottom: 1px solid var(--hr-line-color) !important; /* 가로선만 표시 */
     padding: 10px;
     text-align: center;
 }
 
 .customTable th {
-    background-color: #f2f2f2; /* 헤더 배경색 */
+    background-color: var(--tag-background-color);
+    color: var(--td-font-color);
 }
 
 .customTable td {
     border-right: none; /* 세로선을 없애기 위해 사용 */
+    color: var(--normal-font-color);
+    background-color: var(--box-background-color);
 }
 
 .customTable tr td:first-child {

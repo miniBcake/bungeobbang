@@ -42,7 +42,7 @@
 		<br> <br> <br>
 		<div class="container">
 			<div class="row align-items-center">
-				<div class="col-10">
+				<div class="col-12">
 					<!-- 첫 번째 행 -->
 					<div class="row">
 						<custom:pageTitle>'${userNickname}'님이 작성한 게시글</custom:pageTitle>
@@ -51,7 +51,7 @@
 					<!-- 두 번째 행 -->
 					<div class="row">
 						<div class="col-12">
-							<table class="customTable">
+							<table class="customTable t-flex">
 								<thead>
 									<tr>
 										<th class="tableDate">작성일자</th>

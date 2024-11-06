@@ -10,16 +10,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>결제 내역</title>
+    <!-- 파비콘 -->
+<link rel="icon" href="${path}/resources/assets/images/logo.png"
+	type="image/x-icon" />
+    
     <!-- Bootstrap CSS 로드 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- 페이지에 적용할 커스텀 CSS 파일 로드 -->
-    <link rel="stylesheet" href="${path}/resources/assets/css/pointHistory.css" />
+    <link rel="stylesheet" href="${path}/resources/assets/css/main.css" />
+    <link rel="stylesheet" href="${path}/resources/assets/css/point/pointHistory.css" />
 </head>
 <body>
+<div id="page-wrapper">
 <!-- Header -->
 <custom:header /> <!-- 커스텀 헤더 컴포넌트 삽입 -->
 
 <div class="container mt-4">
+	<br><br>
     <!-- 타이틀과 현재 포인트 표시 -->
     <div class="row mb-4">
         <div class="col-md-6">
@@ -33,13 +40,13 @@
                 }
             %>
             <h5 class="current-point">현재 포인트: <strong id="myPoint">${userPonint}P</strong></h5> <!-- 포인트 값 표시 -->
-            <small class="text-muted current-point-note">* 1년이 지나면 포인트 사용내역이 사라집니다.</small> <!-- 알림 문구 -->
+            <small class="current-point-note">* 1년이 지나면 포인트 사용내역이 사라집니다.</small> <!-- 알림 문구 -->
         </div>
     </div>
 
     <!-- 결제 내역 테이블 -->
     <div class="scrollable-table">
-        <table class="table table-bordered order-history">
+        <table class="table customTable order-history">
             <thead>
                 <tr>
                     <th>결제 상품명</th>
@@ -61,6 +68,8 @@
             </tbody>
         </table>
     </div>
+    
+    <custom:boardSideBar/>
 </div>
 
 <!-- 무한 스크롤 자바스크립트 -->
@@ -85,6 +94,7 @@
         }
     });
 </script>
-
+<custom:footer />
+</div>
 </body>
 </html>
