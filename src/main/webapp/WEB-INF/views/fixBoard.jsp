@@ -11,6 +11,10 @@
    <title>게시글 작성</title>
    <meta charset="utf-8" />
    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+   <!-- 파비콘 -->
+<link rel="icon" href="${path}/resources/assets/images/logo.png"
+	type="image/x-icon" />
+   
    <!-- Bootstrap CSS 로드 -->
    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
    <!-- 페이지에 적용할 커스텀 CSS 파일 로드 -->
@@ -25,7 +29,7 @@
 
 
 <body class="subpage">
-<div class="page-wrapper">
+<div id="page-wrapper">
     <!-- Header -->
     <custom:header /> <!-- 커스텀 헤더 컴포넌트 삽입 -->
    <div class="container">
@@ -93,11 +97,11 @@
              </section>
            </div>
        </div>
-      <!-- Footer -->
-      <custom:footer /> <!-- 커스텀 푸터 -->
    </div>
+		<!-- Footer -->
+		<custom:footer />
 
-   <!-- CKEditor 5 스크립트 로드 -->
+		<!-- CKEditor 5 스크립트 로드 -->
    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
    <!-- Content내용 JS 파일에서 CKEditor로 업로딩 하기위해서 변수 설정 -->

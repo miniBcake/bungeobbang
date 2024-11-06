@@ -19,9 +19,9 @@
 <link
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	rel="stylesheet">
+<link rel="stylesheet" href="${path}/resources/assets/css/main.css" />
 <link rel="stylesheet"
 	href="${path}/resources/assets/css/product/productList.css" />
-<link rel="stylesheet" href="${path}/resources/assets/css/main.css" />
 <link rel="stylesheet"
 	href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 <link rel="stylesheet"
@@ -30,6 +30,7 @@
 	href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap"
 	rel="stylesheet">
 <link rel="stylesheet" href="${path}/resources/assets/css/searchbar.css">
+<link rel="stylesheet" href="${path}/resources/assets/css/pagination.css">
 </head>
 <body>
 	<div id="page-wrapper">
