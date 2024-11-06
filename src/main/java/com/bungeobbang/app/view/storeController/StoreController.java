@@ -52,6 +52,9 @@ public class StoreController {
     private final String PAGE_LOAD_LIST_STORE = "storeList"; //views 하위, 가게 검색+리스트
     private final String PAGE_MAP_STORE = "addressSearchStore"; //views 하위 가게 주소검색
 
+    //msg
+    private final String MSG_STORE_ADD = "가게 등록에 성공했습니다.";
+
     //가게 주소 검색 페이지 이동
     @RequestMapping(value = "/loadListStoreMap.do", method = RequestMethod.GET)
     public String loadListStoreMap(){
@@ -75,7 +78,7 @@ public class StoreController {
     //가게 등록 기능 수행
     @RequestMapping(value = "/addStore.do", method = RequestMethod.POST)
     public String addStore(StoreDTO storeDTO, StoreMenuDTO storeMenuDTO, StorePaymentDTO storePaymentDTO, BoardDTO boardDTO,
-                           String[] workWeek, String[] workStartTime, String[] workEndTime) {
+                           String[] workWeek, String[] workStartTime, String[] workEndTime, Model model) {
         log.info("log: /addStore.do addStore - start");
         log.info("log: addStore - param storeDTO : [{}]", storeDTO);
         log.info("log: addStore - param storeMenuDTO : [{}]", storeMenuDTO);
@@ -152,7 +155,9 @@ public class StoreController {
 //        }
         //등록 성공 시
         log.info("log: /addStore.do addStore - end");
-        return "redirect:loadListStore.do";
+        model.addAttribute("msg", MSG_STORE_ADD);
+        model.addAttribute("path", "loadListStore.do");
+        return FAIL_PATH;
     }
 
     //가게 상세 조회
