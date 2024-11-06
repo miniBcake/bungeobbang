@@ -157,7 +157,7 @@ function getLikeCnt(likeNum) {
 	return new Promise((resolve, reject) => {
 		// likeCnt을 얻기 위한 비동기 처리
 		$.ajax({
-			url: 'likeCnt.do',
+			url: 'infoLikeCnt.do',
 			type: 'POST',
 			data: { likeNum: likeNum },
 			success: function(likeCntData) {
