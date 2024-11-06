@@ -14,7 +14,6 @@ $('#checkEmailBtn').on('click', function() {
 	console.log('email: ['+email+']');
 
 	//유효한 값인지 검증해 유효하다면 계속 진행
-	//TODO 아주 기본적인 검증만 넣어두었습니다. 검증 로직 추가로 진행해주세요.
 	if (email.trim().includes('@')) { //JS는 contains대신 includes
 		console.log('email input tag email : ['+email+']');
 		//중복 닉네임 확인
@@ -45,7 +44,6 @@ function checkEmailFunction(email) {
 			console.log("typeof data [" + typeof data + "]");
 			checkEmail = data; //true or false
 			if (checkEmail === 'false') {
-				//TODO 검증 완료 후 값을 고정할 것인지, 고정한다면 어떤 방식으로 사용자에게 안내(UIUX)할 것인지는 view 측에서 결정해 진행해주시면 될 것 같습니다!
 				//$("#checkEmailMsg").text("사용 가능한 이메일입니다.").css('color', 'green')
 				//$('input[name ="memberEmail"]').prop('disabled', true);
 				sendEmail(email);
@@ -217,7 +215,7 @@ document.getElementById('togglePassword2').addEventListener('click', function() 
 $('#checkNicknameBtn').on('click', function() {
 	//버튼 클릭시 메세지 초기화
 	$('#checkNicknameMsg').text("");
-	if ($('input[name="nickname"]').val() !== '') {
+	if ($('#memberNicknameInput').val() !== '') {
 		checkNicknameFunction(); //닉네임값이 있다면 중복확인 진행
 	} else {
 		Swal.fire({
@@ -233,7 +231,8 @@ $('#checkNicknameBtn').on('click', function() {
 //닉네임 중복확인 실행
 function checkNicknameFunction() {
 	console.log("로그 : 닉네임 중복확인 시작");
-	var nickname = $('input[name="nickName"]').val();
+	var nickname = $('#memberNicknameInput').val();
+	console.log("log: send nickname data : [", nickname, "]");
 	// 닉네임 입력값 저장
 	$.ajax({
 		url: "checkNickname.do",

@@ -59,9 +59,10 @@ public class MemberAsyncController {
     }
 
     @PostMapping("/checkNickname.do") // 닉네임 확인 비동기 controller
-    public @ResponseBody String checkNickName(MemberDTO memberDTO) {
+    public @ResponseBody String checkNickName(MemberDTO memberDTO, Object memberNickname) {
         log.info("[CheckNickname] 시작");
         log.info("[CheckNickname View에서 받은 값 확인] : {}", memberDTO);
+        log.info("test memberNickname : {}", memberNickname);
         // 결과를 보관할 boolean flag 변수 생성
         // 기본 값은 false
         boolean flag = false;
