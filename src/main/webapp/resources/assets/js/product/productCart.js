@@ -3,6 +3,17 @@ var productList = cartItems;
 // memberPK 값을 JavaScript로 가져오기
 const memberNum = document.getElementById("memberPK") ? document.getElementById("memberPK").textContent : null;
 
+//경로명
+const URLS = {
+    REMOVE_CART: 'removeCart.do',
+    PURCHASE_CART: 'purchaseCart.do',
+    CHARGE_POINTS: 'addPoint.do',
+    COMPLETE_ORDER: 'completeOrder.do',
+    GET_PURCHASED_PRODUCTS: 'getPurchasedProducts.do'
+};
+
+// 공통함수
+
 // SweetAlert 알림 함수
 function showAlert(icon, title, text, confirmButtonText = '확인') {
     return Swal.fire({
@@ -282,8 +293,6 @@ function getSelectedProducts() {
         if (product) {
             selectedProducts.products.push({
                 productNum: product.productNum,
-				productName: product.productName,
-				productPrice: product.productPrice,
                 quantity: product.quantity
             });
         }
@@ -337,123 +346,16 @@ function setupPurchaseButton() {
         if (totalPrice > currentPoints) {
             showAlert('warning', '포인트 부족', '결제 금액이 현재 포인트보다 높습니다. 충전 페이지로 이동합니다.', '충전하기').then(() => {
                 // 충전 페이지로 이동
-                window.location.href = 'chargePoints.do';
+                window.location.href = 'addPoint.do';
             });
         } else {
             // 서버에 구매 요청 전송
-            sendPurchaseRequest(selectedProducts);
+            sendPurchaseRequest(selectedProducts, memberNum);
         }
     });
 }
-	
-function sendPurchaseRequest(selectedProducts) {
-    console.log('selectedProducts 데이터:', selectedProducts);
-    const selectedProductData = selectedProducts.products;
-
-    // 선택된 상품 데이터를 확인하기 위한 로그 출력
-    console.log('확인을 위한 선택된 항목 표시:', selectedProductData);
-
-    // 선택된 상품만 주문 섹션에 표시
-    renderSelectedItems(selectedProductData);
-
-	$('#purchaseButton').hide(); // 배송주문하기 버튼 숨기기
-    // 배송지 입력 섹션을 보여줌
-	$('#orderSection').css("margin-top", "5px").slideDown();
-	$('html, body').animate({
-	    scrollTop: $('#orderSection').offset().top
-	}, 200);
-    
-	// 장바구니에서 선택 변경을 막음
-	$('.product-quantity select').prop('disabled', true); // 수량 선택 비활성화
-    $('.product-checkbox').prop('disabled', true); // 모든 체크박스 비활성화
-    $('#selectAll').prop('disabled', true);  // 전체 선택 체크박스 비활성화
-    $('#deleteAllBtn').prop('disabled', true); // 선택된 상품 삭제 버튼 비활성화
-    $('.remove-btn').each(function() {
-       $(this).prop('disabled', true); // 삭제 버튼 비활성화
-    });
-
-	// 주문 완료 버튼 표시
-	$('#completeOrderButton').show();
-}
 
 
-// 선택된 항목을 주문 섹션에 표시하는 함수
-function renderSelectedItems(items) {
-    $('.order-products').empty(); // 기존 아이템 목록 초기화
-    let totalPrice = 0; // 총 가격을 저장할 변수 초기화
-
-    items.forEach(product => {
-        const itemTotalPrice = product.productPrice * product.quantity; // 각 상품의 총 가격 계산
-        totalPrice += itemTotalPrice; // 전체 총 가격에 더함
-
-        $('.order-products').append(`
-            <div class="order-product-item d-flex flex-column justify-content-between align-items-start mb-3 p-3 shadow-sm">
-                <div>
-                    <span class="product-name">${product.productName}</span>
-                </div>
-                <div>
-                    <span class="product-quantity text-muted">${product.productPrice.toLocaleString()}P x ${product.quantity}개</span><br>
-                    <span class="product-price">총: ${itemTotalPrice.toLocaleString()}P</span>
-                </div>
-            </div>
-        `);
-    });
-
-    // 총 가격을 표시
-    $('#orderTotalPrice').text(`${totalPrice.toLocaleString()}P`);
-}
-
-
-// 주문 완료 버튼 클릭 시 구매 요청 전송
-$('#completeOrderButton').on('click', function() {
-	const name = $('#nameInput').val();
-    const addressMain = $('#addressMain').val();
-    const addressDetail = $('#addressDetail').val();
-    const phone = $('#phoneInput').val();
-    
-    // 주소와 전화번호 확인
-    if (!addressMain || !addressDetail || !phone) {
-        showAlert('warning', '입력 필요', '배송지와 전화번호를 입력해주세요.');
-        return;
-    }
-
-	// 주문 데이터 구성
-	const selectedItems = getSelectedProducts();	
-	console.log("Selected Items:", selectedItems);
-	const orderData = {
-		orderAddress: `${addressMain} ${addressDetail}`,
-		memberNum: memberNum,
-		memberName: name,
-	    phone: phone,
-	    orderDetails: selectedItems.products.map(item => ({
-	        productNum: item.productNum,
-	        productName: item.productName,
-	        productPrice: item.productPrice,
-	        orderQuantity: item.quantity
-	    }))
-	};
-
-    // 서버에 주문 데이터 전송
-    $.ajax({
-        url: 'addOrder.do',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(orderData),
-        success: function(response) {
-            showAlert('success', '주문 완료', '주문이 성공적으로 완료되었습니다.').then(() => {
-                $('#deleteAllBtn').click();
-                window.location.href = 'loadListProduct.do'; // 상품 목록 페이지로 이동
-            });
-        },
-        error: function(xhr, status, error) {
-            showAlert('error', '주문 실패', '주문 처리 중 문제가 발생했습니다.');
-        }
-    });
-});
-
-
-
-/*
 function sendPurchaseRequest(selectedProducts, memberNum) {
     const jsonData = JSON.stringify({
         memberNum: memberNum,
@@ -496,8 +398,8 @@ function sendPurchaseRequest(selectedProducts, memberNum) {
         }
     });
 }
-*/
-/*
+
+
 function renderOrderSection(orderNumbers, memberNum) {
     // orderNumbers 배열을 문자열 배열로 변환하여 서버로 전송
     const orderNumbersStr = orderNumbers.map(String);
@@ -537,7 +439,43 @@ function renderOrderSection(orderNumbers, memberNum) {
         }
     });
 }
-*/
 
 
+// 주문 완료 버튼 클릭 시 구매 요청 전송
+$('#completeOrderButton').on('click', function() {
+    const addressMain = $('#addressMain').val();
+    const addressDetail = $('#addressDetail').val();
+    const phone = $('#phoneInput').val();
+    
+    // 주소와 전화번호 확인
+    if (!addressMain || !addressDetail || !phone) {
+        showAlert('warning', '입력 필요', '배송지와 전화번호를 입력해주세요.');
+        return;
+    }
+
+    // 주문 데이터 구성
+    const selectedItems = getSelectedProducts();	
+    const orderData = {
+        address: `${addressMain} ${addressDetail}`,
+        phone: phone,
+        selectedItems: selectedItems.products // 기존 장바구니의 선택된 상품 리스트 포함
+    };
+
+    // 서버에 주문 데이터 전송
+    $.ajax({
+        url: 'completeOrder.do',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(orderData),
+        success: function(response) {
+            showAlert('success', '주문 완료', '주문이 성공적으로 완료되었습니다.').then(() => {
+                $('#deleteAllBtn').click();
+                window.location.href = 'loadListProduct.do'; // 상품 목록 페이지로 이동
+            });
+        },
+        error: function(xhr, status, error) {
+            showAlert('error', '주문 실패', '주문 처리 중 문제가 발생했습니다.');
+        }
+    });
+});
 

@@ -32,68 +32,6 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
     @Autowired
     private PaymentService paymentService;
 
-
-//    // 결제 복수 조회
-//-----<복수조회 할 때 사용할 거>-------
-//    import java.util.*;
-//    import org.json.JSONArray;
-//----------------------------------
-
-//    @PostMapping(value = "/loadListPaymentforPotOne.do")
-//    public @ResponseBody List<PaymentDTO> selectAll(PaymentInfoDTO paymentInfoDTO,
-//                                                    PaymentDTO paymentDTO,
-//                                                    HttpSession session) {
-//
-//        Integer memberPK = (Integer) session.getAttribute("userPK");
-//        paymentDTO.setMemberNum(memberPK);
-//        List<PaymentDTO> datas = paymentService.selectAll(paymentDTO);
-//
-//        paymentTokenService.getAccessToken(paymentInfoDTO);
-//
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(URI.create("https://api.iamport.kr/payments"))
-//                .header("Content-Type", "application/json")
-//                .method("GET", HttpRequest.BodyPublishers.ofString("{}"))
-//                .build();
-//        HttpResponse<String> response;
-//        List<PaymentDTO> paymentList = new ArrayList<>(); // ArrayList 초기화
-//        try {
-//            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-//
-//            // 응답 본문을 JSON 배열로 파싱
-//            JSONArray jsonArray = new JSONArray(response.body());
-//
-//            // DB에서 가져온 UUID를 HashSet에 저장
-//            Set<String> paymentNumSet = new HashSet<>();
-//            for (PaymentDTO data : datas) {
-//                paymentNumSet.add(data.getPaymentNum());
-//            }
-//
-//            // JSON 배열을 순회하여 PaymentDTO 객체로 변환
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                JSONObject paymentJson = jsonArray.getJSONObject(i);
-//                String paymentId = paymentJson.getString("payment_id"); // 결제 번호
-//
-//                // HashSet에서 결제 번호가 존재하는지 확인
-//                if (paymentNumSet.contains(paymentId)) {
-//                    PaymentDTO newPaymentDTO = new PaymentDTO();
-//                    newPaymentDTO.setPaymentNum(paymentId); // 결제 번호
-//                    //newPaymentDTO.setMemberEmail(paymentJson.getString("buyer_email")); // 결제한 사용자 이메일
-//                    newPaymentDTO.setPaymentDay(paymentJson.getString("paid_at")); // 결제 시간
-//                    newPaymentDTO.setPaymentAmount(paymentJson.getInt("amount")); // 결제 가격
-//                    // 필요한 다른 필드도 설정
-//
-//                    paymentList.add(newPaymentDTO); // ArrayList에 추가
-//                }
-//            }
-//
-//            return paymentList; // List<PaymentDTO> 반환
-//        } catch (IOException | InterruptedException e) {
-//            e.printStackTrace();
-//            return Collections.emptyList(); // 예외 발생 시 빈 리스트 반환
-//        }
-//    }
-
     // 결제 단건 조회
     @PostMapping(value = "/infoPayment.do")
     public @ResponseBody ResponseEntity<String> paymentTest(HttpSession session,PaymentInfoDTO paymentInfoDTO,
@@ -165,9 +103,9 @@ public class PortOneAPIController { // 결제 API 비동기 Controller
             log.info("[PaymentInfo DB에 저장하고 반환받은 flag값] : {}", flag);
 
             if(flag == true) { // 만약 DB에 구매 정보가 저장이 됐다면 트리거 발생으로 포인트 저장됨
-                Integer sessionPoint = (Integer) session.getAttribute("sessionPoint");
+                Integer userPoint = (Integer) session.getAttribute("userPoint");
                 result.put("result", true);
-                result.put("sessionPoint", sessionPoint);
+                result.put("userPoint", userPoint);
             }
 
         } catch (IOException | InterruptedException | ParseException e) {
