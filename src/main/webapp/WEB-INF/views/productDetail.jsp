@@ -25,6 +25,10 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap"
 	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 	<div id="page-wrapper">
@@ -39,7 +43,7 @@
 							<c:choose>
 								<c:when test="${not empty product.productProfileWay}">
 									<img
-										src="${path}/resources/assets/images/${product.productProfileWay}"
+										src="${product.productProfileWay}"
 										alt="${product.productName}" class="thumbnail-image" />
 								</c:when>
 								<c:otherwise>
@@ -85,15 +89,17 @@
 								</select>
 							</div>
 
-							<div class="btn-section">
+							<div class="btn-section mt-3">
 								<div class="btn-container">
 									<input type="hidden" id="productNum" name="productNum"
 										value="${product.productNum}">
-									<button id="addToCartBtn" class="btn btn-primary">구매하기</button>
-									<form action="goToCart.do" method="GET" id="goToCartForm"
-										style="margin: 0;">
-										<button type="submit" class="btn btn-secondary">장바구니로
-											가기</button>
+									<button id="addToCartBtn" class="btn btn-primary">
+									    <i class="fas fa-shopping-cart" style="margin-right: 5px;"></i>구매하기
+									</button>
+									<form action="goToCart.do" method="GET" id="goToCartForm">
+									    <button type="submit" class="btn btn-secondary">
+									        <i class="fas fa-shopping-basket" style="margin-right: 5px;"></i>장바구니
+									    </button>
 									</form>
 								</div>
 							</div>
@@ -102,6 +108,12 @@
 				</div>
 			</section>
 		</div>
+		
+        <!-- 다른 상품 보러가기 Floating Button -->
+        <a href="loadListProduct.do" class="floating-btn">
+		    <i class="fas fa-shopping-bag" style="margin-right: 5px;"></i>
+		    다른 상품 보러가기
+		</a>
 		<!-- Footer -->
 		<custom:footer />
 
@@ -109,6 +121,7 @@
 			src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script src="${path}/resources/assets/js/jquery.min.js"></script>
 		<script src="${path}/resources/assets/js/browser.min.js"></script>
 		<script src="${path}/resources/assets/js/util.js"></script>

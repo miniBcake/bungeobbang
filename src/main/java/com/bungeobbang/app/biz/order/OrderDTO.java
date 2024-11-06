@@ -1,6 +1,9 @@
 package com.bungeobbang.app.biz.order;
 
 import java.util.Date;
+import java.util.List;
+
+import com.bungeobbang.app.biz.orderDetail.OrderDetailDTO;
 
 import lombok.Data;
 
@@ -22,6 +25,8 @@ public class OrderDTO {
 	private int productPrice; // 상품 가격
 
 	private int totalPrice; // 총가격
+	
+	private List<OrderDetailDTO> orderDetails; //주문상세 리스트
 	
 	private String condition;
 	private String desc; // 내림차순 정렬

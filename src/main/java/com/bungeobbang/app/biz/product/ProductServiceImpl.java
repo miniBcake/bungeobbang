@@ -37,8 +37,7 @@ public class ProductServiceImpl implements ProductService {
 	//명시적 Null처리 위한 Optional 사용
 	public Optional<ProductDTO> selectOne(ProductDTO productDTO) {
 		applyDefaultValues(productDTO);
-	    //return Optional.ofNullable(productDAO.selectOne(productDTO));
-		return null;
+	    return Optional.ofNullable(productDAO.selectOne(productDTO));
 	}
 	
 
