@@ -145,8 +145,14 @@ public class MypageController {
 		session.setAttribute(SESSION_NICKNAME, memberDTO.getMemberNickname());
 		session.setAttribute(SESSION_PK, memberDTO.getMemberNum());
 		session.setAttribute(SESSION_PROFILE, memberDTO.getMemberProfileWay());
+
 		//포인트 갱신//////////////////////////////////////////////////////////////////////////////////
-		SessionMemberPointUtil.updatesessionPoint(session);
+		PointDTO pointDTO = new PointDTO();
+		pointDTO.setMemberNum(memberDTO.getMemberNum());
+		pointDTO.setCondition("SELECTONE_MEMBER_POINT");
+		pointDTO = pointService.selectOne(pointDTO);
+		session.setAttribute(SESSION_POINT, pointDTO.getTotalMemberPoint());
+		log.info("log: pointDTO [{}], point [{}]", pointDTO, pointDTO.getTotalMemberPoint());
 		//////////////////////////////////////////////////////////////////////////////////////////////
 		//마이페이지로 이동
 		return "redirect:infoMypage.do";
