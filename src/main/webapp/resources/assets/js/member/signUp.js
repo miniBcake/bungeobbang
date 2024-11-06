@@ -1,8 +1,12 @@
+let checkNickname = false;
+let checkEmail = false;
+let sendEmailResult = false;
+let checkNumResult = false;
+let isPasswordValid = false;
+let isPasswordMatched = false;
+
+
 $(document).ready(()=>{
-	var checkNickname = false;
-	var checkEmail = false;
-	var sendEmailResult = false;
-	var checkNumResult = false;
 
 //이메일 값 있다면 중복확인 진행 가능
 //이메일 값 없다면 입력 안내
@@ -143,70 +147,39 @@ function checkNum() {
 	});
 }
 
-// 비밀번호 일치 여부 확인
-$('#password2').on('input', function() {//비밀번호 재확인에 인풋값이 들어오면
-	// 입력값 받아오기
-	var password1 = $('#password1').val();
-	var password2 = $('#password2').val();
-    var resultPW = document.getElementById('resultPW');
-
-    if (password1 !== password2) {
-        resultPW.textContent = "비밀번호가 일치하지 않습니다.";
-        resultPW.style.color = 'red';
-    } else {
-        resultPW.textContent = "비밀번호가 일치합니다.";
-        resultPW.style.color = 'green';
-    }
-});
-
-
 // 비밀번호 정규식 검사 및 일치 여부 확인
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
 
 document.getElementById('password1').addEventListener('blur', function() {
     const password = this.value;
-    if (!passwordRegex.test(password)) {
-        document.getElementById('passwordErrorMsg').textContent = "비밀번호는 8~16자의 영문, 숫자, 특수문자 조합이어야 합니다.";
+    const passwordErrorMsg = document.getElementById('passwordErrorMsg');
+
+    if (passwordRegex.test(password)) {
+        passwordErrorMsg.textContent = "유효성 검사 완료";
+		passwordErrorMsg.style.color = 'green';
+        isPasswordValid = true; // 유효성 통과
+		console.log(isPasswordValid);
     } else {
-        document.getElementById('passwordErrorMsg').textContent = "";
+        passwordErrorMsg.textContent = "비밀번호는 8~16자의 영문, 숫자, 특수문자 조합이어야 합니다.";
+        isPasswordValid = false; // 유효성 미통과
     }
 });
 
-document.getElementById('password2').addEventListener('input', function() {
-    const password1 = document.getElementById('password1').value;
+// 비밀번호 일치 여부 확인
+$('#password2').on('input', function() {
+    const password1 = $('#password1').val();
     const password2 = this.value;
+    const resultPW = document.getElementById('resultPW');
+
     if (password1 !== password2) {
-        document.getElementById('resultPW').textContent = "비밀번호가 일치하지 않습니다.";
-        document.getElementById('resultPW').style.color = 'red';
+        resultPW.textContent = "비밀번호가 일치하지 않습니다.";
+        resultPW.style.color = 'red';
+        isPasswordMatched = false; // 비밀번호가 일치하지 않음
     } else {
-        document.getElementById('resultPW').textContent = "비밀번호가 일치합니다.";
-        document.getElementById('resultPW').style.color = 'green';
+        resultPW.textContent = "비밀번호가 일치합니다.";
+        resultPW.style.color = 'green';
+        isPasswordMatched = true; // 비밀번호가 일치함
     }
-});
-
-
-// 비밀번호 보기 기능
-function togglePasswordVisibility(inputId, iconId) {
-    const passwordField = document.getElementById(inputId);
-    const icon = document.getElementById(iconId);
-
-    if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else {
-        passwordField.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-    }
-}
-
-document.getElementById('togglePassword1').addEventListener('click', function() {
-    togglePasswordVisibility('password1', 'togglePassword1');
-});
-
-document.getElementById('togglePassword2').addEventListener('click', function() {
-    togglePasswordVisibility('password2', 'togglePassword2');
 });
 
 
@@ -232,7 +205,6 @@ $('#checkNicknameBtn').on('click', function() {
 function checkNicknameFunction() {
 	console.log("로그 : 닉네임 중복확인 시작");
 	var nickname = $('#memberNicknameInput').val();
-	console.log("log: send nickname data : [", nickname, "]");
 	// 닉네임 입력값 저장
 	$.ajax({
 		url: "checkNickname.do",
@@ -276,25 +248,58 @@ function formatPhoneNumber(input) {
     return formatted;
 }
 
-// 전화번호 자동 포멧팅
-document.getElementById('phone').addEventListener('input', function (e) {
-    e.target.value = formatPhoneNumber(e.target.value);
-});
-		
-
-	// 회원가입 버튼 클릭 시 모든 인증 여부 확인
-	$('#joinForm').on('submit', function(event) {
-	    if (!checkEmail || !sendEmailResult || !checkNumResult || !checkNickname) {
-	        Swal.fire({
-	            icon: 'error',
-	            title: '회원가입 실패',
-	            text: '모든 인증 과정을 완료해 주세요.',
-	            confirmButtonText: '확인'
-	        });
-	        event.preventDefault();
+	// 전화번호 자동 포멧팅
+	document.getElementById('phone').addEventListener('input', function (e) {
+	    e.target.value = formatPhoneNumber(e.target.value);
+	});
+	
+	$('#joinbutton').on('click', function(event) {
+	    if (!validateForm()) {
+	        event.preventDefault(); // 조건 미충족 시 폼 제출 막기
 	    }
 	});
+
+		
 })
+
+function validateForm() {
+	console.log(checkEmail);
+    if (!checkEmail || !sendEmailResult || !checkNumResult || !checkNickname || !isPasswordValid || !isPasswordMatched) {
+        Swal.fire({
+            icon: 'error',
+            title: '회원가입 실패',
+            text: '모든 인증 과정을 완료해 주세요.',
+            confirmButtonText: '확인'
+        });
+        return false; // 폼 제출 막기
+    }
+    return true; // 모든 조건이 만족되면 제출 허용
+}
+
+// 비밀번호 보기 기능
+function togglePasswordVisibility(inputId, iconId) {
+    const passwordField = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        passwordField.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+
+document.getElementById('togglePassword1').addEventListener('click', function() {
+    togglePasswordVisibility('password1', 'togglePassword1');
+});
+
+document.getElementById('togglePassword2').addEventListener('click', function() {
+    togglePasswordVisibility('password2', 'togglePassword2');
+});
+
 
 //이미지 업로드
 function previewImageSignUp(event) {

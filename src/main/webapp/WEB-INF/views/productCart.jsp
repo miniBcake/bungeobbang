@@ -54,9 +54,10 @@
 				</div>
 
 				<div class="col-md-6 text-end">
-					<c:if test="${not empty userPK}">
+				<c:if test="${not empty userPK}">
 					<span>현재 포인트 : <strong id="myPoint">${userPoint}P</strong></span>
-					<button id="chargeButton" class="btn btn-outline-secondary ms-3">충전하기</button></c:if>
+					<button id="chargeButton" class="btn btn-outline-secondary ms-3">충전하기</button>
+				</c:if>
 				</div>
 			</div>
 
@@ -70,7 +71,7 @@
 				</div>
 				<div class="col-md-6 text-end">
 					<span class="total-price">0P</span>
-					<button id="purchaseButton" class="btn btn-outline-secondary ms-3">구매하기</button>
+					<button id="purchaseButton" class="btn btn-outline-secondary ms-3">선택된 상품 주문하기</button>
 				</div>
 			</div>
 
@@ -79,7 +80,7 @@
 				style="display: none;">
 				<!-- 1행 1열: 구매한 상품 목록 -->
 				<div class="col-md-6">
-					<h5>구매한 상품 목록</h5>
+					<h5>구매할 상품 목록</h5>
 					<div class="order-products mt-3">
 						<!-- JavaScript에서 제품 목록을 삽입할 공간 -->
 					</div>
@@ -87,6 +88,11 @@
 
 				<!-- 1행 2열: 주소 입력 및 주문 완료 버튼 -->
 				<div class="col-md-6">
+			        <!-- 총 가격 표시 -->
+			        <div class="total-price-section mb-4">
+			            <h5>총 사용 포인트</h5>
+			            <span id="orderTotalPrice" class="total-price-value">0원</span>
+			        </div>
 					<h5>배송 정보</h5>
 					<div class="form-group">
 						<label for="nameInput"><strong>이름</strong></label> <input
