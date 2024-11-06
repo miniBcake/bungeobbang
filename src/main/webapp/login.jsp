@@ -238,19 +238,11 @@
 			<custom:footer />
 		</div>
 		<script>
-			$(document).ready(function() {
-				$('#closedModal').modal('show');
-			});
-
-			//첫번째 모달창(회원여부확인) 열기
-			function openforgetPw() {//1 오픈/ 2숨김
-				document.getElementById('loginModal').style.display = 'block'; //첫번째 모달 열기
-				document.getElementById('setPwModal').style.display = 'none'; //두 번째 모달 닫기
-			}
 			//모달창 닫기. 로그인창으로
 			function closedModal() {//첫번째, 두번째 모달창 숨김.
-				document.getElementById('loginModal').style.display = 'none';
-				document.getElementById('setPwModal').style.display = 'none';
+				$('#loginModal').modal('hide');
+				$('#setPwModal').modal('hide');
+				$('.modal-backdrop').remove();
 			}
 		</script>
 	</div>
