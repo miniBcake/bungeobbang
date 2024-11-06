@@ -9,6 +9,7 @@ let inputMaxPrice = document.getElementById('maxPrice');
 let inputCondition = document.getElementById('conditionInput');
 let divSelectedOptions = document.getElementById('selectedOptions');
 let btnSearch = document.getElementById('searchInputBTN');
+let isSearchOptionsOpen = localStorage.getItem('isSearchOptionsOpen') === 'true' || false;
 const memberNum = document.getElementById("memberPK") ? document.getElementById("memberPK").textContent : null;
 
 // DOMContentLoaded 이벤트 리스너
@@ -141,39 +142,74 @@ function validatePrices() {
 }
 
 // 검색 옵션 토글 함수
+// 페이지가 로드될 때 검색 옵션 상태 설정
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.searchInput');
+    const searchOptions = document.getElementById('searchOptions');
+
+    // localStorage에서 상태 가져오기
+    const isSearchOptionsOpen = localStorage.getItem('isSearchOptionsOpen') === 'true';
+
+    if (isSearchOptionsOpen) {
+        // 검색 옵션을 열기
+        searchOptions.style.display = 'block';
+        searchInput.classList.add('searchInput-expanded');
+    } else {
+        // 검색 옵션을 닫기
+        searchOptions.style.display = 'none';
+        searchInput.classList.remove('searchInput-expanded');
+    }
+});
+
+// 검색 옵션 토글 함수
 function toggleSearchOptions() {
     const searchInput = document.querySelector('.searchInput');
     const searchOptions = document.getElementById('searchOptions');
 
-    if (searchOptions.style.display === 'none' || searchOptions.style.display === '') {
+    if (!isSearchOptionsOpen) {
+        // 옵션 열기
         searchOptions.style.display = 'block';
         searchInput.classList.add('searchInput-expanded');
+        isSearchOptionsOpen = true; // 상태를 열림으로 설정
     } else {
+        // 옵션 닫기
         searchOptions.style.display = 'none';
-        searchBox.classList.remove('searchInput-expanded');
+        searchInput.classList.remove('searchInput-expanded');
+        isSearchOptionsOpen = false; // 상태를 닫힘으로 설정
     }
+
+    // 상태를 localStorage에 저장
+    localStorage.setItem('isSearchOptionsOpen', isSearchOptionsOpen);
 }
+
 
 // 선택된 옵션 업데이트 함수
 function updateSelectedOptions() {
-    divSelectedOptions.innerHTML = '';
+    // 두 개의 컨테이너를 모두 초기화
+    const containers = [document.getElementById('selectedOptions1'), document.getElementById('selectedOptions2')];
+    containers.forEach(container => container.innerHTML = '');
 
+    // 현재 선택된 옵션 값 가져오기
     const minPrice = inputMinPrice.value;
     const maxPrice = inputMaxPrice.value;
     const selectedCategory = selectCategory.options[selectCategory.selectedIndex].text;
 
-    if (minPrice) {
-        divSelectedOptions.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('minPrice')">최소 가격: ${minPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
-    }
+    // 각 컨테이너에 선택된 옵션 추가
+    containers.forEach(container => {
+        if (minPrice) {
+            container.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('minPrice')">최소 가격: ${minPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
+        }
 
-    if (maxPrice) {
-        divSelectedOptions.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('maxPrice')">최대 가격: ${maxPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
-    }
+        if (maxPrice) {
+            container.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('maxPrice')">최대 가격: ${maxPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
+        }
 
-    if (selectCategory.value) {
-        divSelectedOptions.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('category')">카테고리: ${selectedCategory} <span class="remove-x" title="제거하기">×</span></span>`;
-    }
+        if (selectCategory.value) {
+            container.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('category')">카테고리: ${selectedCategory} <span class="remove-x" title="제거하기">×</span></span>`;
+        }
+    });
 }
+
 
 // 옵션 제거 함수
 function removeOption(option) {
