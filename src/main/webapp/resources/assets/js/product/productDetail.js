@@ -26,15 +26,35 @@ $(document).ready(function() {
                 if (response.status === 'success') {
                     $('#addToCartBtn').text('더 추가하기'); // 버튼 텍스트 변경
                     $('#goToCartForm').show(); // 장바구니로 가기 버튼 표시
-                    alert(response.message); // 성공 메시지 출력
+                    
+                    // SweetAlert로 성공 메시지 출력
+                    Swal.fire({
+                        icon: 'success',
+                        title: '성공!',
+                        text: response.message,
+                        confirmButtonText: '확인'
+                    });
                 } else {
-                    alert('오류 발생: ' + response.message);
+                    // SweetAlert로 오류 메시지 출력
+                    Swal.fire({
+                        icon: 'error',
+                        title: '오류 발생',
+                        text: response.message,
+                        confirmButtonText: '확인'
+                    });
                 }
             },
             error: function(xhr, status, error) {
                 // 서버 응답에 오류가 있을 때의 처리
                 console.error("Error: " + error);
-                alert('장바구니에 담는 중 오류가 발생했습니다. 다시 시도해주세요.');
+                
+                // SweetAlert로 오류 메시지 출력
+                Swal.fire({
+                    icon: 'error',
+                    title: '오류 발생',
+                    text: '장바구니에 담는 중 오류가 발생했습니다. 다시 시도해주세요.',
+                    confirmButtonText: '확인'
+                });
             }
         });
     });

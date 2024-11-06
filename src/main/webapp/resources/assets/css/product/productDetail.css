@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url('color.css');
+@import url('../color.css');
 
 /* ====== 기본 스타일 ====== */
 body {
@@ -213,5 +213,25 @@ h5{
 .btn-secondary:hover {
     background-color: #cd853f !important;
     transform: translateY(-2px);
+}
+
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #8b4513 !important;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.floating-btn:hover {
+    background-color: #cd853f !important;
+    text-decoration: none;
+    color: #fff;
 }
 
