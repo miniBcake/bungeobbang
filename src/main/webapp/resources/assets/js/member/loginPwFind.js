@@ -77,59 +77,10 @@ $(document).ready(function() {
 		console.log("log: password : [" + password + "]");
 		console.log("log: passwordCheck : [" + passwordCheck + "]");
 
-		// // 비밀번호 일치 여부 확인
-		// if (password !== passwordCheck) {
-		//     return; // 비밀번호가 일치하지 않으면 함수 종료
-		// }
-		// 비밀번호 일치 여부 확인
+
 		if (password === passwordCheck) {
 			$('#setPw').submit(); // 비밀번호가 일치하면 전송
 		}
-
-
-		// 비밀번호 변경 요청
-		// $.ajax({
-		//     url: 'setPw.do',
-		//     type: 'POST',
-		//     contentType: 'application/json',
-		//     data: JSON.stringify({
-		//         memberNum: $('#passwordFindResult').val(), 	// 가지고 있던 member정보
-		//         memberPassword: password		// 사용자가 입력한 신규 비밀번호
-		//     }),
-		//     dataType: 'json',
-		//     success: function(result) {
-		//         if (result.success) {
-		//             Swal.fire({
-		//                 icon: 'success',
-		//                 title: '비밀번호 변경 성공',
-		//                 text: '비밀번호가 성공적으로 변경되었습니다.',
-		//                 confirmButtonText: '확인'
-		//             }).then(() => {
-		//                 closedModal(); // 모달 닫기
-		// 				console.log("loginPwFind.js newPassword complete");
-		//             });
-		//         }
-		//         else {
-		//             Swal.fire({
-		//                 icon: 'error',
-		//                 title: '오류',
-		//                 text: '비밀번호 변경에 실패했습니다.',
-		//                 confirmButtonText: '확인'
-		//             });
-		// 			console.log("loginPwFind.js newPassword success end");
-		//         }
-		//     },
-		//     error: function() {
-		//         console.error('서버와의 통신 실패:', error);
-		//         Swal.fire({
-		//             icon: 'error',
-		//             title: '오류',
-		//             text: '서버와의 통신에 실패했습니다.',
-		//             confirmButtonText: '확인'
-		//         });
-		// 		console.log("loginPwFind.js newPassword error end");
-		//     }
-		// });
 	});
 });
 
@@ -138,25 +89,9 @@ $(document).ready(function() {
 function openSetPasswordModal(memberNum) {
 	// memberNum 저장
 	document.getElementById('passwordFindResult').value = memberNum;
-	document.getElementById('forgetModal').style.display = 'none';//첫번째 모달 닫기
-	document.getElementById('setPwModal').style.display = 'block';//두번째 모달 열기
+	$('#forgetModal').modal('hide');//첫번째 모달 닫기
+	$('#setPwModal').modal('show');
 	console.log("loginPwFind.js second modal open");
 	// 비밀번호 일치 여부 확인 초기화
 	// document.getElementById('resultPW').textContent = '';
 }
-
-// 비밀번호 확인 입력 필드의 값이 변경될 때마다 일치 여부 확인
-// $(document).ready(function() {
-//     $('#passwordCheck').on('change', function() {
-//         var doublePassword = $(this).val(); // 비밀번호 확인란의 값
-//         var password = $('#password').val(); // 신규 비밀번호란의 값
-//
-//         $('#completePw').prop('disabled', false);
-//         console.log("loginPwFind.js Password document ready");
-//
-//         if(doublePassword === password){
-//             console.log("log: password check clear")
-//             $('#completePw').prop('disabled', true);
-//         }
-//     });
-// });
