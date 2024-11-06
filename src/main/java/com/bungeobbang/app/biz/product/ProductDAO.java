@@ -160,7 +160,7 @@ public class ProductDAO{
 		List<Object> argsList = new ArrayList<>();
 		argsList = filterUtil.setFilterKeywords(argsList,filters); 		//필터 검색 검색어 
 
-		argsList.add(productDTO.getStartNum());			//페이지네이션 용 시작번호
+		argsList.add(productDTO.getStartNum() < 1 ? 0 : productDTO.getStartNum() - 1);
 		argsList.add(productDTO.getEndNum());				//페이지네이션 용 끝번호
 		//넘어온 값 확인 로그
 		System.out.println("log: parameter getStartNum : "+productDTO.getStartNum());

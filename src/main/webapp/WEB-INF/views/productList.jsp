@@ -3,6 +3,9 @@
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<c:if test="${not empty userPK}">
+	<span id="memberPK" style="display: none;">${userPK}</span>
+</c:if>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -36,7 +39,6 @@
 		<!-- 헤더 -->
 		<custom:header />
 		<div class="container mt-5">
-		<c:if test="${not empty userPK}">
 			<div class="d-flex justify-content-end">
 				<button id="pointButton" class="btn btn-outline-primary">내
 					포인트 보기</button>
@@ -51,7 +53,6 @@
 					</div>
 				</div>
 			</div>
-			</c:if>
 
 			<!-- 상품 카테고리 버튼 -->
 			<div class="category-buttons">
@@ -274,10 +275,13 @@
 							</c:choose>
 						</div>
 						<div class="product-info">
-							<%-- <span>제목: ${product.boardTitle}</span><br>  --%><span>카테고리:
-								${product.productCategoryName}</span><br> <span>상품명:
-								${product.productName}</span><br> <span>가격:
-								${product.productPrice}원</span>
+							<%--<span>제목: ${product.boardTitle}</span> --%>
+							<br> 
+							<span>카테고리:${product.productCategoryName}</span>
+							<br> 
+							<span>상품명:${product.productName}</span>
+							<br> 
+							<span>가격:${product.productPrice}원</span>
 						</div>
 					</div>
 					<hr>

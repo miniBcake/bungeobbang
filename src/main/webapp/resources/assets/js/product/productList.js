@@ -9,6 +9,7 @@ let inputMaxPrice = document.getElementById('maxPrice');
 let inputCondition = document.getElementById('conditionInput');
 let divSelectedOptions = document.getElementById('selectedOptions');
 let btnSearch = document.getElementById('searchInputBTN');
+const memberNum = document.getElementById("memberPK") ? document.getElementById("memberPK").textContent : null;
 
 // DOMContentLoaded 이벤트 리스너
 document.addEventListener('DOMContentLoaded', function () {
@@ -45,9 +46,16 @@ function initializeSwiper(containerClass, prevButtonClass, nextButtonClass, pagi
 // 팝업 초기화 함수
 function initializePopup() {
     btnPoint.addEventListener('click', function () {
+        
+        if (!memberNum) {
+            // 로그인하지 않았으면 로그인 페이지로 리디렉션
+            window.location.href = "login.do";
+            return;
+        }
+        
+        // 로그인한 경우 포인트 팝업 위치 설정 및 표시
         const buttonTop = btnPoint.offsetTop;
         const buttonLeft = btnPoint.offsetLeft;
-
         popup.style.top = `${buttonTop - popup.offsetHeight - 15}px`;
         popup.style.left = `${buttonLeft - 5}px`;
         popup.style.display = "block";
@@ -134,15 +142,15 @@ function validatePrices() {
 
 // 검색 옵션 토글 함수
 function toggleSearchOptions() {
-    const searchBox = document.querySelector('.search-box');
+    const searchInput = document.querySelector('.searchInput');
     const searchOptions = document.getElementById('searchOptions');
 
     if (searchOptions.style.display === 'none' || searchOptions.style.display === '') {
         searchOptions.style.display = 'block';
-        searchBox.classList.add('search-box-expanded');
+        searchInput.classList.add('searchInput-expanded');
     } else {
         searchOptions.style.display = 'none';
-        searchBox.classList.remove('search-box-expanded');
+        searchBox.classList.remove('searchInput-expanded');
     }
 }
 
