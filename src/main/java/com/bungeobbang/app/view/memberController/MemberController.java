@@ -44,6 +44,7 @@ public class MemberController {
     private final String MSG_FAIL_LOGIN = "올바르지 않은 이메일 또는 비밀번호입니다.";
     private final String MSG_FAIL_PW = "비밀번호 변경에 실패했습니다. 관리자에게 문의바랍니다.";
     private final String MSG_SUCCESS_PW = "비밀번호가 변경되었습니다. 로그인바랍니다.";
+    private final String MSG_MEMBER_OUT = "그동안 붕어빵을 이용해 주셔서 감사합니다.";
 
     @PostMapping("/join.do") // 회원가입 controller
     public String join(HttpServletRequest request, MemberDTO memberDTO, Model model) {
@@ -116,7 +117,7 @@ public class MemberController {
 
     //회원탈퇴
     @PostMapping(value="/deleteMember.do")
-    public String deleteMember(HttpSession session, MemberDTO memberDTO) {
+    public String deleteMember(HttpSession session, MemberDTO memberDTO, Model model) {
         log.info("[DeleteMember] 시작");
         // View에서 받아올 데이터 없음
 
@@ -136,8 +137,10 @@ public class MemberController {
             //실패로 이동
             return FAIL_DO;
         }
-        //로그아웃 진행
-        return "redirect:logout.do";
+        //안내 후 로그아웃
+        model.addAttribute("msg", MSG_MEMBER_OUT);
+        model.addAttribute("path", "logout.do");
+        return FAIL_URL;
     }
 
     @PostMapping(value="/updatePassword.do") // 비빌번호 수정 controller
@@ -161,6 +164,10 @@ public class MemberController {
         model.addAttribute("path", "login.do");
         return FAIL_URL;
 
+    }
+    @GetMapping(value="/deleteMember.do") // 회원 탈퇴 페이지 이동 controller
+    public String deleteMember() {
+        return "signOut";
     }
 
     @PostMapping(value="/findPW.do") // 비밀번호 찾기 페이지 이동 controller
