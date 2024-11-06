@@ -77,27 +77,29 @@
 							검색
 						</button>
 					</div>
-
-					<div class="selected-options mt-3" id="selectedOptions"></div>
 					<div class="search-options" id="searchOptions"
 						style="display: none;">
 						<div class="filter-section mt-3">
-							<h5>
-								<i class="fas fa-key"></i>검색 키워드 입력
-							</h5>
+							<div class="d-flex justify-content-between align-items-center">
+							        <h5 class="mb-0">
+							            <i class="fas fa-key"></i> 검색 키워드 입력
+							        </h5>
+							        <button type="button" class="btn btn-dark btn-sm" onclick="toggleSearchOptions()">X</button>
+							    </div>
+							    </br>
 							<input type="text" class="form-control" id="searchKeywordInput"
 								name="keyword" placeholder="검색할 키워드를 입력하세요">
 
 							<h5 class="mt-4">검색 설정</h5>
 							<div class="form-check">
 								<input class="form-check-input" type="radio"
-									name="searchCategory" value="TITLE" id="searchTitle" checked>
-								<label class="form-check-label" for="searchTitle">제목</label>
+									name="searchCategory" value="CONTENT" id="searchContent" checked>
+								<label class="form-check-label" for="searchContent">상품명</label>
 							</div>
 							<div class="form-check">
 								<input class="form-check-input" type="radio"
-									name="searchCategory" value="CONTENT" id="searchContent">
-								<label class="form-check-label" for="searchContent">상품명</label>
+									name="searchCategory" value="TITLE" id="searchTitle" >
+								<label class="form-check-label" for="searchTitle">제목</label>
 							</div>
 						</div>
 
@@ -137,10 +139,16 @@
 								</c:forEach>
 							</select>
 						</div>
+						<div class="selected-options mt-3" id="selectedOptions1"></div>
+						<!-- 추가된 검색 버튼과 닫기 버튼 -->
+						<div class="d-flex justify-content-between mt-4">
+						    <button type="submit" class="btn btn-dark ml-auto">검색</button>
+						</div>
 					</div>
 				</div>
 			</form>
 
+			<div class="selected-options mt-3" id="selectedOptions2"></div>
 			<p>다양한 상품을 검색해보세요!</p>
 			<div class="empty-photo-album">
 				<div class="photo-album">
