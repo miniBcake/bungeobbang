@@ -35,8 +35,6 @@ public class PaymentController {
     @Autowired
     private MemberService memberService;
 
-    @Autowired
-    private ServletContext application;
 
     // 포인트 환전 내역 전체 검색
     @PostMapping(value = "loadListPayment.do")
@@ -51,7 +49,7 @@ public class PaymentController {
         List<PaymentDTO> paymentList = paymentService.selectAll(paymentDTO);
 
         if(paymentList != null && !paymentList.isEmpty()) {
-            Integer sessionPoint = (Integer) session.getAttribute("applicationPoint");
+            Integer sessionPoint = (Integer) session.getAttribute("sessionPoint");
             model.addAttribute("sessionPoint", sessionPoint);
             model.addAttribute("paymentList", paymentList); // 모델에 리스트 추가
             log.info("[PaymentSelectAll selectAll 이후에 보내주는 model 값] : {}", model);
