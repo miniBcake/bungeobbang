@@ -64,6 +64,15 @@ public class AdminController {
             log.error("log: updateOrderCheck - not admin");
             return FAIL_DO;
         }
+        //현재 값과 반대로 변환해 업데이트 진행
+        if(orderDTO.getAdminChecked().equals(this.NO)){ 
+            //Y로 전환해야하는 경우
+            orderDTO.setAdminChecked(this.YES);
+        }
+        else {
+            //N으로 전환해야하는 경우
+            orderDTO.setAdminChecked(this.NO);
+        }
         if(!orderService.update(orderDTO)){
             log.error("log: updateOrderCheck - update failed");
             model.addAttribute("msg", ORDER_UPDATE_FAIL);

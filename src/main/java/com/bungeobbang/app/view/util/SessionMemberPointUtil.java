@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 public class SessionMemberPointUtil {
 
     @Autowired
-    private PointService pointService;
+    private static PointService pointService;
 
 
     // 어플리케이션 속성에 포인트 저장하는 메서드 / util로 빼기
-    public void updatesessionPoint(HttpSession session) {
+    public static void updatesessionPoint(HttpSession session) {
         log.info("[UpdateSessionPoint] 시작");
         Integer memberPK = (Integer) session.getAttribute("userPK");
 

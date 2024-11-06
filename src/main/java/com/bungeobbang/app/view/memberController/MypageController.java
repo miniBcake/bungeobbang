@@ -10,6 +10,7 @@ import com.bungeobbang.app.biz.point.PointService;
 import com.bungeobbang.app.biz.point.PointServiceImpl;
 import com.bungeobbang.app.view.util.FileUtil;
 import com.bungeobbang.app.view.util.PaginationUtils;
+import com.bungeobbang.app.view.util.SessionMemberPointUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -145,12 +146,7 @@ public class MypageController {
 		session.setAttribute(SESSION_PK, memberDTO.getMemberNum());
 		session.setAttribute(SESSION_PROFILE, memberDTO.getMemberProfileWay());
 		//포인트 갱신//////////////////////////////////////////////////////////////////////////////////
-		PointDTO pointDTO = new PointDTO();
-		pointDTO.setMemberNum(memberDTO.getMemberNum());
-		pointDTO.setCondition("SELECTONE_MEMBER_POINT");
-		pointDTO = pointService.selectOne(pointDTO);
-		session.setAttribute(SESSION_POINT, pointDTO.getTotalMemberPoint());
-		log.info("log: pointDTO [{}], point [{}]", pointDTO, pointDTO.getTotalMemberPoint());
+		SessionMemberPointUtil.updatesessionPoint(session);
 		//////////////////////////////////////////////////////////////////////////////////////////////
 		//마이페이지로 이동
 		return "redirect:infoMypage.do";
