@@ -11,8 +11,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>포인트 충전</title>
+    <!-- 파비콘 -->
+<link rel="icon" href="${path}/resources/assets/images/logo.png"
+	type="image/x-icon" />
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="${path}/resources/assets/css/pointRecharge.css" />
+    <link rel="stylesheet" href="${path}/resources/assets/css/main.css" />    
+    <link rel="stylesheet" href="${path}/resources/assets/css/point/pointRecharge.css" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -20,9 +25,9 @@
 
 <body>
 <!-- Header -->
+ <div id="page-wrapper">
 <custom:header />
 
- <div id="page-wrapper">
 
     <div class="container">
         <div class="row mb-4">
@@ -124,10 +129,10 @@
             </div>
         </div>
     </div>
-   </div>
 
 <!-- Footer -->
 <custom:footer />
+   </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

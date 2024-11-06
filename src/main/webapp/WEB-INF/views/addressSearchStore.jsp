@@ -49,7 +49,7 @@
 <!-- js를 쓰므로 jquery 사용 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- 외부 script 파일 사용 -->
-<script src="${path}/resources/assets/js/storeList.js"></script>
+<script src="${path}/resources/assets/js/store/storeList.js"></script>
 <script src="${path}/resources/assets/js/store/copy.js"></script>
 <script src="${path}/resources/assets/js/store/selectList.js"></script>
 <script src="${path}/resources/assets/js/map/printMap.js"></script>

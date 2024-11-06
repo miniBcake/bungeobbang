@@ -16,6 +16,9 @@
 
 <title>게시글</title>
 <meta charset="utf-8" />
+<!-- 파비콘 -->
+<link rel="icon" href="${path}/resources/assets/images/logo.png"
+	type="image/x-icon" />
 
 <link rel="stylesheet" href="${path}/resources/assets/css/main.css">
 <link rel="stylesheet" href="${path}/resources/assets/css/board/boardlist.css">

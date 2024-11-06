@@ -63,8 +63,8 @@
 						class="signupimg">
 					</span> <br> <br>
 					<div>
-						<h4>Point : ${userPoint}점</h4>
-						<br> <a href="pointRecharge.do" class="btn button-orange"
+						<h4>Point : ${userPoint}P</h4>
+						<br> <a href="addPoint.do" class="btn button-orange"
 							id="pointCharge">포인트 충전</a> <br> <br> <a
 							href="updateMypage.do" class="btn button-orange"
 							id="updateProfile">프로필 수정</a> <br>
