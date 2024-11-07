@@ -3,6 +3,9 @@ package com.bungeobbang.app.view.orderController;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bungeobbang.app.biz.point.PointDAO;
+import com.bungeobbang.app.biz.point.PointDTO;
+import com.bungeobbang.app.biz.point.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +31,12 @@ public class OrderController {
     @Autowired
     private OrderDetailDAO orderDetailDAO;
 
+    @Autowired
+    private PointService pointService;
+
     @RequestMapping(value = "/addOrder.do", method = RequestMethod.POST)
-    public @ResponseBody Object addOrder(HttpSession session, @RequestBody OrderDTO orderDTO) {
+    public @ResponseBody Object addOrder(HttpSession session, @RequestBody OrderDTO orderDTO,
+                                         PointDTO pointDTO) {
         log.info("[AddOrder] 시작");
 
         Integer memberPK = (Integer) session.getAttribute("userPK");
@@ -52,8 +59,15 @@ public class OrderController {
                 if (!flag1) {
                     return false;
                 }
+                // session에 memberPoint 업데이트 해주기 ----------------------------------------
+                pointDTO.setCondition("SELECTONE_MEMBER_POINT");
+                pointDTO.setMemberNum(memberPK);
+                pointDTO = pointService.selectOne(pointDTO);
+                session.setAttribute("userPoint", pointDTO.getTotalMemberPoint());
+                //----------------------------------------------------------------------------
                 productNums.add(orderDetailDTO.getProductNum());
             }
+
             return productNums;
         }
 
