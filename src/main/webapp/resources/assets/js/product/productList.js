@@ -124,7 +124,7 @@ function validatePrices() {
     const maxPriceWarning = document.getElementById('maxPriceWarning');
     let isValid = true;
 
-    if (isNaN(minPrice) || minPrice < 0) {
+    if (minPrice < 0) {
         minPriceWarning.style.display = 'block';
         isValid = false;
     } else {
