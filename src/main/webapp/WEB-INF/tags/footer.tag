@@ -30,36 +30,36 @@
 							<div class="col-12 col-md-3">
 								<ul class="link-list last-child">
 									<li><a href="https://blog.naver.com/wx_wns_"><span class="memberName">정재준</span></a><br>
-										<a href="https://blog.naver.com/wx_wns_"><span class="memberRoll">최프 : 전체 팀장</span></a><br>
-										<a href="https://blog.naver.com/wx_wns_"><span class="memberRoll">중프 : 전체 팀장</span></a>
+										<a href="https://blog.naver.com/wx_wns_"><span class="memberRoll">중프 : 전체 팀장</span></a><br>
+										<a href="https://blog.naver.com/wx_wns_"><span class="memberRoll">최프 : 전체 팀장</span></a>
 									</li>
 									<li><a href="https://hrong98.tistory.com/"><span class="memberName">조충현</span></a><br>
-										<a href="https://hrong98.tistory.com/"><span class="memberRoll">최프 : V 팀장</span></a><br>
-										<a href="https://hrong98.tistory.com/"><span class="memberRoll">중프 : M 팀장</span></a>
+										<a href="https://hrong98.tistory.com/"><span class="memberRoll">중프 : V 팀장</span></a><br>
+										<a href="https://hrong98.tistory.com/"><span class="memberRoll">최프 : M 팀장</span></a>
 									</li>
 								</ul>
 							</div>
 							<div class="col-12 col-md-3">
 								<ul class="link-list last-child">
 									<li><a href="https://blog.naver.com/study_j04"><span class="memberName">정재희</span></a><br>
-										<a href=" https://blog.naver.com/study_j04"><span class="memberRoll">최프 : C 팀장</span></a><br>
-										<a href=" https://blog.naver.com/study_j04"><span class="memberRoll">중프 : V 멤버</span></a>
+										<a href=" https://blog.naver.com/study_j04"><span class="memberRoll">중프 : C 팀장</span></a><br>
+										<a href=" https://blog.naver.com/study_j04"><span class="memberRoll">최프 : V 멤버</span></a>
 									</li>
 									<li><a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502"><span class="memberName">안제호</span></a><br>
-										<a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502"><span class="memberRoll">최프 : C 멤버</span></a><br>
-										<a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502"><span class="memberRoll">중프 : V 멤버</span></a>
+										<a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502"><span class="memberRoll">중프 : C 멤버</span></a><br>
+										<a href="https://jelkov-developer.notion.site/JAEHO-s-Hello-World-49ba695ecae34a729cce1f8b250c4502"><span class="memberRoll">최프 : V 멤버</span></a>
 										</li>
 								</ul>
 							</div>
 							<div class="col-12 col-md-3">
 								<ul class="link-list last-child">
 									<li><a href="https://minibcake.tistory.com/"><span class="memberName">한지윤</span></a><br>
-										<a href=" https://minibcake.tistory.com/"><span class="memberRoll">최프 : M 팀장</span></a><br>
-										<a href=" https://minibcake.tistory.com/"><span class="memberRoll">중프 : C팀장</span></a>
+										<a href=" https://minibcake.tistory.com/"><span class="memberRoll">중프 : M 팀장</span></a><br>
+										<a href=" https://minibcake.tistory.com/"><span class="memberRoll">최프 : C팀장</span></a>
 									</li>
 									<li><a href="https://blog.naver.com/rhalwls56"><span class="memberName">고미진</span></a><br>
-										<a href="https://blog.naver.com/rhalwls56"><span class="memberRoll">최프 : M 멤버</span></a><br>
-										<a href="https://blog.naver.com/rhalwls56"><span class="memberRoll">중프 : V 팀장</span></a>
+										<a href="https://blog.naver.com/rhalwls56"><span class="memberRoll">중프 : M 멤버</span></a><br>
+										<a href="https://blog.naver.com/rhalwls56"><span class="memberRoll">최프 : V 팀장</span></a>
 									</li>
 								</ul>
 							</div>
