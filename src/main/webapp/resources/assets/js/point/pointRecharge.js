@@ -9,13 +9,13 @@ function selectPaymentMethod(method) {
     if (method === '신한카드' || method === '우리카드') {
         pg = 'tosspay';
         pay_method = 'card';
-        channelKey = 'channel-key-4caf1408-142e-4c77-a7ac-2039a8f51ebb';
+        channelKey = 'API 키 재발급';
         window.selectedCardCompany = method;
     }
     else if (method === '가상계좌') {
         pg = 'html5_inicis';
         pay_method = 'vbank';
-        channelKey = 'channel-key-1d0d6812-0ece-4bae-97c1-b9c1912c0c6c';
+        channelKey = 'API 키 재발급';
         buyer_name = memberName;
         window.selectedCardCompany = method;
     }
@@ -26,7 +26,7 @@ function selectPaymentMethod(method) {
     else if (method === '토스페이') {
         pg = 'tosspay'; // 토스페이 간편결제
         pay_method = 'tosspay';
-        channelKey = 'channel-key-4caf1408-142e-4c77-a7ac-2039a8f51ebb';
+        channelKey = 'API 키 재발급';
 
     }
 
