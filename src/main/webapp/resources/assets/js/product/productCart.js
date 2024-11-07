@@ -337,7 +337,7 @@ function setupPurchaseButton() {
         if (totalPrice > currentPoints) {
             showAlert('warning', '포인트 부족', '결제 금액이 현재 포인트보다 높습니다. 충전 페이지로 이동합니다.', '충전하기').then(() => {
                 // 충전 페이지로 이동
-                window.location.href = 'chargePoints.do';
+                window.location.href = 'addPoint.do';
             });
         } else {
             // 서버에 구매 요청 전송
