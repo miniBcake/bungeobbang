@@ -144,6 +144,10 @@ section.full-page {
     transition: opacity 0.5s, transform 0.5s;
 }
 
+.team-list li {
+	text-align: left;
+}
+
 /* 모바일 화면 스타일 조정 */
 @media (max-width: 768px) {
     .text-box, .second-text-box {
