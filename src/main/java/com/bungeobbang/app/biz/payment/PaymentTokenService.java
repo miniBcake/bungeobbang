@@ -15,8 +15,8 @@ import java.net.http.HttpResponse;
 @Slf4j
 @Service
 public class PaymentTokenService {
-    private final static String IMP_KEY = "8643151020611457";
-    private final static String IMP_SECRET = "GqFOTZ7oYQUFWXWM6sC9l9MgYNINZa7pFtypWLLWAQsmTbK8eKYAK9Qh8Kwa6MuO7mlMQYo94xfSb3d0";
+    private final static String IMP_KEY = "API 키 재발급";
+    private final static String IMP_SECRET = "API 키 재발급";
 
     public PaymentInfoDTO getAccessToken(PaymentInfoDTO paymentInfoDTO) {
         log.info("[GetAccessToken] 시작");
