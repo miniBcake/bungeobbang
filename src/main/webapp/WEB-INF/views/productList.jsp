@@ -114,7 +114,7 @@
 									<span class="input-group-text">최소</span>
 								</div>
 								<input type="number" class="form-control" id="minPrice"
-									name="minPrice" placeholder="최소 가격 입력" min="0" value="0">
+									name="minPrice" placeholder="최소 가격 입력" min="0">
 							</div>
 							<div id="maxPriceWarning" style="display: none; color: red;">최대
 								가격은 최소 가격보다 크거나 같아야 합니다.</div>
@@ -123,7 +123,7 @@
 									<span class="input-group-text">최대</span>
 								</div>
 								<input type="number" class="form-control" id="maxPrice"
-									name="maxPrice" placeholder="최대 가격 입력">
+									name="maxPrice" placeholder="최대 가격 입력" min="0">
 							</div>
 						</div>
 
@@ -265,6 +265,8 @@
 			<!-- 상품 목록 -->
 			<section>
 				<h3>필터링된 상품 목록</h3>
+			    <c:choose>
+     			<c:when test="${not empty productList}">
 				<c:forEach var="product" items="${productList}">
 					<div class="product-item">
 						<div class="product-image">
@@ -295,7 +297,12 @@
 					</div>
 					<hr>
 				</c:forEach>
-			</section>
+		        </c:when>
+		        <c:otherwise>
+		            <p>검색된 상품이 없습니다.</p>
+		        </c:otherwise>
+		    </c:choose>
+		</section>
 
 
 			<!-- 페이지네이션 -->
