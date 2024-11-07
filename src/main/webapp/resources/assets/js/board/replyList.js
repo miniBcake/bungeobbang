@@ -92,7 +92,7 @@ $(document).ready(() => {
 				dataType: 'json',
 				success: function(result) {
 					if (result === 'true') {
-						$('#inputReplyContent').val(''); // 댓글 입력란 초기화
+						$('#myReplyContent').val(''); // 댓글 입력란 초기화
 						//window.location.href = 'board.do'; // board.do로 이동
 						loadReply(); //댓글목록 다시 불러오기
 					}
