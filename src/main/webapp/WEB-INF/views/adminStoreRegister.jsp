@@ -5,8 +5,10 @@
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE HTML>
-
+<html>
 <head>
+<style>
+</style>
 <title>가게 등록 페이지</title>
 <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
 	name="viewport" />
@@ -35,6 +37,8 @@
 <script src="${path}/resources/assets/js/plugin/webfont/webfont.min.js"></script>
 <!-- 등록 js 파일 -->
 <script src="${path}/resources/assets/js/store/storeRegister.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- 다음 주소 api -->
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -74,7 +78,7 @@
 		<!-- 전체 페이지를 감싸는 wrapper -->
 		<!-- Sidebar -->
 		<custom:adminSidebar />
-
+		<!-- End Sidebar -->
 		<!-- 페이지의 메인 부분 -->
 		<div class="main-panel">
 			<div class="container">
@@ -105,8 +109,8 @@
 									<br>
 
 									<form id="storeRegister" action="addStore.do" method="POST">
-										<input type="hidden" name="storeSecret" value="N">
-										<input type="hidden" name="storeClosed" value="N">
+										<input type="hidden" name="storeSecret" value="N"> <input
+											type="hidden" name="storeClosed" value="N">
 
 										<!--1. 상호명 입력란-->
 										<div class="row">
@@ -223,6 +227,7 @@
 																	id="nonChecked-other" value="N"></td>
 															</tr>
 														</table>
+													</div>
 												</section>
 											</div>
 											<!--5. 결제방식 선택란-->
@@ -334,31 +339,11 @@
 					</div>
 				</div>
 			</div>
-
-			<footer class="footer">
-				<!-- 페이지 하단 푸터 -->
-				<div class="container-fluid d-flex justify-content-between">
-					<!-- 푸터 내용, 플루이드 컨테이너로 좌우 정렬 -->
-					<nav class="pull-left">
-						<!-- 왼쪽 내비게이션 -->
-					</nav>
-					<div class="copyright">
-						<!-- 저작권 정보 -->
-						<img src="${path}/resources/assets/images/favicon.png"> <a
-							href="local...">갈빵질빵링크넣어야돼요</a>
-						<!-- ThemeKita 링크 -->
-					</div>
-					<div>
-						<!-- 추가 정보 -->
-						붕어빵원정대
-						<!-- 배포 정보 -->
-					</div>
-				</div>
-			</footer>
+        <custom:adminfooter/>
 		</div>
 		<!-- 메인 패널 종료 -->
 	</div>
-	<!-- 전체 wrapper 종료 -->
+	<!-- 전체 wrapper 종료 -->	
 </body>
 
 </html>
