@@ -221,9 +221,12 @@
 					<div class="col">
 						<h3>팀 소개</h3>
 						<ul class="team-list">
-							<c:forEach var="member" items="${teamMembers}">
-								<li><strong>${member.name}</strong> - ${member.role}</li>
-							</c:forEach>
+							<li>[팀장] 정재준</li>
+							<li>[M 파트장] 조충현</li>
+							<li>[C 파트장] 한지윤</li>
+							<li>[V 파트장] 고미진</li>
+							<li>[V 팀원] 안재호</li>
+							<li>[V 팀원] 정재희</li>
 						</ul>
 					</div>
 					<div class="col">
