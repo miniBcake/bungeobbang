@@ -7,6 +7,7 @@ public class StoreWorkDTO {
 	private String storeWorkWeek; 	// 영업요일(MON, TUE, WED, THU, FRI, SAT, SUN)
 	private String storeWorkOpen; 	// 영업시작시간
 	private String storeWorkClose; 	// 영업종료시간
+	
 	private String condition;		//상태여부
 
 	public int getStoreWorkNum() {

@@ -8,5 +8,5 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter @Setter @ToString
 public class ImageFileDTO {
     private MultipartFile file;
-    private String folder;
+    private String boardFolder;
 }

@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+**/WEB-INF/lib/
+**/WEB-INF/classes/
+**/uploads/board/

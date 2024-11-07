@@ -14,31 +14,26 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Override
 	public ArrayList<ReplyDTO> selectAll(ReplyDTO replyDTO) {
-		
-		return this.replyDAO.selectAll(replyDTO);
+		return (ArrayList<ReplyDTO>) this.replyDAO.selectAll(replyDTO);
 	}
 
 	@Override
 	public ReplyDTO selectOne(ReplyDTO replyDTO) {
-		
 		return this.replyDAO.selectOne(replyDTO);
 	}
 
 	@Override
 	public boolean insert(ReplyDTO replyDTO) {
-		
 		return this.replyDAO.insert(replyDTO);
 	}
 
 	@Override
 	public boolean update(ReplyDTO replyDTO) {
-		
 		return this.replyDAO.update(replyDTO);
 	}
 
 	@Override
 	public boolean delete(ReplyDTO replyDTO) {
-		
 		return this.replyDAO.delete(replyDTO);
 	}
 

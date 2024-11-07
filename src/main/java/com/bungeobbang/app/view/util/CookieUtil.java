@@ -4,6 +4,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -33,9 +34,9 @@ public class CookieUtil {
     }
 
     //쿠키 값에 넣을 데이터 생성 후 인코딩해서 반환 (cookieData에서 찾은 쿠키로부터 list를 만들어 productNum 데이터 추가(쿠키 추가할 준비))
-    public static String cookiesListCreate (Cookie cookie, int productNum){
+    public static String cookiesListCreate (Cookie cookie, int productNum) throws NullPointerException {
         log.info("log: cookiesListCreate start");
-        List<String> viewedProductList = null; //리스트로 변환할 데이터를 담을 리스트
+        List<String> viewedProductList; //리스트로 변환할 데이터를 담을 리스트
         String cookieslist = URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8); //디코딩
         String product = "" + productNum; //형변환
         if (cookieslist == null || cookieslist.isEmpty()) {
@@ -86,7 +87,9 @@ public class CookieUtil {
             log.info("log: cookieDelete delete num : " + num);
         }
         cookieslist = String.join(",", viewedProductList);
-        Cookie modifyCookie = new Cookie(cookie.getName(), cookieslist);
+        
+        String encodedCookiesList = URLEncoder.encode(cookieslist, StandardCharsets.UTF_8);
+        Cookie modifyCookie = new Cookie(cookie.getName(), encodedCookiesList);
         if(viewedProductList.isEmpty()){//쿠키에 넣을 데이터가 없다면
             modifyCookie.setMaxAge(0);//데이터 만료
             log.info("log: cookieDelete empty cookie delete");
@@ -101,7 +104,7 @@ public class CookieUtil {
     }
 
     //쿠키에 데이터 추가 (새로운 쿠키를 추가하거나 기존 쿠키를 업데이트(cookiesListCreate) 진행)
-    public static boolean cookieAdd(HttpServletResponse response, String cookieName, String value, int day){
+    public static boolean cookieAdd(HttpServletResponse response, String cookieName, String value, int day) throws NullPointerException {
         log.info("log: cookieAdd start");
         Cookie cookie = new Cookie(cookieName, value); //쿠키로 변환
         cookie.setMaxAge(60 * 60 * 24 * day); // 쿠키 만료 시간
@@ -113,14 +116,26 @@ public class CookieUtil {
 
     //(통합기능) 쿠키에 새 데이터 추가
     //쿠키에서 해당 하는 이름을 가진 쿠키를 찾아 리스트를 뽑아내 해당 리스트에 새로운 데이터를 추가하고 해당 데이터를 다시 쿠키에 등록하는 메서드
-    public static boolean cookieAddNewData(HttpServletResponse response, String cookieName, Cookie[] cookies, int productNum, int day){
+    public static boolean cookieAddNewData(HttpServletResponse response, String cookieName, Cookie[] cookies, int productNum, int day) {
         log.info("log: cookieAddNewData add product : [{}], cookieName : [{}]", productNum, cookieName);
-        //day 쿠키 정보 기간 설정
-        return cookieAdd(response, cookieName, cookiesListCreate(cookieData(cookies, cookieName),productNum), day);
+
+        // 기존 쿠키 데이터 가져오기
+        Cookie existingCookie = cookieData(cookies, cookieName);
+
+        // 쿠키가 존재하지 않을 경우, 새로운 데이터를 생성하여 쿠키 추가
+        if (existingCookie == null) {
+            log.warn("log: cookieAddNewData - No existing cookie found. Creating a new cookie for productNum: [{}]", productNum);
+            String newValue = URLEncoder.encode(String.valueOf(productNum), StandardCharsets.UTF_8); // 상품 번호만 인코딩해서 추가
+            return cookieAdd(response, cookieName, newValue, day);
+        }
+
+        // 기존 쿠키가 있을 경우, 리스트 업데이트 후 쿠키 추가
+        String updatedValue = cookiesListCreate(existingCookie, productNum);
+        return cookieAdd(response, cookieName, updatedValue, day);
     }
     //오버로딩
-    //쿠키에서 해당 하는 이름을 가진 쿠키를 찾아 리스트를 뽑아내 해당 리스트에 새로운 데이터를 추가하고 해당 데이터를 다시 쿠키에 등록하는 메서드를 호출하며 30일 기간 설정을 디폴트로 전달
-    public static boolean cookieAddNewData(HttpServletResponse response, String cookieName, Cookie[] cookies, int productNum){
+    //쿠키에서 해당 하는 이름을 가진 쿠키를 찾아 리스트를 뽑아내 해당 리스트에 새로운 데이터를 추가하고 해당 데이터를 다시 쿠키에 등록하는 메서드를 호출하며 30일 기간 설정을 디폴트로 전달, 비체크 예외이므로 사용 시 try catch 잊지말기
+    public static boolean cookieAddNewData(HttpServletResponse response, String cookieName, Cookie[] cookies, int productNum) throws NullPointerException {
         log.info("log: cookieAddNewData day 30 version");
         return cookieAddNewData(response, cookieName, cookies, productNum, 30);
     }

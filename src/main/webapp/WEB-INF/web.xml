@@ -9,6 +9,14 @@
   </welcome-file-list>
 
   <!--error page setting-->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error/error.jsp</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/error/error.jsp</location>
+  </error-page>
 
   <!--root Container Listener-->
   <context-param>

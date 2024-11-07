@@ -1,3 +1,18 @@
+//전역변수 선언
+let popup = document.getElementById("pointPopup");
+let btnPoint = document.getElementById("pointButton");
+let btnClosePopup = document.querySelector(".close-popup");
+let inputSearch = document.getElementById('searchInput');
+let selectCategory = document.getElementById('categorySelect');
+let inputMinPrice = document.getElementById('minPrice');
+let inputMaxPrice = document.getElementById('maxPrice');
+let inputCondition = document.getElementById('conditionInput');
+let divSelectedOptions = document.getElementById('selectedOptions');
+let btnSearch = document.getElementById('searchInputBTN');
+let isSearchOptionsOpen = localStorage.getItem('isSearchOptionsOpen') === 'true' || false;
+const memberNum = document.getElementById("memberPK") ? document.getElementById("memberPK").textContent : null;
+
+// DOMContentLoaded 이벤트 리스너
 document.addEventListener('DOMContentLoaded', function () {
     // 추천 상품 Swiper 초기화
     initializeSwiper('.swiper-recommend', '.swiper-recommend-prev', '.swiper-recommend-next', '.swiper-recommend-pagination');
@@ -13,121 +28,109 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Swiper 초기화 함수
 function initializeSwiper(containerClass, prevButtonClass, nextButtonClass, paginationClass) {
-    // Swiper 슬라이더를 초기화하여 여러 상품을 슬라이딩 형태로 표시
     new Swiper(containerClass, {
-        slidesPerView: 4, // 한 번에 표시할 슬라이드 개수
-        spaceBetween: 30, // 슬라이드 간격
-        slidesPerGroup: 4, // 슬라이드 이동 시 그룹화 개수
-        loop: false, // 무한 반복을 비활성화
+        slidesPerView: 4,
+        spaceBetween: 30,
+        slidesPerGroup: 4,
+        loop: false,
         navigation: {
-            nextEl: nextButtonClass, // 다음 버튼
-            prevEl: prevButtonClass, // 이전 버튼
+            nextEl: nextButtonClass,
+            prevEl: prevButtonClass,
         },
         pagination: {
-            el: paginationClass, // 페이지네이션 요소
-            clickable: true, // 페이지네이션 클릭 가능 여부
+            el: paginationClass,
+            clickable: true,
         }
     });
 }
 
 // 팝업 초기화 함수
 function initializePopup() {
-    const popup = document.getElementById("pointPopup");
-    const pointButton = document.getElementById("pointButton");
-    const closeButton = document.querySelector(".close-popup");
-
-    // 버튼 클릭 시 팝업 표시 및 위치 조정
-    pointButton.addEventListener('click', function () {
-        // 버튼의 화면 위치 (뷰포트) 정보를 가져옴
-        const rect = pointButton.getBoundingClientRect();
+    btnPoint.addEventListener('click', function () {
         
-        // 팝업 위치를 버튼 위치에 맞춰 조정
-		popup.style.top = `${rect.bottom + window.scrollY }px`; // 버튼 아래에 여유를 두고 위치 설정
-        popup.style.left = `${rect.left + window.scrollX }px`; // 버튼의 x좌표에 맞춰 위치
-        popup.style.display = "block"; // 팝업 표시
-
-        // 버튼 숨기기
-        pointButton.style.display = "none";
+        if (!memberNum) {
+            // 로그인하지 않았으면 로그인 페이지로 리디렉션
+            window.location.href = "login.do";
+            return;
+        }
+        
+        // 로그인한 경우 포인트 팝업 위치 설정 및 표시
+        const buttonTop = btnPoint.offsetTop;
+        const buttonLeft = btnPoint.offsetLeft;
+        popup.style.top = `${buttonTop - popup.offsetHeight - 15}px`;
+        popup.style.left = `${buttonLeft - 5}px`;
+        popup.style.display = "block";
     });
 
-    // 닫기 버튼 클릭 시 팝업 닫기 및 버튼 다시 표시
-    closeButton.addEventListener('click', function () {
-        popup.style.display = "none"; // 팝업 숨기기
-        pointButton.style.display = "block"; // 버튼 다시 표시
+    btnClosePopup.addEventListener('click', function () {
+        popup.style.display = "none";
     });
 
-    // 클릭 시 팝업 외부 클릭 감지하여 팝업 닫기
     window.addEventListener('click', function (event) {
-        // 팝업 또는 버튼 외부를 클릭하면 팝업을 닫음
-        if (event.target !== popup && event.target !== pointButton && !popup.contains(event.target)) {
+        if (event.target !== popup && event.target !== btnPoint && !popup.contains(event.target)) {
             popup.style.display = "none";
-            pointButton.style.display = "block"; // 버튼 다시 표시
         }
     });
 }
 
 // 검색 옵션 설정 함수
 function setupSearchOptions() {
-    const searchInput = document.getElementById('searchInput');
-    const categorySelect = document.getElementById('categorySelect');
-    const minPriceInput = document.getElementById('minPrice');
-    const maxPriceInput = document.getElementById('maxPrice');
-
-    // 검색 입력란 클릭 시 검색 옵션 열기
-    searchInput.addEventListener('click', function () {
+    inputSearch.addEventListener('click', function () {
         toggleSearchOptions();
     });
 
-    // 검색 버튼 클릭 시 폼 제출
-    document.getElementById('searchButton').addEventListener('click', function (event) {
-        event.preventDefault(); // 기본 폼 제출 방지
+    btnSearch.addEventListener('click', function () {
+        // 기본 폼 제출 동작을 막지 않음
 
-        // 가격 유효성 검사 후 제출 여부 결정
-        if (validatePrices()) {
-            const searchForm = document.querySelector('form');
-            searchForm.submit(); // 폼 제출
-        } else {
-            // 유효성 검사 실패 시 경고 메시지 표시
+        const searchCategory = document.querySelector('input[name="searchCategory"]:checked').value;
+
+        if (searchCategory === 'TITLE') {
+            inputCondition.value = 'SELECT_PART_TITLE';
+        } else if (searchCategory === 'CONTENT') {
+            inputCondition.value = 'SELECT_PART_NAME';
+        }
+
+        if (!validatePrices()) {
+            // 유효성 검사 실패 시 알림을 띄우고, 폼 제출을 막기 위해 'return false' 사용
             Swal.fire({
                 icon: 'error',
                 title: '잘못된 입력입니다',
                 text: '최소 가격은 0 이상이어야 하며, 최대 가격은 최소 가격보다 크거나 같아야 합니다.',
                 confirmButtonText: '확인'
             });
+            return false;
         }
+        // 유효성 검사가 통과되면 폼이 동기적으로 제출됨
     });
 
-    // 옵션 변경 시 유효성 검사 및 선택된 옵션 업데이트
-    categorySelect.addEventListener('change', updateSelectedOptions);
-    minPriceInput.addEventListener('input', function () {
-        // 앞의 0을 제거하는 로직 (예: 001 -> 1)
+    selectCategory.addEventListener('change', updateSelectedOptions);
+    inputMinPrice.addEventListener('input', function () {
         this.value = this.value.replace(/^0+/, '');
-        updateSelectedOptions(); // 선택된 옵션 업데이트
-        validatePrices(); // 가격 유효성 검사 실행
+        updateSelectedOptions();
+        validatePrices();
     });
-    maxPriceInput.addEventListener('input', function () {
-        updateSelectedOptions(); // 선택된 옵션 업데이트
-        validatePrices(); // 가격 유효성 검사 실행
+    inputMaxPrice.addEventListener('input', function () {
+        updateSelectedOptions();
+        validatePrices();
     });
 }
 
+
 // 가격 유효성 검사 함수
 function validatePrices() {
-    const minPrice = parseInt(document.getElementById('minPrice').value, 10);
-    const maxPrice = parseInt(document.getElementById('maxPrice').value, 10);
+    const minPrice = parseInt(inputMinPrice.value, 10);
+    const maxPrice = parseInt(inputMaxPrice.value, 10);
     const minPriceWarning = document.getElementById('minPriceWarning');
     const maxPriceWarning = document.getElementById('maxPriceWarning');
     let isValid = true;
 
-    // 최소 가격이 0 미만일 경우 경고 표시
-    if (isNaN(minPrice) || minPrice < 0) {
+    if (minPrice < 0) {
         minPriceWarning.style.display = 'block';
         isValid = false;
     } else {
         minPriceWarning.style.display = 'none';
     }
 
-    // 최대 가격이 최소 가격보다 작을 경우 경고 표시
     if (!isNaN(minPrice) && !isNaN(maxPrice) && maxPrice < minPrice) {
         maxPriceWarning.style.display = 'block';
         isValid = false;
@@ -135,58 +138,87 @@ function validatePrices() {
         maxPriceWarning.style.display = 'none';
     }
 
-    return isValid; // 유효한 경우 true 반환, 아니면 false 반환
+    return isValid;
 }
 
-// 검색 옵션 토글
-function toggleSearchOptions() {
-    const searchBox = document.querySelector('.search-box');
+// 검색 옵션 토글 함수
+// 페이지가 로드될 때 검색 옵션 상태 설정
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.searchInput');
     const searchOptions = document.getElementById('searchOptions');
 
-    // 검색 옵션이 보이지 않을 때 표시, 보일 때 숨김
-    if (searchOptions.style.display === 'none' || searchOptions.style.display === '') {
+    // localStorage에서 상태 가져오기
+    const isSearchOptionsOpen = localStorage.getItem('isSearchOptionsOpen') === 'true';
+
+    if (isSearchOptionsOpen) {
+        // 검색 옵션을 열기
         searchOptions.style.display = 'block';
-        searchBox.classList.add('search-box-expanded'); // 확장된 스타일 추가
+        searchInput.classList.add('searchInput-expanded');
     } else {
+        // 검색 옵션을 닫기
         searchOptions.style.display = 'none';
-        searchBox.classList.remove('search-box-expanded'); // 확장된 스타일 제거
+        searchInput.classList.remove('searchInput-expanded');
     }
+});
+
+// 검색 옵션 토글 함수
+function toggleSearchOptions() {
+    const searchInput = document.querySelector('.searchInput');
+    const searchOptions = document.getElementById('searchOptions');
+
+    if (!isSearchOptionsOpen) {
+        // 옵션 열기
+        searchOptions.style.display = 'block';
+        searchInput.classList.add('searchInput-expanded');
+        isSearchOptionsOpen = true; // 상태를 열림으로 설정
+    } else {
+        // 옵션 닫기
+        searchOptions.style.display = 'none';
+        searchInput.classList.remove('searchInput-expanded');
+        isSearchOptionsOpen = false; // 상태를 닫힘으로 설정
+    }
+
+    // 상태를 localStorage에 저장
+    localStorage.setItem('isSearchOptionsOpen', isSearchOptionsOpen);
 }
 
-// 선택된 옵션 업데이트
+
+// 선택된 옵션 업데이트 함수
 function updateSelectedOptions() {
-    const selectedOptionsDiv = document.getElementById('selectedOptions');
-    const categorySelect = document.getElementById('categorySelect');
-    const minPrice = document.getElementById('minPrice').value;
-    const maxPrice = document.getElementById('maxPrice').value;
-    const selectedCategory = categorySelect.options[categorySelect.selectedIndex].text;
+    // 두 개의 컨테이너를 모두 초기화
+    const containers = [document.getElementById('selectedOptions1'), document.getElementById('selectedOptions2')];
+    containers.forEach(container => container.innerHTML = '');
 
-    selectedOptionsDiv.innerHTML = ''; // 기존 선택된 옵션 제거
+    // 현재 선택된 옵션 값 가져오기
+    const minPrice = inputMinPrice.value;
+    const maxPrice = inputMaxPrice.value;
+    const selectedCategory = selectCategory.options[selectCategory.selectedIndex].text;
 
-    // 최소 가격 옵션 추가
-    if (minPrice) {
-        selectedOptionsDiv.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('minPrice')">최소 가격: ${minPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
-    }
+    // 각 컨테이너에 선택된 옵션 추가
+    containers.forEach(container => {
+        if (minPrice) {
+            container.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('minPrice')">최소 가격: ${minPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
+        }
 
-    // 최대 가격 옵션 추가
-    if (maxPrice) {
-        selectedOptionsDiv.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('maxPrice')">최대 가격: ${maxPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
-    }
+        if (maxPrice) {
+            container.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('maxPrice')">최대 가격: ${maxPrice}원 <span class="remove-x" title="제거하기">×</span></span>`;
+        }
 
-    // 카테고리 옵션 추가
-    if (categorySelect.value) {
-        selectedOptionsDiv.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('category')">카테고리: ${selectedCategory} <span class="remove-x" title="제거하기">×</span></span>`;
-    }
+        if (selectCategory.value) {
+            container.innerHTML += `<span class="badge badge-primary m-1 selected-option" onclick="removeOption('category')">카테고리: ${selectedCategory} <span class="remove-x" title="제거하기">×</span></span>`;
+        }
+    });
 }
+
 
 // 옵션 제거 함수
 function removeOption(option) {
     if (option === 'category') {
-        document.getElementById('categorySelect').selectedIndex = 0; // 카테고리 선택 초기화
+        selectCategory.selectedIndex = 0;
     } else if (option === 'minPrice') {
-        document.getElementById('minPrice').value = ''; // 최소 가격 초기화
+        inputMinPrice.value = '';
     } else if (option === 'maxPrice') {
-        document.getElementById('maxPrice').value = ''; // 최대 가격 초기화
+        inputMaxPrice.value = '';
     }
-    updateSelectedOptions(); // 선택된 옵션 업데이트
+    updateSelectedOptions();
 }
