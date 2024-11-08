@@ -1,3 +1,4 @@
+//최프기준 현재 사용하지 않음.
  // 회원 정보 확인하기
   function emailNameCheck(e) {
     e.preventDefault(); // 폼의 기본 동작(페이지 리로드)을 막음

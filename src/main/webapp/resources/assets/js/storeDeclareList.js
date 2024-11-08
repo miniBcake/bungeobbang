@@ -1,3 +1,4 @@
+//취소 클릭 시 스위트알랏창 종료
 $('.cancel').on('click', function(){
 	console.log('clicked');
 })
@@ -94,7 +95,7 @@ $('#deleteStoreTipOffList').on('click', function() {
 			//처리도중 문제가 발생해 실행되지 않았습니다. 다시 시도해주세요.
 			//ajax를 통해 비동기처리 진행
 			$.ajax({
-				url: 'deleteReport.do', //폐점 제보글 삭제(closedStoreDeclareList.js)와 동일로직 사용
+				url: 'deleteReport.do', //폐점 제보글 삭제(closedStoreDeclareList.js)와 동일
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify({
