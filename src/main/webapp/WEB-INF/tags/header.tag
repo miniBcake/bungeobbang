@@ -69,14 +69,15 @@
 					</div></li>
 					<c:if test="${empty userPK}">
 					    <li class="nav-item">
-					        <a href="#" class="nav-link" id="storeReportLink">가게 제보</a>
+					        <a href="#" class="nav-link storeReportLink">가게 제보</a>
 					    </li>
 					</c:if>
 					<c:if test="${not empty userPK}">
 					    <li class="nav-item">
-					        <a href="addStore.do?condition=storeReport" class="nav-link">가게 제보</a>
+					        <a href="addStore.do?condition=storeReport" class="nav-link storeReportLink">가게 제보</a>
 					    </li>
 					</c:if>
+
 					<li class="nav-item"><a class="nav-link" href="goToCart.do">장바구니</a></li>
 				
 			
@@ -143,16 +144,17 @@
 					href="loadListBoards.do?boardCategoryName=noticeBoard"
 					class="dropdown-item">문의 게시판</a>
 			</div></li>
-		<c:if test="${empty userPK}">
-		    <li class="nav-item">
-		        <a href="#" class="nav-link" id="storeReportLink">가게 제보</a>
-		    </li>
-		</c:if>
-		<c:if test="${not empty userPK}">
-		    <li class="nav-item">
-		        <a href="addStore.do?condition=storeReport" class="nav-link">가게 제보</a>
-		    </li>
-		</c:if>
+				<c:if test="${empty userPK}">
+				    <li class="nav-item">
+				        <a href="#" class="nav-link storeReportLink">가게 제보</a>
+				    </li>
+				</c:if>
+				<c:if test="${not empty userPK}">
+				    <li class="nav-item">
+				        <a href="addStore.do?condition=storeReport" class="nav-link storeReportLink">가게 제보</a>
+				    </li>
+				</c:if>
+
 		<li class="nav-item"><a class="nav-link" href="goToCart.do">장바구니</a>
 		</li>
 		<c:choose>
