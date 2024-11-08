@@ -20,6 +20,8 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Nanum+Pen+Script&display=swap"
 	rel="stylesheet">
+<!-- 스위트 알랏 코드 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Header -->
 <div class="header">
@@ -65,10 +67,20 @@
 							href="loadListBoards.do?boardCategoryName=noticeBoard"
 							class="dropdown-item">문의 게시판</a>
 					</div></li>
-				<li class="nav-item"><a class="nav-link"
-					href="addStore.do?condition=storeReport">가게 제보</a></li>
-				<li class="nav-item"><a class="nav-link" href="goToCart.do">장바구니</a>
-				</li>
+					<c:if test="${empty userPK}">
+					    <li class="nav-item">
+					        <a href="#" class="nav-link storeReportLink">가게 제보</a>
+					    </li>
+					</c:if>
+					<c:if test="${not empty userPK}">
+					    <li class="nav-item">
+					        <a href="addStore.do?condition=storeReport" class="nav-link storeReportLink">가게 제보</a>
+					    </li>
+					</c:if>
+
+					<li class="nav-item"><a class="nav-link" href="goToCart.do">장바구니</a></li>
+				
+			
 
 				<!-- 로그인/회원가입 or 프로필 이미지 표시 -->
 				<c:choose>
@@ -132,8 +144,17 @@
 					href="loadListBoards.do?boardCategoryName=noticeBoard"
 					class="dropdown-item">문의 게시판</a>
 			</div></li>
-		<li class="nav-item"><a class="nav-link"
-			href="addStore.do?condition=storeReport">가게 제보</a></li>
+				<c:if test="${empty userPK}">
+				    <li class="nav-item">
+				        <a href="#" class="nav-link storeReportLink">가게 제보</a>
+				    </li>
+				</c:if>
+				<c:if test="${not empty userPK}">
+				    <li class="nav-item">
+				        <a href="addStore.do?condition=storeReport" class="nav-link storeReportLink">가게 제보</a>
+				    </li>
+				</c:if>
+
 		<li class="nav-item"><a class="nav-link" href="goToCart.do">장바구니</a>
 		</li>
 		<c:choose>
@@ -156,6 +177,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<script src="${path}/resources/assets/js/header.js"></script>
 <!-- 사이드바 스크립트 -->
 <script>
 	// 사이드바 토글

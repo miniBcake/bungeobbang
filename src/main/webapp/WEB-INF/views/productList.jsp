@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <c:if test="${not empty userPK}">
 	<span id="memberPK" style="display: none;">${userPK}</span>
@@ -188,7 +189,7 @@
 															<img src="${product.productProfileWay}" alt="상품 이미지" />
 														</div>
 														<div class="product-title">
-															<p>${product.productName}</p>
+														    <p class="product-name">${product.productName}</p>
 														</div>
 													</div>
 													<div class="product-row">
@@ -216,6 +217,7 @@
 					</div>
 				</div>
 			</section>
+			
 
 			<!-- 최근에 본 상품 섹션 -->
 			<section id="recent-products-section">
@@ -233,9 +235,9 @@
 														<div class="product-image">
 															<img src="${product.productProfileWay}" alt="상품 이미지" />
 														</div>
-														<div class="product-title">
-															<p>${product.productName}</p>
-														</div>
+													<div class="product-title">
+													    <p class="product-name">${product.productName}</p>
+													</div>
 													</div>
 													<div class="product-row">
 														<span>${product.productPrice}원</span>
@@ -287,12 +289,24 @@
 						</div>
 						<div class="product-info">
 							<%--<span>제목: ${product.boardTitle}</span> --%>
-							<br> 
-							<span>카테고리:${product.productCategoryName}</span>
-							<br> 
-							<span>상품명:${product.productName}</span>
-							<br> 
-							<span>가격:${product.productPrice}원</span>
+					<span><strong>카테고리</strong> <span>${product.productCategoryName}</span></span>
+					    <br>
+					    <span><strong>상품명</strong> 
+					    <a href="infoProduct.do?productNum=${product.productNum}">
+							<span class="scrolling-text" title="${product.productName}">
+							    <c:choose>
+							        <c:when test="${fn:length(product.productName) > 20}">
+							            <marquee behavior="scroll" direction="left">${product.productName}</marquee>
+							        </c:when>
+							        <c:otherwise>
+							            ${product.productName}
+							        </c:otherwise>
+							    </c:choose>
+							</span>
+				        </a>
+					    </span>
+					    <br>
+					    <span class="glow-effect"><strong>가격</strong> <span>${product.productPrice}원</span></span>
 						</div>
 					</div>
 					<hr>

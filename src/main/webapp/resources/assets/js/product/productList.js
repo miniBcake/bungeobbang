@@ -24,7 +24,73 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 검색 옵션 토글 및 설정
     setupSearchOptions();
+	
+	setupTextTruncate(); // 텍스트 자르기 설정
+	setupProductPreview(); // 상품 미리보기 설정
 });
+
+// 텍스트 자르기 함수
+function setupTextTruncate() {
+    const productNames = document.querySelectorAll('.product-name');
+
+    productNames.forEach(name => {
+        const fullText = name.innerText;
+
+        if (fullText.length > 10) {
+            const truncatedText = fullText.substring(0, 10) + '...';
+            name.innerText = truncatedText;
+
+            // 전체 텍스트를 저장하여 버튼 클릭 시 사용할 수 있도록 데이터 속성 추가
+            name.setAttribute('data-full-text', fullText);
+        }
+    });
+}
+
+// 상품 미리보기 툴팁 생성 함수
+function setupProductPreview() {
+    const previewButtons = document.querySelectorAll('.btn-primary a');
+
+    previewButtons.forEach(button => {
+        let tooltip;
+
+        button.addEventListener('mouseover', function (e) {
+            // 이미 존재하는 툴팁이 있으면 새로 생성하지 않음
+            if (tooltip) return;
+
+            // 해당 상품명 요소 가져오기
+            const productNameElement = button.closest('.product-card').querySelector('.product-name');
+            const fullText = productNameElement.getAttribute('data-full-text');
+
+            // 툴팁 생성
+            tooltip = document.createElement('div');
+            tooltip.className = 'product-preview-tooltip';
+            tooltip.innerText = fullText;
+            document.body.appendChild(tooltip);
+
+            // 툴팁 위치 설정
+            const rect = button.getBoundingClientRect();
+            tooltip.style.position = 'absolute';
+            tooltip.style.left = (rect.right + 10) + 'px'; 
+            tooltip.style.top = (rect.top + window.scrollY) + 'px';
+            tooltip.style.backgroundColor = '#333';
+            tooltip.style.color = '#fff';
+            tooltip.style.padding = '5px 10px';
+            tooltip.style.borderRadius = '4px';
+            tooltip.style.fontSize = '12px';
+            tooltip.style.zIndex = '1000';
+        });
+
+        button.addEventListener('mouseout', function () {
+            // 툴팁 제거
+            if (tooltip) {
+                tooltip.remove();
+                tooltip = null;
+            }
+        });
+    });
+}
+
+
 
 // Swiper 초기화 함수
 function initializeSwiper(containerClass, prevButtonClass, nextButtonClass, paginationClass) {
