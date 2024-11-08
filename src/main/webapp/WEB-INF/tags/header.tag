@@ -74,7 +74,7 @@
 					</c:if>
 					<c:if test="${not empty userPK}">
 					    <li class="nav-item">
-					        <a href="addStore.do?condition=storeReport" class="nav-link storeReportLink">가게 제보</a>
+					        <a href="addStore.do?condition=storeReport" class="nav-link">가게 제보</a>
 					    </li>
 					</c:if>
 
@@ -151,7 +151,7 @@
 				</c:if>
 				<c:if test="${not empty userPK}">
 				    <li class="nav-item">
-				        <a href="addStore.do?condition=storeReport" class="nav-link storeReportLink">가게 제보</a>
+				        <a href="addStore.do?condition=storeReport" class="nav-link">가게 제보</a>
 				    </li>
 				</c:if>
 
