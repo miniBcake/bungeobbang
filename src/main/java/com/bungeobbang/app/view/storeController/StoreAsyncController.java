@@ -26,7 +26,7 @@ public class StoreAsyncController {
         HashMap<String, String> filterList = new HashMap<>(); //필터 검색용 맵
         filterList.put("STORE_ADDRESS", storeDTO.getStoreAddress()); //필터 검색용 값 설정
         filterList.put("STORE_SECRET", this.NO); //비공개 검색 방지
-        storeDTO.setCondition("SELECTALL_VIEW_FILTER");
+        storeDTO.setCondition("SELECTALL_ADDRESS");
         storeDTO.setFilterList(filterList);
         log.info("log: /loadListStoreMap.do loadListStoreMap - end");
         return storeService.selectAll(storeDTO); //DB검색 결과 반환
