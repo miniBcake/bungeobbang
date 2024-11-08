@@ -18,7 +18,6 @@
 <title>회원탈퇴</title>
 <!-- CSS -->
 <link rel="stylesheet" href="${path}/resources/assets/css/member/loginAndSign.css">
-<link rel="stylesheet" href="${path}/resources/assets/css/modal.css">
 </head>
 
 <body>
