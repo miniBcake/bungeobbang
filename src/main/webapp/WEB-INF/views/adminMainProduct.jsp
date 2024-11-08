@@ -32,25 +32,23 @@
         });
     </script>
 
-    <!-- CSS 스타일 -->
+    <!-- CSS -->
     <link rel="stylesheet" href="${path}/resources/assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="${path}/resources/assets/css/plugins.min.css"/>
     <link rel="stylesheet" href="${path}/resources/assets/css/kaiadmin.min.css"/>
     <link rel="stylesheet" href="${path}/resources/assets/css/admin.css">
 </head>
 <body>
-<script src="${path}/resources/assets/js/closedStoreDeclareList.js"></script>
 
-<!--1. 페이지 로드 시, 체크박스의 값이 1인지 0인지를 구분.
-2. 1이라면 체크 표시 및 부모요소 <tr>의 배경색(해당 행) 회색처리
-3. 0이라면 미체크 표시 및 부모요소 <tr>의 배경색 없음.(기본)
+<!--1. 페이지 로드 시, 체크박스의 값이 Y인지 N인지를 구분.
+2. Y이라면 체크 표시 및 부모요소 <tr>의 배경색(해당 행) 회색처리
+3. N이라면 미체크 표시 및 부모요소 <tr>의 배경색 없음.(기본)
 4. 사용자가 미체크 상태에서 체크할 시, 체크상태로 전환
 5. 사용자가 체크상태에서 체크할 시, 미체크상태로 전환
-2,4 / 3,5세트
+2,4 / 3,5세트 (색상 전환 미진행)
 -->
 
 <script>
-    // 체크박스의 값 1일 때 배경색 설정(완료처리)
     document.addEventListener('DOMContentLoaded', () => {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
@@ -84,7 +82,7 @@
 <div class="wrapper">
     <!-- 전체 페이지를 감싸는 wrapper -->
     <!-- Sidebar -->
-    <custom:adminSidebar/>
+    <custom:adminSidebar></custom:adminSidebar>
     <!-- End Sidebar -->
     <!-- 페이지의 메인 부분 -->
     <div class="main-panel">
@@ -165,7 +163,25 @@
                 </div>
             </div>
         </div>
-        <custom:adminfooter/>
+        <footer class="footer">
+            <!-- 페이지 하단 푸터 -->
+            <div class="container-fluid d-flex justify-content-between">
+                <!-- 푸터 내용, 플루이드 컨테이너로 좌우 정렬 -->
+                <nav class="pull-left">
+                    <!-- 왼쪽 내비게이션 -->
+                </nav>
+                <div class="copyright">
+                    <!-- 저작권 정보 -->
+                    <img src="${path}/resources/assets/images/favicon.png"> 갈빵질빵
+                    <!-- ThemeKita 링크 -->
+                </div>
+                <div>
+                    <!-- 추가 정보 -->
+                    붕어빵원정대
+                    <!-- 배포 정보 -->
+                </div>
+            </div>
+        </footer>
     </div>
     <!-- 메인 패널 종료 -->
 </div>

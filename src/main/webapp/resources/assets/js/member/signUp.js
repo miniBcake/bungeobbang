@@ -1,3 +1,14 @@
+/*
+이메일 : DB 중복확인 진행 		-	인증번호 메일 전송 text 안내
+인증번호 : 인증번호 보내기 클릭 		-	인증번호 전송 text 안내
+		인증번호 확인 클릭 		-	인증번호 일치여부 text 안내
+비밀번호 : 영문, 숫자, 특수문자 조합 	-	조건 충족 시 유효성 검사 text 안내				
+닉네임 : DB 중복확인 진행			- 	사용 가능 닉네임 여부 text 안내
+전화번호 : 선택사항으로 입력
+회원가입 버튼 클릭 시 유효성 검사 진행 후, 모두 충족시 회원 처리
+*/
+
+//회원가입 확인절차 요소 전역변수 세팅
 let checkNickname = false;
 let checkEmail = false;
 let sendEmailResult = false;
@@ -299,9 +310,6 @@ function validateForm() {
     }
     return true; // 모든 조건이 만족되면 제출 허용
 }
-
-
-
 
 //이미지 업로드
 function previewImageSignUp(event) {

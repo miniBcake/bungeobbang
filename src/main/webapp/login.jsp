@@ -97,6 +97,7 @@
 							</div>
 							<div>
 								<br>
+								<!-- 구글 API 미진행 -->
 								<%-- 구글 로그인 버튼 시작 : ** client_id를 변경해 사용 --%>
 								<div id="g_id_onload"
 									data-client_id="730285026476-3dh5pad8cclbr7gsvi75rrmejnemf58l.apps.googleusercontent.com"
@@ -118,16 +119,12 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- 
-1. 이름 이메일 입력
-2. 비밀번호 재설정 하러가기 클릭
-3. 비동기처리 : 이름, 이메일 기반 회원정보 확인(checkEmailName.do)
-4. 반환값 : Map<String, Object> (String : true/false | Object : MemberDTO)
-5. 키값이 true이면 스위트 알랏으로 회원정보가 확인되었습니다. 새 비밀번호를 입력해주세요. 이때, MemberDTO 고유번호 가지고 있기
-6. 키값이 false이면 스위트 알랏으로 회원정보가 없습니다. 다시 정보를 입력해주시거나 회원가입해주세요.
+<!-- 
+1. 이름 이메일 입력 후 회원정보확인 클릭
+2. 비동기처리 : 이름, 이메일 기반 회원정보 확인(checkPwFind.do)
+3. 일치(true)한다면 두번째 모달창으로 이동(이때, 회원 고유번호 유지)
+3. 불일치(false)한다면 재입력 안내
  -->
-
 
 		<!-- 1차 회원정보 확인 모달창 -->
 		<div class="modal" id="forgetModal" style="display: none;">
@@ -144,7 +141,7 @@
 
 						<!-- 회원여부 확인 후 비밀번호 재설정 버튼 누를 시 작동 -->
 
-						<!-- 1. 이름 입력 -->
+						<!-- 이름 입력 -->
 						<div class="form-group">
 							<%--@declare id="username"--%>
 							<label for="username">이름</label> <input type="text"
@@ -152,7 +149,7 @@
 								placeholder="이름을 입력해주세요">
 						</div>
 
-						<!-- 2. 이메일 입력 -->
+						<!-- 이메일 입력 -->
 						<div class="form-group">
 							<%--@declare id="email"--%>
 							<label for="email">이메일</label> <input type="email"
@@ -160,13 +157,12 @@
 								placeholder="이메일을 입력해주세요">
 
 						</div>
-						<!-- 인증번호가 일치할 경우, 비밀번호 재설정 버튼 open / 인증번호 빈칸 혹은 입력값 틀렸다면 hidden처리 -->
+						<!-- 인증번호가 일치할 경우, 비밀번호 재설정 버튼 open-->
 						<div class="d-grid gap-2 text-center">
 							<button type="button" class="btn btn-orange" name="resetPw"
 								data-bs-target="#setPwModal" data-bs-toggle="modal"
 								id="loginPwFind">회원정보 확인</button>
 						</div>
-						<!-- 버튼을 누르면 이메일, 이름값있는지 확인 checkEmailName.do로 보냄. 값을 String으로 받아 그러면 종료   -->
 						<div class="text-center mt-3">
 							<a href="main.do">메인으로 돌아가기</a> <br>
 						</div>
@@ -178,15 +174,12 @@
 			</div>
 		</div>
 
-
-		<!-- 
+<!-- 
 1. let 전역변수로 memberNum(비밀번호 변경할 회원 고유번호) 유지
 2. 두번째 모달창에서 신규 비밀번호와 비밀번호 확인 서로 일치하는지 비동기 확인
 3. 비밀번호 일치여부 비동기 : 인풋값이 있다면 이벤트리스너 작동
 4. 두 비밀번호가 일치하면 비밀번호가 서로 일치합니다. 아니라면 비밀번호가 서로 다릅니다. 텍스트 안내
 5. 비밀번호 변경 버튼 누르면 폼태그(setPw.do)로 백단에게 전달
-
-
  -->
 		<!-- 2차 새비밀번호로 변경 모달창 -->
 		<div class="modal" id="setPwModal" style="display: none;">

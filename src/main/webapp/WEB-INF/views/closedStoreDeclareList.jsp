@@ -12,11 +12,15 @@
     <title>가게 폐점 제보 페이지</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
           name="viewport"/>
+          
+    <!-- 파비콘 -->
     <link rel="icon" href="${path}/resources/assets/images/logo.png"
           type="image/x-icon"/>
 
+	<!-- JQeury -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <%--sweetAlert2 CDN--%>
+
+	<!-- 스위트알랏 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 
     <!-- 웹 폰트 및 아이콘 -->
@@ -37,7 +41,7 @@
         });
     </script>
 
-    <!-- CSS 스타일 -->
+    <!-- CSS -->
     <link rel="stylesheet" href="${path}/resources/assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="${path}/resources/assets/css/plugins.min.css"/>
     <link rel="stylesheet" href="${path}/resources/assets/css/kaiadmin.min.css"/>
@@ -45,6 +49,7 @@
 </head>
 
 <body>
+<!-- JavaScript -->
 <script src="${path}/resources/assets/js/closedStoreDeclareList.js" defer></script>
 
 <div class="wrapper">

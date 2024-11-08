@@ -34,17 +34,18 @@
 	overflow: auto;
 }
 </style>
-<%--JS--%>
+<!-- JQuery -->
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<!--bootstrap CDN코드-->
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+
+<!--bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 	crossorigin="anonymous"></script>
 
-<%--sweetAlert2 CDN--%>
-<script
-	src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+<!-- 스위트알랏 -->
+<script	src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+
+<!-- JS -->
 <script src="${path}/resources/assets/js/member/signUp.js"></script>
 </head>
 
@@ -60,10 +61,9 @@
 					<br> <br>
 				</div>
 
-				<!-- 
-이미지 업로드 : 업로드 사진 미리보기
-이미지 제거 : default.jpg 출력(breadfishProfile.jpg)
- -->
+				<!-- 이미지 업로드 : 업로드 사진 미리보기
+					이미지 제거 : default.jpg 출력
+ 				-->
 				<div class="row">
 					<div class="col-12 col-md-6">
 						<!-- 프로필 사진 -->
@@ -85,12 +85,14 @@
 
 
 					<!-- 
-이메일 : DB 중복 이메일 있는지 확인 => 비동기 text 안내
-인증번호 : 인증번호 보내기 클릭 => 메일 인증번호 전송
-비밀번호 : 비밀번호 및 확인 비밀번호 일치 시 비동기 text 안내
-닉네임 : DB 중복 닉네임 있는지 확인 => 비동기 text 안내
-전화번호 : 선택사항으로 입력
- -->
+					이메일 : DB 중복확인 진행 		-	인증번호 메일 전송 text 안내
+					인증번호 : 인증번호 보내기 클릭 		-	인증번호 전송 text 안내
+							인증번호 확인 클릭 		-	인증번호 일치여부 text 안내
+					비밀번호 : 영문, 숫자, 특수문자 조합 	-	조건 충족 시 유효성 검사 text 안내				
+					닉네임 : DB 중복확인 진행			- 	사용 가능 닉네임 여부 text 안내
+					전화번호 : 선택사항으로 입력
+ 					회원가입 버튼 클릭 시 유효성 검사 진행 후, 모두 충족시 회원 처리
+ 					-->
 
 					<div class="col-12 col-md-6">
 						<!--1-3열 : 회원가입 정보입력-->
@@ -252,6 +254,7 @@
 						<div class="d-grid gap-2 text-center">
 							<button id="joinbutton" type="submit" class="btn joinForm">회원가입</button>
 						</div>
+						<!-- 구글API 미진행 -->
 						<!-- 구글 로그인 버튼 시작 : ** client_id를 변경하시면 됩니다 -->
 						<div>
 							<div id="g_id_onload"
