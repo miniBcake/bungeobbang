@@ -7,7 +7,7 @@
 <html>
 
 <head>
-<!--bootstrap CDN코드-->
+<!--bootstrap-->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -16,25 +16,28 @@
 
 <meta charset="UTF-8">
 <title>회원탈퇴</title>
-<link rel="stylesheet"
-	href="${path}/resources/assets/css/member/loginAndSign.css">
+<!-- CSS -->
+<link rel="stylesheet" href="${path}/resources/assets/css/member/loginAndSign.css">
 <link rel="stylesheet" href="${path}/resources/assets/css/modal.css">
 </head>
 
 <body>
 	<custom:header />
-	<!--bootstrap CDN코드-->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	<!--bootstrap-->
+	<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
-	<!-- sweetAlert을 사용하기 위한 script -->
+		
+	<!-- 스위트알랏 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<!-- js를 쓰므로 jquery 사용 -->
+	
+	<!-- JQuery -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
 	<form id="deleteMember" action="deleteMember.do" method="POST">
 		<input type="hidden" name="memberNum" value="${userPK}">
+		
+		
 		<!--전체 컨테이너 시작-->
 		<div class="container text-center">
 			<br> <br> <br>
@@ -42,10 +45,10 @@
 			<h2>회원탈퇴</h2>
 			<br> <br>
 
+
 			<!-- 붕어빵 이미지-->
 			<div class="col" style="text-align: center">
-				<img src="${path}/resources/assets/images/breadfishCat.jpg"
-					class="breadfishCat">
+				<img src="${path}/resources/assets/images/breadfishCat.jpg" class="breadfishCat">
 				<!-- 회원탈퇴 시 개인정보 관련 안내-->
 				<div class="input-container">
 					${userNickname}님 정말 회원탈퇴하시겠어요?<br> <br> '회원탈퇴'를 입력
@@ -74,25 +77,30 @@
 	</div>
 
 	<script>
-		$(document).ready(function() {
-			$('#signOut').on('click', function() {
-				const signOutText = $('#signOutText').val(); // 값 가져오기
-				//정확한 문구 입력시
-				if (signOutText === '회원탈퇴') {
-					$('#deleteMember').submit();
-				}
-				else {
-					//문구가 올바르지 않을 경우
-					console.log("log: not ready to signOut");
-					Swal.fire({
-						title: '회원 탈퇴 확인',
-						text: "'회원탈퇴'를 올바르게 입력 바랍니다.",
-						icon: 'warning',
-						confirmButtonText: '확인'
-					});
-				}
-			});
+	/*
+	회원탈퇴 클릭하면 회원탈퇴 문구 정확히 썼는지 확인
+	회원탈퇴 문구 정확하지 않으면 탈퇴진행 안 됨.
+	회원탈퇴 문구 정확히 썼다면 회원 고유번호와 함께 백단으로 보내기
+	*/
+	$(document).ready(function() {
+		$('#signOut').on('click', function() {
+			const signOutText = $('#signOutText').val(); // 값 가져오기
+			//정확한 문구 입력시
+			if (signOutText === '회원탈퇴') {
+				$('#deleteMember').submit();
+			}
+			else {
+				//문구가 올바르지 않을 경우
+				console.log("log: not ready to signOut");
+				Swal.fire({
+					title: '회원 탈퇴 확인',
+					text: "'회원탈퇴'를 올바르게 입력 바랍니다.",
+					icon: 'warning',
+					confirmButtonText: '확인'
+				});
+			}
 		});
+	});
 	</script>
 </body>
 </html>

@@ -1,20 +1,27 @@
 //로그인하기 위한 비밀번호 찾기(회원 여부 확인)
 
-/*1. 이름 이메일 입력
-2. 비밀번호 재설정 하러가기 클릭
-3. 비동기처리 : 이름, 이메일 기반 회원정보 확인(checkEmailName.do)
-4. 반환값 : Map<String, Object> (String : true/false | Object : MemberDTO)
-5. 키값이 true이면 스위트 알랏으로 회원정보가 확인되었습니다. 새 비밀번호를 입력해주세요. 이때, MemberDTO 고유번호 가지고 있기
-6. 키값이 false이면 스위트 알랏으로 회원정보가 없습니다. 다시 정보를 입력해주시거나 회원가입해주세요.
+/*
+모달창1
+1. 이름 이메일 입력 후 회원정보확인 클릭
+2. 비동기처리 : 이름, 이메일 기반 회원정보 확인(checkPwFind.do)
+3. 일치(true)한다면 두번째 모달창으로 이동(이때, 회원 고유번호 유지)
+3. 불일치(false)한다면 재입력 안내
+
+모달창2
+1. let 전역변수로 memberNum(비밀번호 변경할 회원 고유번호) 유지
+2. 두번째 모달창에서 신규 비밀번호와 비밀번호 확인 서로 일치하는지 비동기 확인
+3. 비밀번호 일치여부 비동기 : 인풋값이 있다면 이벤트리스너 작동
+4. 두 비밀번호가 일치하면 비밀번호가 서로 일치합니다. 아니라면 비밀번호가 서로 다릅니다. 텍스트 안내
+5. 비밀번호 변경 버튼 누르면 폼태그(setPw.do)로 백단에게 전달
 */
+
 $(document).ready(function() {
-	console.log('loginPwFind.js');
+	console.log('loginPwFind.js start');
 	
 	// 전역 변수로 memberNum 정의
 	let memberNum;
 
-
-	//회원 정보 확인하기
+	//첫번째 모달창 : 회원 정보 확인하기 //////////////////////////////////////////
 	$('#loginPwFind').on('click', function() {//회원정보 확인 버튼 누르면
 		console.log("log: loginPwFind clicked");
 		//이벤트가 발생하게 만든 주체, 즉 사용자가 입력한 상태값을 가져와 상태로 변수로 지칭
@@ -66,11 +73,12 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
-	// 비밀번호 변경 버튼 클릭 이벤트
+
+	// 2번째 모달창 : 비밀번호 변경  //////////////////////////////////////////
 	document.getElementById('completePw').addEventListener('click', function(event) {
 		event.preventDefault(); // 선 작동 방지
 
+		//값 받아오기
 		const password = document.getElementById('changPassword').value;
 		const passwordCheck = document.getElementById('passwordCheck').value;
 

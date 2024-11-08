@@ -1,7 +1,7 @@
 /*
 1. 이메일 중복검사 및 닉네임 중복검사해야만 수정완료 버튼 작용
 */
-//아래로직과 똑같음.. 나중에 제거 필요. 컴파일 꼬임 발생으로 2개 생성함
+//아래로직과 동일 추후 제거. 컴파일 꼬임 발생으로 2개 생성함
 function a(event) {
 	// 선택된 파일을 가져옴
 	const file = event.target.files[0];
@@ -30,7 +30,7 @@ function a(event) {
 }
 
 $(document).ready(function() {
-	console.log("로드 완료");
+	console.log("mypageUpdate.js start");
 
 	// 파일 입력 필드에서 파일이 선택되었을 때 호출되는 함수
 	function previewImage(event) {
@@ -66,6 +66,7 @@ $(document).ready(function() {
 	var initialPhoneNum = $('#phoneNum').val();
 	console.log("초기 전화번호:", initialPhoneNum);
 
+	//유효성 체크 여부 확인 변수
 	var isNicknameChecked = true;
 	var isPhoneNumChecked = true;
 	var isPasswordChecked = true;
@@ -142,7 +143,7 @@ $(document).ready(function() {
 		});
 	}
 
-	// 폼 제출 시 확인
+	// 폼 제출 시 회원체크(유효성검사) 진행했는지 확인
 	$('#submit-button').on('click', function(event) {
 		console.log("제출 버튼 클릭됨");
 		if (!isNicknameChecked) {

@@ -15,12 +15,14 @@
 
 <meta charset="UTF-8">
 <title>마이 페이지</title>
+
 <!-- 파비콘 -->
 <link rel="icon" href="${path}/resources/assets/images/logo.png"
 	type="image/x-icon" />
-
+<!-- JQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- sweetAlert을 사용하기 위한 script -->
+
+<!-- 스위트알랏 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style type="text/css">
@@ -28,7 +30,7 @@
 .table td:nth-child(2), .table td:nth-child(3) {
 	border: none;
 }
-/* 예시 CSS */
+/* 이미지 CSS */
 #image {
 	max-width: 80%; /* 이미지 크기 조정 */
 }
@@ -58,8 +60,7 @@
 				<div class="row align-content-center">
 					<!--개인정보&사이드바 행-->
 					<br> <br>
-					<!--1열 프로필 이미지 미리보기 및 수정버튼-->
-
+					<!--프로필 이미지 미리보기 및 수정버튼	///////////////////////////////////////////////-->
 					<div class="col-12 col-md-4">
 
 						<div class="row justify-content-center">
@@ -71,27 +72,24 @@
 							<label for="file" style="cursor: pointer;"> <svg
 									xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 									fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                			<path
-										d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                				<path
-										d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
-            				</svg> <input type="file" id="file" name="file"
-								style="display: none;" onchange="a(event)">
+                				<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                				<path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
+            				</svg> 
+            				<input type="file" id="file" name="file" style="display: none;" onchange="a(event)">
 							</label>
 						</div>
 						<br>
 						<div class="row d-flex flex-column align-items-center">
 							<br>
-							<button type="submit" class="btn button-orange w130h-40 mar-10">수정
-								완료</button>
+							<button type="submit" class="btn button-orange w130h-40 mar-10">수정	완료</button>
 							<!-- 회원정보 업데이트 -->
 							<a href="javascript:history.back()"
 								class="btn btn-danger w130h-40 mar-10" role="button">취소</a>
-							<!-- 마이페이지로 -->
+							<!-- 취소 클릭시 마이페이지로 이동 -->
 						</div>
 					</div>
 
-					<!-- 회원정보 테이블 -->
+					<!-- 회원정보 테이블 ///////////////////////////////////////////////-->
 					<div class="col-12 col-md-8 align-content-center">
 						<br> <br> <br> <br>
 						<table class="table">

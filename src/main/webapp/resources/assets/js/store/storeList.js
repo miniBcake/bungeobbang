@@ -20,18 +20,22 @@ $(document).ready(function() {
 // 체크박스 내부 값 로그 함수
 function checkBoxCheck() {
 	console.log('menuCheckBox : checkBoxCheck() 시작');
-	
+
 	// 체크 박스의 값을 담을 배열 생성
 	const checkedValues = [];
 
 	// checkbox 값들 가져오기
 	// 메뉴 checkbox 가져오기
 	const menuCheckBox = document.querySelectorAll('input[name="storeMenu"]:checked');
-	console.log('menuCheckBox : [' + Array.from(menuCheckBox) +']');
+	console.log('menuCheckBox : [' + Array.from(menuCheckBox) + ']');
 
 	// 결제방법 checkbox 가져오기
 	const paymentCheckBox = document.querySelectorAll('input[name="storePayment"]:checked');
 	console.log('paymentCheckBox : [' + Array.from(paymentCheckBox) + ']');
+
+	// 운영상태 checkbox 가져오기
+	const stateCheckBox = document.querySelector('input[name="storeClosed"]:checked');
+	console.log('stateCheckBox : [' + stateCheckBox + ']');
 
 	// 체크박스의 값을 모두 모을 배열 생성
 	menuCheckBox.forEach((checkbox) => {
@@ -43,6 +47,13 @@ function checkBoxCheck() {
 		checkedValues.push(checkbox.dataset.role);
 	});
 
+	// 만약 운영 상태가 null이 아니라면
+	if (stateCheckBox != null) {
+		// 운영상태도 추가
+		checkedValues.push(stateCheckBox.dataset.role);
+	}
+
+
 	console.log('체크된 값들 : [' + checkedValues + ']');
 
 	return checkedValues;
@@ -51,7 +62,7 @@ function checkBoxCheck() {
 // 체크된 값들을 태그로 만들어 놓기
 function stillCheckboxTag() {
 	console.log('menuCheckBox : stillCheckboxTag() 시작');
-	
+
 	const checkedValues = checkBoxCheck(); // 체크된 값 배열
 
 	// 기존의 데이터 리스트를 가져옴
@@ -85,7 +96,7 @@ function stillCheckboxTag() {
 function toggleTagByCheckbox() {
 	$('input[type="checkbox"]').on('change', function() {
 		console.log('menuCheckBox : toggleTagByCheckbox() 시작');
-		
+
 		// 기존의 데이터 리스트를 가져옴
 		// 데이터가 변경될 것이므로 객체 자체를 가져옴
 		var dataList = $('#tagBox');
@@ -139,7 +150,7 @@ function toggleTagByCheckbox() {
 function tagByXbutton() {
 	$(document).on('click', '.filterButton', function() {
 		console.log('menuCheckBox : tagByXbutton() 시작');
-		
+
 		// 해당 태그의 텍스트 가져옴
 		// closest()으로 가장 가까운 부모 중 class가 'filterOption'인 요소를 찾음
 		// .content를 통해 span 요소의 모든 자식 노드를 가져옴
@@ -173,7 +184,7 @@ function storePagenation() {
 	// id가 pagenationValue인 것을 클릭했다면
 	$('.pagenationValue').on('click', function() {
 		console.log('menuCheckBox : storePagenation() 시작');
-		
+
 		// a태그 링크를 잠시 멈춤
 		console.log("페이지에이션 버튼 클릭");
 

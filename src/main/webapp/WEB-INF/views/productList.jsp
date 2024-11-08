@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <c:if test="${not empty userPK}">
 	<span id="memberPK" style="display: none;">${userPK}</span>
@@ -114,7 +115,7 @@
 									<span class="input-group-text">최소</span>
 								</div>
 								<input type="number" class="form-control" id="minPrice"
-									name="minPrice" placeholder="최소 가격 입력" min="0" value="0">
+									name="minPrice" placeholder="최소 가격 입력" min="0">
 							</div>
 							<div id="maxPriceWarning" style="display: none; color: red;">최대
 								가격은 최소 가격보다 크거나 같아야 합니다.</div>
@@ -123,7 +124,7 @@
 									<span class="input-group-text">최대</span>
 								</div>
 								<input type="number" class="form-control" id="maxPrice"
-									name="maxPrice" placeholder="최대 가격 입력">
+									name="maxPrice" placeholder="최대 가격 입력" min="0">
 							</div>
 						</div>
 
@@ -188,7 +189,7 @@
 															<img src="${product.productProfileWay}" alt="상품 이미지" />
 														</div>
 														<div class="product-title">
-															<p>${product.productName}</p>
+														    <p class="product-name">${product.productName}</p>
 														</div>
 													</div>
 													<div class="product-row">
@@ -216,6 +217,7 @@
 					</div>
 				</div>
 			</section>
+			
 
 			<!-- 최근에 본 상품 섹션 -->
 			<section id="recent-products-section">
@@ -233,9 +235,9 @@
 														<div class="product-image">
 															<img src="${product.productProfileWay}" alt="상품 이미지" />
 														</div>
-														<div class="product-title">
-															<p>${product.productName}</p>
-														</div>
+													<div class="product-title">
+													    <p class="product-name">${product.productName}</p>
+													</div>
 													</div>
 													<div class="product-row">
 														<span>${product.productPrice}원</span>
@@ -265,6 +267,8 @@
 			<!-- 상품 목록 -->
 			<section>
 				<h3>필터링된 상품 목록</h3>
+			    <c:choose>
+     			<c:when test="${not empty productList}">
 				<c:forEach var="product" items="${productList}">
 					<div class="product-item">
 						<div class="product-image">
@@ -285,17 +289,34 @@
 						</div>
 						<div class="product-info">
 							<%--<span>제목: ${product.boardTitle}</span> --%>
-							<br> 
-							<span>카테고리:${product.productCategoryName}</span>
-							<br> 
-							<span>상품명:${product.productName}</span>
-							<br> 
-							<span>가격:${product.productPrice}원</span>
+					<span><strong>카테고리</strong> <span>${product.productCategoryName}</span></span>
+					    <br>
+					    <span><strong>상품명</strong> 
+					    <a href="infoProduct.do?productNum=${product.productNum}">
+							<span class="scrolling-text" title="${product.productName}">
+							    <c:choose>
+							        <c:when test="${fn:length(product.productName) > 20}">
+							            <marquee behavior="scroll" direction="left">${product.productName}</marquee>
+							        </c:when>
+							        <c:otherwise>
+							            ${product.productName}
+							        </c:otherwise>
+							    </c:choose>
+							</span>
+				        </a>
+					    </span>
+					    <br>
+					    <span class="glow-effect"><strong>가격</strong> <span>${product.productPrice}원</span></span>
 						</div>
 					</div>
 					<hr>
 				</c:forEach>
-			</section>
+		        </c:when>
+		        <c:otherwise>
+		            <p>검색된 상품이 없습니다.</p>
+		        </c:otherwise>
+		    </c:choose>
+		</section>
 
 
 			<!-- 페이지네이션 -->

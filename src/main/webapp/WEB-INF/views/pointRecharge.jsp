@@ -54,7 +54,7 @@
             <div class="col-md-12 text-right">
                 <div class="current-point">
                     <p>현재 포인트: <span>${userPoint}P</span></p>
-                    <p>충전 후 포인트: <span id="totalPoints">${userPoint}P</span></p> <!-- 초기 포인트 표시 -->
+                    <p>충전 후 포인트: <span id="totalPoints">${userPoint}P</span></p>
                 </div>
             </div>
         </div>
@@ -137,9 +137,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- 현재포인트 전역 변수 설정 -->
-<%--    <script>--%>
-<%--    	window.currentPoints = <%= application.getAttribute("userPoint") != null ? application.getAttribute("userPoint") : 0 %>;--%>
-<%--    </script>--%>
+    <script>
+    	window.currentPoints = ${userPoint};
+    </script>
     <script src="${path}/resources/assets/js/point/pointRecharge.js"></script>
     <script src="${path}/resources/assets/js/point/portOne.js"></script>
     <!-- 동의 여부 관련해서 결제 오픈 체크 -->
@@ -151,7 +151,6 @@
             var currentUserPoint = ${userPoint}; // JSP EL을 사용해 세션 값 전달
             updateTotalPoint(currentUserPoint); // 외부 JS 함수 호출
         });
-
 
         // 결제버튼 이전 유효성 검사
         function checkAgreement() {

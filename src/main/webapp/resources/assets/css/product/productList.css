@@ -316,6 +316,17 @@ h5 {
     color: red;
 }
 
+.tooltip {
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 1000;
+    display: inline-block;
+}
+
 
 /* 반응형 팝업 */
 @media (max-width: 600px) {
@@ -334,21 +345,21 @@ h5 {
 
 /* 스와이퍼 */
 .swiper-container {
-    overflow: hidden;
+    overflow: hidden !important;
     padding: 0;
-    height: auto;
-    position: relative; /* 컨테이너가 기준이 될 수 있도록 설정 */
+    height: 500px !important; /* 고정된 높이 설정 */
+    position: relative;
 }
 
 .swiper-slide {
+    height: 300px; /* 최소 높이 설정 */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
-    width: 250px;
+    width: 250px; /* 필요에 따라 너비도 고정 */
     padding: 0 15px;
 }
-
 .swiper-button-prev, .swiper-button-next {
     width: 40px;
     height: 40px;
@@ -409,6 +420,7 @@ h5 {
     z-index: 10;
     background-color: black;
 }
+
 
 /* Swiper 컨테이너의 z-index 설정 */
 #recommend-products-section, 
@@ -493,6 +505,97 @@ h5 {
 .stacked-photo:hover {
     transform: translateY(-50%) rotate(0deg) scale(1.05); /* 클릭 시 각도 초기화 및 확대 */
 }
+
+/* 필터링된 상품 이미지 */
+.product-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f3f3f3, #ffffff);
+    padding: 16px;
+    margin: 16px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 12px;
+}
+
+.product-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    transition: transform 0.3s;
+}
+
+.product-item:hover .product-image img {
+    transform: scale(1.1) rotate(1deg);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* 살짝의 그림자 추가 */
+    filter: brightness(1.1); /* 호버 시 이미지의 밝기를 약간 높임 */
+    border-radius: 5px; /* 선택 사항: 모서리를 약간 둥글게 만듦 */
+}
+
+.product-info {
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: left;
+    width: 100%;
+}
+
+.product-info span {
+    display: flex;
+    justify-content: space-between; /* 열 정렬을 위해 flex 사용 */
+    padding: 4px 0;
+    border-bottom: 1px solid #f0f0f0;
+    transition: color 0.3s;
+}
+
+.product-info span:last-child {
+	color: rgb(167, 139, 98);
+    border-bottom: none;
+}
+
+
+.glow-effect {
+    animation: glow 1.5s infinite alternate;
+}
+
+.scrolling-text {
+    display: inline-block;
+    max-width: 200px; /* Set a max width to control scrolling area */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.scrolling-text marquee {
+    color: rgb(167, 139, 98); /* 원하는 색상으로 변경하세요 */
+}
+
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px #ffcc33, 0 0 10px #ffcc33, 0 0 15px #ffcc33;
+    }
+    100% {
+        text-shadow: 0 0 15px #ffcc33, 0 0 20px #ffcc33, 0 0 25px #ffcc33;
+    }
+}
+
 
 /* 반응형 설정 */
 @media (max-width: 1024px) {
