@@ -55,7 +55,7 @@
 
 				<div class="col-md-6 text-end">
 				<c:if test="${not empty userPK}">
-					<span>현재 포인트 : <strong id="myPoint">${userPoint}P</strong></span>
+					<span>현재 포인트 : <strong id="myPoint">${userPoint}</strong>Point</span>
 					<button id="chargeButton" class="btn btn-outline-secondary ms-3">충전하기</button>
 				</c:if>
 				</div>
@@ -105,7 +105,7 @@
 						<label for="addressSearch"><strong>배송지</strong></label>
 						<div class="input-group">
 							<input type="button" id="addressSearchButton"
-								onclick="sample2_execDaumPostcode()" value="주소 검색"
+								onclick="sample3_execDaumPostcode()" value="주소 검색"
 								class="btn btn-outline-primary mb-2"><br> <input
 								type="text" id="postcode" placeholder="우편번호" readonly
 								class="form-control mb-2"><br> <input type="text"
@@ -113,16 +113,18 @@
 								placeholder="주소 검색을 진행해주세요" readonly class="form-control mb-2"><br>
 							<input type="text" id="addressDetail" name="addressDetail"
 								value="${detailAddress}" placeholder="상세 주소를 입력해주세요"
-								class="form-control mb-2"><br> <input type="text"
+								class="form-control mb-2"><br> <input type="tel"
 								id="phoneInput" class="form-control" placeholder="전화번호">
 						</div>
 					</div>
-
-					<div id="addressLayer">
-						<button id="btnCloseLayer" onclick="closeAddressLayer()">×</button>
-						<div id="addressLayerContent"></div>
-						<!-- API 주소 검색 창이 들어갈 영역 -->
+					
+					<!-- 모달 구조 -->
+					<div id="fullscreenDaumPostcode" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0, 0, 0, 0.8); z-index:10000;">
+					    <div id="addressLayer" style="width:100%; height:100%; background:#fff; margin:auto; overflow:auto; position:relative;"></div>
+					    <button id="btnCloseLayer" style="position:absolute; top:10px; right:10px; background:red; color:white; border:none; padding:10px; cursor:pointer;">×</button>
 					</div>
+
+
 
 					<!-- 주문 완료 버튼 -->
 					<div class="text-right mt-3">
@@ -167,7 +169,7 @@
 		<script src="${path}/resources/assets/js/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script src="${path}/resources/assets/js/product/productCart.js"></script>
-		<script src="${path}/resources/assets/js/daumPostCode.js"></script>
+		<script src="${path}/resources/assets/js/daumPostCode2.js"></script>
 	</div>
 </body>
 
