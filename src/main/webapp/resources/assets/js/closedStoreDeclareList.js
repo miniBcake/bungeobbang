@@ -53,8 +53,11 @@ function deleteReport(storeNum) {
 		if (result.isConfirmed) {
 			console.log("log: 폐점 신고 취소처리");
 			sendDate('deleteReport.do', storeNum)
+		}
+	})
+}
 
-			//받아온 값을 보내는 함수
+//받아온 값을 보내는 함수
 			//action : deleteReport.do
 			function sendDate(action, storeNum) {
 				
@@ -76,9 +79,6 @@ function deleteReport(storeNum) {
 				document.body.appendChild(form);
 				form.submit();
 			}
-		}
-	})
-}
 
 //addReport.do 비동기 진행
 			//비동기 결과 true시, 폐점된 가게로 전환되었습니다. 제보글이 삭제됩니다.
