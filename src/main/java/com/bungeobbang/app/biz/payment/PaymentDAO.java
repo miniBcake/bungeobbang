@@ -26,22 +26,24 @@ public class PaymentDAO {
 
 	//selectAll 쿼리
 	private final String SELECTALL = """
-			SELECT
-				P.PAYMENT_NUM,
-				P.MEMBER_NUM,
-				P.PAYMENT_AMOUNT,
-				P.ADMIN_CHECKED,
-				P.PAYMENT_AT,
-				P.PAYMENT_NAME,
-				M.MEMBER_EMAIL,
-				P.IMP_UUID
-			FROM
-				BB_PAYMENT P
-			JOIN 
-				BB_MEMBER M
-			ON
-				P.MEMBER_NUM = M.MEMBER_NUM
-			""";
+         SELECT
+            P.PAYMENT_NUM,
+            P.MEMBER_NUM,
+            P.PAYMENT_AMOUNT,
+            P.ADMIN_CHECKED,
+            P.PAYMENT_AT,
+            P.PAYMENT_NAME,
+            M.MEMBER_EMAIL,
+            P.IMP_UUID
+         FROM
+            BB_PAYMENT P
+         JOIN 
+            BB_MEMBER M
+         ON
+            P.MEMBER_NUM = M.MEMBER_NUM
+         WHERE
+            P.MEMBER_NUM = ?
+         """;
 
 	private final String NUMFILTER = "WHERE 1=1";
 
@@ -138,29 +140,8 @@ public class PaymentDAO {
 		if(paymentDTO.getCondition().equals("SELECTALL_PAYMENT")) {
 			//지불 내역 전체 검색
 			System.out.println("log : Payment selectAll : SELECTALL_PAYMENT");
-			query = SELECTALL;	
-		}
-		else if(paymentDTO.getCondition().equals("SELECTALL_PAYMENT_CHECKED")) {
-			// 체크된 항목만 검색
-			System.out.println("log : Payment selectAll : SELECTALL_PAYMENT_CHECKED");
-			//메서드를 통해 쿼리문을 완성한 후 toString을 통해 다시 String으로 변환
-			query = SELECTALL+" "+NUMFILTER;
-			// 필터검색을 위한 filters Map 받아오기
-			HashMap<String, String> filters = paymentDTO.getFilterList();
-			// 필터 검색 객체 생성
-			PaymentFilter filterUtil = new PaymentFilter();
-			//args 리스트
-			// Map에 따른 query문 생성
-			query = filterUtil.buildFilterQuery(query,filters).append(" "+SELECTALL_ENDPART).toString();
-			List<Object> argsList = new ArrayList<>(); 
-			argsList = filterUtil.setFilterKeywords(argsList, filters);
-
-			argsList.add(paymentDTO.getStartNum());
-			argsList.add(paymentDTO.getEndNum());
-			// 페이지 네이션 시작, 끝 (Limit ?,?)
-			System.out.println("log: Payment SELECTALL_PAYMENT_FILTER (startNum, endNum) = ( "
-					+paymentDTO.getStartNum()+" , "+paymentDTO.getEndNum()+" )");
-			args = argsList.toArray(); //args 배열화
+			query = SELECTALL;
+			args = new Object[]{paymentDTO.getMemberNum()};
 		}
 		else {
 			//컨디션값 오류
@@ -174,7 +155,7 @@ public class PaymentDAO {
 			System.err.println("log: Payment selectAll Exception fail");
 			e.printStackTrace();
 			return null;
-		} 
+		}
 		System.out.println("log: Payment selectAll return datas");
 		return datas;
 	}
